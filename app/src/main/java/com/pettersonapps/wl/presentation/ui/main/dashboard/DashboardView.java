@@ -24,7 +24,7 @@ public interface DashboardView extends BaseView<DashboardPresenter> {
 
     void showHoliday(String holiday);
 
-    void showReports(MutableLiveData<List<Report>> reportsData);
+    void showReports(List<Report> reports);
 
     void showErrorAndStartLoginScreen();
 

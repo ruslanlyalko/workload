@@ -42,19 +42,28 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     }
 
     public void fetchReportsForDate() {
-        getView().showReports(getDataManager().getMyReportsByDate(mDate));
+        getView().showReports(getReportsForCurrentDate());
+    }
+
+    private List<Report> getReportsForCurrentDate() {
+        List<Report> result = new ArrayList<>();
+        for (Report r : mReports) {
+            if (r.getDate().after(DateUtils.getStart(mDate))
+                    && r.getDate().before(DateUtils.getEnd(mDate))) {
+                result.add(r);
+            }
+        }
+        return result;
     }
 
     public void fetchReportsForDate(Date date) {
         mDate = DateUtils.getDate(date, 1, 1);
-        getView().showReports(getDataManager().getMyReportsByDate(mDate));
+        getView().showReports(getReportsForCurrentDate());
         getView().showHoliday(getHoliday(mDate));
     }
 
     public void onReportDeleteClicked(final Report report) {
-        getDataManager().removeReport(report).addOnCompleteListener(task -> {
-            fetchReportsForDate();
-        });
+        getDataManager().removeReport(report).addOnCompleteListener(task -> fetchReportsForDate());
     }
 
     public void onReportLongClicked(final Report report) {
@@ -62,8 +71,8 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         getView().editReport(mUser, report, mHolidays);
     }
 
-    public boolean isAdmin() {
-        return mUser != null && mUser.getIsAdmin();
+    public boolean getIsAllowEditPastReports() {
+        return mUser != null && mUser.getIsAllowEditPastReports();
     }
 
     public void onFabClicked() {
@@ -88,6 +97,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void setReports(final List<Report> reports) {
         mReports = reports;
+        fetchReportsForDate();
     }
 
     public User getUser() {

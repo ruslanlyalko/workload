@@ -106,7 +106,6 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         mReport.setUserId(mUser.getKey());
         mReport.setUserName(mUser.getName());
         mReport.setUserDepartment(mUser.getDepartment());
-        mReport.setUpdatedBy(mUser.getName());
         mReport.setUpdatedAt(new Date());
         mReport.setStatus(status);
         if (!mDateStateOneDay) {

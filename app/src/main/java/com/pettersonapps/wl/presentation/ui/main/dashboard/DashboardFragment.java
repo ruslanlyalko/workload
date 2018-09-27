@@ -106,17 +106,15 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
-    public void showReports(final MutableLiveData<List<Report>> reportsData) {
-        reportsData.observe(this, reports -> {
-            if ((reports == null || reports.isEmpty())
-                    && ((getPresenter().getUser().getIsAllowEditPastReports()) ||
-                    (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
-                            && getPresenter().getDate().before(DateUtils.get1DaysForward().getTime()))))
-                showFab();
-            else
-                hideFab();
-            mReportsAdapter.setData(reports);
-        });
+    public void showReports(List<Report> reports) {
+        if ((reports == null || reports.isEmpty())
+                && ((getPresenter().getIsAllowEditPastReports()) ||
+                (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
+                        && getPresenter().getDate().before(DateUtils.get1DaysForward().getTime()))))
+            showFab();
+        else
+            hideFab();
+        mReportsAdapter.setData(reports);
     }
 
     @Override

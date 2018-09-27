@@ -26,8 +26,13 @@ public class Project extends BaseModel {
         this.title = title;
     }
 
-    @Override
-    public int describeContents() { return 0; }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public boolean equals(final Object o) {
@@ -43,6 +48,9 @@ public class Project extends BaseModel {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getTitle(), createdAt);
     }
+
+    @Override
+    public int describeContents() { return 0; }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
