@@ -295,16 +295,6 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<Report>> getMyReportsByDate(final Date from, final Date to) {
-        return getReportsByDate(mAuth.getUid(), from, to);
-    }
-
-    @Override
-    public MutableLiveData<List<Report>> getMyReportsByDate(final Date date) {
-        return getReportsByDate(mAuth.getUid(), date, date);
-    }
-
-    @Override
     public MutableLiveData<List<Report>> getAllMyReports() {
         String userId = mAuth.getUid();
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
@@ -335,35 +325,6 @@ public class DataManagerImpl implements DataManager {
         return result;
     }
 
-    @Override
-    public MutableLiveData<List<Report>> getReportsByDate(final String userId, final Date from, final Date to) {
-        final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        if (TextUtils.isEmpty(userId)) {
-            Log.w(TAG, "getReportsByDate has wrong argument");
-            return result;
-        }
-        mDatabase.getReference(Config.DB_REPORTS)
-                .orderByChild(Config.FIELD_USER_ID)
-                .equalTo(userId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getReportsByDate:onDataChange, userId:" + userId);
-                        List<Report> list = new ArrayList<>();
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            Report report = snap.getValue(Report.class);
-                            if (report != null && report.getDate().after(DateUtils.getStart(from)) && report.getDate().before(DateUtils.getEnd(to)))
-                                list.add(report);
-                        }
-                        result.postValue(list);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
-        return result;
-    }
 
     @Override
     public MutableLiveData<List<Report>> getReportsFilter(final Date from, final Date to, final String project, final String userName, final String status) {

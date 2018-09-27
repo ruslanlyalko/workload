@@ -10,7 +10,6 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -119,17 +118,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
-    protected void replaceFragment(BaseFragment fragment) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-        ft.replace(R.id.container, fragment, "TAG");
-        ft.commit();
-    }
-
     protected void onFabClickedFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        BaseFragment frag = (BaseFragment) fm.findFragmentByTag("TAG");
+        BaseFragment frag = (BaseFragment) fm.findFragmentById(R.id.container);
         if (frag != null) {
             frag.onFabClicked();
         }
@@ -163,11 +154,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    public void showFab() {
-        //todo
-    }
+    public void showFab() {}
 
-    public void hideFab() {
-        //todo
-    }
+    public void hideFab() {}
 }

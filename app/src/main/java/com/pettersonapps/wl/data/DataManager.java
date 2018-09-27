@@ -46,20 +46,13 @@ public interface DataManager {
     Task<Void> saveProject(Project project);
 
     MutableLiveData<List<Project>> getProjects();
-
     //reports
 
     Task<Void> saveReport(Report newReport);
 
     Task<Void> removeReport(Report report);
 
-    MutableLiveData<List<Report>> getMyReportsByDate(Date from, Date to);
-
-    MutableLiveData<List<Report>> getMyReportsByDate(Date date);
-
     MutableLiveData<List<Report>> getAllMyReports();
-
-    MutableLiveData<List<Report>> getReportsByDate(String userId, Date from, Date to);
 
     MutableLiveData<List<Report>> getReportsFilter(Date from, Date to, String project, String user, final String status);
 

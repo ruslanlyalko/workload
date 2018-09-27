@@ -16,24 +16,4 @@ public interface MainView extends BaseView<MainPresenter> {
     void showMenu(User user);
 
     void fabClickedFragment();
-
-    void toggleFab(boolean plus);
-
-    void showDashboardFragment();
-
-    void showAlertFragment();
-
-    void showCalendarFragment();
-
-    void showHolidaysFragment();
-
-    void showUsersFragment();
-
-    void showProjectsFragment();
-
-    void showSettingsFragment();
-
-    void showVacationFragment(User user);
-
-    void showProfileFragment(User user);
 }

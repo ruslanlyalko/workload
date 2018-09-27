@@ -29,7 +29,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
         getView().showHolidaysOnCalendar(getDataManager().getHolidays());
         getView().showHoliday(getHoliday(mDate));
-        fetchReportsForDate();
+        getView().showReports(getReportsForCurrentDate());
     }
 
     private String getHoliday(final Date date) {
@@ -39,10 +39,6 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
             }
         }
         return null;
-    }
-
-    public void fetchReportsForDate() {
-        getView().showReports(getReportsForCurrentDate());
     }
 
     private List<Report> getReportsForCurrentDate() {
@@ -63,7 +59,8 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     }
 
     public void onReportDeleteClicked(final Report report) {
-        getDataManager().removeReport(report).addOnCompleteListener(task -> fetchReportsForDate());
+        getDataManager().removeReport(report)
+                .addOnCompleteListener(task -> getView().showReports(getReportsForCurrentDate()));
     }
 
     public void onReportLongClicked(final Report report) {
@@ -97,7 +94,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void setReports(final List<Report> reports) {
         mReports = reports;
-        fetchReportsForDate();
+        getView().showReports(getReportsForCurrentDate());
     }
 
     public User getUser() {

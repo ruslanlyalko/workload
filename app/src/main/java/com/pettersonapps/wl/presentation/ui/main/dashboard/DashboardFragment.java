@@ -183,7 +183,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     public void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_REPORT) {
-            getPresenter().fetchReportsForDate();
+//            getPresenter().fetchReportsForDate();
         }
     }
 
@@ -203,7 +203,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
+    protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
         setupAdapters();
         setupCalendar();

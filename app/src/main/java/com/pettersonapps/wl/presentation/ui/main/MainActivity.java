@@ -12,6 +12,9 @@ import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +29,7 @@ import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
-import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.base.multibackstack.BackStackActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
 import com.pettersonapps.wl.presentation.ui.main.dashboard.DashboardFragment;
@@ -40,10 +43,18 @@ import com.pettersonapps.wl.presentation.ui.main.users.UsersFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
+public class MainActivity extends BackStackActivity<MainPresenter> implements MainView {
 
-    private static final int MIN_DISTANCE = 100;
-    private static final int TAB_PROFILE = 5;
+    private static final int TAB_PROFILE = 0;
+    private static final int TAB_WORKLOAD = 1;
+    private static final int TAB_VACATION = 2;
+    private static final int TAB_ALERTS = 3;
+    private static final int TAB_CALENDAR = 4;
+    private static final int TAB_USERS = 5;
+    private static final int TAB_PROJECTS = 6;
+    private static final int TAB_HOLIDAYS = 7;
+    private static final int TAB_SETTINGS = 8;
+    private static final String STATE_CURRENT_TAB_ID = "current_tab_id";
     @BindView(R.id.bottom_app_bar) BottomAppBar mBottomAppBar;
     @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.image_menu) AppCompatImageView mImageMenu;
@@ -56,9 +67,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @BindView(R.id.touch_outside) View mTouchOutSide;
     @BindView(R.id.layout_profile) RelativeLayout mLayoutProfile;
     private BottomSheetBehavior mSheetBehavior;
-    private int mLastSelectedItem = R.id.action_workload;
     private float mOldY;
+    private Fragment mCurFragment;
+    private int mCurTabId = TAB_WORKLOAD;
+
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+        private static final int MIN_DISTANCE = 100;
+
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(final View v, final MotionEvent event) {
             switch (event.getAction()) {
@@ -72,10 +88,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 //                        // top2bottom
 //                    } else
                     if (deltaY < (0 - MIN_DISTANCE)) {
-                        showMenu(getPresenter().getUser());
-                    } else {
-//                        v.performClick();
+                        onHomeClicked();
                     }
+//                    else {
+//                        v.performClick();
+//                    }
                     break;
             }
             return false;
@@ -111,37 +128,36 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         mTextSubtitle.setText(user.getEmail());
         mTextLetters.setText(getAbbreviation(user.getName()));
         mNavigationList.getMenu().clear();
-        mLayoutProfile.setSelected(mLastSelectedItem == TAB_PROFILE);
-        mTextTitle.setSelected(mLastSelectedItem == TAB_PROFILE);
+        mLayoutProfile.setSelected(mCurTabId == TAB_PROFILE);
+        mTextTitle.setSelected(mCurTabId == TAB_PROFILE);
         mNavigationList.inflateMenu(getPresenter().getUser().getIsAdmin() ? R.menu.menu_nav_admin : R.menu.menu_nav);
-        mNavigationList.setCheckedItem(mLastSelectedItem);
+        mNavigationList.setCheckedItem(getMenuIdByTab(mCurTabId));
         mNavigationList.setNavigationItemSelectedListener(menuItem -> {
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            mLastSelectedItem = menuItem.getItemId();
             switch (menuItem.getItemId()) {
                 case R.id.action_workload:
-                    getPresenter().onWorkloadClicked();
+                    onTabSelected(TAB_WORKLOAD);
                     return true;
                 case R.id.action_vacations:
-                    getPresenter().onVacationClicked();
+                    onTabSelected(TAB_VACATION);
                     return true;
                 case R.id.action_alerts:
-                    getPresenter().onAlertsClicked();
+                    onTabSelected(TAB_ALERTS);
                     return true;
                 case R.id.action_calendar:
-                    getPresenter().onCalendarClicked();
+                    onTabSelected(TAB_CALENDAR);
                     return true;
                 case R.id.action_holidays:
-                    getPresenter().onHolidaysClicked();
+                    onTabSelected(TAB_HOLIDAYS);
                     return true;
                 case R.id.action_users:
-                    getPresenter().onUsersClicked();
+                    onTabSelected(TAB_USERS);
                     return true;
                 case R.id.action_projects:
-                    getPresenter().onProjectsClicked();
+                    onTabSelected(TAB_PROJECTS);
                     return true;
                 case R.id.action_settings:
-                    getPresenter().onSettingsClicked();
+                    onTabSelected(TAB_SETTINGS);
                     return true;
                 default:
                     return false;
@@ -150,14 +166,79 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
-    @Override
-    public void fabClickedFragment() {
-        onFabClickedFragment();
+    private int getMenuIdByTab(final int tabId) {
+        switch (tabId) {
+            case TAB_PROFILE:
+                return TAB_PROFILE;
+            case TAB_WORKLOAD:
+                return R.id.action_workload;
+            case TAB_VACATION:
+                return R.id.action_vacations;
+            case TAB_ALERTS:
+                return R.id.action_alerts;
+            case TAB_CALENDAR:
+                return R.id.action_calendar;
+            case TAB_USERS:
+                return R.id.action_users;
+            case TAB_PROJECTS:
+                return R.id.action_projects;
+            case TAB_HOLIDAYS:
+                return R.id.action_holidays;
+            case TAB_SETTINGS:
+                return R.id.action_settings;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public void onTabSelected(int tabId) {
+        toggleFab(tabId == TAB_WORKLOAD);
+        if (mCurFragment != null) {
+            pushFragmentToBackStack(mCurTabId, mCurFragment);
+        }
+        mCurTabId = tabId;
+        Fragment fragment = popFragmentFromBackStack(mCurTabId);
+        if (fragment == null) {
+            fragment = rootTabFragment(mCurTabId);
+        }
+        replaceFragment(fragment);
+    }
+
+    @NonNull
+    private Fragment rootTabFragment(int tabId) {
+        switch (tabId) {
+            case TAB_PROFILE:
+                return ProfileFragment.newInstance(getPresenter().getUser());
+            case TAB_WORKLOAD:
+                return DashboardFragment.newInstance();
+            case TAB_VACATION:
+                return MyVacationsFragment.newInstance(getPresenter().getUser());
+            case TAB_ALERTS:
+                return AlertsFragment.newInstance();
+            case TAB_CALENDAR:
+                return CalendarFragment.newInstance();
+            case TAB_USERS:
+                return UsersFragment.newInstance();
+            case TAB_PROJECTS:
+                return ProjectsFragment.newInstance();
+            case TAB_HOLIDAYS:
+                return HolidaysFragment.newInstance();
+            case TAB_SETTINGS:
+                return SettingsFragment.newInstance();
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     @Override
-    public void toggleFab(final boolean isDashboard) {
-        if (isDashboard) {
+    public void fabClickedFragment() {
+        if (mCurTabId == TAB_WORKLOAD)
+            onFabClickedFragment();
+        else onBackPressed();
+    }
+
+    public void toggleFab(final boolean isWorkloadTab) {
+        if (isWorkloadTab) {
             if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
                 mImageMenu.setVisibility(View.VISIBLE);
                 mFab.hide();
@@ -176,52 +257,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         }
     }
 
-    @Override
-    public void showDashboardFragment() {
-        mLastSelectedItem = R.id.action_workload;
-        replaceFragment(DashboardFragment.newInstance());
-    }
-
-    @Override
-    public void showAlertFragment() {
-        replaceFragment(AlertsFragment.newInstance());
-    }
-
-    @Override
-    public void showCalendarFragment() {
-        replaceFragment(CalendarFragment.newInstance());
-    }
-
-    @Override
-    public void showHolidaysFragment() {
-        replaceFragment(HolidaysFragment.newInstance());
-    }
-
-    @Override
-    public void showUsersFragment() {
-        replaceFragment(UsersFragment.newInstance());
-    }
-
-    @Override
-    public void showProjectsFragment() {
-        replaceFragment(ProjectsFragment.newInstance());
-    }
-
-    @Override
-    public void showSettingsFragment() {
-        replaceFragment(SettingsFragment.newInstance());
-    }
-
-    @Override
-    public void showVacationFragment(final User user) {
-        replaceFragment(MyVacationsFragment.newInstance(user));
-    }
-
-    @Override
-    public void showProfileFragment(final User user) {
-        replaceFragment(ProfileFragment.newInstance(user));
-    }
-
     private String getAbbreviation(final String name) {
         if (TextUtils.isEmpty(name)) return "";
         String[] list = name.split(" ");
@@ -235,10 +270,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu:
-                getPresenter().onHomeClicked();
+                onHomeClicked();
                 return true;
             case R.id.action_vacations:
-                getPresenter().onVacationClicked();
+                onTabSelected(TAB_VACATION);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -252,12 +287,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onBackPressed() {
-        if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED)
+        if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        else if (getPresenter().isDashboard())
-            super.onBackPressed();
-        else
-            getPresenter().loadDashboardFragment();
+        } else {
+//            Pair<Integer, Fragment> pair = popFragmentFromBackStack();
+//            if (pair != null) {
+//                assert pair.first != null;
+//                assert pair.second != null;
+//                backTo(pair.first, pair.second);
+//            } else
+            if (mCurTabId != TAB_WORKLOAD) {
+                onTabSelected(TAB_WORKLOAD);
+            } else
+                super.onBackPressed();
+        }
     }
 
     @Override
@@ -267,7 +310,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void onHomeClicked() {
-        getPresenter().onHomeClicked();
+        showMenu(getPresenter().getUser());
     }
 
     @Override
@@ -277,7 +320,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
+    protected void onViewReady(final Bundle state) {
         mImageMenu.setOnTouchListener(mOnTouchListener);
         mBottomAppBar.setOnTouchListener(mOnTouchListener);
         mBottomAppBar.setNavigationIcon(null);
@@ -299,8 +342,65 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
         });
         getPresenter().onViewReady();
-        if (savedInstanceState == null)
-            showDashboardFragment();
+        if (state == null) {
+            showFragment(rootTabFragment(TAB_WORKLOAD));
+        }
+    }
+
+    public void showFragment(@NonNull Fragment fragment) {
+        showFragment(fragment, true);
+    }
+
+    public void showFragment(@NonNull Fragment fragment, boolean addToBackStack) {
+        if (mCurFragment != null && addToBackStack) {
+            pushFragmentToBackStack(mCurTabId, mCurFragment);
+        }
+        replaceFragment(fragment);
+    }
+
+    private void backTo(int tabId, @NonNull Fragment fragment) {
+        if (tabId != mCurTabId) {
+            mCurTabId = tabId;
+            //select tab
+        }
+        replaceFragment(fragment);
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
+    private void backToRoot() {
+        if (isRootTabFragment(mCurFragment, mCurTabId)) {
+            return;
+        }
+        resetBackStackToRoot(mCurTabId);
+        Fragment rootFragment = popFragmentFromBackStack(mCurTabId);
+        assert rootFragment != null;
+        backTo(mCurTabId, rootFragment);
+    }
+
+    private boolean isRootTabFragment(@NonNull Fragment fragment, int tabId) {
+        return fragment.getClass() == rootTabFragment(tabId).getClass();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCurFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        mCurTabId = savedInstanceState.getInt(STATE_CURRENT_TAB_ID);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_CURRENT_TAB_ID, mCurTabId);
+        super.onSaveInstanceState(outState);
+    }
+
+    protected void replaceFragment(@NonNull Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction tr = fm.beginTransaction();
+        tr.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        tr.replace(R.id.container, fragment);
+        tr.commitAllowingStateLoss();
+        mCurFragment = fragment;
     }
 
     @Override
@@ -315,14 +415,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @OnClick(R.id.image_menu)
     public void onMenuClick() {
-        getPresenter().onHomeClicked();
+        onHomeClicked();
     }
 
     @OnClick(R.id.layout_profile)
     public void onProfileClick() {
-        mLastSelectedItem = TAB_PROFILE;
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        getPresenter().onProfileClicked();
+        onTabSelected(TAB_PROFILE);
     }
 
     @OnClick(R.id.touch_outside)
