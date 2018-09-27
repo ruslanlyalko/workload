@@ -18,6 +18,4 @@ public interface ProfileEditView extends BaseView<ProfileEditPresenter> {
     void hideProgress();
 
     void afterSuccessfullySaving();
-
-    void showLoginScreen();
 }

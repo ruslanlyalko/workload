@@ -166,9 +166,8 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public void changePassword(final String newPassword) {
-        if (mAuth.getCurrentUser() == null) return;
-        mAuth.getCurrentUser().updatePassword(newPassword);
+    public Task<Void> changePassword(final String newPassword) {
+        return mAuth.getCurrentUser().updatePassword(newPassword);
     }
 
     @Override

@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -69,12 +68,8 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @Override
     public void afterSuccessfullySaving() {
+        showMessage(getString(R.string.text_report_saved));
         onBackPressed();
-    }
-
-    @Override
-    public void showLoginScreen() {
-        startActivity(LoginActivity.getLaunchIntent(this).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     @OnClick(R.id.button_save)
@@ -90,16 +85,14 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
             return;
         }
         // Password
-        if (!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 4) {
-            mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_4_symbols));
-            return;
+        if (!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 6) {
+            mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
+            mInputPassword.requestFocus();
         } else if (!TextUtils.isEmpty(mInputPassword.getText()) && !mInputPassword.getText().toString().equals(mInputPasswordConfirm.getText().toString())) {
             mInputPasswordConfirm.setError(getString(R.string.error_passwords_should_equals));
-            return;
-        } else if (!TextUtils.isEmpty(mInputPassword.getText())) {
-            getPresenter().changePassword(mInputPassword.getText().toString());
-        }
-        getPresenter().onSave(mInputSkype.getText().toString(), mInputPhone.getText().toString());
+            mInputPasswordConfirm.requestFocus();
+        } else
+            getPresenter().onSave(mInputSkype.getText().toString(), mInputPhone.getText().toString(), mInputPassword.getText().toString());
     }
 
     @OnClick(R.id.input_birthday)

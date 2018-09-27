@@ -29,7 +29,7 @@ public interface DataManager {
 
     MutableLiveData<List<User>> getAllUsersWithoutReports(Date date);
 
-    void changePassword(String newPassword);
+    Task<Void> changePassword(String newPassword);
 
     void updateToken();
 

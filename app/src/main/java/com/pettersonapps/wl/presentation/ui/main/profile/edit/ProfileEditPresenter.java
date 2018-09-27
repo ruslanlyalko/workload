@@ -1,5 +1,7 @@
 package com.pettersonapps.wl.presentation.ui.main.profile.edit;
 
+import android.text.TextUtils;
+
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 
@@ -18,12 +20,27 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         getView().showUser(getDataManager().getMyUser());
     }
 
-    public void onSave(final String skype, String phone) {
+    public void onSave(final String skype, String phone, final String newPassword) {
         getView().showProgress();
+        if (!TextUtils.isEmpty(newPassword)) {
+            getDataManager().changePassword(newPassword)
+                    .addOnFailureListener(e -> {
+                        getView().showMessage(e.getLocalizedMessage());
+                        getView().hideProgress();
+                    })
+                    .addOnSuccessListener(aVoid -> {
+                        saveUserData(skype, phone);
+                    });
+            return;
+        }
+        saveUserData(skype, phone);
+    }
+
+    private void saveUserData(final String skype, String phone) {
         mUser.setSkype(skype);
         mUser.setPhone(phone);
         getDataManager().saveUser(mUser)
-                .addOnSuccessListener(aVoid -> getView().afterSuccessfullySaving())
+                .addOnSuccessListener(aVoid1 -> getView().afterSuccessfullySaving())
                 .addOnFailureListener(e -> getView().hideProgress());
     }
 
@@ -33,14 +50,5 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
 
     public void setUser(final User user) {
         mUser = user;
-    }
-
-    public void onLogoutClicked() {
-        getDataManager().logout();
-        getView().showLoginScreen();
-    }
-
-    public void changePassword(final String newPassword) {
-        getDataManager().changePassword(newPassword);
     }
 }

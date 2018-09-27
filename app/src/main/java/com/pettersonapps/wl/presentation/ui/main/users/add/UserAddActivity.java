@@ -82,8 +82,8 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
             mInputPassword.requestFocus();
             return;
         }
-        if (mInputPassword.getText().toString().length() < 4) {
-            mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_4_symbols));
+        if (mInputPassword.getText().toString().length() < 6) {
+            mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
             mInputPassword.requestFocus();
             return;
         }
