@@ -17,6 +17,7 @@
     <color name="bg_status_day_off">#976ce3</color>
     <color name="bg_status_vacation">#f673a9</color>
     <color name="bg_status_sick_leave">#51a7e0</color>
+    <color name="bg_current_day">#f0f2f5</color>
     //
     <color name="bg_chooser">#fff</color>
     <color name="bg_menu_item">#effbfc</color>
@@ -37,7 +38,6 @@
     <color name="colorTextGray">#869099</color>
     <color name="colorTextBlack">#2a3035</color>
     <color name="colorDivider">#f3f3f3</color>
-    <color name="colorBlack12">#1e000000</color>
     <color name="colorBlack50">#7f000000</color>
     <color name="event_holiday">#FF0000</color>
 

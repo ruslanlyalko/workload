@@ -64,8 +64,8 @@ admin.initializeApp();
 	
 		var payload = {
 			data:{
-				title: "Workload",
-				body: "Please write down the workload for today!"
+				title: "It's time to fill in the Workload",
+				body: "It won't take more than one minute!"
 			}			
 		}	
 
