@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
         } else {
             if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_END) {
-                mImageMenu.setVisibility(View.GONE);
+//                mImageMenu.setVisibility(View.GONE);
                 mFab.hide();
                 mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
                 mFab.setImageResource(R.drawable.ic_reply);

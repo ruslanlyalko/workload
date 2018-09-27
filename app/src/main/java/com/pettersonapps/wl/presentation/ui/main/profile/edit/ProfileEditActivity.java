@@ -79,14 +79,14 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-        if (TextUtils.isEmpty(mInputSkype.getText())) {
-            mInputSkype.setError(getString(R.string.error_cant_be_empty));
-            mInputSkype.requestFocus();
-            return;
-        }
         if (TextUtils.isEmpty(mInputPhone.getText())) {
             mInputPhone.setError(getString(R.string.error_cant_be_empty));
             mInputPhone.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mInputSkype.getText())) {
+            mInputSkype.setError(getString(R.string.error_cant_be_empty));
+            mInputSkype.requestFocus();
             return;
         }
         // Password

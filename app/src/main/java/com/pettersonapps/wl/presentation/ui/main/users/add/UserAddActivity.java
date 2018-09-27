@@ -30,6 +30,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
     @BindView(R.id.button_register) SquareButton mButtonRegister;
     @BindView(R.id.input_name) TextInputEditText mInputName;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
+    @BindView(R.id.input_skype) TextInputEditText mInputSkype;
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
     @BindView(R.id.input_birthday) TextInputEditText mInputBirthday;
@@ -86,16 +87,12 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
             mInputPassword.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(mInputPhone.getText())) {
-            mInputPhone.setError(getString(R.string.error_cant_be_empty));
-            mInputPhone.requestFocus();
-            return;
-        }
         getPresenter().onRegister(this,
                 mInputEmail.getText().toString(),
                 mInputPassword.getText().toString(),
                 mInputName.getText().toString(),
                 mInputPhone.getText().toString(),
+                mInputSkype.getText().toString(),
                 String.valueOf(mSpinnerDepartment.getSelectedItem()));
     }
 

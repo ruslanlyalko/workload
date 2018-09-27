@@ -74,16 +74,6 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
             mInputName.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(mInputSkype.getText())) {
-            mInputSkype.setError(getString(R.string.error_cant_be_empty));
-            mInputSkype.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(mInputPhone.getText())) {
-            mInputPhone.setError(getString(R.string.error_cant_be_empty));
-            mInputPhone.requestFocus();
-            return;
-        }
         getPresenter().onSave(mInputName.getText().toString(),
                 mInputPhone.getText().toString(),
                 mInputSkype.getText().toString(),

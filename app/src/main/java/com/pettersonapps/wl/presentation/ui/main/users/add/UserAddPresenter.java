@@ -8,6 +8,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 
+import static com.pettersonapps.wl.data.Config.API_KEY;
+import static com.pettersonapps.wl.data.Config.APP_ID;
+import static com.pettersonapps.wl.data.Config.APP_NAME;
+import static com.pettersonapps.wl.data.Config.DATABASE_URL;
+
 /**
  * Created by Ruslan Lyalko
  * on 05.09.2018.
@@ -23,17 +28,17 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
     public void onViewReady() {
     }
 
-    public void onRegister(Context context, String email, String password, String name, String phone, String department) {
+    public void onRegister(Context context, String email, String password, String name, String phone, String skype, String department) {
         getView().showProgress();
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
-                .setDatabaseUrl("https://paworkload01.firebaseio.com/")
-                .setApiKey("AIzaSyD-WLO5002WFK0r1nlaBllaRteUr-Xum0U")
-                .setApplicationId("paworkload01").build();
+                .setDatabaseUrl(DATABASE_URL)
+                .setApiKey(API_KEY)
+                .setApplicationId(APP_ID).build();
         try {
-            FirebaseApp myApp = FirebaseApp.initializeApp(context, firebaseOptions, "Workload2");
+            FirebaseApp myApp = FirebaseApp.initializeApp(context, firebaseOptions, APP_NAME);
             mAuth2 = FirebaseAuth.getInstance(myApp);
         } catch (IllegalStateException e) {
-            mAuth2 = FirebaseAuth.getInstance(FirebaseApp.getInstance("Workload2"));
+            mAuth2 = FirebaseAuth.getInstance(FirebaseApp.getInstance(APP_NAME));
         }
         if (mAuth2 != null) {
             mAuth2.createUserWithEmailAndPassword(email, password)
@@ -46,6 +51,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         mUser.setEmail(email);
                         mUser.setName(name);
                         mUser.setPhone(phone);
+                        mUser.setSkype(skype);
                         mUser.setDepartment(department);
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
@@ -65,6 +71,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         mUser.setEmail(email);
                         mUser.setName(name);
                         mUser.setPhone(phone);
+                        mUser.setSkype(skype);
                         mUser.setDepartment(department);
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> getView().afterSuccessfullySaving())

@@ -12,7 +12,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                     android:id="@+id/input_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_phone"
+                    android:hint="@string/hint_phone_optional"
                     android:inputType="phone"
                     android:textAppearance="@style/TextAppearance.Body2" />
 
@@ -64,7 +65,7 @@
                     android:id="@+id/input_skype"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_skype"
+                    android:hint="@string/hint_skype_optional"
                     android:inputType="text"
                     android:textAppearance="@style/TextAppearance.Body2" />
 
@@ -118,7 +119,6 @@
                 android:entries="@array/departments"
                 android:prompt="@string/department_prompt"
                 android:textAppearance="@style/TextAppearance.Body2" />
-
 
             <Switch
                 android:id="@+id/switch_allow_edit"

@@ -13,21 +13,19 @@
     <android.support.design.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/colorAccent"
-        app:fabAlignmentMode="center"
-        app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="8dp" />
+        app:fabAlignmentMode="center" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image_menu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="49dp"
+        android:layout_height="44dp"
         android:layout_gravity="bottom"
-        android:paddingBottom="19dp"
+        android:paddingBottom="13dp"
         android:paddingEnd="12dp"
-        android:paddingStart="14dp"
+        android:paddingStart="13dp"
         android:paddingTop="7dp"
         app:srcCompat="@drawable/ic_menu" />
 
