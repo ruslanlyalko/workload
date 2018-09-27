@@ -49,7 +49,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_toEndOf="@id/text_title"
         android:src="@drawable/ic_security"
         tools:ignore="ContentDescription" />
@@ -59,7 +59,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_toEndOf="@id/image_admin"
         android:src="@drawable/ic_edit_workload"
         tools:ignore="ContentDescription" />

@@ -92,11 +92,11 @@ public class UserProjectsActivity extends BaseActivity<UserProjectsPresenter> im
         mRecyclerReports.setAdapter(mCheckProjectsAdapter);
         mRecyclerReports.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(@NonNull final RecyclerView recyclerView, final int newState) {
-                if (mRecyclerReports.getScrollY() == 0) {
-                    mToolbar.setElevation(0);
-                } else {
+            public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
+                if (mRecyclerReports.canScrollVertically(-1)) {
                     mToolbar.setElevation(mElevation);
+                } else {
+                    mToolbar.setElevation(0);
                 }
             }
         });

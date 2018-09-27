@@ -24,6 +24,7 @@
     <color name="bg_project">#f5f7fa</color>
 
     //Text
+    <color name="colorTextProject20">#333f444a</color>
     <color name="colorTextProject">#3f444a</color>
     <color name="colorTopic">#aeb9c5</color>
     <color name="colorMenuIcon">#869099</color>

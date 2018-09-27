@@ -19,13 +19,13 @@
         android:paddingRight="10dp"
         app:compactCalendarBackgroundColor="@color/colorBackground"
         app:compactCalendarCurrentDayBackgroundColor="@color/colorBlack12"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorTextProject"
         app:compactCalendarCurrentSelectedDayTextColor="@color/colorTextWhite"
-        app:compactCalendarMultiEventIndicatorColor="@color/colorAccent"
-        app:compactCalendarOtherMonthDaysTextColor="@color/colorBlack12"
+        app:compactCalendarMultiEventIndicatorColor="@color/colorTextProject"
+        app:compactCalendarOtherMonthDaysTextColor="@color/colorTextProject20"
         app:compactCalendarTargetHeight="220dp"
-        app:compactCalendarTextColor="@color/colorBlack50"
-        app:compactCalendarTextSize="14sp" />
+        app:compactCalendarTextColor="@color/colorTextProject"
+        app:compactCalendarTextSize="13sp" />
 
     <android.support.design.card.MaterialCardView
         android:id="@+id/card_holiday"
@@ -38,7 +38,7 @@
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="0dp"
         app:strokeColor="@color/colorBackgroundGray"
-        app:strokeWidth="2dp">
+        app:strokeWidth="1.5dp">
 
         <TextView
             android:id="@+id/text_holiday_name"
