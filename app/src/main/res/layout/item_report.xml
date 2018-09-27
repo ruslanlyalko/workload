@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/colorBackgroundGray"
+    app:strokeWidth="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_toStartOf="@+id/text_date"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Subhead"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Ivan, 9"
+            />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorMenuItem"
+            android:textSize="13sp"
+            tools:text="Jul 12, 2018"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_title"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="2"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="@color/colorMenuItem"
+                    android:textSize="14sp"
+                    tools:text="Ivan, 9"
+                    />
+
+                <TextView
+                    android:id="@+id/text_project_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/text_name"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_project_rounded"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="13sp"
+                    tools:text="Project 2h" />
+
+                <TextView
+                    android:id="@+id/text_project_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/text_name"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/text_project_1"
+                    android:background="@drawable/bg_project_rounded"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="13sp"
+                    tools:text="Project 2h" />
+
+                <TextView
+                    android:id="@+id/text_project_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/text_project_1"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_project_rounded"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="13sp"
+                    tools:text="Project 2h" />
+
+                <TextView
+                    android:id="@+id/text_project_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/text_project_1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@id/text_project_1"
+                    android:background="@drawable/bg_project_rounded"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="13sp"
+                    tools:text="Project 2h" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/image_delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_project_styled"
+                android:clickable="true"
+                android:contentDescription="@string/action_delete"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_delete" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.card.MaterialCardView>

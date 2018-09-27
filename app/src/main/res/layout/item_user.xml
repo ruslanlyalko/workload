@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/bg_oval_green"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/text_letters"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="18sp"
+        tools:text="GM" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/image_logo"
+        android:layout_toStartOf="@id/text_date"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Ivan, 9"
+        />
+
+    <ImageView
+        android:id="@+id/image_admin"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/text_title"
+        android:src="@drawable/ic_security"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/image_edit"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/image_admin"
+        android:src="@drawable/ic_edit_workload"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/text_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_title"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/image_logo"
+        android:ellipsize="end"
+        android:gravity="bottom"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextGray"
+        android:textSize="14sp"
+        tools:text="Some text here"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorDivider"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <requestFocus />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--include app bar-->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/app_bar" />
+
+        <TextView
+            android:id="@+id/text_holiday_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_button_styled"
+            android:drawablePadding="12dp"
+            android:drawableStart="@drawable/ic_holiday"
+            android:gravity="center_vertical"
+            android:minHeight="44dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingEnd="@dimen/padding_mini"
+            android:paddingStart="@dimen/padding_default"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextProject"
+            android:textSize="15sp"
+            android:visibility="gone"
+            tools:text="Holiday Name"
+            tools:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/spinner_status"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_below="@id/text_holiday_name"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_button_styled"
+            android:entries="@array/status"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="@color/colorTextProject"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_date"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_below="@id/spinner_status"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_from"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_styled"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/padding_mini"
+                android:paddingStart="@dimen/padding_default"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="@color/colorTextProject"
+                android:textSize="15sp"
+                tools:text="Mon, 17 Sep" />
+
+            <TextView
+                android:id="@+id/text_to"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_styled"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/padding_mini"
+                android:paddingStart="@dimen/padding_default"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="@color/colorTextProject"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:text="Mon, 18 Sep"
+                tools:visibility="visible" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/image_change_date"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_button_styled"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_date_gray" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_projects_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_date"
+            android:paddingEnd="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_mini" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp">
+
+            <com.pettersonapps.wl.presentation.view.SquareButton
+                android:id="@+id/button_save"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/text_save"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="@color/colorTextWhite" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/colorTextWhite"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/touch_outside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundTouchOutside"
+        android:visibility="gone" />
+
+    <include layout="@layout/bottom_sheet_projects" />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fff</color>
+    <color name="colorPrimaryDark">#fff</color>
+    <color name="colorAccent">#42BC8E</color>
+    <color name="colorBackground">#fff</color>
+    <color name="colorBackgroundSearch">#e7e7e7</color>
+    <color name="colorBackgroundGray">#e9eaef</color>
+    <color name="colorBackgroundTouchOutside">#0e131c</color>
+    <color name="colorBackgroundCard">#d9dadb</color>
+    <color name="colorBackgroundDivider">#d9dadb</color>
+    // Status
+    <color name="bg_status_worked">#57d58e</color>
+    <color name="bg_status_worked_home">#00d2c4</color>
+    <color name="bg_status_working_off">#5797b3</color>
+    <color name="bg_status_no_project">#ffb625</color>
+    <color name="bg_status_day_off">#976ce3</color>
+    <color name="bg_status_vacation">#f673a9</color>
+    <color name="bg_status_sick_leave">#51a7e0</color>
+    //
+    <color name="bg_chooser">#fff</color>
+    <color name="bg_menu_item">#effbfc</color>
+    <color name="bg_button_styled">#f0f2f5</color>
+    <color name="bg_project">#f5f7fa</color>
+
+    //Text
+    <color name="colorTextProject">#3f444a</color>
+    <color name="colorTopic">#aeb9c5</color>
+    <color name="colorMenuIcon">#869099</color>
+    <color name="colorMenuItem">#2a3035</color>
+    <color name="colorMenuItemSelected">#00b2a8</color>
+    <color name="colorTextRed">#da4141</color>
+    <color name="colorTextWhite">#ffffff</color>
+    <color name="colorYellow">#fdcc5d</color>
+    <color name="colorTextGrayLight">#f3f3f3</color>
+    <color name="colorTextGray">#869099</color>
+    <color name="colorTextBlack">#2a3035</color>
+    <color name="colorDivider">#f3f3f3</color>
+    <color name="colorBlack12">#1e000000</color>
+    <color name="colorBlack50">#7f000000</color>
+    <color name="event_holiday">#FF0000</color>
+
+    <array name="bar_colors">
+        <item>#86d7fc</item>
+        <item>#79eeac</item>
+        <item>#be99ff</item>
+        <item>#ffd072</item>
+        <item>#f5b0e9</item>
+        <item>#55ede3</item>
+        <item>#b1b1b1</item>
+    </array>
+
+</resources>

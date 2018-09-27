@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title" />
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:compactCalendarBackgroundColor="@color/colorBackground"
+        app:compactCalendarCurrentDayBackgroundColor="@color/colorBlack12"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
+        app:compactCalendarCurrentSelectedDayTextColor="@color/colorTextWhite"
+        app:compactCalendarMultiEventIndicatorColor="@color/colorAccent"
+        app:compactCalendarOtherMonthDaysTextColor="@color/colorBlack12"
+        app:compactCalendarTargetHeight="220dp"
+        app:compactCalendarTextColor="@color/colorBlack50"
+        app:compactCalendarTextSize="14sp" />
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/card_holiday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/colorBackgroundGray"
+        app:strokeWidth="2dp">
+
+        <TextView
+            android:id="@+id/text_holiday_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="12dp"
+            android:drawableStart="@drawable/ic_holiday"
+            android:gravity="center_vertical"
+            android:minHeight="44dp"
+            android:paddingBottom="4dp"
+            android:paddingEnd="@dimen/padding_mini"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingTop="4dp"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextProject"
+            android:textSize="15sp"
+            tools:text="Holiday Name"
+            tools:visibility="visible" />
+
+    </android.support.design.card.MaterialCardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_reports"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:id="@+id/text_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/text_report_placeholder"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>
+

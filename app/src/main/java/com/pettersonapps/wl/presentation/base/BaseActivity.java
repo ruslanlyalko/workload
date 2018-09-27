@@ -1,0 +1,173 @@
+package com.pettersonapps.wl.presentation.base;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.pettersonapps.wl.R;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+/**
+ * Created by Ruslan Lyalko
+ * on 05.09.2018.
+ */
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView<P> {
+
+    private Unbinder mUnbinder;
+    private P mPresenter;
+
+    @Override
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int viewId = getContentView();
+        if (viewId != -1) {
+            setContentView(getContentView());
+            mUnbinder = ButterKnife.bind(this);
+        }
+        initPresenter(getIntent());
+        if (mPresenter == null) {
+            throw new RuntimeException("Please init presenter!");
+        }
+        getPresenter().attachView(this);
+        setSupportActionBar(getToolbar());
+        if (hasHomeButton() && getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getHomeIndicator() > 0)
+                getSupportActionBar().setHomeAsUpIndicator(getHomeIndicator());
+        }
+        onViewReady(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        getPresenter().detachView();
+        if (mUnbinder != null)
+            mUnbinder.unbind();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void attachBaseContext(final Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onHomeClicked();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected int getHomeIndicator() {
+        return -1;
+    }
+
+    protected Toolbar getToolbar() {return null;}
+
+    protected boolean hasHomeButton() {return true;}
+
+    protected void setToolbarTitle(@StringRes int titleRes) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(titleRes);
+        }
+    }
+
+    public void setToolbarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        hideKeyboard();
+    }
+
+    protected int getContentView() {return -1;}
+
+    protected void onHomeClicked() {
+        onBackPressed();
+    }
+
+    protected void vibrate() {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (v == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            v.vibrate(200);
+        }
+    }
+
+    protected void replaceFragment(BaseFragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        ft.replace(R.id.container, fragment, "TAG");
+        ft.commit();
+    }
+
+    protected void onFabClickedFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        BaseFragment frag = (BaseFragment) fm.findFragmentByTag("TAG");
+        if (frag != null) {
+            frag.onFabClicked();
+        }
+    }
+
+    public Context getContext() {
+        return this;
+    }
+
+    protected void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = getCurrentFocus();
+        if (imm != null && view != null)
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    protected abstract void initPresenter(final Intent intent);
+
+    protected abstract void onViewReady(final Bundle savedInstanceState);
+
+    public P getPresenter() {
+        return mPresenter;
+    }
+
+    public void setPresenter(final P presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showMessage(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
+    public void showFab() {
+        //todo
+    }
+
+    public void hideFab() {
+        //todo
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_title" />
+
+        <TextView
+            android:id="@+id/text_common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/placeholder_no_vacations"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextGray"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_reports"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="false"
+            android:nestedScrollingEnabled="false" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="56dp" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

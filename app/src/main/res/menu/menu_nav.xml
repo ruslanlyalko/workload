@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_workload"
+            android:icon="@drawable/ic_time"
+            android:title="@string/menu_workload" />
+        <item
+            android:id="@+id/action_vacations"
+            android:icon="@drawable/ic_vacation"
+            android:title="@string/menu_vacations" />
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+
+    </group>
+</menu>

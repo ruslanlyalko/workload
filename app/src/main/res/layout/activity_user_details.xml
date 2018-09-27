@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+    <!--include app bar-->
+    <include layout="@layout/app_bar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawablePadding="@dimen/padding_double"
+                android:drawableStart="@drawable/ic_person_gray"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="18sp"
+                tools:text="Person Name" />
+
+            <TextView
+                android:id="@+id/text_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawablePadding="@dimen/padding_double"
+                android:drawableStart="@drawable/ic_email_gray"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="18sp"
+                tools:text="Person Email" />
+
+            <TextView
+                android:id="@+id/text_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawablePadding="@dimen/padding_double"
+                android:drawableStart="@drawable/ic_phone_gray"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="18sp"
+                tools:text="Person Phone" />
+
+            <TextView
+                android:id="@+id/text_skype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawablePadding="@dimen/padding_double"
+                android:drawableStart="@drawable/ic_chat_gray"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="18sp"
+                tools:text="Person Skype" />
+
+            <TextView
+                android:id="@+id/text_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawablePadding="@dimen/padding_double"
+                android:drawableStart="@drawable/ic_date_gray"
+                android:hint="@string/hint_birthday"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="18sp"
+                tools:text="Person birth" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider" />
+
+            <TextView
+                android:id="@+id/text_common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_reports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

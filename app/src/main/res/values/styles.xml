@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:colorControlHighlight">@color/colorAccent</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
+    </style>
+
+    <style name="AppTheme.Dashboard" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/dashboard_screen</item>
+    </style>
+
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+        <!-- Support library compatibility -->
+        <!--<item name="windowActionBarOverlay">true</item>-->
+    </style>
+
+    <style name="ChooserTheme">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="NavigationTheme" parent="AppTheme">
+        <item name="colorControlHighlight">@color/colorBackground</item>
+        <item name="listPreferredItemHeightSmall">52dp</item>
+        <item name="listPreferredItemHeight">52dp</item>
+    </style>
+</resources>

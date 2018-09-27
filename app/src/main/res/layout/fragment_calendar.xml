@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_title" />
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginTop="16dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:compactCalendarBackgroundColor="@color/colorBackground"
+            app:compactCalendarCurrentDayBackgroundColor="@color/colorBlack12"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
+            app:compactCalendarCurrentSelectedDayTextColor="@color/colorTextWhite"
+            app:compactCalendarMultiEventIndicatorColor="@color/colorAccent"
+            app:compactCalendarOtherMonthDaysTextColor="@color/colorBlack12"
+            app:compactCalendarTargetHeight="220dp"
+            app:compactCalendarTextColor="@color/colorBlack50"
+            app:compactCalendarTextSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner_projects"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_styled"
+                android:textAppearance="@style/TextAppearance.Body2" />
+
+            <Spinner
+                android:id="@+id/spinner_users"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_styled"
+                android:textAppearance="@style/TextAppearance.Body2" />
+
+            <Spinner
+                android:id="@+id/spinner_status"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_styled"
+                android:entries="@array/status_"
+                android:textAppearance="@style/TextAppearance.Body2" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_reports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:id="@+id/text_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/text_report_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="56dp" />
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

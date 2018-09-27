@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    android:background="@drawable/bg_chooser_dialog"
+    android:elevation="12dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <View
+        android:layout_width="28dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_mini"
+        android:background="@drawable/bg_swipe" />
+
+    <RelativeLayout
+        android:id="@+id/layout_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:paddingBottom="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_medium">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@id/image_logo"
+            android:text="@string/title_project"
+            android:textAppearance="@style/TextAppearance.Subhead"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="17sp"
+            tools:visibility="visible" />
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/text_title"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/text_search"
+            android:nextFocusLeft="@id/edit_search"
+            android:nextFocusUp="@id/edit_search"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:queryHint="@string/text_search" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_projects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/text_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/placeholder_no_projects"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextGray"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

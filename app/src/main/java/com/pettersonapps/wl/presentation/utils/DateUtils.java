@@ -1,0 +1,216 @@
+package com.pettersonapps.wl.presentation.utils;
+
+import android.content.Context;
+
+import com.pettersonapps.wl.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+/**
+ * Created by Ruslan Lyalko
+ * on 17.08.2018.
+ */
+public class DateUtils {
+
+    private static final String FORMAT_DATE = "EE, d MMM";
+    private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
+    private static final String FORMAT_DATE_FULL = "EEEE d MMM";
+    private static final String FORMAT_DATE_BIRTHDAY = "dd.MM.yy";
+    private static final String FORMAT_TIME = "HH:mm";
+    private static final String FORMAT_MONTH = "MMMM";
+    private static final String FORMAT_YEAR = "yy";
+
+    public static Date getDate(final Date date, final int year, final int month, final int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
+    }
+
+    public static String toStringBirthday(final Date date) {
+        if (date == null) return "";
+        Calendar today = Calendar.getInstance();
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(date);
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+        return new SimpleDateFormat(FORMAT_DATE_BIRTHDAY + "' (" + age + ")'", Locale.US).format(date);
+    }
+
+    public static String toStringStandardDate(final Date date) {
+        if (date == null) return "";
+        return new SimpleDateFormat(FORMAT_DATE_BIRTHDAY, Locale.US).format(date);
+    }
+
+    public static String toStringDate(final Date date) {
+        return new SimpleDateFormat(FORMAT_DATE, Locale.US).format(date);
+    }
+
+    public static String toStringTime(final Date date) {
+        return new SimpleDateFormat(FORMAT_TIME, Locale.US).format(date);
+    }
+
+    public static Date getDate(final Date date, final int hours, final int minutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+        return calendar.getTime();
+    }
+
+    public static String toStringHolidayKey(final Date date) {
+        return new SimpleDateFormat(FORMAT_HOLIDAY_KEY, Locale.US).format(date);
+    }
+
+    public static String toStringDateTime(Context context, final Date date) {
+        String day;
+        if (isToday(date))
+            day = context.getString(R.string.text_today);
+        else if (isYesterday(date))
+            day = context.getString(R.string.text_yesterday);
+        else if (isTomorrow(date))
+            day = context.getString(R.string.text_tomorrow);
+        else day = new SimpleDateFormat(FORMAT_DATE_FULL, Locale.US).format(date);
+        return String.format(Locale.US, "%s\n%s", day, toStringTime(date));
+    }
+
+    private static boolean isTomorrow(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, +1);
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR)
+                && calendar.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)
+                && calendar.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH);
+    }
+
+    private static boolean isYesterday(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR)
+                && calendar.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH)
+                && calendar.get(Calendar.DAY_OF_MONTH) == yesterday.get(Calendar.DAY_OF_MONTH);
+    }
+
+    private static boolean isToday(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                && calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                && calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date getStart(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        return calendar.getTime();
+    }
+
+    public static Date getEnd(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        return calendar.getTime();
+    }
+
+    public static String getMonth(final Date date) {
+        if (isCurrentYear(date))
+            return new SimpleDateFormat(FORMAT_MONTH, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_MONTH, Locale.US).format(date)
+                + "'" + new SimpleDateFormat(FORMAT_YEAR, Locale.US).format(date);
+    }
+
+    private static boolean isCurrentYear(final Date date) {
+        Calendar year = Calendar.getInstance();
+        year.setTime(date);
+        return year.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public static Date getLastDateOfMonth(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int numDays = calendar.getActualMaximum(Calendar.DATE);
+        calendar.set(Calendar.DAY_OF_MONTH, numDays);
+        return calendar.getTime();
+    }
+
+    public static Date getFirstDateOfMonth(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        return calendar.getTime();
+    }
+
+    public static String toString(final Date date, final String format) {
+        return new SimpleDateFormat(format, Locale.US).format(date);
+    }
+
+    public static Calendar getYesterday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        return calendar;
+    }
+
+    public static Calendar get1DaysAgo() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            calendar.add(Calendar.DAY_OF_MONTH, -2);
+        }
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        return calendar;
+    }
+
+    public static Calendar get1DaysForward() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        return calendar;
+    }
+
+    public static Calendar get1MonthForward() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        return calendar;
+    }
+
+    public static boolean dateEquals(final Date d1, final Date d2) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(d1);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(d2);
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
+    }
+
+    public static int getYearIndex(final Date date, final Date firstWorkingDay) {
+        Calendar today = Calendar.getInstance();
+        today.setTime(date);
+        Calendar fwd = Calendar.getInstance();
+        fwd.setTime(firstWorkingDay);
+        int yearInd = today.get(Calendar.YEAR) - fwd.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < fwd.get(Calendar.DAY_OF_YEAR)) {
+            yearInd--;
+        }
+        return yearInd;
+    }
+}

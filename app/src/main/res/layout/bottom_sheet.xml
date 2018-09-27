@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_chooser_dialog"
+    android:elevation="12dp"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <View
+        android:layout_width="28dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_mini"
+        android:background="@drawable/bg_swipe" />
+
+    <RelativeLayout
+        android:id="@+id/layout_profile"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="@dimen/margin_mini"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/bg_selector_profile"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small">
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/bg_oval_yellow"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text_letters"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="18sp"
+            tools:text="GM" />
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@id/image_logo"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="@color/color_selector_profile"
+            android:textSize="16sp"
+            tools:text="Title" />
+
+
+        <TextView
+            android:id="@+id/text_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_title"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_toEndOf="@id/image_logo"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorTextGray"
+            android:textSize="@dimen/ts_caption"
+            tools:text="SubTitle"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/margin_mini"
+        android:background="@color/bg_chooser"
+        android:elevation="0dp"
+        android:theme="@style/NavigationTheme"
+        app:elevation="0dp"
+        app:itemBackground="@drawable/bg_selector_menu_item"
+        app:itemHorizontalPadding="12dp"
+        app:itemIconPadding="16dp"
+        app:itemIconTint="@color/color_selector_menu_icon"
+        app:itemTextColor="@color/color_selector_menu_item"
+        app:menu="@menu/menu_nav_admin"
+        app:theme="@style/TextAppearance.MenuItem" />
+
+</LinearLayout>

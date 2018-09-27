@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chooser_dialog">
+
+    <ImageView
+        android:id="@+id/image_dc_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_double"
+        android:src="@drawable/bg_oval_yellow"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_dc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="40dp"
+        android:layout_toEndOf="@id/image_dc_logo"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextBlack"
+        tools:text="Title"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_dc_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dc_title"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_toEndOf="@id/image_dc_logo"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="@color/colorTextGray"
+        android:textSize="@dimen/ts_caption"
+        tools:text="SubTitle"
+        tools:visibility="visible" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nv_dc_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_dc_logo"
+        android:layout_marginTop="@dimen/margin_default"
+        app:itemIconTint="@color/color_selector_menu_icon"
+        app:itemTextColor="@color/colorMenuItem"
+        app:theme="@style/TextAppearance.MenuItem"
+        tools:menu="@menu/menu_nav_admin" />
+
+</RelativeLayout>
