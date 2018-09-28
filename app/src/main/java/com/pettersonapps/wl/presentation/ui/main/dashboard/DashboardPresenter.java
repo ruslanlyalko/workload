@@ -107,8 +107,5 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
             getAuth().signOut();
             getView().showErrorAndStartLoginScreen();
         }
-        if (mUser.getIsAdmin()) {
-            getView().showAdminMenu();
-        }
     }
 }

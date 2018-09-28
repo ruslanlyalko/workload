@@ -28,8 +28,6 @@ public interface DashboardView extends BaseView<DashboardPresenter> {
 
     void showErrorAndStartLoginScreen();
 
-    void showAdminMenu();
-
     void editReport(User user, Report report, final List<Holiday> holidays);
 
     void startAddReportScreen(final User user, final Date date, final List<Holiday> holidays);

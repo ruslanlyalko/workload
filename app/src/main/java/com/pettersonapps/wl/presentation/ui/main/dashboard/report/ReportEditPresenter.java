@@ -94,7 +94,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             mReport.setT4(0);
         }
         //
-        if (hasTwoSameProjects(mReport)) {
+        if (hasTwoSameProjects()) {
             getView().errorCantHasTwoEqualsProjects();
             return;
         }
@@ -114,8 +114,14 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         }
         mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
         getDataManager().saveReport(mReport)
-                .addOnSuccessListener(aVoid -> getView().afterSuccessfullySaving())
-                .addOnFailureListener(e -> getView().hideProgress());
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                })
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 
     private void saveFewReports() {
@@ -139,7 +145,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         getView().afterSuccessfullyRangeSaving(count);
     }
 
-    private boolean hasTwoSameProjects(final Report report) {
+    private boolean hasTwoSameProjects() {
         List<String> names = new ArrayList<>();
         if (!TextUtils.isEmpty(mReport.getP1())) {
             names.add(mReport.getP1());

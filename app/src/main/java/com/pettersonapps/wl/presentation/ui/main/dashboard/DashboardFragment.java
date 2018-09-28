@@ -124,10 +124,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         getBaseActivity().finish();
     }
 
-    @Override
-    public void showAdminMenu() {
-        //
-    }
 
     @Override
     public void editReport(final User user, final Report report, final List<Holiday> holidays) {

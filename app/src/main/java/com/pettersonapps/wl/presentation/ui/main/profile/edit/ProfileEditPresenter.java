@@ -25,6 +25,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         if (!TextUtils.isEmpty(newPassword)) {
             getDataManager().changePassword(newPassword)
                     .addOnFailureListener(e -> {
+                        if (getView() == null) return;
                         getView().showMessage(e.getLocalizedMessage());
                         getView().hideProgress();
                     })
@@ -40,8 +41,14 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         mUser.setSkype(skype);
         mUser.setPhone(phone);
         getDataManager().saveUser(mUser)
-                .addOnSuccessListener(aVoid1 -> getView().afterSuccessfullySaving())
-                .addOnFailureListener(e -> getView().hideProgress());
+                .addOnSuccessListener(aVoid1 -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                })
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 
     public User getUser() {
