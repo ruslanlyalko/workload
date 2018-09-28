@@ -3,8 +3,11 @@ package com.pettersonapps.wl.presentation.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
@@ -135,6 +138,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         View view = getCurrentFocus();
         if (imm != null && view != null)
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    protected void forceRippleAnimation(View view) {
+        Drawable background = view.getBackground();
+        final RippleDrawable rippleDrawable = (RippleDrawable) background;
+        rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+        Handler handler = new Handler();
+        handler.postDelayed(() -> rippleDrawable.setState(new int[]{}), 300);
     }
 
     protected abstract void initPresenter(final Intent intent);
