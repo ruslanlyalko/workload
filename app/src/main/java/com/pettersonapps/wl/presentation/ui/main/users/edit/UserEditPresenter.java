@@ -30,8 +30,14 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         mUser.setIsBlocked(isBlocked);
         mUser.setIsAllowEditPastReports(isAllowEdit);
         getDataManager().saveUser(mUser)
-                .addOnSuccessListener(aVoid -> getView().afterSuccessfullySaving())
-                .addOnFailureListener(e -> getView().hideProgress());
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                })
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 
     public User getUser() {

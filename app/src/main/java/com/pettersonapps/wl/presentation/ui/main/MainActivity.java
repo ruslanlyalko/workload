@@ -166,6 +166,13 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    @Override
+    public void fabClickedFragment() {
+        if (mCurTabId == TAB_WORKLOAD)
+            onFabClickedFragment();
+        else onBackPressed();
+    }
+
     private int getMenuIdByTab(final int tabId) {
         switch (tabId) {
             case TAB_PROFILE:
@@ -230,13 +237,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         }
     }
 
-    @Override
-    public void fabClickedFragment() {
-        if (mCurTabId == TAB_WORKLOAD)
-            onFabClickedFragment();
-        else onBackPressed();
-    }
-
     public void toggleFab(final boolean isWorkloadTab) {
         if (isWorkloadTab) {
             if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
@@ -247,13 +247,10 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 mFab.show();
             }
         } else {
-            if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_END) {
-//                mImageMenu.setVisibility(View.GONE);
-                mFab.hide();
-                mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                mFab.setImageResource(R.drawable.ic_reply);
-                mFab.show();
-            }
+            mFab.hide();
+            mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+            mFab.setImageResource(R.drawable.ic_reply);
+            mFab.show();
         }
     }
 
@@ -347,6 +344,16 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         }
     }
 
+    @Override
+    public void showFab() {
+        mFab.show();
+    }
+
+    @Override
+    public void hideFab() {
+        mFab.hide();
+    }
+
     public void showFragment(@NonNull Fragment fragment) {
         showFragment(fragment, true);
     }
@@ -382,16 +389,17 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_CURRENT_TAB_ID, mCurTabId);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mCurFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         mCurTabId = savedInstanceState.getInt(STATE_CURRENT_TAB_ID);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_CURRENT_TAB_ID, mCurTabId);
-        super.onSaveInstanceState(outState);
+        toggleFab(mCurTabId == TAB_WORKLOAD);
     }
 
     protected void replaceFragment(@NonNull Fragment fragment) {
@@ -401,16 +409,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         tr.replace(R.id.container, fragment);
         tr.commitAllowingStateLoss();
         mCurFragment = fragment;
-    }
-
-    @Override
-    public void showFab() {
-        mFab.show();
-    }
-
-    @Override
-    public void hideFab() {
-        mFab.hide();
     }
 
     @OnClick(R.id.image_menu)

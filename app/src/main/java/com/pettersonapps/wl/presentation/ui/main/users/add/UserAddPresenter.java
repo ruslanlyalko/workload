@@ -43,6 +43,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
         if (mAuth2 != null) {
             mAuth2.createUserWithEmailAndPassword(email, password)
                     .addOnFailureListener(e -> {
+                        if (getView() == null) return;
                         getView().hideProgress();
                         getView().showMessage(e.getMessage());
                     })
@@ -56,9 +57,11 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
                                     mAuth2.signOut();
+                                    if (getView() == null) return;
                                     getView().close();
                                 })
                                 .addOnFailureListener(e -> {
+                                    if (getView() == null) return;
                                     getView().hideProgress();
                                     getView().showMessage(e.getMessage());
                                 });
@@ -74,8 +77,12 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         mUser.setSkype(skype);
                         mUser.setDepartment(department);
                         getDataManager().saveUser(mUser)
-                                .addOnSuccessListener(aVoid1 -> getView().afterSuccessfullySaving())
+                                .addOnSuccessListener(aVoid1 -> {
+                                    if (getView() == null) return;
+                                    getView().afterSuccessfullySaving();
+                                })
                                 .addOnFailureListener(e -> {
+                                    if (getView() == null) return;
                                     getView().hideProgress();
                                     getView().showMessage(e.getMessage());
                                 });

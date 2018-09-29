@@ -25,8 +25,14 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
         mProject.setTitle(title);
         getView().showProgress();
         getDataManager().saveProject(mProject)
-                .addOnSuccessListener(aVoid -> getView().afterSuccessfullySaving())
-                .addOnFailureListener(e -> getView().hideProgress());
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                })
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 
     public Project getProject() {

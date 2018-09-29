@@ -37,7 +37,8 @@
         android:fadingEdgeLength="2dp"
         android:src="@drawable/ic_add"
         app:elevation="10dp"
-        app:layout_anchor="@id/bottom_app_bar" />
+        app:layout_anchor="@id/bottom_app_bar"
+        app:rippleColor="@android:color/transparent" />
 
     <View
         android:id="@+id/touch_outside"

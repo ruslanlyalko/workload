@@ -25,8 +25,14 @@ public class HolidayEditPresenter extends BasePresenter<HolidayEditView> {
         mHoliday.setTitle(title);
         getView().showProgress();
         getDataManager().saveHoliday(mHoliday)
-                .addOnSuccessListener(aVoid -> getView().afterSuccessfullySaving())
-                .addOnFailureListener(e -> getView().hideProgress());
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                })
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 
     public Holiday getHoliday() {
