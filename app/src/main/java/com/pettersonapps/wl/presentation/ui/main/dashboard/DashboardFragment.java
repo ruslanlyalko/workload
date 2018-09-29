@@ -64,6 +64,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
                 setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
+                getPresenter().fetchReportsForDate(firstDayOfNewMonth);
             }
         });
     }
@@ -123,7 +124,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         getBaseActivity().finish();
     }
-
 
     @Override
     public void editReport(final User user, final Report report, final List<Holiday> holidays) {

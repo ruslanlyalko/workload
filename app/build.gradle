@@ -11,8 +11,8 @@ android {
         applicationId "com.pettersonapps.wl"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 35
-        versionName "1.0.35"
+        versionCode 36
+        versionName "1.0.36"
     }
 
     signingConfigs {
@@ -73,9 +73,6 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
-    // ButterKnife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     // Firebase
     implementation('com.google.firebase:firebase-core:16.0.1') {
         exclude group: 'com.android.support'
@@ -92,24 +89,26 @@ dependencies {
     implementation('com.google.firebase:firebase-messaging:17.1.0') {
         exclude group: 'com.android.support'
     }
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    // ButterKnife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     // Calligraphy
     implementation "uk.co.chrisjenx:calligraphy:2.3.0"
-    // Calendar with Events
-    implementation 'com.github.sundeepk:compact-calendar-view:2.0.2.1'
     // Time Picker
-    implementation ("com.wdullaer:materialdatetimepicker:3.3.1") {
+    implementation("com.wdullaer:materialdatetimepicker:3.3.1") {
         exclude group: 'com.android.support'
     }
     // Calendar with events
-    implementation ("com.github.sundeepk:compact-calendar-view:2.0.2.1") {
+    implementation("com.github.sundeepk:compact-calendar-view:2.0.2.1") {
         exclude group: 'com.android.support'
     }
     // Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    // Fast scroll
-    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
+//     Fast scroll
+//    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
+//    // Glide
+//    implementation 'com.github.bumptech.glide:glide:4.7.1'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

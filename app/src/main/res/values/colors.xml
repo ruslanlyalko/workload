@@ -19,7 +19,7 @@
     <color name="bg_status_sick_leave">#51a7e0</color>
     <color name="bg_current_day">#f0f2f5</color>
     //
-    <color name="bg_chooser">#fff</color>
+    <color name="bg_white">#fff</color>
     <color name="bg_menu_item">#effbfc</color>
     <color name="bg_button_styled">#f0f2f5</color>
     <color name="bg_project">#f5f7fa</color>
