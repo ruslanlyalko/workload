@@ -362,7 +362,7 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<Report>> getReportsFilter(final Date from, final Date to, final String project, final String userName, final String status) {
+    public MutableLiveData<List<Report>> getReportsFilter(final Date from, final Date to) {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
         mDatabase.getReference(DB_REPORTS)
                 .orderByChild(FIELD_DATE_TIME)
@@ -376,19 +376,6 @@ public class DataManagerImpl implements DataManager {
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if (report == null) return;
-                            if (!userName.equals("-") && !userName.equalsIgnoreCase(report.getUserName())) {
-                                continue;
-                            }
-                            if (!status.equals("-") && !status.equalsIgnoreCase(report.getStatus())) {
-                                continue;
-                            }
-                            if (!project.equals("-")
-                                    && !((project.equalsIgnoreCase(report.getP1()) && report.getT1() > 0)
-                                    || ((project.equalsIgnoreCase(report.getP2()) && report.getT2() > 0)
-                                    || ((project.equalsIgnoreCase(report.getP3()) && report.getT2() > 0)
-                                    || ((project.equalsIgnoreCase(report.getP4())) && report.getT2() > 0))))) {
-                                continue;
-                            }
                             list.add(report);
                         }
                         result.postValue(list);

@@ -19,8 +19,9 @@ public interface CalendarView extends BaseView<CalendarPresenter> {
 
     void showSpinnerUsersData(MutableLiveData<List<User>> users);
 
-    void showReportsOnCalendar(MutableLiveData<List<Report>> reports);
+    void showReports(MutableLiveData<List<Report>> reportsFilter);
 
-    void showReports(List<Report> list);
+    void showReportsOnCalendar(final List<Report> reports);
 
+    void showReportsOnList(List<Report> list);
 }

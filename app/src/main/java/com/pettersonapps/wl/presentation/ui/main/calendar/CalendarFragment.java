@@ -114,7 +114,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
                 setToolbarTitle(getString(R.string.title_calendar) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
-                getPresenter().fetchReportsEvents(firstDayOfNewMonth, DateUtils.getLastDateOfMonth(firstDayOfNewMonth));
+                getPresenter().fetchReportsForMonth(firstDayOfNewMonth, DateUtils.getLastDateOfMonth(firstDayOfNewMonth));
             }
         });
     }
@@ -152,21 +152,25 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     }
 
     @Override
-    public void showReportsOnCalendar(final MutableLiveData<List<Report>> reportsData) {
+    public void showReports(final MutableLiveData<List<Report>> reportsData) {
         reportsData.observe(this, reports -> {
-            mCalendarView.removeAllEvents();
             if (reports == null) return;
             getPresenter().setReports(reports);
-            for (Report report : reports) {
-                mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                        ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
-            }
-            mCalendarView.invalidate();
         });
     }
 
     @Override
-    public void showReports(final List<Report> list) {
+    public void showReportsOnCalendar(final List<Report> reports) {
+        mCalendarView.removeAllEvents();
+        for (Report report : reports) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+        }
+        mCalendarView.invalidate();
+    }
+
+    @Override
+    public void showReportsOnList(final List<Report> list) {
         mReportsAdapter.setData(list);
     }
 }

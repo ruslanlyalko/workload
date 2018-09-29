@@ -54,7 +54,7 @@ public interface DataManager {
 
     MutableLiveData<List<Report>> getAllMyReports();
 
-    MutableLiveData<List<Report>> getReportsFilter(Date from, Date to, String project, String user, final String status);
+    MutableLiveData<List<Report>> getReportsFilter(Date from, Date to);
 
     MutableLiveData<List<Report>> getAllWrongReports(Date date);
 
