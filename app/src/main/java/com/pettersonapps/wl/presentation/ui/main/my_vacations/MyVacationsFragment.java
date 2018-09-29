@@ -66,11 +66,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
 
     @Override
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
-        vacationReportsData.observe(this, list -> {
-            getPresenter().setReports(list);
-            mReportsAdapter.setData(list);
-            mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
-        });
+        vacationReportsData.observe(this, list -> getPresenter().setReports(list));
     }
 
     @Override
@@ -82,6 +78,12 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
             text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count);
         }
         mTextCommon.setText(text);
+    }
+
+    @Override
+    public void setReportsToAdapter(final List<Report> list) {
+        mReportsAdapter.setData(list);
+        mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
     }
 
     private String getDayOfMonthSuffix(final int n) {

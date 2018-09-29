@@ -25,7 +25,7 @@ public interface DataManager {
 
     MutableLiveData<User> getUser(String key);
 
-    MutableLiveData<List<User>> getUsers();
+    MutableLiveData<List<User>> getAllUsers();
 
     MutableLiveData<List<User>> getAllUsersWithoutReports(Date date);
 
@@ -36,7 +36,7 @@ public interface DataManager {
     void logout();
     // Holidays
 
-    MutableLiveData<List<Holiday>> getHolidays();
+    MutableLiveData<List<Holiday>> getAllHolidays();
 
     Task<Void> saveHoliday(Holiday holiday);
     //projects
@@ -45,7 +45,7 @@ public interface DataManager {
 
     Task<Void> saveProject(Project project);
 
-    MutableLiveData<List<Project>> getProjects();
+    MutableLiveData<List<Project>> getAllProjects();
     //reports
 
     Task<Void> saveReport(Report newReport);

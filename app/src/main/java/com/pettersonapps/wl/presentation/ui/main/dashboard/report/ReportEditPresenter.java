@@ -45,7 +45,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     public void onViewReady() {
         getView().showReportData(mReport);
-        getView().showSpinnerData(getDataManager().getProjects());
+        getView().showSpinnerData(getDataManager().getAllProjects());
         getView().showHoliday(getHoliday(mReport.getDate()));
         getView().showDateFrom(mReport.getDate());
         getView().showDateTo(mDateTo);

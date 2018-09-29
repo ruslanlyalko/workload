@@ -28,10 +28,9 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_first) TextView mTextFirst;
 
-    public static ProfileFragment newInstance(User user) {
+    public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
-        args.putParcelable(KEY_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,7 +87,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new ProfilePresenter(args.getParcelable(KEY_USER)));
+        setPresenter(new ProfilePresenter());
     }
 
     @Override

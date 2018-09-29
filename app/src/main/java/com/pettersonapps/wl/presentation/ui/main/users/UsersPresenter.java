@@ -12,7 +12,7 @@ public class UsersPresenter extends BasePresenter<UsersView> {
     }
 
     public void onViewReady() {
-        getView().showUsers(getDataManager().getUsers());
+        getView().showUsers(getDataManager().getAllUsers());
     }
 
     public void onAddClicked() {

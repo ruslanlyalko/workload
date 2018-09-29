@@ -12,7 +12,7 @@ public class HolidaysPresenter extends BasePresenter<HolidaysView> {
     }
 
     public void onViewReady() {
-        getView().showHolidays(getDataManager().getHolidays());
+        getView().showHolidays(getDataManager().getAllHolidays());
     }
 
     public void onAddClicked() {

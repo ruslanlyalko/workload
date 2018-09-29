@@ -19,7 +19,7 @@ public class UserProjectsPresenter extends BasePresenter<UserProjectsView> {
     }
 
     public void onViewReady() {
-        getView().showProjects(getDataManager().getProjects());
+        getView().showProjects(getDataManager().getAllProjects());
         getView().showMyProjects(mUser.getProjects());
     }
 

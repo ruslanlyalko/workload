@@ -26,8 +26,8 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     }
 
     public void onViewReady() {
-        getView().showSpinnerProjectsData(getDataManager().getProjects());
-        getView().showSpinnerUsersData(getDataManager().getUsers());
+        getView().showSpinnerProjectsData(getDataManager().getAllProjects());
+        getView().showSpinnerUsersData(getDataManager().getAllUsers());
         fetchReportsEvents(DateUtils.getFirstDateOfMonth(new Date()), DateUtils.getLastDateOfMonth(new Date()));
     }
 
@@ -50,10 +50,21 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     }
 
     public void setFilter(final String project, final String user, final String status) {
-        mProject = project;
-        mUser = user;
-        mStatus = status;
-        fetchReportsEvents(mFrom, mTo);
+        boolean needReload = false;
+        if (!mProject.equals(project)) {
+            mProject = project;
+            needReload = true;
+        }
+        if (!mUser.equals(user)) {
+            mUser = user;
+            needReload = true;
+        }
+        if (!mStatus.equals(status)) {
+            mStatus = status;
+            needReload = true;
+        }
+        if (needReload)
+            fetchReportsEvents(mFrom, mTo);
     }
 
     public void setReports(final List<Report> reports) {

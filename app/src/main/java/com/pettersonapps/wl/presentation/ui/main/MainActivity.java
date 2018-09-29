@@ -215,7 +215,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private Fragment rootTabFragment(int tabId) {
         switch (tabId) {
             case TAB_PROFILE:
-                return ProfileFragment.newInstance(getPresenter().getUser());
+                return ProfileFragment.newInstance();
             case TAB_WORKLOAD:
                 return DashboardFragment.newInstance();
             case TAB_VACATION:

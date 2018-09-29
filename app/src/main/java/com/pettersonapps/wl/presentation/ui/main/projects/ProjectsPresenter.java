@@ -12,7 +12,7 @@ public class ProjectsPresenter extends BasePresenter<ProjectsView> {
     }
 
     public void onViewReady() {
-        getView().showProjects(getDataManager().getProjects());
+        getView().showProjects(getDataManager().getAllProjects());
     }
 
     public void onAddClicked() {

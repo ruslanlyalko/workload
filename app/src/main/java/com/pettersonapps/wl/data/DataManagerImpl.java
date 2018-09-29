@@ -29,8 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.pettersonapps.wl.data.Config.DB_HOLIDAYS;
+import static com.pettersonapps.wl.data.Config.DB_PROJECTS;
+import static com.pettersonapps.wl.data.Config.DB_REPORTS;
 import static com.pettersonapps.wl.data.Config.DB_USERS;
+import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
+import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
+import static com.pettersonapps.wl.data.Config.FIELD_TOKEN;
+import static com.pettersonapps.wl.data.Config.FIELD_USER_ID;
 
 /**
  * Created by Ruslan Lyalko
@@ -43,6 +49,11 @@ public class DataManagerImpl implements DataManager {
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private FirebaseFunctions mFunctions;
+    private MutableLiveData<User> mCurrentUserLiveData;
+    private MutableLiveData<List<Report>> mAllMyReportsListMutableLiveData;
+    private MutableLiveData<List<User>> mAllUsersListLiveData;
+    private MutableLiveData<List<Project>> mAllProjectsListMutableLiveData;
+    private MutableLiveData<List<Holiday>> mHolidaysListMutableLiveData;
 
     private DataManagerImpl() {
         mAuth = FirebaseAuth.getInstance();
@@ -68,7 +79,27 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<User> getMyUser() {
-        return getUser(mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null);
+        if (mCurrentUserLiveData != null) return mCurrentUserLiveData;
+        String key = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
+        if (TextUtils.isEmpty(key)) {
+            Log.w(TAG, "getMyUser: user is not logged in");
+            return mCurrentUserLiveData;
+        }
+        mCurrentUserLiveData = new MutableLiveData<>();
+        mDatabase.getReference(DB_USERS)
+                .child(key)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
+                        mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        return mCurrentUserLiveData;
     }
 
     @Override
@@ -95,26 +126,27 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<User>> getUsers() {
-        final MutableLiveData<List<User>> userLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<User>> getAllUsers() {
+        if (mAllUsersListLiveData != null) return mAllUsersListLiveData;
+        mAllUsersListLiveData = new MutableLiveData<>();
         mDatabase.getReference(DB_USERS)
                 .orderByChild(FIELD_NAME)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getUsers:onDataChange");
+                        Log.d(TAG, "getAllUsers:onDataChange");
                         List<User> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             list.add(snap.getValue(User.class));
                         }
-                        userLiveData.postValue(list);
+                        mAllUsersListLiveData.postValue(list);
                     }
 
                     @Override
                     public void onCancelled(@NonNull final DatabaseError databaseError) {
                     }
                 });
-        return userLiveData;
+        return mAllUsersListLiveData;
     }
 
     @Override
@@ -125,20 +157,21 @@ public class DataManagerImpl implements DataManager {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getUsers:onDataChange");
+                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Users");
                         List<User> listUsers = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             User user = snap.getValue(User.class);
                             if (user != null && !user.getIsAdmin())
                                 listUsers.add(user);
                         }
-                        mDatabase.getReference(Config.DB_REPORTS)
-                                .orderByChild(Config.FIELD_DATE_TIME)
+                        mDatabase.getReference(DB_REPORTS)
+                                .orderByChild(FIELD_DATE_TIME)
                                 .startAt(DateUtils.getStart(date).getTime())
                                 .endAt(DateUtils.getEnd(date).getTime())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Reports");
                                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                                             Report report = snapReport.getValue(Report.class);
                                             if (report == null) return;
@@ -167,6 +200,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public Task<Void> changePassword(final String newPassword) {
+        if (mAuth.getCurrentUser() == null) return null;
         return mAuth.getCurrentUser().updatePassword(newPassword);
     }
 
@@ -175,7 +209,7 @@ public class DataManagerImpl implements DataManager {
         if (mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
-                .child(Config.FIELD_TOKEN)
+                .child(FIELD_TOKEN)
                 .setValue(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -184,32 +218,33 @@ public class DataManagerImpl implements DataManager {
         if (mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
-                .child(Config.FIELD_TOKEN)
+                .child(FIELD_TOKEN)
                 .removeValue();
         mAuth.signOut();
     }
 
     @Override
-    public MutableLiveData<List<Holiday>> getHolidays() {
-        final MutableLiveData<List<Holiday>> result = new MutableLiveData<>();
-        mDatabase.getReference(Config.DB_HOLIDAYS)
-                .orderByChild(Config.FIELD_DATE_TIME)
+    public MutableLiveData<List<Holiday>> getAllHolidays() {
+        if (mHolidaysListMutableLiveData != null) return mHolidaysListMutableLiveData;
+        mHolidaysListMutableLiveData = new MutableLiveData<>();
+        mDatabase.getReference(DB_HOLIDAYS)
+                .orderByChild(FIELD_DATE_TIME)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getHolidays:onDataChange");
+                        Log.d(TAG, "getAllHolidays:onDataChange");
                         List<Holiday> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             list.add(0, snap.getValue(Holiday.class));
                         }
-                        result.postValue(list);
+                        mHolidaysListMutableLiveData.postValue(list);
                     }
 
                     @Override
                     public void onCancelled(@NonNull final DatabaseError databaseError) {
                     }
                 });
-        return result;
+        return mHolidaysListMutableLiveData;
     }
 
     @Override
@@ -249,60 +284,62 @@ public class DataManagerImpl implements DataManager {
     @Override
     public Task<Void> saveProject(final Project project) {
         if (project.getKey() == null) {
-            project.setKey(mDatabase.getReference(Config.DB_PROJECTS).push().getKey());
+            project.setKey(mDatabase.getReference(DB_PROJECTS).push().getKey());
         }
-        return mDatabase.getReference(Config.DB_PROJECTS)
+        return mDatabase.getReference(DB_PROJECTS)
                 .child(project.getKey())
                 .setValue(project);
     }
 
     @Override
-    public MutableLiveData<List<Project>> getProjects() {
-        final MutableLiveData<List<Project>> result = new MutableLiveData<>();
-        mDatabase.getReference(Config.DB_PROJECTS)
-                .orderByChild(Config.FIELD_TITLE)
+    public MutableLiveData<List<Project>> getAllProjects() {
+        if (mAllProjectsListMutableLiveData != null) return mAllProjectsListMutableLiveData;
+        mAllProjectsListMutableLiveData = new MutableLiveData<>();
+        mDatabase.getReference(DB_PROJECTS)
+                .orderByChild(FIELD_TITLE)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getProjects:onDataChange");
+                        Log.d(TAG, "getAllProjects:onDataChange");
                         List<Project> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             list.add(snap.getValue(Project.class));
                         }
-                        result.postValue(list);
+                        mAllProjectsListMutableLiveData.postValue(list);
                     }
 
                     @Override
                     public void onCancelled(@NonNull final DatabaseError databaseError) {
                     }
                 });
-        return result;
+        return mAllProjectsListMutableLiveData;
     }
 
     @Override
     public Task<Void> saveReport(final Report newReport) {
-        return mDatabase.getReference(Config.DB_REPORTS)
+        return mDatabase.getReference(DB_REPORTS)
                 .child(newReport.getKey())
                 .setValue(newReport);
     }
 
     @Override
     public Task<Void> removeReport(final Report report) {
-        return mDatabase.getReference(Config.DB_REPORTS)
+        return mDatabase.getReference(DB_REPORTS)
                 .child(report.getKey())
                 .removeValue();
     }
 
     @Override
     public MutableLiveData<List<Report>> getAllMyReports() {
+        if (mAllMyReportsListMutableLiveData != null) return mAllMyReportsListMutableLiveData;
         String userId = mAuth.getUid();
-        final MutableLiveData<List<Report>> result = new MutableLiveData<>();
+        mAllMyReportsListMutableLiveData = new MutableLiveData<>();
         if (TextUtils.isEmpty(userId)) {
-            Log.w(TAG, "getAllMyReports has wrong argument");
-            return result;
+            Log.w(TAG, "getAllMyReports user is not logged in");
+            return mAllMyReportsListMutableLiveData;
         }
-        mDatabase.getReference(Config.DB_REPORTS)
-                .orderByChild(Config.FIELD_USER_ID)
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_USER_ID)
                 .equalTo(userId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -314,27 +351,27 @@ public class DataManagerImpl implements DataManager {
                             if (report != null)
                                 list.add(report);
                         }
-                        result.postValue(list);
+                        mAllMyReportsListMutableLiveData.postValue(list);
                     }
 
                     @Override
                     public void onCancelled(@NonNull final DatabaseError databaseError) {
                     }
                 });
-        return result;
+        return mAllMyReportsListMutableLiveData;
     }
-
 
     @Override
     public MutableLiveData<List<Report>> getReportsFilter(final Date from, final Date to, final String project, final String userName, final String status) {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        mDatabase.getReference(Config.DB_REPORTS)
-                .orderByChild(Config.FIELD_DATE_TIME)
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_DATE_TIME)
                 .startAt(DateUtils.getStart(from).getTime())
                 .endAt(DateUtils.getEnd(to).getTime())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getReportsFilter:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
@@ -367,13 +404,14 @@ public class DataManagerImpl implements DataManager {
     @Override
     public MutableLiveData<List<Report>> getAllWrongReports(final Date date) {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        mDatabase.getReference(Config.DB_REPORTS)
-                .orderByChild(Config.FIELD_DATE_TIME)
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_DATE_TIME)
                 .startAt(DateUtils.getStart(date).getTime())
                 .endAt(DateUtils.getEnd(date).getTime())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllWrongReports:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
@@ -396,26 +434,21 @@ public class DataManagerImpl implements DataManager {
     @Override
     public MutableLiveData<List<Report>> getVacationReports(final User user) {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        mDatabase.getReference(Config.DB_REPORTS)
-                .orderByChild(Config.FIELD_USER_ID)
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_USER_ID)
                 .equalTo(user.getKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getVacationReports:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if (report == null) continue;
-                            if (report.getStatus().startsWith("Worked")) {
-                                continue;
-                            }
-                            if (report.getStatus().startsWith("No project")) {
-                                continue;
-                            }
-                            if (report.getStatus().startsWith("Other")) {
-                                continue;
-                            }
-                            list.add(report);
+                            if (report.getStatus().startsWith("Day")
+                                    || report.getStatus().startsWith("Vacation")
+                                    || report.getStatus().startsWith("Sick"))
+                                list.add(report);
                         }
                         Collections.sort(list, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
                         result.postValue(list);

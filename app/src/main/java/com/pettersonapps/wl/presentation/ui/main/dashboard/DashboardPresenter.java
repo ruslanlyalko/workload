@@ -27,7 +27,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
-        getView().showHolidaysOnCalendar(getDataManager().getHolidays());
+        getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
         getView().showHoliday(getHoliday(mDate));
         getView().showReports(getReportsForCurrentDate());
     }

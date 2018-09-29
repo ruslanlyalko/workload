@@ -18,4 +18,6 @@ public interface MyVacationsView extends BaseView<MyVacationsPresenter> {
     void showReports(MutableLiveData<List<Report>> vacationReportsData);
 
     void showReportsByYear(final Date firstWorkingDate, SparseIntArray years);
+
+    void setReportsToAdapter(List<Report> list);
 }

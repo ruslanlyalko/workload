@@ -7,6 +7,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,17 +23,23 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
     }
 
     public void onViewReady() {
-        getView().showReports(getDataManager().getVacationReports(mUser));
+        getView().showReports(getDataManager().getAllMyReports());
     }
 
     public void setReports(final List<Report> reports) {
-        SparseIntArray mYears= new SparseIntArray();
+        List<Report> listVacationReports = new ArrayList<>();
+        SparseIntArray years = new SparseIntArray();
         for (Report report : reports) {
             int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
-            int value = mYears.get(yearInd);
+            int value = years.get(yearInd);
             value = value + 1;
-            mYears.append(yearInd, value);
+            years.append(yearInd, value);
+            if (report.getStatus().startsWith("Day")
+                    || report.getStatus().startsWith("Vacation")
+                    || report.getStatus().startsWith("Sick"))
+                listVacationReports.add(report);
         }
-        getView().showReportsByYear(mUser.getFirstWorkingDate(), mYears);
+        getView().setReportsToAdapter(listVacationReports);
+        getView().showReportsByYear(mUser.getFirstWorkingDate(), years);
     }
 }

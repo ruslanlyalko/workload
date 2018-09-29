@@ -9,15 +9,11 @@ import com.pettersonapps.wl.presentation.base.BasePresenter;
  */
 public class ProfilePresenter extends BasePresenter<ProfileView> {
 
-    private User mUser;
-
-    ProfilePresenter(User user) {
-        mUser = user;
+    ProfilePresenter() {
     }
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
-        getView().populateUser(mUser);
     }
 
     public void onEditClicked() {
@@ -25,7 +21,6 @@ public class ProfilePresenter extends BasePresenter<ProfileView> {
     }
 
     public void setUser(final User user) {
-        mUser = user;
         getView().populateUser(user);
     }
 
