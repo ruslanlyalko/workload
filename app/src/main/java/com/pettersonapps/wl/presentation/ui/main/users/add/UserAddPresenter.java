@@ -45,7 +45,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                     .addOnFailureListener(e -> {
                         if (getView() == null) return;
                         getView().hideProgress();
-                        getView().showMessage(e.getMessage());
+                        getView().showError(e.getMessage());
                     })
                     .addOnSuccessListener(aVoid -> {
                         mUser.setKey(mAuth2.getUid());
@@ -63,7 +63,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                                 .addOnFailureListener(e -> {
                                     if (getView() == null) return;
                                     getView().hideProgress();
-                                    getView().showMessage(e.getMessage());
+                                    getView().showError(e.getMessage());
                                 });
                     });
         } else {
@@ -84,7 +84,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                                 .addOnFailureListener(e -> {
                                     if (getView() == null) return;
                                     getView().hideProgress();
-                                    getView().showMessage(e.getMessage());
+                                    getView().showError(e.getMessage());
                                 });
                     });
         }

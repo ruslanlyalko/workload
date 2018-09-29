@@ -165,6 +165,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showError(String text) {
+        vibrate();
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
     public void showFab() {}
 
     public void hideFab() {}

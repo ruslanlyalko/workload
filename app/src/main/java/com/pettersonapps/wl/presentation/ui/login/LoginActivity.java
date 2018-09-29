@@ -43,14 +43,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void errorWrongCredentials() {
-        vibrate();
-        showMessage(getString(R.string.error_wrong_credentials));
+        showError(getString(R.string.error_wrong_credentials));
     }
 
     @Override
     public void errorEmpty() {
-        vibrate();
-        showMessage(getString(R.string.error_wrong_credentials));
+        showError(getString(R.string.error_wrong_credentials));
     }
 
     @Override

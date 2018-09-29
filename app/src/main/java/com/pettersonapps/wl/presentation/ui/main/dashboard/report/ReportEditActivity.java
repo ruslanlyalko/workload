@@ -276,14 +276,12 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     public void errorCantBeZero() {
-        vibrate();
-        showMessage(getString(R.string.error_cant_be_zero));
+        showError(getString(R.string.error_cant_be_zero));
     }
 
     @Override
     public void errorCantHasTwoEqualsProjects() {
-        vibrate();
-        showMessage(getString(R.string.error_cant_be_two_same_projects));
+        showError(getString(R.string.error_cant_be_two_same_projects));
     }
 
     @Override

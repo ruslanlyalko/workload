@@ -97,6 +97,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void showMessage(String text) {
+        getBaseActivity().showMessage(text);
+    }
+
+    @Override
+    public void showError(String text) {
+        getBaseActivity().showError(text);
     }
 
     protected void setToolbarTitle(String title) {

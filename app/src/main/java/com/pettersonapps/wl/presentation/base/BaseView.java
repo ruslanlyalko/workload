@@ -7,4 +7,6 @@ package com.pettersonapps.wl.presentation.base;
 public interface BaseView<P extends BasePresenter> {
 
     void showMessage(String text);
+
+    void showError(String text);
 }

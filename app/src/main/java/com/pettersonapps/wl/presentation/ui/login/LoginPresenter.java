@@ -37,6 +37,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     public void onForgot(final String email) {
         getAuth().sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> getView().showMessage("Email sent!"))
-                .addOnFailureListener(e -> getView().showMessage("Please provide valid email address in field above"));
+                .addOnFailureListener(e -> getView().showError("Please provide valid email address in field above"));
     }
 }

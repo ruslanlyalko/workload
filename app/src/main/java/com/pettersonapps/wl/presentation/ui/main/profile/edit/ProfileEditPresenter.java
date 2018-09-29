@@ -26,7 +26,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
             getDataManager().changePassword(newPassword)
                     .addOnFailureListener(e -> {
                         if (getView() == null) return;
-                        getView().showMessage(e.getLocalizedMessage());
+                        getView().showError(e.getLocalizedMessage());
                         getView().hideProgress();
                     })
                     .addOnSuccessListener(aVoid -> {
