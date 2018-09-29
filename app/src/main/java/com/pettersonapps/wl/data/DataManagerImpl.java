@@ -92,7 +92,8 @@ public class DataManagerImpl implements DataManager {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
-                        mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
+                        if (mCurrentUserLiveData != null)
+                            mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
                     }
 
                     @Override
@@ -220,6 +221,8 @@ public class DataManagerImpl implements DataManager {
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_TOKEN)
                 .removeValue();
+        mCurrentUserLiveData = null;
+        mAllMyReportsListMutableLiveData = null;
         mAuth.signOut();
     }
 
@@ -351,7 +354,8 @@ public class DataManagerImpl implements DataManager {
                             if (report != null)
                                 list.add(report);
                         }
-                        mAllMyReportsListMutableLiveData.postValue(list);
+                        if (mAllMyReportsListMutableLiveData != null)
+                            mAllMyReportsListMutableLiveData.postValue(list);
                     }
 
                     @Override
