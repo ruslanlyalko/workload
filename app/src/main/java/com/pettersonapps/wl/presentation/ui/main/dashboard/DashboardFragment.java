@@ -64,7 +64,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
                 setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
-                getPresenter().fetchReportsForDate(firstDayOfNewMonth);
             }
         });
     }

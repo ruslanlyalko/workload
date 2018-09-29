@@ -23,6 +23,7 @@
         app:compactCalendarCurrentSelectedDayTextColor="@color/colorTextWhite"
         app:compactCalendarMultiEventIndicatorColor="@color/colorTextProject"
         app:compactCalendarOtherMonthDaysTextColor="@color/colorTextProject20"
+        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         app:compactCalendarTargetHeight="220dp"
         app:compactCalendarTextColor="@color/colorTextProject"
         app:compactCalendarTextSize="13sp" />
