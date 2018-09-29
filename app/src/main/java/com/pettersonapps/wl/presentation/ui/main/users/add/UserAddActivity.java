@@ -109,6 +109,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(DateUtils.getYesterday());
                 datePickerDialog.showYearPickerFirst(true);
+                datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "birthday");
                 break;
             case R.id.input_first_working_day:
@@ -121,6 +122,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
                 }, calendarWorking.get(Calendar.YEAR), calendarWorking.get(Calendar.MONTH), calendarWorking.get(Calendar.DAY_OF_MONTH));
                 workingPickerDialog.setMaxDate(DateUtils.getYesterday());
                 workingPickerDialog.showYearPickerFirst(true);
+                workingPickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 workingPickerDialog.show(getFragmentManager(), "working");
                 break;
         }

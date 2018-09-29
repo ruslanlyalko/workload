@@ -102,6 +102,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
             getPresenter().getHoliday().setDate(newDate);
             mInputDate.setText(DateUtils.toStringDate(newDate));
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
         datePickerDialog.show(getFragmentManager(), "date");
     }
 }

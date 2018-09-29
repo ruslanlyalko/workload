@@ -337,6 +337,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                         datePickerDialog.setMaxDate(DateUtils.get1DaysForward());
                     }
                 }
+                datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "to");
                 break;
             case R.id.text_to:
@@ -355,6 +356,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                         datePickerDialog1.setMaxDate(DateUtils.get1DaysForward());
                     }
                 }
+                datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog1.show(getFragmentManager(), "to");
                 break;
             case R.id.image_change_date:

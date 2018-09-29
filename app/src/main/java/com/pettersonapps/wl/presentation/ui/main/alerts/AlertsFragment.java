@@ -59,6 +59,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
                     getPresenter().onDateChanged(newDate);
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(DateUtils.getYesterday());
+                datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getBaseActivity().getFragmentManager(), "date");
                 return true;
             default:

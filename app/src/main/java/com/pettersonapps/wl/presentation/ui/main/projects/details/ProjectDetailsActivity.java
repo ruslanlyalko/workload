@@ -176,6 +176,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
                     showFrom(newDate);
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(Calendar.getInstance());
+                datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "from");
                 break;
             case R.id.input_to:
@@ -186,6 +187,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
                     showTo(newDate);
                 }, calendarTo.get(Calendar.YEAR), calendarTo.get(Calendar.MONTH), calendarTo.get(Calendar.DAY_OF_MONTH));
                 datePickerDialogTo.setMaxDate(Calendar.getInstance());
+                datePickerDialogTo.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialogTo.show(getFragmentManager(), "to");
                 break;
         }

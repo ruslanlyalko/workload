@@ -93,6 +93,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
                     mInputBirthday.setText(DateUtils.toString(newDate, A_DATE_FORMAT));
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(DateUtils.getYesterday());
+                datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.showYearPickerFirst(true);
                 datePickerDialog.show(getFragmentManager(), "birthday");
                 break;
@@ -105,6 +106,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
                     mInputFirstWorkingDay.setText(DateUtils.toString(newDate, A_DATE_FORMAT));
                 }, calendarWorking.get(Calendar.YEAR), calendarWorking.get(Calendar.MONTH), calendarWorking.get(Calendar.DAY_OF_MONTH));
                 workingPickerDialog.setMaxDate(DateUtils.getYesterday());
+                workingPickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 workingPickerDialog.showYearPickerFirst(true);
                 workingPickerDialog.show(getFragmentManager(), "working");
                 break;

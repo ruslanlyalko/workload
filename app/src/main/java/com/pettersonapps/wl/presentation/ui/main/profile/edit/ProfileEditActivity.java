@@ -106,6 +106,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setMaxDate(DateUtils.getYesterday());
         datePickerDialog.showYearPickerFirst(true);
+        datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
         datePickerDialog.show(getFragmentManager(), "birthday");
     }
 
