@@ -29,7 +29,6 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
         getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
         getView().showHoliday(getHoliday(mDate));
-        getView().showReports(getReportsForCurrentDate());
     }
 
     private String getHoliday(final Date date) {

@@ -32,13 +32,13 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.multibackstack.BackStackActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
-import com.pettersonapps.wl.presentation.ui.main.workload.WorkloadFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_vacations.MyVacationsFragment;
 import com.pettersonapps.wl.presentation.ui.main.profile.ProfileFragment;
 import com.pettersonapps.wl.presentation.ui.main.projects.ProjectsFragment;
 import com.pettersonapps.wl.presentation.ui.main.settings.SettingsFragment;
 import com.pettersonapps.wl.presentation.ui.main.users.UsersFragment;
+import com.pettersonapps.wl.presentation.ui.main.workload.WorkloadFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -199,7 +199,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     public void onTabSelected(int tabId) {
-        toggleFab(tabId == TAB_WORKLOAD);
         if (mCurFragment != null) {
             pushFragmentToBackStack(mCurTabId, mCurFragment);
         }
@@ -209,6 +208,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             fragment = rootTabFragment(mCurTabId);
         }
         replaceFragment(fragment);
+        toggleFab(tabId == TAB_WORKLOAD);
     }
 
     @NonNull
@@ -244,7 +244,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 mFab.hide();
                 mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 mFab.setImageResource(R.drawable.ic_add);
-                mFab.show();
             }
         } else {
             mFab.hide();
