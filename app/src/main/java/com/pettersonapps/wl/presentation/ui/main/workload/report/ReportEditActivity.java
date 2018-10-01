@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.report;
+package com.pettersonapps.wl.presentation.ui.main.workload.report;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -31,11 +31,11 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.OnProjectListListener;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.OnProjectSelectClickListener;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.ProjectSelectAdapter;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.ProjectSelectable;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.ProjectsListAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.OnProjectListListener;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.OnProjectSelectClickListener;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectSelectAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectSelectable;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectsListAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -231,14 +231,6 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     public void afterSuccessfullyRangeSaving(final int count) {
         showMessage(getString(R.string.text_report_saved_workloads, count));
         onBackPressed();
-    }
-
-    @Override
-    public void showSpinnerData(final MutableLiveData<List<Project>> projectsData) {
-        projectsData.observe(this, projects -> {
-            if (projects == null) return;
-            getPresenter().setProjects(projects);
-        });
     }
 
     @Override

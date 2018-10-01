@@ -1,13 +1,12 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.report;
+package com.pettersonapps.wl.presentation.ui.main.workload.report;
 
 import android.text.TextUtils;
 
 import com.pettersonapps.wl.data.models.Holiday;
-import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter.ProjectSelectable;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectSelectable;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     private final ArrayList<Holiday> mHolidays;
     private Date mDateTo;
     private boolean mDateStateOneDay = true;
-    private List<Project> mProjects;
     private boolean mAddProjectMode = true;
     private int mPosition;
 
@@ -38,17 +36,21 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         if (report == null) {
             report = new Report();
             report.setDate(date);
+            report.setStatus("");
         }
         mReport = report;
         mDateTo = report.getDate();
+        if (mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+                && !(mReport.getStatus().startsWith("Day") || mReport.getStatus().startsWith("Vacation"))) {
+            mReport.setStatus("Vacations");
+        }
     }
 
     public void onViewReady() {
-        getView().showReportData(mReport);
-        getView().showSpinnerData(getDataManager().getAllProjects());
         getView().showHoliday(getHoliday(mReport.getDate()));
         getView().showDateFrom(mReport.getDate());
         getView().showDateTo(mDateTo);
+        getView().showReportData(mReport);
         getView().showProjects(mUser.getProjects());
     }
 
@@ -208,10 +210,6 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             mDateStateOneDay = true;
         }
         getView().showDateState(mDateStateOneDay);
-    }
-
-    public void setProjects(final List<Project> projects) {
-        mProjects = projects;
     }
 
     public void setAddProjectMode() {

@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.adapter;
+package com.pettersonapps.wl.presentation.ui.main.workload.adapter;
 
 import android.support.v7.util.DiffUtil;
 

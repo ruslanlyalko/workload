@@ -32,7 +32,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.multibackstack.BackStackActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.DashboardFragment;
+import com.pettersonapps.wl.presentation.ui.main.workload.WorkloadFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_vacations.MyVacationsFragment;
 import com.pettersonapps.wl.presentation.ui.main.profile.ProfileFragment;
@@ -217,7 +217,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             case TAB_PROFILE:
                 return ProfileFragment.newInstance();
             case TAB_WORKLOAD:
-                return DashboardFragment.newInstance();
+                return WorkloadFragment.newInstance();
             case TAB_VACATION:
                 return MyVacationsFragment.newInstance(getPresenter().getUser());
             case TAB_ALERTS:

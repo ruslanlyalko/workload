@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard;
+package com.pettersonapps.wl.presentation.ui.main.workload;
 
 import android.arch.lifecycle.MutableLiveData;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface DashboardView extends BaseView<DashboardPresenter> {
+public interface WorkloadView extends BaseView<WorkloadPresenter> {
 
     void showUser(MutableLiveData<User> user);
 

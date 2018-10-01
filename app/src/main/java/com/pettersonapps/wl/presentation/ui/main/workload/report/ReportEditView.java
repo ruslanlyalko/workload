@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.report;
+package com.pettersonapps.wl.presentation.ui.main.workload.report;
 
 import android.arch.lifecycle.MutableLiveData;
 
@@ -22,8 +22,6 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
     void afterSuccessfullySaving();
 
     void afterSuccessfullyRangeSaving(int count);
-
-    void showSpinnerData(MutableLiveData<List<Project>> projects);
 
     void showReportData(Report report);
 

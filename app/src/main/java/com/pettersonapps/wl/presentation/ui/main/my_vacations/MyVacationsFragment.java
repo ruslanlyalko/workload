@@ -13,7 +13,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Date;

@@ -20,7 +20,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 

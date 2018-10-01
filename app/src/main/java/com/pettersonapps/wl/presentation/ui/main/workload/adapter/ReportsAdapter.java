@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.adapter;
+package com.pettersonapps.wl.presentation.ui.main.workload.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

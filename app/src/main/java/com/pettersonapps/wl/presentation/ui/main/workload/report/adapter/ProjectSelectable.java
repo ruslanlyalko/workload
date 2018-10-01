@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard.report.adapter;
+package com.pettersonapps.wl.presentation.ui.main.workload.report.adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;

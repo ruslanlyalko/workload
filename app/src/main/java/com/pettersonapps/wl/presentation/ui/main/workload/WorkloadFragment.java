@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard;
+package com.pettersonapps.wl.presentation.ui.main.workload;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
@@ -23,8 +23,8 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.adapter.ReportsAdapter;
-import com.pettersonapps.wl.presentation.ui.main.dashboard.report.ReportEditActivity;
+import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnReportClickListener;
@@ -34,7 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView {
+public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
@@ -44,9 +44,9 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     private ReportsAdapter mReportsAdapter;
 
-    public static DashboardFragment newInstance() {
+    public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
-        DashboardFragment fragment = new DashboardFragment();
+        WorkloadFragment fragment = new WorkloadFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -110,7 +110,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         if ((reports == null || reports.isEmpty())
                 && ((getPresenter().getIsAllowEditPastReports()) ||
                 (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
-                        && getPresenter().getDate().before(DateUtils.get1DaysForward().getTime()))))
+                        && getPresenter().getDate().before(DateUtils.get1MonthForward().getTime()))))
             showFab();
         else
             hideFab();
@@ -194,7 +194,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new DashboardPresenter());
+        setPresenter(new WorkloadPresenter());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.dashboard;
+package com.pettersonapps.wl.presentation.ui.main.workload;
 
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
@@ -14,14 +14,14 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class DashboardPresenter extends BasePresenter<DashboardView> {
+public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     private User mUser;
     private Date mDate = new Date();
     private List<Holiday> mHolidays = new ArrayList<>();
     private List<Report> mReports = new ArrayList<>();
 
-    DashboardPresenter() {
+    WorkloadPresenter() {
     }
 
     public void onViewReady() {
