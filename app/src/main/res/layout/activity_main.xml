@@ -27,7 +27,7 @@
         android:paddingEnd="12dp"
         android:paddingStart="13dp"
         android:paddingTop="7dp"
-        app:srcCompat="@drawable/ic_menu" />
+        app:srcCompat="@drawable/ic_menu_gr" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
