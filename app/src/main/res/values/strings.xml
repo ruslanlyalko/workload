@@ -58,6 +58,7 @@
     <string name="text_report_saved">Saved</string>
     <string name="text_user_created">User created</string>
     <string name="text_report_saved_workloads">Saved %d workloads</string>
+    <string name="text_not_specified">Not specified</string>
 
     <!--Errors-->
     <string name="error_do_not_forget_enter_email_pass">Don\'t forget input email and password</string>

@@ -15,10 +15,10 @@ import java.util.Locale;
  */
 public class DateUtils {
 
+    private static final String FORMAT_STANDARD_DATE = "dd MMMM yyyy";
+    private static final String FORMAT_DATE_FULL = "EEEE d MMM";
     private static final String FORMAT_DATE = "EE, d MMM";
     private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
-    private static final String FORMAT_DATE_FULL = "EEEE d MMM";
-    private static final String FORMAT_DATE_BIRTHDAY = "dd.MM.yy";
     private static final String FORMAT_TIME = "HH:mm";
     private static final String FORMAT_MONTH = "MMMM";
     private static final String FORMAT_YEAR = "yy";
@@ -31,22 +31,22 @@ public class DateUtils {
         calendar.set(Calendar.DAY_OF_MONTH, day);
         return calendar.getTime();
     }
-
-    public static String toStringBirthday(final Date date) {
-        if (date == null) return "";
-        Calendar today = Calendar.getInstance();
-        Calendar dob = Calendar.getInstance();
-        dob.setTime(date);
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
-            age--;
-        }
-        return new SimpleDateFormat(FORMAT_DATE_BIRTHDAY + "' (" + age + ")'", Locale.US).format(date);
-    }
+//
+//    public static String toStringBirthday(final Date date) {
+//        if (date == null) return "";
+//        Calendar today = Calendar.getInstance();
+//        Calendar dob = Calendar.getInstance();
+//        dob.setTime(date);
+//        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+//        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+//            age--;
+//        }
+//        return new SimpleDateFormat(FORMAT_STANDARD_DATE + "' (" + age + ")'", Locale.US).format(date);
+//    }
 
     public static String toStringStandardDate(final Date date) {
         if (date == null) return "";
-        return new SimpleDateFormat(FORMAT_DATE_BIRTHDAY, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.US).format(date);
     }
 
     public static String toStringDate(final Date date) {

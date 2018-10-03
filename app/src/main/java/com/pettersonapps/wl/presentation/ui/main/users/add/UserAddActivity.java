@@ -25,7 +25,6 @@ import butterknife.OnClick;
 
 public class UserAddActivity extends BaseActivity<UserAddPresenter> implements UserAddView {
 
-    private static final String A_DATE_FORMAT = "dd.MM.yyyy";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_register) SquareButton mButtonRegister;
     @BindView(R.id.input_name) TextInputEditText mInputName;
@@ -60,8 +59,8 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_add);
-        mInputBirthday.setText(DateUtils.toString(new Date(), A_DATE_FORMAT));
-        mInputFirstWorkingDay.setText(DateUtils.toString(new Date(), A_DATE_FORMAT));
+        mInputBirthday.setText(DateUtils.toStringStandardDate(new Date()));
+        mInputFirstWorkingDay.setText(DateUtils.toStringStandardDate(new Date()));
         getPresenter().onViewReady();
     }
 
@@ -105,7 +104,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().getUser().setBirthday(newDate);
-                    mInputBirthday.setText(DateUtils.toString(newDate, A_DATE_FORMAT));
+                    mInputBirthday.setText(DateUtils.toStringStandardDate(newDate));
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(DateUtils.getYesterday());
                 datePickerDialog.showYearPickerFirst(true);
@@ -118,7 +117,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
                 DatePickerDialog workingPickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendarWorking.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().getUser().setFirstWorkingDate(newDate);
-                    mInputFirstWorkingDay.setText(DateUtils.toString(newDate, A_DATE_FORMAT));
+                    mInputFirstWorkingDay.setText(DateUtils.toStringStandardDate(newDate));
                 }, calendarWorking.get(Calendar.YEAR), calendarWorking.get(Calendar.MONTH), calendarWorking.get(Calendar.DAY_OF_MONTH));
                 workingPickerDialog.setMaxDate(DateUtils.getYesterday());
                 workingPickerDialog.showYearPickerFirst(true);

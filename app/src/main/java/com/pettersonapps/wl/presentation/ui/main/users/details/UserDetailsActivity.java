@@ -12,6 +12,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +23,8 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
+import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Date;
@@ -78,8 +79,16 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showUserDetails(final User user) {
         mTextName.setText(String.format("%s / %s", user.getName(), user.getDepartment()));
         mTextEmail.setText(user.getEmail());
-        mTextPhone.setText(user.getPhone());
-        mTextSkype.setText(user.getSkype());
+        if (TextUtils.isEmpty(user.getPhone())) {
+            mTextPhone.setText(R.string.text_not_specified);
+        } else {
+            mTextPhone.setText(user.getPhone());
+        }
+        if (TextUtils.isEmpty(user.getSkype())) {
+            mTextSkype.setText(R.string.text_not_specified);
+        } else {
+            mTextSkype.setText(user.getSkype());
+        }
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
     }
 

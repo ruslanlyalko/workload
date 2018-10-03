@@ -25,7 +25,6 @@ import butterknife.OnClick;
 
 public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> implements ProfileEditView {
 
-    private static final String A_DATE_FORMAT = "dd.MM.yyyy";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
     @BindView(R.id.input_skype) TextInputEditText mInputSkype;
@@ -49,7 +48,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
                 setToolbarTitle(user.getName());
                 mInputPhone.setText(user.getPhone());
                 mInputSkype.setText(user.getSkype());
-                mInputBirthday.setText(DateUtils.toString(user.getBirthday(), A_DATE_FORMAT));
+                mInputBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
             }
         });
     }
@@ -102,7 +101,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
             Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
             getPresenter().getUser().setBirthday(newDate);
-            mInputBirthday.setText(DateUtils.toString(newDate, A_DATE_FORMAT));
+            mInputBirthday.setText(DateUtils.toStringStandardDate(newDate));
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setMaxDate(DateUtils.getYesterday());
         datePickerDialog.showYearPickerFirst(true);

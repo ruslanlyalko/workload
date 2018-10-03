@@ -35,7 +35,6 @@ import butterknife.OnClick;
 public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter> implements ProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
-    private static final String A_DATE_FORMAT = "dd.MM.yyyy";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_update) SquareButton mButtonUpdate;
     @BindView(R.id.progress) ProgressBar mProgress;
@@ -157,12 +156,12 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public void showFrom(final Date date) {
-        mInputFrom.setText(DateUtils.toString(date, A_DATE_FORMAT));
+        mInputFrom.setText(DateUtils.toStringDate(date));
     }
 
     @Override
     public void showTo(final Date date) {
-        mInputTo.setText(DateUtils.toString(date, A_DATE_FORMAT));
+        mInputTo.setText(DateUtils.toStringDate(date));
     }
 
     @OnClick({R.id.input_from, R.id.input_to})

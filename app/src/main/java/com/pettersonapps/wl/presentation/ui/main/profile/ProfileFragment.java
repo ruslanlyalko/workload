@@ -3,6 +3,7 @@ package com.pettersonapps.wl.presentation.ui.main.profile;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,8 +55,16 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     public void populateUser(final User user) {
         mTextName.setText(user.getName());
         mTextEmail.setText(user.getEmail());
-        mTextPhone.setText(user.getPhone());
-        mTextSkype.setText(user.getSkype());
+        if (TextUtils.isEmpty(user.getPhone())) {
+            mTextPhone.setText(R.string.text_not_specified);
+        } else {
+            mTextPhone.setText(user.getPhone());
+        }
+        if (TextUtils.isEmpty(user.getSkype())) {
+            mTextSkype.setText(R.string.text_not_specified);
+        } else {
+            mTextSkype.setText(user.getSkype());
+        }
         mTextDepartment.setText(user.getDepartment());
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
