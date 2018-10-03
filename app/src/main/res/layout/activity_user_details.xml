@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:drawablePadding="@dimen/padding_double"
-                android:drawableStart="@drawable/ic_chat_gray"
+                android:drawableStart="@drawable/ic_skype"
                 android:textAppearance="@style/TextAppearance.Body2"
                 android:textSize="18sp"
                 tools:text="Person Skype" />
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:drawablePadding="@dimen/padding_double"
-                android:drawableStart="@drawable/ic_date_gray"
+                android:drawableStart="@drawable/ic_cake_gray"
                 android:hint="@string/hint_birthday"
                 android:textAppearance="@style/TextAppearance.Body2"
                 android:textSize="18sp"

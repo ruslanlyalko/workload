@@ -241,15 +241,15 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         if (isWorkloadTab) {
             if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
                 mImageMenu.setVisibility(View.VISIBLE);
-                mFab.hide();
+                hideFab();
                 mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 mFab.setImageResource(R.drawable.ic_add);
             }
         } else {
-            mFab.hide();
+            hideFab();
             mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
             mFab.setImageResource(R.drawable.ic_reply);
-            mFab.show();
+            showFab();
         }
     }
 
@@ -346,11 +346,13 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @Override
     public void showFab() {
         mFab.show();
+        mFab.setEnabled(true);
     }
 
     @Override
     public void hideFab() {
         mFab.hide();
+        mFab.setEnabled(false);
     }
 
     public void showFragment(@NonNull Fragment fragment) {
