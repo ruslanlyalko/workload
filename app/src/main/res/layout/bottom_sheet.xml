@@ -83,7 +83,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/margin_mini"
         android:background="@color/bg_white"
         android:elevation="0dp"
         android:theme="@style/NavigationTheme"

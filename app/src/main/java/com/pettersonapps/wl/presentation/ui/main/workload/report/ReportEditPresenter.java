@@ -137,7 +137,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             Calendar c = Calendar.getInstance();
             c.setTime(date);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-            if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+            if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY && getHoliday(date) == null) {
                 mReport.setDate(date);
                 mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
                 getDataManager().saveReport(mReport);
