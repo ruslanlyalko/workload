@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -36,6 +37,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
     @BindView(R.id.input_first_working_day) TextInputEditText mInputFirstWorkingDay;
     @BindView(R.id.spinner_department) Spinner mSpinnerDepartment;
     @BindView(R.id.progress) ProgressBar mProgress;
+    @BindView(R.id.check_immediately_login) CheckBox mCheckImmediatelyLogin;
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, UserAddActivity.class);
@@ -92,7 +94,9 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
                 mInputName.getText().toString(),
                 mInputPhone.getText().toString(),
                 mInputSkype.getText().toString(),
-                String.valueOf(mSpinnerDepartment.getSelectedItem()));
+                String.valueOf(mSpinnerDepartment.getSelectedItem()),
+                mCheckImmediatelyLogin.isChecked()
+        );
     }
 
     @OnClick({R.id.input_birthday, R.id.input_first_working_day})
@@ -142,6 +146,7 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
     @Override
     public void afterSuccessfullySaving() {
         startActivity(MainActivity.getLaunchIntent(this).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
 
     @Override

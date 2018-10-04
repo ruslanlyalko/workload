@@ -110,6 +110,7 @@
     <string name="text_change_password">Change password</string>
     <string name="text_add_project">Add project</string>
     <string name="text_copied">Copied</string>
+    <string name="text_immediately_login">Immediately login</string>
 
     <!--arrays-->
     <string-array name="departments">

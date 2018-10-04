@@ -28,8 +28,33 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
     public void onViewReady() {
     }
 
-    public void onRegister(Context context, String email, String password, String name, String phone, String skype, String department) {
+    public void onRegister(Context context, String email, String password, String name, String phone,
+                           String skype, String department, final boolean registerAndLogin) {
         getView().showProgress();
+        mUser.setEmail(email);
+        mUser.setName(name);
+        mUser.setPhone(phone);
+        mUser.setSkype(skype);
+        mUser.setDepartment(department);
+        if (registerAndLogin) {
+            getAuth().createUserWithEmailAndPassword(email, password)
+                    .addOnFailureListener(e -> getView().hideProgress())
+                    .addOnSuccessListener(aVoid -> {
+                        mUser.setKey(getAuth().getUid());
+                        getDataManager().saveUser(mUser)
+                                .addOnSuccessListener(aVoid1 -> {
+                                    if (getView() == null) return;
+                                    getDataManager().clearCache();
+                                    getView().afterSuccessfullySaving();
+                                })
+                                .addOnFailureListener(e -> {
+                                    if (getView() == null) return;
+                                    getView().hideProgress();
+                                    getView().showError(e.getMessage());
+                                });
+                    });
+            return;
+        }
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl(DATABASE_URL)
                 .setApiKey(API_KEY)
@@ -49,11 +74,6 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                     })
                     .addOnSuccessListener(aVoid -> {
                         mUser.setKey(mAuth2.getUid());
-                        mUser.setEmail(email);
-                        mUser.setName(name);
-                        mUser.setPhone(phone);
-                        mUser.setSkype(skype);
-                        mUser.setDepartment(department);
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
                                     mAuth2.signOut();
@@ -70,15 +90,11 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
             getAuth().createUserWithEmailAndPassword(email, password)
                     .addOnFailureListener(e -> getView().hideProgress())
                     .addOnSuccessListener(aVoid -> {
-                        mUser.setKey(getCurrentUser().getUid());
-                        mUser.setEmail(email);
-                        mUser.setName(name);
-                        mUser.setPhone(phone);
-                        mUser.setSkype(skype);
-                        mUser.setDepartment(department);
+                        mUser.setKey(getAuth().getUid());
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
                                     if (getView() == null) return;
+                                    getDataManager().clearCache();
                                     getView().afterSuccessfullySaving();
                                 })
                                 .addOnFailureListener(e -> {

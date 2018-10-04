@@ -34,6 +34,8 @@ public interface DataManager {
     void updateToken();
 
     void logout();
+
+    void clearCache();
     // Holidays
 
     MutableLiveData<List<Holiday>> getAllHolidays();

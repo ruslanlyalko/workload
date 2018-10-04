@@ -227,6 +227,12 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public void clearCache() {
+        mCurrentUserLiveData = null;
+        mAllMyReportsListMutableLiveData = null;
+    }
+
+    @Override
     public MutableLiveData<List<Holiday>> getAllHolidays() {
         if (mHolidaysListMutableLiveData != null) return mHolidaysListMutableLiveData;
         mHolidaysListMutableLiveData = new MutableLiveData<>();
