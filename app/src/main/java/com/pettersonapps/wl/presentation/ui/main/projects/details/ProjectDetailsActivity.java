@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.projects.edit.ProjectEditActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -35,6 +39,7 @@ import butterknife.OnClick;
 public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter> implements ProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
+    private static final int RC_PROJECT_EDIT = 100;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_update) SquareButton mButtonUpdate;
     @BindView(R.id.progress) ProgressBar mProgress;
@@ -190,5 +195,33 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
                 datePickerDialogTo.show(getFragmentManager(), "to");
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
+        if (requestCode == RC_PROJECT_EDIT && resultCode == RESULT_OK) {
+            if (data != null && data.hasExtra(KEY_PROJECT))
+                getPresenter().setProject(data.getParcelableExtra(KEY_PROJECT));
+            setToolbarTitle(getPresenter().getProject().getTitle());
+        }
+        if (requestCode == RC_PROJECT_EDIT && resultCode == RESULT_FIRST_USER) {
+            onBackPressed();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_project_details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
+            startActivityForResult(ProjectEditActivity.getLaunchIntent(this, getPresenter().getProject()), RC_PROJECT_EDIT);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

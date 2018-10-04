@@ -59,7 +59,16 @@ public class ProjectEditActivity extends BaseActivity<ProjectEditPresenter> impl
     }
 
     @Override
-    public void afterSuccessfullySaving() {
+    public void afterSuccessfullySaving(final Project project) {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_PROJECT, project);
+        setResult(RESULT_OK, intent);
+        onBackPressed();
+    }
+
+    @Override
+    public void afterSuccessfullyDeleting() {
+        setResult(RESULT_FIRST_USER);
         onBackPressed();
     }
 

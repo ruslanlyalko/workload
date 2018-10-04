@@ -43,5 +43,6 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void setUser(final User user) {
         mUser = user;
+        getView().showUserDetails(mUser);
     }
 }

@@ -12,13 +12,6 @@ import java.util.List;
  */
 public class User extends BaseModel {
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {return new User(source);}
-
-        @Override
-        public User[] newArray(int size) {return new User[size];}
-    };
     private String name;
     private String email;
     private String phone;
@@ -33,6 +26,7 @@ public class User extends BaseModel {
     private boolean isBlocked;
     private boolean isAdmin;
     private List<Project> projects;
+    private String comments;
 
     public User() {
         firstWorkingDate = new Date();
@@ -40,27 +34,8 @@ public class User extends BaseModel {
         notificationHour = "18";
         skype = "";
         phone = "";
+        comments = "";
         projects = new ArrayList<>();
-    }
-
-    protected User(Parcel in) {
-        super(in);
-        this.name = in.readString();
-        this.email = in.readString();
-        this.phone = in.readString();
-        this.avatar = in.readString();
-        this.department = in.readString();
-        this.skype = in.readString();
-        long tmpBirthday = in.readLong();
-        this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
-        long tmpFirstWorkingDate = in.readLong();
-        this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
-        this.notificationHour = in.readString();
-        this.token = in.readString();
-        this.isAllowEditPastReports = in.readByte() != 0;
-        this.isBlocked = in.readByte() != 0;
-        this.isAdmin = in.readByte() != 0;
-        this.projects = in.createTypedArrayList(Project.CREATOR);
     }
 
     public boolean getIsAllowEditPastReports() {
@@ -175,6 +150,14 @@ public class User extends BaseModel {
         this.firstWorkingDate = firstWorkingDate;
     }
 
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
     @Override
     public int describeContents() { return 0; }
 
@@ -195,5 +178,35 @@ public class User extends BaseModel {
         dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.projects);
+        dest.writeString(this.comments);
     }
+
+    protected User(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.email = in.readString();
+        this.phone = in.readString();
+        this.avatar = in.readString();
+        this.department = in.readString();
+        this.skype = in.readString();
+        long tmpBirthday = in.readLong();
+        this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
+        long tmpFirstWorkingDate = in.readLong();
+        this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
+        this.notificationHour = in.readString();
+        this.token = in.readString();
+        this.isAllowEditPastReports = in.readByte() != 0;
+        this.isBlocked = in.readByte() != 0;
+        this.isAdmin = in.readByte() != 0;
+        this.projects = in.createTypedArrayList(Project.CREATOR);
+        this.comments = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {return new User(source);}
+
+        @Override
+        public User[] newArray(int size) {return new User[size];}
+    };
 }

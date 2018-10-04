@@ -21,11 +21,12 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         getView().showUserData(mUser);
     }
 
-    public void onSave(String name, String phone, String skype, String department, boolean isBlocked, boolean isAllowEdit) {
+    public void onSave(String name, String phone, String skype, String comments, String department, boolean isBlocked, boolean isAllowEdit) {
         getView().showProgress();
         mUser.setName(name);
         mUser.setPhone(phone);
         mUser.setSkype(skype);
+        mUser.setComments(comments);
         mUser.setDepartment(department);
         mUser.setIsBlocked(isBlocked);
         mUser.setIsAllowEditPastReports(isAllowEdit);

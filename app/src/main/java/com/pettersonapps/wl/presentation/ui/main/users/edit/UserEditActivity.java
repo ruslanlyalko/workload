@@ -32,6 +32,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @BindView(R.id.input_name) TextInputEditText mInputName;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
     @BindView(R.id.input_skype) TextInputEditText mInputSkype;
+    @BindView(R.id.input_comments) TextInputEditText mInputComments;
     @BindView(R.id.input_birthday) TextInputEditText mInputBirthday;
     @BindView(R.id.input_first_working_day) TextInputEditText mInputFirstWorkingDay;
     @BindView(R.id.spinner_department) Spinner mSpinnerDepartment;
@@ -76,6 +77,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         getPresenter().onSave(mInputName.getText().toString(),
                 mInputPhone.getText().toString(),
                 mInputSkype.getText().toString(),
+                mInputComments.getText().toString(),
                 String.valueOf(mSpinnerDepartment.getSelectedItem()),
                 mSwitchBlocked.isChecked(), mSwitchAllowEdit.isChecked());
     }
@@ -130,7 +132,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         Intent intent = new Intent();
         intent.putExtra(KEY_USER, user);
         setResult(RESULT_OK, intent);
-        finish();
+        onBackPressed();
     }
 
     @Override
@@ -138,6 +140,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mInputName.setText(user.getName());
         mInputPhone.setText(user.getPhone());
         mInputSkype.setText(user.getSkype());
+        mInputComments.setText(user.getComments());
         String[] departments = getResources().getStringArray(R.array.departments);
         for (int i = 0; i < departments.length; i++) {
             if (departments[i].equals(user.getDepartment())) {

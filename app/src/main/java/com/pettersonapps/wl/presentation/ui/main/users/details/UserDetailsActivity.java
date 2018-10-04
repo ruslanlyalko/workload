@@ -49,6 +49,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindDimen(R.dimen.margin_mini) int mElevation;
+    @BindView(R.id.divider_comments) View mDividerComments;
+    @BindView(R.id.text_comments) TextView mTextComments;
     private ReportsAdapter mReportsAdapter;
 
     public static Intent getLaunchIntent(final Context context, User user) {
@@ -89,6 +91,14 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mTextSkype.setText(R.string.text_not_specified);
         } else {
             mTextSkype.setText(user.getSkype());
+        }
+        if (TextUtils.isEmpty(user.getComments())) {
+            mTextComments.setVisibility(View.GONE);
+            mDividerComments.setVisibility(View.GONE);
+        } else {
+            mTextComments.setText(user.getComments());
+            mTextComments.setVisibility(View.VISIBLE);
+            mDividerComments.setVisibility(View.VISIBLE);
         }
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
     }

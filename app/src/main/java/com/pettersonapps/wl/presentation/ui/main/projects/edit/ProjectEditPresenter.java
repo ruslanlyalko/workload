@@ -27,7 +27,7 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
         getDataManager().saveProject(mProject)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;
-                    getView().afterSuccessfullySaving();
+                    getView().afterSuccessfullySaving(mProject);
                 })
                 .addOnFailureListener(e -> {
                     if (getView() == null) return;
@@ -43,7 +43,7 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
         getDataManager().deleteProject(mProject)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;
-                    getView().afterSuccessfullySaving();
+                    getView().afterSuccessfullyDeleting();
                 });
     }
 }

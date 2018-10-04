@@ -114,8 +114,9 @@
             <Spinner
                 android:id="@+id/spinner_department"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="44dp"
                 android:layout_margin="16dp"
+                android:background="@drawable/bg_button_styled"
                 android:entries="@array/departments"
                 android:prompt="@string/department_prompt"
                 android:textAppearance="@style/TextAppearance.Body2" />
@@ -139,6 +140,22 @@
                 android:layout_marginStart="20dp"
                 android:text="@string/text_blocked"
                 android:textAppearance="@style/TextAppearance.Body2" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/input_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_comment_optional"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAppearance="@style/TextAppearance.Body2" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

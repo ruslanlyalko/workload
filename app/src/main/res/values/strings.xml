@@ -26,6 +26,7 @@
     <string name="hint_phone_optional">Phone (optional)</string>
     <string name="hint_skype">Skype</string>
     <string name="hint_skype_optional">Skype (optional)</string>
+    <string name="hint_comment_optional">Comments (visible only for Admins)</string>
     <string name="hint_name">Name</string>
     <string name="hint_password">Password</string>
     <string name="hint_password_confirm">Confirm Password</string>

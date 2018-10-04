@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
 
-    private final Project mProject;
+    private Project mProject;
     private Date mFrom;
     private Date mTo;
 
@@ -72,5 +72,9 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
             mFrom = mTo;
             getView().showFrom(mFrom);
         }
+    }
+
+    public void setProject(final Project project) {
+        mProject = project;
     }
 }

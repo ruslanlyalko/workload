@@ -51,7 +51,7 @@ public class UserProjectsActivity extends BaseActivity<UserProjectsPresenter> im
         Intent intent = new Intent();
         intent.putExtra(KEY_USER, user);
         setResult(RESULT_OK, intent);
-        finish();
+        onBackPressed();
     }
 
     @Override
