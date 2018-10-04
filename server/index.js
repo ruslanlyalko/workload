@@ -64,8 +64,8 @@ admin.initializeApp();
 	
 		var payload = {
 			data:{
-				title: "It's time to fill in the Workload",
-				body: "It won't take more than one minute!"
+				title: "It's time to fill in the Workload!",
+				body: "It won't take more than one minute"
 			}			
 		}	
 
@@ -117,72 +117,72 @@ admin.initializeApp();
 			reportsSnap.forEach(report => {	
 				var reportObj = report.val();			
 				if(reportObj.date.time >from && reportObj.date.time < to){
-					if(reportObj.project1Time > 0 && reportObj.project1Name === project){
+					if(reportObj.t1 > 0 && reportObj.p1 === project){
 						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.project1Time;
+							iOSCount = iOSCount + reportObj.t1;
 						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.project1Time;
+							AndroidCount = AndroidCount + reportObj.t1;
 						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.project1Time;
+							BackendCount = BackendCount + reportObj.t1;
 						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.project1Time;
+							DesignCount = DesignCount + reportObj.t1;
 						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.project1Time;
+							PMCount = PMCount + reportObj.t1;
 						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.project1Time;
+							QACount = QACount + reportObj.t1;
 						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.project1Time;
+							OtherCount = OtherCount + reportObj.t1;
 					}
 					
-					if(reportObj.project2Time > 0 && reportObj.project2Name === project){
+					if(reportObj.t2 > 0 && reportObj.p2 === project){
 						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.project2Time;
+							iOSCount = iOSCount + reportObj.t2;
 						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.project2Time;
+							AndroidCount = AndroidCount + reportObj.t2;
 						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.project2Time;
+							BackendCount = BackendCount + reportObj.t2;
 						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.project2Time;
+							DesignCount = DesignCount + reportObj.t2;
 						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.project2Time;
+							PMCount = PMCount + reportObj.t2;
 						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.project2Time;
+							QACount = QACount + reportObj.t2;
 						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.project2Time;
+							OtherCount = OtherCount + reportObj.t2;
 					}
 					
-					if(reportObj.project3Time > 0 && reportObj.project3Name === project){
+					if(reportObj.t3 > 0 && reportObj.p3 === project){
 						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.project3Time;
+							iOSCount = iOSCount + reportObj.t3;
 						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.project3Time;
+							AndroidCount = AndroidCount + reportObj.t3;
 						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.project3Time;
+							BackendCount = BackendCount + reportObj.t3;
 						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.project3Time;
+							DesignCount = DesignCount + reportObj.t3;
 						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.project3Time;
+							PMCount = PMCount + reportObj.t3;
 						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.project3Time;
+							QACount = QACount + reportObj.t3;
 						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.project3Time;
+							OtherCount = OtherCount + reportObj.t3;
 					}
 					
-					if(reportObj.project4Time > 0 && reportObj.project4Name === project){
+					if(reportObj.t4 > 0 && reportObj.p4 === project){
 						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.project4Time;
+							iOSCount = iOSCount + reportObj.t4;
 						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.project4Time;
+							AndroidCount = AndroidCount + reportObj.t4;
 						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.project4Time;
+							BackendCount = BackendCount + reportObj.t4;
 						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.project4Time;
+							DesignCount = DesignCount + reportObj.t4;
 						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.project4Time;
+							PMCount = PMCount + reportObj.t4;
 						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.project4Time;
+							QACount = QACount + reportObj.t4;
 						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.project4Time;
+							OtherCount = OtherCount + reportObj.t4;
 					}
 					
 					
