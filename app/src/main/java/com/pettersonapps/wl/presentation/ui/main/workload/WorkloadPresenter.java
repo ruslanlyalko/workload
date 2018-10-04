@@ -58,8 +58,17 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     }
 
     public void onReportDeleteClicked(final Report report) {
-        getDataManager().removeReport(report)
-                .addOnCompleteListener(task -> getView().showReports(getReportsForCurrentDate()));
+        report.setUpdatedAt(new Date());
+        getDataManager().saveReport(report)
+                .addOnSuccessListener(aVoid -> getDataManager().removeReport(report)
+                        .addOnCompleteListener(task -> {
+                            if (getView() == null) return;
+                            getView().showReports(getReportsForCurrentDate());
+                        }))
+                .addOnFailureListener(e -> {
+                    if (getView() == null) return;
+                    getView().showWrongDateOnMobileError();
+                });
     }
 
     public void onReportLongClicked(final Report report) {

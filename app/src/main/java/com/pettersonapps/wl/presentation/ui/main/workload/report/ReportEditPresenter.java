@@ -104,6 +104,10 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             getView().errorCantBeZero();
             return;
         }
+        if (status.startsWith("Worked") && getTotalHoursSpent(mReport) > 16) {
+            getView().errorCantBeMoreThan16();
+            return;
+        }
         getView().showProgress();
         mReport.setUserId(mUser.getKey());
         mReport.setUserName(mUser.getName());
@@ -122,6 +126,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
                 })
                 .addOnFailureListener(e -> {
                     if (getView() == null) return;
+                    getView().showWrongDateOnMobileError();
                     getView().hideProgress();
                 });
     }

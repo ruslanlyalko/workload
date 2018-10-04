@@ -134,6 +134,17 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, date, holidays), RC_REPORT);
     }
 
+    @Override
+    public void showWrongDateOnMobileError() {
+        showError(getString(R.string.error_check_date));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mReportsAdapter.notifyDataSetChanged();
+    }
+
     void showCalendarsEvents() {
         mCalendarView.removeAllEvents();
         List<Report> reports = getPresenter().getReports();

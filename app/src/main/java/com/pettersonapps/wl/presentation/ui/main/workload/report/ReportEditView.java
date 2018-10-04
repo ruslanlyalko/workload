@@ -29,6 +29,8 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
 
     void errorCantBeZero();
 
+    void errorCantBeMoreThan16();
+
     void errorCantHasTwoEqualsProjects();
 
     void showDateState(boolean dateStateOneDay);
@@ -42,4 +44,6 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
     void addProject(String title);
 
     void changeProject(String title, int position);
+
+    void showWrongDateOnMobileError();
 }

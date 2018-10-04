@@ -1,6 +1,5 @@
 package com.pettersonapps.wl.presentation.ui.main.workload.report;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -272,6 +271,11 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     }
 
     @Override
+    public void errorCantBeMoreThan16() {
+        showError(getString(R.string.error_cant_be_more_than_16));
+    }
+
+    @Override
     public void errorCantHasTwoEqualsProjects() {
         showError(getString(R.string.error_cant_be_two_same_projects));
     }
@@ -306,6 +310,11 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     @Override
     public void changeProject(final String title, final int position) {
         mProjectSelectAdapter.changeItem(title, position);
+    }
+
+    @Override
+    public void showWrongDateOnMobileError() {
+        showError(getString(R.string.error_check_date));
     }
 
     @OnClick({R.id.text_from, R.id.text_to, R.id.image_change_date})
