@@ -32,7 +32,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         getDataManager().saveUser(mUser)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;
-                    getView().afterSuccessfullySaving();
+                    getView().afterSuccessfullySaving(mUser);
                 })
                 .addOnFailureListener(e -> {
                     if (getView() == null) return;

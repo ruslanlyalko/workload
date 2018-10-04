@@ -38,4 +38,12 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
     public Project getProject() {
         return mProject;
     }
+
+    public void removeProject() {
+        getDataManager().deleteProject(mProject)
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                });
+    }
 }

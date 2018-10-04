@@ -39,11 +39,15 @@ public interface DataManager {
     MutableLiveData<List<Holiday>> getAllHolidays();
 
     Task<Void> saveHoliday(Holiday holiday);
+
+    Task<Void> deleteHoliday(Holiday holiday);
     //projects
 
     Task<ProjectInfo> getProjectInfo(String project, Date from, Date to);
 
     Task<Void> saveProject(Project project);
+
+    Task<Void> deleteProject(Project project);
 
     MutableLiveData<List<Project>> getAllProjects();
     //reports

@@ -1,11 +1,14 @@
 package com.pettersonapps.wl.presentation.ui.main.holidays.edit;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -88,6 +91,35 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
         mInputDate.setText(DateUtils.toStringDate(holiday.getDate()));
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_holiday_edit, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        menu.findItem(R.id.action_delete).setVisible(getPresenter().getHoliday().getKey() != null);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.action_delete) {
+            AlertDialog.Builder build = new AlertDialog.Builder(getContext());
+            build.setMessage(R.string.text_delete);
+            build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
+                getPresenter().removeHoliday();
+                dialog.dismiss();
+            });
+            build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
+                dialog.dismiss();
+            });
+            build.show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void afterSuccessfullySaving() {
         onBackPressed();

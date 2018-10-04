@@ -38,4 +38,12 @@ public class HolidayEditPresenter extends BasePresenter<HolidayEditView> {
     public Holiday getHoliday() {
         return mHoliday;
     }
+
+    public void removeHoliday() {
+        getDataManager().deleteHoliday(mHoliday)
+                .addOnSuccessListener(aVoid -> {
+                    if (getView() == null) return;
+                    getView().afterSuccessfullySaving();
+                });
+    }
 }

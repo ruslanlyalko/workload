@@ -126,8 +126,11 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     }
 
     @Override
-    public void afterSuccessfullySaving() {
-        onBackPressed();
+    public void afterSuccessfullySaving(final User user) {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_USER, user);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -37,7 +38,7 @@ import butterknife.OnClick;
 public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> implements UserDetailsView {
 
     private static final String KEY_USER = "user";
-    private static final int RC_PROJECTS = 100;
+    private static final int RC_USER_EDIT = 100;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.text_name) TextView mTextName;
     @BindView(R.id.text_email) TextView mTextEmail;
@@ -129,7 +130,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        if (requestCode == RC_PROJECTS && resultCode == RESULT_OK) {
+        if (requestCode == RC_USER_EDIT && resultCode == RESULT_OK) {
             if (data != null && data.hasExtra(KEY_USER))
                 getPresenter().setUser(data.getParcelableExtra(KEY_USER));
         }
@@ -145,7 +146,11 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_user_projects) {
-            startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_PROJECTS);
+            startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
+            return true;
+        }
+        if (item.getItemId() == R.id.action_edit) {
+            startActivityForResult(UserEditActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
             return true;
         }
         return super.onOptionsItemSelected(item);

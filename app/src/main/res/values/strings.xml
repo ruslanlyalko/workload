@@ -84,6 +84,7 @@
     <string name="menu_date">Select Date</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
     <string name="menu_menu">Menu</string>
 
     <!--Placeholder-->

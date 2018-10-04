@@ -13,7 +13,7 @@ public interface UserEditView extends BaseView<UserEditPresenter> {
 
     void hideProgress();
 
-    void afterSuccessfullySaving();
+    void afterSuccessfullySaving(final User user);
 
     void showUserData(User user);
 }

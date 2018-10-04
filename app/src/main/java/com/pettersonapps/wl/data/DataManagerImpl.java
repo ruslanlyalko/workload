@@ -264,6 +264,13 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public Task<Void> deleteHoliday(final Holiday holiday) {
+        return mDatabase.getReference(DB_HOLIDAYS)
+                .child(holiday.getKey())
+                .removeValue();
+    }
+
+    @Override
     public Task<ProjectInfo> getProjectInfo(final String project, final Date from, final Date to) {
         Map<String, Object> data = new HashMap<>();
         data.put("project", project);
@@ -292,6 +299,13 @@ public class DataManagerImpl implements DataManager {
         return mDatabase.getReference(DB_PROJECTS)
                 .child(project.getKey())
                 .setValue(project);
+    }
+
+    @Override
+    public Task<Void> deleteProject(final Project project) {
+        return mDatabase.getReference(DB_PROJECTS)
+                .child(project.getKey())
+                .removeValue();
     }
 
     @Override
