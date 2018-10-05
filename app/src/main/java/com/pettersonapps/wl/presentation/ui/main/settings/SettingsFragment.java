@@ -14,6 +14,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.MainActivity;
+import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
 
 import butterknife.BindView;
 
@@ -58,6 +59,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             else
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            PreferencesHelper.getInstance(getContext()).setNightMode(isChecked);
             startActivity(MainActivity.getLaunchIntent(getContext(), true));
             getBaseActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
