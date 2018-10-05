@@ -2,21 +2,25 @@ package com.pettersonapps.wl.presentation.ui.main.settings;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
+import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 
 import butterknife.BindView;
 
 public class SettingsFragment extends BaseFragment<SettingsPresenter> implements SettingsView {
 
     @BindView(R.id.spinner_notification) Spinner mSpinnerNotification;
+    @BindView(R.id.switch_night_mode) Switch mSwitchNightMode;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -38,6 +42,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_settings);
+        mSwitchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         mSpinnerNotification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -47,6 +52,14 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             @Override
             public void onNothingSelected(final AdapterView<?> parent) {
             }
+        });
+        mSwitchNightMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            startActivity(MainActivity.getLaunchIntent(getContext(), true));
+            getBaseActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
         getPresenter().onViewReady();
     }
@@ -70,5 +83,6 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 break;
             }
         }
+        mSwitchNightMode.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
     }
 }

@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // Day
     <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#fff</color>
     <color name="colorAccent">#42BC8E</color>
+    <color name="colorBottomAppBarBackground">#42BC8E</color>
     <color name="colorBackground">#fff</color>
+    <color name="colorCardBackground">#fff</color>
+    <color name="colorDivider">#f3f3f3</color>
+    <color name="colorStroke">#e9eaef</color>
+    <color name="colorTextDefault">#2a3035</color>
+    <color name="colorTextPrimary">#3f444a</color>
+    <color name="colorTextSecondary">#869099</color>
+    // Night
+    <color name="colorPrimaryNight">#121414</color>
+    <color name="colorPrimaryDarkNight">#121414</color>
+    <color name="colorAccentNight">#42BC8E</color>
+    <color name="colorBottomAppBarBackgroundNight">#262626</color>
+    <color name="colorBackgroundNight">#121414</color>
+    <color name="colorCardBackgroundNight">#2c2c2c</color>
+    <color name="colorDividerNight">#2c2c2c</color>
+    <color name="colorStrokeNight">#2c2c2c</color>
+    <color name="colorTextDefaultNight">#e7e7e7</color>
+    <color name="colorTextPrimaryNight">#a8a8a8</color>
+    <color name="colorTextSecondaryNight">#3b3b3b</color>
+    <!-- - -->
+    //Text
+    <color name="colorTextWhite">#ffffff</color>
+    <color name="colorTextGrayLight">#f3f3f3</color>
+    <color name="colorTextGray">#869099</color>
+    <color name="colorTextBlack">#2a3035</color>
+    <color name="colorMenuIcon">#869099</color>
+    <color name="colorMenuItem">#2a3035</color>
+    <color name="colorTextProject20">#333f444a</color>
+    <color name="colorTextProject">#3f444a</color>
+    <color name="colorTopic">#aeb9c5</color>
+    <color name="colorMenuItemSelected">#00b2a8</color>
+    <color name="colorTextRed">#da4141</color>
+    <color name="colorYellow">#fdcc5d</color>
+    <color name="colorBlack50">#7f000000</color>
+
+    //
     <color name="colorBackgroundSearch">#e7e7e7</color>
     <color name="colorBackgroundGray">#e9eaef</color>
     <color name="colorBackgroundTouchOutside">#0e131c</color>
     <color name="colorBackgroundCard">#d9dadb</color>
     <color name="colorBackgroundDivider">#d9dadb</color>
     // Status
+    <color name="event_holiday">#FF0000</color>
     <color name="bg_status_worked">#57d58e</color>
     <color name="bg_status_worked_home">#00d2c4</color>
     <color name="bg_status_working_off">#5797b3</color>
@@ -23,23 +61,6 @@
     <color name="bg_menu_item">#effbfc</color>
     <color name="bg_button_styled">#f0f2f5</color>
     <color name="bg_project">#f5f7fa</color>
-
-    //Text
-    <color name="colorTextProject20">#333f444a</color>
-    <color name="colorTextProject">#3f444a</color>
-    <color name="colorTopic">#aeb9c5</color>
-    <color name="colorMenuIcon">#869099</color>
-    <color name="colorMenuItem">#2a3035</color>
-    <color name="colorMenuItemSelected">#00b2a8</color>
-    <color name="colorTextRed">#da4141</color>
-    <color name="colorTextWhite">#ffffff</color>
-    <color name="colorYellow">#fdcc5d</color>
-    <color name="colorTextGrayLight">#f3f3f3</color>
-    <color name="colorTextGray">#869099</color>
-    <color name="colorTextBlack">#2a3035</color>
-    <color name="colorDivider">#f3f3f3</color>
-    <color name="colorBlack50">#7f000000</color>
-    <color name="event_holiday">#FF0000</color>
 
     <array name="bar_colors">
         <item>#86d7fc</item>

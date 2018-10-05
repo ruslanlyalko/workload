@@ -39,6 +39,7 @@
     <!--Texts-->
     <string name="text_login">Login</string>
     <string name="text_blocked">Is Blocked</string>
+    <string name="text_night_mode">Night Mode</string>
     <string name="text_allow_edit">Allow To Edit All Workloads</string>
     <string name="text_project1">Project 1</string>
     <string name="text_project2">Project 2</string>

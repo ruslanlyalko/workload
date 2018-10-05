@@ -55,6 +55,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private static final int TAB_HOLIDAYS = 7;
     private static final int TAB_SETTINGS = 8;
     private static final String STATE_CURRENT_TAB_ID = "current_tab_id";
+    private static final String KEY_SETTINGS = "settings";
     @BindView(R.id.bottom_app_bar) BottomAppBar mBottomAppBar;
     @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.image_menu) AppCompatImageView mImageMenu;
@@ -101,6 +102,13 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     public static Intent getLaunchIntent(Context context) {
         return new Intent(context, MainActivity.class);
+    }
+
+    public static Intent getLaunchIntent(Context context, boolean startWithSettings) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(KEY_SETTINGS, startWithSettings);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
     }
 
     @ColorInt
@@ -311,7 +319,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new MainPresenter());
+        setPresenter(new MainPresenter(intent.getBooleanExtra(KEY_SETTINGS, false)));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -339,7 +347,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         });
         getPresenter().onViewReady();
         if (state == null) {
-            showFragment(rootTabFragment(TAB_WORKLOAD));
+            mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
+            showFragment(rootTabFragment(mCurTabId));
+            toggleFab(mCurTabId == TAB_WORKLOAD);
         }
     }
 

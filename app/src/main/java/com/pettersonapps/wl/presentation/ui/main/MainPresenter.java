@@ -10,8 +10,18 @@ import com.pettersonapps.wl.presentation.base.BasePresenter;
 public class MainPresenter extends BasePresenter<MainView> {
 
     private User mUser = new User();
+    private boolean mStartWithSettings;
 
-    MainPresenter() {
+    MainPresenter(final boolean startWithSettings) {
+        mStartWithSettings = startWithSettings;
+    }
+
+    public boolean isStartWithSettings() {
+        return mStartWithSettings;
+    }
+
+    public void setStartWithSettings(final boolean startWithSettings) {
+        mStartWithSettings = startWithSettings;
     }
 
     public void onViewReady() {

@@ -10,4 +10,5 @@
     android:paddingStart="48dp"
     android:text="@string/app_name"
     android:textAppearance="@style/TextAppearance.Body2"
+    android:textColor="?attr/colorTextPrimary"
     android:textSize="26sp" />

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="?attr/colorBottomAppBarBackground"
         app:fabAlignmentMode="center" />
 
     <android.support.v7.widget.AppCompatImageView
@@ -36,6 +36,7 @@
         android:elevation="10dp"
         android:fadingEdgeLength="2dp"
         android:src="@drawable/ic_add"
+        app:backgroundTint="?android:attr/colorAccent"
         app:elevation="10dp"
         app:layout_anchor="@id/bottom_app_bar"
         app:rippleColor="@android:color/transparent" />
@@ -47,6 +48,6 @@
         android:background="@color/colorBackgroundTouchOutside"
         android:visibility="gone" />
 
-    <include layout="@layout/bottom_sheet" />
+    <include layout="@layout/bottom_sheet_menu" />
 
 </android.support.design.widget.CoordinatorLayout>

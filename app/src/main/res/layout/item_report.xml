@@ -13,9 +13,10 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorCardBackground"
     app:cardCornerRadius="@dimen/card_radius"
     app:cardElevation="0dp"
-    app:strokeColor="@color/colorBackgroundGray"
+    app:strokeColor="?attr/colorStroke"
     app:strokeWidth="1.5dp">
 
     <RelativeLayout
