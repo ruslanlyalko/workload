@@ -200,7 +200,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_dashboard;
+        return R.layout.fragment_workload;
     }
 
     @Override

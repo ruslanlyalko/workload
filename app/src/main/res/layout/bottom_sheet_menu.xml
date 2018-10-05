@@ -72,7 +72,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_toEndOf="@id/image_logo"
             android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="@color/colorTextGray"
+            android:textColor="?attr/colorTextSecondary"
             android:textSize="@dimen/ts_caption"
             tools:text="SubTitle"
             tools:visibility="visible" />
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:background="@color/bg_white"
+        android:background="?attr/colorBackgroundMenu"
         android:elevation="0dp"
         android:theme="@style/NavigationTheme"
         app:elevation="0dp"

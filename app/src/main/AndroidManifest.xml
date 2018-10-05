@@ -26,7 +26,6 @@
         <activity
             android:name=".presentation.ui.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dashboard"
             android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity
             android:name=".presentation.ui.login.LoginActivity"

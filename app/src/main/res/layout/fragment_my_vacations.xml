@@ -20,6 +20,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextPrimary"
             android:textSize="16sp" />
 
         <TextView
@@ -30,7 +31,7 @@
             android:padding="16dp"
             android:text="@string/placeholder_no_vacations"
             android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="@color/colorTextGray"
+            android:textColor="?attr/colorTextSecondary"
             android:textSize="14sp"
             android:visibility="gone"
             tools:visibility="visible" />

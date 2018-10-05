@@ -23,13 +23,13 @@
             android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="?attr/colorBackground"
             app:compactCalendarCurrentDayBackgroundColor="@color/bg_current_day"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorTextProject"
-            app:compactCalendarCurrentSelectedDayTextColor="@color/colorTextWhite"
-            app:compactCalendarMultiEventIndicatorColor="@color/colorTextProject"
-            app:compactCalendarOtherMonthDaysTextColor="@color/colorTextProject20"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextPrimary"
+            app:compactCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
+            app:compactCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
+            app:compactCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
             app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
             app:compactCalendarTargetHeight="220dp"
-            app:compactCalendarTextColor="@color/colorTextProject"
+            app:compactCalendarTextColor="?attr/colorTextPrimary"
             app:compactCalendarTextSize="13sp" />
 
         <LinearLayout
@@ -89,7 +89,7 @@
                 android:text="@string/text_report_placeholder"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="@color/colorTextBlack"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="16sp"
                 android:visibility="gone" />
         </RelativeLayout>

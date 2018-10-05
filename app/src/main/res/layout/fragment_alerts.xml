@@ -29,7 +29,7 @@
                     android:layout_margin="16dp"
                     android:text="@string/text_not_standard_reports"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextBlack"
+                    android:textColor="?attr/colorTextPrimary"
                     android:textSize="16sp" />
 
                 <android.support.v7.widget.RecyclerView
@@ -47,7 +47,7 @@
                     android:gravity="center"
                     android:text="@string/placeholder_no_reports"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextGray"
+                    android:textColor="?attr/colorTextSecondary"
                     android:textSize="14sp"
                     android:visibility="gone"
                     tools:visibility="visible" />
@@ -70,7 +70,7 @@
                     android:layout_margin="16dp"
                     android:text="@string/text_users_without_reports"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextBlack"
+                    android:textColor="?attr/colorTextPrimary"
                     android:textSize="16sp" />
 
                 <android.support.v7.widget.RecyclerView
@@ -88,7 +88,7 @@
                     android:gravity="center"
                     android:text="@string/placeholder_no_users"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextGray"
+                    android:textColor="?attr/colorTextSecondary"
                     android:textSize="14sp"
                     android:visibility="gone"
                     tools:visibility="visible" />

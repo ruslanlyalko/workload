@@ -12,7 +12,7 @@
         android:layout_margin="@dimen/margin_mini"
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="0dp"
-        app:strokeColor="@color/colorBackgroundGray"
+        app:strokeColor="@color/colorStrokeGray"
         app:strokeWidth="1dp">
 
         <TextView
@@ -26,7 +26,7 @@
             android:text="@string/text_add_project"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="@color/colorTextGray"
+            android:textColor="?attr/colorTextSecondary"
             android:textSize="14sp" />
 
     </android.support.design.card.MaterialCardView>
@@ -41,7 +41,7 @@
         android:layout_margin="@dimen/margin_mini"
         android:clickable="true"
         android:focusable="true"
-        app:cardBackgroundColor="@color/bg_button_styled"
+        app:cardBackgroundColor="?attr/colorBackgroundGray"
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="0dp"
         app:strokeWidth="0dp">
@@ -105,7 +105,7 @@
                     android:text="@string/text_minus"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextGray"
+                    android:textColor="?attr/colorTextSecondary"
                     android:textSize="24sp" />
 
                 <View
@@ -113,7 +113,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="@color/colorBackgroundGray"
+                    android:background="@color/colorStrokeGray"
                     />
 
                 <Spinner
@@ -135,7 +135,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="@color/colorBackgroundGray"
+                    android:background="@color/colorStrokeGray"
                     />
 
                 <TextView
@@ -150,7 +150,7 @@
                     android:text="@string/text_plus"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="@color/colorTextGray"
+                    android:textColor="?attr/colorTextSecondary"
                     android:textSize="24sp" />
 
             </LinearLayout>

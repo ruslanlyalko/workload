@@ -78,7 +78,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     private void initBarChart() {
         mBarChart.setNoDataText(getString(R.string.placeholder_no_data));
-        mBarChart.setNoDataTextColor(ContextCompat.getColor(this, R.color.colorTextGray));
+        mBarChart.setNoDataTextColor(ContextCompat.getColor(this, R.color.colorTextSecondary));
         mBarChart.setDrawGridBackground(false);
         mBarChart.getLegend().setEnabled(false);
         mBarChart.getDescription().setEnabled(false);

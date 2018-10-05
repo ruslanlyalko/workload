@@ -40,7 +40,7 @@
             android:layout_toEndOf="@id/image_logo"
             android:text="@string/title_project"
             android:textAppearance="@style/TextAppearance.Subhead"
-            android:textColor="@color/colorTextBlack"
+            android:textColor="?attr/colorTextPrimary"
             android:textSize="17sp"
             tools:visibility="visible" />
 
@@ -78,7 +78,7 @@
         android:padding="16dp"
         android:text="@string/placeholder_no_projects"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextGray"
+        android:textColor="?attr/colorTextSecondary"
         android:textSize="14sp"
         android:visibility="gone"
         tools:visibility="visible" />

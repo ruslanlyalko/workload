@@ -23,7 +23,7 @@
         android:layout_marginTop="40dp"
         android:layout_toEndOf="@id/image_dc_logo"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="?attr/colorTextPrimary"
         tools:text="Title"
         tools:visibility="visible" />
 
@@ -35,7 +35,7 @@
         android:layout_marginStart="@dimen/margin_small"
         android:layout_toEndOf="@id/image_dc_logo"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextGray"
+        android:textColor="?attr/colorTextSecondary"
         android:textSize="@dimen/ts_caption"
         tools:text="SubTitle"
         tools:visibility="visible" />
@@ -47,7 +47,7 @@
         android:layout_below="@id/image_dc_logo"
         android:layout_marginTop="@dimen/margin_default"
         app:itemIconTint="@color/color_selector_menu_icon"
-        app:itemTextColor="@color/colorMenuItem"
+        app:itemTextColor="?attr/colorTextDefault"
         app:theme="@style/TextAppearance.MenuItem"
         tools:menu="@menu/menu_nav_admin" />
 

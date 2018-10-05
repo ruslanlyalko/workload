@@ -54,7 +54,7 @@
             android:background="@drawable/bg_button_styled"
             android:entries="@array/status"
             android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="@color/colorTextProject"
+            android:textColor="?attr/colorTextDefault"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -80,7 +80,7 @@
                 android:paddingEnd="@dimen/padding_mini"
                 android:paddingStart="@dimen/padding_default"
                 android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="@color/colorTextProject"
+                android:textColor="?attr/colorTextDefault"
                 android:textSize="15sp"
                 tools:text="Mon, 17 Sep" />
 
@@ -97,7 +97,7 @@
                 android:paddingEnd="@dimen/padding_mini"
                 android:paddingStart="@dimen/padding_default"
                 android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="@color/colorTextProject"
+                android:textColor="?attr/colorTextDefault"
                 android:textSize="15sp"
                 android:visibility="gone"
                 tools:text="Mon, 18 Sep"

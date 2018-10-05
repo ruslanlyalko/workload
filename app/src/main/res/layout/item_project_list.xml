@@ -15,7 +15,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="16sp"
         tools:text="Ivan, 9"
         />

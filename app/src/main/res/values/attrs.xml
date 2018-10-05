@@ -3,11 +3,16 @@
     <declare-styleable name="ds">
         <attr name="colorBottomAppBarBackground" format="color"/>
         <attr name="colorBackground" format="color"/>
+        <attr name="colorBackgroundGray" format="color"/>
         <attr name="colorCardBackground" format="color"/>
+        <attr name="colorBackgroundMenu" format="color"/>
+        <attr name="colorBackgroundMenuItem" format="color"/>
         <attr name="colorDivider" format="color"/>
         <attr name="colorStroke" format="color"/>
 
+        <attr name="colorTextDefault" format="color"/>
         <attr name="colorTextPrimary" format="color"/>
         <attr name="colorTextSecondary" format="color"/>
+        <attr name="colorTextGray" format="color"/>
     </declare-styleable>
 </resources>

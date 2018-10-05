@@ -38,7 +38,7 @@
         android:layout_toEndOf="@id/image_logo"
         android:layout_toStartOf="@id/text_date"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
         tools:text="Ivan, 9"
@@ -75,7 +75,7 @@
         android:ellipsize="end"
         android:gravity="bottom"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextGray"
+        android:textColor="?attr/colorTextSecondary"
         android:textSize="14sp"
         tools:text="Some text here"
         />
