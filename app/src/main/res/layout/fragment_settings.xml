@@ -33,6 +33,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:entries="@array/notification_hours"
+            android:popupBackground="@drawable/bg_black_rounded"
             android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="?attr/colorTextPrimary" />
     </LinearLayout>

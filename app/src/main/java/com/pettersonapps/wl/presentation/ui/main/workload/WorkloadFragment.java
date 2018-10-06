@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView {
 
@@ -139,12 +140,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         showError(getString(R.string.error_check_date));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mReportsAdapter.notifyDataSetChanged();
-    }
-
     void showCalendarsEvents() {
         mCalendarView.removeAllEvents();
         List<Report> reports = getPresenter().getReports();
@@ -194,6 +189,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mReportsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.menu_dashboard, menu);
     }
@@ -219,5 +220,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void onFabClicked() {
         getPresenter().onFabClicked();
+    }
+
+    @OnClick(R.id.title)
+    public void onClick() {
+        mCalendarView.setCurrentDate(new Date());
+        getPresenter().fetchReportsForDate(new Date());
+        setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(new Date()) + ")");
     }
 }

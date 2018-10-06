@@ -1,17 +1,13 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Day -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:colorControlHighlight">@color/colorAccent</item>
-    </style>
-
-    <!-- Day -->
-    <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="colorBackground">@color/colorBackground</item>
@@ -40,7 +36,13 @@
     </style>
 
     <!-- Night-->
-    <style name="AppTheme.Dark" parent="BaseAppTheme">
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorControlHighlight">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/colorBackgroundNight</item>
         <item name="colorBackground">@color/colorBackgroundNight</item>
@@ -81,7 +83,7 @@
         <item name="android:backgroundTint">@color/colorTextPrimaryNight</item>
     </style>
 
-    <style name="NavigationTheme" parent="BaseAppTheme">
+    <style name="NavigationTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@android:color/transparent</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>

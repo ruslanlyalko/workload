@@ -6,11 +6,11 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="450dp"
     android:background="@drawable/bg_chooser_dialog"
     android:elevation="12dp"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:maxHeight="450dp"
     android:orientation="vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="0dp"
@@ -40,7 +40,7 @@
             android:layout_toEndOf="@id/image_logo"
             android:text="@string/title_project"
             android:textAppearance="@style/TextAppearance.Subhead"
-            android:textColor="?attr/colorTextPrimary"
+            android:textColor="?attr/colorTextDefault"
             android:textSize="17sp"
             tools:visibility="visible" />
 

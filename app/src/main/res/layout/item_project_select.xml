@@ -127,6 +127,7 @@
                     android:background="@drawable/bg_button_rounded_ripple"
                     android:entries="@array/hours"
                     android:gravity="center"
+                    android:popupBackground="@drawable/bg_button_rounded"
                     android:textAppearance="@style/TextAppearance.Body1"
                     android:textColor="?attr/colorTextPrimary"
                     android:textSize="13sp" />
