@@ -55,7 +55,7 @@
             android:paddingStart="@dimen/padding_default"
             android:paddingTop="4dp"
             android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="@color/colorTextProject"
+            android:textColor="?attr/colorTextPrimary"
             android:textSize="15sp"
             tools:text="Holiday Name"
             tools:visibility="visible" />

@@ -226,6 +226,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     public void onClick() {
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());
-        setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(new Date()) + ")");
+        setToolbarTitle(getString(R.string.app_name));
     }
 }
