@@ -147,7 +147,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_project_styled"
                 android:clickable="true"
