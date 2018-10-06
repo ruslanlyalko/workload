@@ -187,9 +187,11 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Day"))) {
                     if (getPresenter().getReport().getDate().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setReportDate(new Date());
+                        forceRippleAnimation(mTextFrom);
                     }
                     if (getPresenter().getDateTo().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setDateTo(new Date());
+                        forceRippleAnimation(mTextTo);
                     }
                 }
             }
