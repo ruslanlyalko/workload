@@ -48,8 +48,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/text_night_mode"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="?attr/colorTextPrimary"
-        android:visibility="gone" />
+        android:textColor="?attr/colorTextPrimary" />
 
 </LinearLayout>
 

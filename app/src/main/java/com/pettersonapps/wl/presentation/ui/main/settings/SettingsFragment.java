@@ -85,6 +85,5 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 break;
             }
         }
-        mSwitchNightMode.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
     }
 }
