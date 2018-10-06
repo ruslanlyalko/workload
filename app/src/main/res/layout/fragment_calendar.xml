@@ -44,7 +44,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button_styled"
+                android:background="@drawable/bg_gray_rounded_ripple"
+                android:popupBackground="@drawable/bg_gray_rounded"
                 android:textAppearance="@style/TextAppearance.Body2" />
 
             <Spinner
@@ -52,7 +53,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button_styled"
+                android:background="@drawable/bg_gray_rounded_ripple"
+                android:popupBackground="@drawable/bg_gray_rounded"
                 android:textAppearance="@style/TextAppearance.Body2" />
 
             <Spinner
@@ -62,8 +64,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button_styled"
+                android:background="@drawable/bg_gray_rounded_ripple"
                 android:entries="@array/status_"
+                android:popupBackground="@drawable/bg_gray_rounded"
                 android:textAppearance="@style/TextAppearance.Body2" />
 
         </LinearLayout>

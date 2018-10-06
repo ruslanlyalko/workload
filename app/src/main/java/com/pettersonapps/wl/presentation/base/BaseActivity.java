@@ -84,7 +84,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     protected int getHomeIndicator() {
-        return -1;
+        return R.drawable.ic_arrow_back;
     }
 
     protected Toolbar getToolbar() {return null;}

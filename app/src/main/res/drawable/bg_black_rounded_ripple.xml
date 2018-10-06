@@ -4,7 +4,7 @@
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
                android:shape="rectangle">
-            <solid android:color="?attr/colorBackgroundGray" />
+            <solid android:color="?attr/colorPanelBackground" />
             <corners
                 android:radius="@dimen/card_radius" />
         </shape>

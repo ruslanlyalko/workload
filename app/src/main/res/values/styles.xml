@@ -15,12 +15,15 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorBackgroundButton">@color/colorBackgroundButton</item>
+        <item name="colorPanelBackground">@color/colorPanelBackground</item>
         <item name="colorBackgroundGray">@color/colorBackgroundGray</item>
         <item name="colorBackgroundMenuItem">@color/colorBackgroundMenuItem</item>
         <item name="colorBackgroundMenu">@color/colorBackgroundMenu</item>
         <item name="colorCardBackground">@color/colorCardBackground</item>
         <item name="colorDivider">@color/colorDivider</item>
         <item name="colorStroke">@color/colorStroke</item>
+        <item name="colorStrokeGray">@color/colorStrokeGray</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackground</item>
         //
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -41,12 +44,15 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/colorBackgroundNight</item>
         <item name="colorBackground">@color/colorBackgroundNight</item>
+        <item name="colorBackgroundButton">@color/colorBackgroundButtonNight</item>
+        <item name="colorPanelBackground">@color/colorPanelBackgroundNight</item>
         <item name="colorBackgroundGray">@color/colorBackgroundGrayNight</item>
         <item name="colorBackgroundMenuItem">@color/colorBackgroundMenuItemNight</item>
         <item name="colorBackgroundMenu">@color/colorBackgroundMenuNight</item>
         <item name="colorCardBackground">@color/colorCardBackgroundNight</item>
         <item name="colorDivider">@color/colorDividerNight</item>
         <item name="colorStroke">@color/colorStrokeNight</item>
+        <item name="colorStrokeGray">@color/colorStrokeGrayNight</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackgroundNight</item>
         //
         <item name="colorPrimary">@color/colorPrimaryNight</item>

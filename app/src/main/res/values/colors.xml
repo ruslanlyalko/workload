@@ -9,13 +9,16 @@
     <color name="colorBackgroundMenuItem">#effbfc</color>
     <color name="colorBackground">#fff</color>
     <color name="colorCardBackground">#fff</color>
+    <color name="colorPanelBackground">#f0f2f5</color>
     <color name="colorBackgroundGray">#f0f2f5</color>
+    <color name="colorBackgroundButton">#fff</color>
     <color name="colorDivider">#f3f3f3</color>
     <color name="colorStroke">#e9eaef</color>
     <color name="colorTextDefault">#2a3035</color>
     <color name="colorTextPrimary">#3f444a</color>
     <color name="colorTextSecondary">#869099</color>
     <color name="colorTextGray">#333f444a</color>
+    <color name="colorStrokeGray">#e9eaef</color>
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
@@ -25,15 +28,17 @@
     <color name="colorBackgroundMenuItemNight">#28393b</color>
     <color name="colorBackgroundNight">#121414</color>
     <color name="colorCardBackgroundNight">#2c2c2c</color>
+    <color name="colorPanelBackgroundNight">#2c2c2c</color>
     <color name="colorBackgroundGrayNight">#3f3f40</color>
+    <color name="colorBackgroundButtonNight">#3f3f40</color>
     <color name="colorDividerNight">#2c2c2c</color>
     <color name="colorStrokeNight">#2c2c2c</color>
     <color name="colorTextDefaultNight">#e7e7e7</color>
     <color name="colorTextPrimaryNight">#a8a8a8</color>
     <color name="colorTextSecondaryNight">#a8a8a8</color>
     <color name="colorTextGrayNight">#3b3b3b</color>
+    <color name="colorStrokeGrayNight">#2c2c2c</color>
     <!-- - -->
-    <color name="colorStrokeGray">#e9eaef</color>
 
     //Text
     <color name="colorTextWhite">#ffffff</color>
