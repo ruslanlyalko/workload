@@ -62,14 +62,14 @@
             android:gravity="center"
             android:text="@string/text_login"
             android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="@color/colorTextWhite" />
+            android:textColor="@color/colorWhite" />
 
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/colorTextWhite"
+            android:indeterminateTint="@color/colorWhite"
             android:visibility="gone" />
     </RelativeLayout>
 

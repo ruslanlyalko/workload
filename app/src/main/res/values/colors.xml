@@ -13,12 +13,11 @@
     <color name="colorBackgroundGray">#f0f2f5</color>
     <color name="colorBackgroundButton">#fff</color>
     <color name="colorDivider">#f3f3f3</color>
-    <color name="colorStroke">#e9eaef</color>
     <color name="colorTextDefault">#2a3035</color>
     <color name="colorTextPrimary">#3f444a</color>
     <color name="colorTextSecondary">#869099</color>
     <color name="colorTextGray">#333f444a</color>
-    <color name="colorStrokeGray">#e9eaef</color>
+    <color name="colorStroke">#e9eaef</color>
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
@@ -32,31 +31,23 @@
     <color name="colorBackgroundGrayNight">#3f3f40</color>
     <color name="colorBackgroundButtonNight">#3f3f40</color>
     <color name="colorDividerNight">#2c2c2c</color>
-    <color name="colorStrokeNight">#2c2c2c</color>
     <color name="colorTextDefaultNight">#e7e7e7</color>
     <color name="colorTextPrimaryNight">#a8a8a8</color>
     <color name="colorTextSecondaryNight">#a8a8a8</color>
     <color name="colorTextGrayNight">#3b3b3b</color>
-    <color name="colorStrokeGrayNight">#2c2c2c</color>
+    <color name="colorStrokeNight">#2c2c2c</color>
     <!-- - -->
 
-    //Text
-    <color name="colorTextWhite">#ffffff</color>
-    <color name="colorTextGrayLight">#f3f3f3</color>
-    <color name="colorTextBlack">#2a3035</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorMenuIcon">#869099</color>
-    <color name="colorTextProject20">#333f444a</color>
-    <color name="colorTextProject">#3f444a</color>
     <color name="colorTopic">#aeb9c5</color>
     <color name="colorMenuItemSelected">#00b2a8</color>
-    <color name="colorTextRed">#da4141</color>
     <color name="colorYellow">#fdcc5d</color>
-    <color name="colorBlack50">#7f000000</color>
 
     //
     <color name="colorBackgroundTouchOutside">#0e131c</color>
     // Status
-    <color name="event_holiday">#FF0000</color>
+    <color name="bg_event_holiday">#FF0000</color>
     <color name="bg_status_worked">#57d58e</color>
     <color name="bg_status_worked_home">#00d2c4</color>
     <color name="bg_status_working_off">#5797b3</color>
@@ -65,9 +56,6 @@
     <color name="bg_status_vacation">#f673a9</color>
     <color name="bg_status_sick_leave">#51a7e0</color>
     <color name="bg_current_day">#f0f2f5</color>
-    //
-    <color name="bg_white">#fff</color>
-    <color name="bg_project">#f5f7fa</color>
 
     <array name="bar_colors">
         <item>#86d7fc</item>

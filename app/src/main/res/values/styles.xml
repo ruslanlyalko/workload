@@ -19,7 +19,6 @@
         <item name="colorCardBackground">@color/colorCardBackground</item>
         <item name="colorDivider">@color/colorDivider</item>
         <item name="colorStroke">@color/colorStroke</item>
-        <item name="colorStrokeGray">@color/colorStrokeGray</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackground</item>
         //
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -54,7 +53,6 @@
         <item name="colorCardBackground">@color/colorCardBackgroundNight</item>
         <item name="colorDivider">@color/colorDividerNight</item>
         <item name="colorStroke">@color/colorStrokeNight</item>
-        <item name="colorStrokeGray">@color/colorStrokeGrayNight</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackgroundNight</item>
         //
         <item name="colorPrimary">@color/colorPrimaryNight</item>

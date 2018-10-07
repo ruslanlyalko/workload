@@ -13,7 +13,7 @@
         app:cardBackgroundColor="?attr/colorCardBackground"
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="0dp"
-        app:strokeColor="?attr/colorStrokeGray"
+        app:strokeColor="?attr/colorStroke"
         app:strokeWidth="1dp">
 
         <TextView
@@ -114,7 +114,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="?attr/colorStrokeGray"
+                    android:background="?attr/colorStroke"
                     />
 
                 <Spinner
@@ -137,7 +137,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="?attr/colorStrokeGray"
+                    android:background="?attr/colorStroke"
                     />
 
                 <TextView

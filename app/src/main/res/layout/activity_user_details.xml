@@ -29,6 +29,7 @@
                 android:drawablePadding="@dimen/padding_double"
                 android:drawableStart="@drawable/ic_person_gray"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="18sp"
                 tools:text="Person Name" />
 
@@ -40,6 +41,7 @@
                 android:drawablePadding="@dimen/padding_double"
                 android:drawableStart="@drawable/ic_email_gray"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="18sp"
                 tools:text="Person Email" />
 
@@ -51,6 +53,7 @@
                 android:drawablePadding="@dimen/padding_double"
                 android:drawableStart="@drawable/ic_phone_gray"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="18sp"
                 tools:text="Person Phone" />
 
@@ -62,6 +65,7 @@
                 android:drawablePadding="@dimen/padding_double"
                 android:drawableStart="@drawable/ic_skype"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="18sp"
                 tools:text="Person Skype" />
 
@@ -74,6 +78,7 @@
                 android:drawableStart="@drawable/ic_cake_gray"
                 android:hint="@string/hint_birthday"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="18sp"
                 tools:text="Person birth" />
 
@@ -89,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="16sp"
                 tools:text="Comments" />
 
@@ -105,6 +111,7 @@
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
                 android:textSize="16sp" />
 
             <android.support.v7.widget.RecyclerView

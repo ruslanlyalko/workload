@@ -149,7 +149,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         }
         List<Holiday> holidays = getPresenter().getHolidays();
         for (Holiday holiday : holidays) {
-            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.event_holiday),
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.bg_event_holiday),
                     holiday.getDate().getTime()), true);
         }
         mCalendarView.invalidate();

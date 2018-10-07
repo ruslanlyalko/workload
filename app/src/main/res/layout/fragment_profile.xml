@@ -17,6 +17,7 @@
         android:drawablePadding="@dimen/padding_double"
         android:drawableStart="@drawable/ic_person_gray"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="Name" />
 
@@ -28,6 +29,7 @@
         android:drawablePadding="@dimen/padding_double"
         android:drawableStart="@drawable/ic_department_gray"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="Department" />
 
@@ -39,6 +41,7 @@
         android:drawablePadding="@dimen/padding_double"
         android:drawableStart="@drawable/ic_email_gray"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="Email" />
 
@@ -51,6 +54,7 @@
         android:drawableStart="@drawable/ic_business_gray"
         android:hint="@string/hint_first_working_day"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="First Working Date" />
 
@@ -62,6 +66,7 @@
         android:drawablePadding="@dimen/padding_double"
         android:drawableStart="@drawable/ic_phone_gray"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="Phone" />
 
@@ -73,6 +78,7 @@
         android:drawablePadding="@dimen/padding_double"
         android:drawableStart="@drawable/ic_skype"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="Skype" />
 
@@ -85,6 +91,7 @@
         android:drawableStart="@drawable/ic_cake_gray"
         android:hint="@string/hint_birthday"
         android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
         android:textSize="18sp"
         tools:text="birth" />
 
