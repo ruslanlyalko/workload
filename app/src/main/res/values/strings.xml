@@ -20,7 +20,6 @@
 
     <!--Hints-->
     <string name="hint_email">Email</string>
-    <string name="hint_department">Department</string>
     <string name="hint_title">Title</string>
     <string name="hint_phone">Phone</string>
     <string name="hint_phone_optional">Phone (optional)</string>
@@ -41,10 +40,6 @@
     <string name="text_blocked">Is Blocked</string>
     <string name="text_night_mode">Night Mode</string>
     <string name="text_allow_edit">Allow To Edit All Workloads</string>
-    <string name="text_project1">Project 1</string>
-    <string name="text_project2">Project 2</string>
-    <string name="text_project3">Project 3</string>
-    <string name="text_project4">Project 4</string>
     <string name="text_save">Save</string>
     <string name="text_register">Register User</string>
     <string name="text_report_placeholder">Click to add New Report</string>
@@ -63,7 +58,6 @@
     <string name="text_not_specified">Not specified</string>
 
     <!--Errors-->
-    <string name="error_do_not_forget_enter_email_pass">Don\'t forget input email and password</string>
     <string name="error_wrong_credentials">Wrong email or password</string>
     <string name="error_blocked">You have been blocked by administrator!</string>
     <string name="error_cant_be_zero">Please select at least one project!</string>
@@ -76,7 +70,6 @@
 
     <!--Menu-->
     <string name="menu_workload">Workload</string>
-    <string name="menu_profile">Profile</string>
     <string name="menu_alerts">Alerts</string>
     <string name="menu_calendar">Calendar</string>
     <string name="menu_users">Users</string>
