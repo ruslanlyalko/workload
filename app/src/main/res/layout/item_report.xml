@@ -154,7 +154,7 @@
                 android:contentDescription="@string/action_delete"
                 android:focusable="true"
                 android:padding="8dp"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_delete_g" />
         </LinearLayout>
 
     </RelativeLayout>

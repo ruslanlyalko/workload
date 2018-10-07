@@ -20,6 +20,8 @@
         <item name="colorDivider">@color/colorDivider</item>
         <item name="colorStroke">@color/colorStroke</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackground</item>
+        <item name="colorIcon">@color/colorIcon</item>
+        <item name="colorIconGray">@color/colorIconGray</item>
         //
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -54,6 +56,8 @@
         <item name="colorDivider">@color/colorDividerNight</item>
         <item name="colorStroke">@color/colorStrokeNight</item>
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackgroundNight</item>
+        <item name="colorIcon">@color/colorIconNight</item>
+        <item name="colorIconGray">@color/colorIconGrayNight</item>
         //
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>

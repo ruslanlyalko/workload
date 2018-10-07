@@ -112,7 +112,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_date_gray" />
+                app:srcCompat="@drawable/ic_day" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
