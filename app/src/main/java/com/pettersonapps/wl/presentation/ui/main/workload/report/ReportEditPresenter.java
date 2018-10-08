@@ -66,6 +66,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     public void onSave(final String status, final List<ProjectSelectable> data) {
         boolean allowSaveData = !(status.startsWith("Day")
                 || status.startsWith("Vacation")
+                || status.startsWith("No")
                 || status.startsWith("Sick"));
         if (data.size() > 0 && allowSaveData) {
             mReport.setP1(data.get(0).getTitle());
@@ -100,11 +101,11 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             getView().errorCantHasTwoEqualsProjects();
             return;
         }
-        if (status.startsWith("Worked") && getTotalHoursSpent(mReport) == 0) {
+        if (status.startsWith("Work") && getTotalHoursSpent(mReport) == 0) {
             getView().errorCantBeZero();
             return;
         }
-        if (status.startsWith("Worked") && getTotalHoursSpent(mReport) > 16) {
+        if (status.startsWith("Work") && getTotalHoursSpent(mReport) > 16) {
             getView().errorCantBeMoreThan16();
             return;
         }

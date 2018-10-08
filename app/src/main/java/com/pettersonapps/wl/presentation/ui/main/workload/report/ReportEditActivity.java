@@ -178,6 +178,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                 if (mSpinnerStatus.getSelectedItem().toString().startsWith("Day")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Sick")
+                        || mSpinnerStatus.getSelectedItem().toString().startsWith("No")
                         ) {
                     mRecyclerProjectsSelect.setVisibility(View.GONE);
                 } else {

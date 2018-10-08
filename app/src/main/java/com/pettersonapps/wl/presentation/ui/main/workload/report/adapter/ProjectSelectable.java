@@ -17,7 +17,7 @@ public class ProjectSelectable implements Parcelable {
         public ProjectSelectable[] newArray(int size) {return new ProjectSelectable[size];}
     };
     private String title;
-    private int spent = 4;
+    private int spent = 8;
 
     public ProjectSelectable() {
     }
