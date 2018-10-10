@@ -101,8 +101,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         if (holiday == null)
             mCardHoliday.setVisibility(View.GONE);
         else {
-            mCardHoliday.setVisibility(View.VISIBLE);
-            mTextHolidayName.setText(holiday);
+            mCardHoliday.postDelayed(() -> {
+                mCardHoliday.setVisibility(View.VISIBLE);
+                mTextHolidayName.setText(holiday);
+            }, 200);
         }
     }
 

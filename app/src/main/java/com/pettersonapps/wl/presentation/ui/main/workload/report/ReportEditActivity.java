@@ -244,18 +244,20 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                 break;
             }
         }
+        List<ProjectSelectable> list = new ArrayList<>();
         if (report.getT1() > 0) {
-            mProjectSelectAdapter.addItem(new ProjectSelectable(report.getP1(), report.getT1()));
+            list.add(new ProjectSelectable(report.getP1(), report.getT1()));
         }
         if (report.getT2() > 0) {
-            mProjectSelectAdapter.addItem(new ProjectSelectable(report.getP2(), report.getT2()));
+            list.add(new ProjectSelectable(report.getP2(), report.getT2()));
         }
         if (report.getT3() > 0) {
-            mProjectSelectAdapter.addItem(new ProjectSelectable(report.getP3(), report.getT3()));
+            list.add(new ProjectSelectable(report.getP3(), report.getT3()));
         }
         if (report.getT4() > 0) {
-            mProjectSelectAdapter.addItem(new ProjectSelectable(report.getP4(), report.getT4()));
+            list.add(new ProjectSelectable(report.getP4(), report.getT4()));
         }
+        mProjectSelectAdapter.setData(list);
     }
 
     @Override
@@ -286,7 +288,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     @Override
     public void showDateState(final boolean dateStateOneDay) {
         mTextTo.setVisibility(dateStateOneDay ? View.GONE : View.VISIBLE);
-        mImageChangeDate.setImageResource(dateStateOneDay ? R.drawable.ic_day: R.drawable.ic_week);
+        mImageChangeDate.setImageResource(dateStateOneDay ? R.drawable.ic_day : R.drawable.ic_week);
     }
 
     @Override

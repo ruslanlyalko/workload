@@ -46,6 +46,13 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
     }
 
     public void addItem(ProjectSelectable projectSelectable) {
+        if (mData.size() > 0) {
+            int totalHour = 0;
+            for (ProjectSelectable p : mData) {
+                totalHour += p.getSpent();
+            }
+            projectSelectable.setSpent(Math.max(1, 8 - totalHour));
+        }
         mData.add(projectSelectable);
         if (mData.size() == 4)
             notifyItemChanged(mData.size() - 1);
