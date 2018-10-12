@@ -161,7 +161,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         mReportsAdapter = new ReportsAdapter(new OnReportClickListener() {
             @Override
             public void onReportClicked(final View view, final int position) {
-                getPresenter().onReportLongClicked(mReportsAdapter.getData().get(position));
+                if (mReportsAdapter.getData().size() > position)
+                    getPresenter().onReportLongClicked(mReportsAdapter.getData().get(position));
             }
 
             @Override
@@ -169,7 +170,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
                 AlertDialog.Builder build = new AlertDialog.Builder(getContext());
                 build.setMessage(R.string.text_delete);
                 build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
-                    getPresenter().onReportDeleteClicked(mReportsAdapter.getData().get(position));
+                    if (mReportsAdapter.getData().size() > position)
+                        getPresenter().onReportDeleteClicked(mReportsAdapter.getData().get(position));
                     dialog.dismiss();
                 });
                 build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
