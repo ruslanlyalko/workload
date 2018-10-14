@@ -21,3 +21,34 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.pettersonapps.wl.data.models.** { *; }
+
+
+# poi
+# https://github.com/centic9/poi-on-android/blob/master/poitest/proguard-rules.pro
+-keeppackagenames org.apache.poi.ss.formula.function
+-keep class org.apache.poi.** {*;}
+-keep class org.apache.xmlbeans.** {*;}
+-keep class org.openxmlformats.** {*;}
+-keep class org.openxmlformats.schemas.** {*;}
+-keep class org.w3c.** {*;}
+-keep class org.dom4j.** {*;}
+-keep class org.etsi.** {*;}
+-keep class com.fasterxml.** {*;}
+-keep class schemasMicrosoftComVml.** {*;}
+-keep class schemasMicrosoftComOfficeExcel.** {*;}
+-keep class schemasMicrosoftComOfficeOffice.** {*;}
+-keep class com.microsoft.schemas.** {*;}
+-keep class com.graphbuilder.** {*;}
+-dontwarn org.etsi.**
+-dontnote com.microsoft.schemas.**
+-dontnote com.graphbuilder.**
+-dontwarn org.openxmlformats.**
+-dontwarn org.w3c.**
+-dontwarn org.dom4j.**
+-dontwarn java.rmi.**
+-dontwarn java.awt.**
+-dontwarn javax.**
+-dontwarn schemasMicrosoftComVml.**
+-dontwarn schemasMicrosoftComOfficeExcel.**
+-dontwarn schemasMicrosoftComOfficeOffice.**
+-dontwarn schemasMicrosoftComOfficeWord.**
