@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
+import com.pettersonapps.wl.presentation.ui.main.calendar.export.ExportActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -48,6 +50,22 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_calendar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_export:
+                startActivity(ExportActivity.getLaunchIntent(getBaseActivity()));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.fragment_calendar;
     }
@@ -64,11 +82,6 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
         setupAdapters();
         setupSpinners();
         getPresenter().onViewReady();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_calendar, menu);
     }
 
     private void setupSpinners() {

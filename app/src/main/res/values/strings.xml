@@ -17,6 +17,7 @@
     <string name="title_user_projects">User Projects</string>
     <string name="title_new_workload">New Workload</string>
     <string name="title_edit_workload">Edit Workload</string>
+    <string name="title_export">Export</string>
 
     <!--Hints-->
     <string name="hint_email">Email</string>
@@ -67,6 +68,7 @@
     <string name="error_passwords_should_be_at_least_6_symbols">Password should be at least 6 symbols</string>
     <string name="error_passwords_should_equals">Password does not match the confirm password</string>
     <string name="error_check_date">Wrong current date on your phone</string>
+    <string name="error_denied">To export data you should accept permission request!</string>
 
     <!--Menu-->
     <string name="menu_workload">Workload</string>
@@ -83,6 +85,7 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_menu">Menu</string>
+    <string name="menu_export">Export</string>
 
     <!--Placeholder-->
     <string name="placeholder_no_reports">No one user found with not standard report..</string>
@@ -105,6 +108,7 @@
     <string name="text_add_project">Add project</string>
     <string name="text_copied">Copied</string>
     <string name="text_immediately_login">Immediately login</string>
+    <string name="text_export">Start exporting</string>
 
     <!--arrays-->
     <string-array name="departments">

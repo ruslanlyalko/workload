@@ -149,8 +149,8 @@ public class DateUtils {
 
     public static Date getFirstDateOfMonth(final Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        calendar.setTime(getStart(date));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTime();
     }
 
