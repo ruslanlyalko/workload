@@ -18,5 +18,6 @@
         <attr name="colorTextPrimary" format="color"/>
         <attr name="colorTextSecondary" format="color"/>
         <attr name="colorTextGray" format="color"/>
+        <attr name="colorTextProject" format="color"/>
     </declare-styleable>
 </resources>

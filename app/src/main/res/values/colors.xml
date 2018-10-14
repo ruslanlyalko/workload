@@ -17,6 +17,7 @@
     <color name="colorTextPrimary">#3f444a</color>
     <color name="colorTextSecondary">#869099</color>
     <color name="colorTextGray">#333f444a</color>
+    <color name="colorTextProject">#3f444a</color>
     <color name="colorStroke">#e9eaef</color>
     <color name="colorIcon">#2a3035</color>
     <color name="colorIconGray">#3f444a</color>
@@ -37,6 +38,7 @@
     <color name="colorTextPrimaryNight">#a8a8a8</color>
     <color name="colorTextSecondaryNight">#a8a8a8</color>
     <color name="colorTextGrayNight">#3b3b3b</color>
+    <color name="colorTextProjectNight">#e7e7e7</color>
     <color name="colorStrokeNight">#2c2c2c</color>
     <color name="colorIconNight">#e7e7e7</color>
     <color name="colorIconGrayNight">#e7e7e7</color>

@@ -32,6 +32,7 @@
         <item name="colorTextPrimary">@color/colorTextPrimary</item>
         <item name="colorTextSecondary">@color/colorTextSecondary</item>
         <item name="colorTextGray">@color/colorTextGray</item>
+        <item name="colorTextProject">@color/colorTextProject</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="editTextStyle">@style/EditTextStyle</item>
     </style>
@@ -68,6 +69,7 @@
         <item name="colorTextPrimary">@color/colorTextPrimaryNight</item>
         <item name="colorTextSecondary">@color/colorTextSecondaryNight</item>
         <item name="colorTextGray">@color/colorTextGrayNight</item>
+        <item name="colorTextProject">@color/colorTextProjectNight</item>
         <item name="android:editTextStyle">@style/EditTextStyleNight</item>
         <item name="editTextStyle">@style/EditTextStyleNight</item>
     </style>
