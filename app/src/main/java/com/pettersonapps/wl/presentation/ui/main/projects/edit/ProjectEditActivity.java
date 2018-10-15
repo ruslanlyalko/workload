@@ -40,8 +40,14 @@ public class ProjectEditActivity extends BaseActivity<ProjectEditPresenter> impl
 
     @OnClick(R.id.button_save)
     public void onClick() {
-        if (TextUtils.isEmpty(mInputTitle.getText()))
+        if (TextUtils.isEmpty(mInputTitle.getText())) {
+            showError(getString(R.string.error_cant_be_empty));
             return;
+        }
+        if (mInputTitle.getText().toString().startsWith("-")) {
+            showError(getString(R.string.error_cant_start_with_dash));
+            return;
+        }
         getPresenter().onSave(mInputTitle.getText().toString());
     }
 

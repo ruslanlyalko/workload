@@ -67,13 +67,13 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
         List<Report> list = new ArrayList<>();
         List<Report> listToday = new ArrayList<>();
         for (Report report : mReports) {
-            if (!mUser.equals("-") && !mUser.equalsIgnoreCase(report.getUserName())) {
+            if (!mUser.startsWith("-") && !mUser.equalsIgnoreCase(report.getUserName())) {
                 continue;
             }
-            if (!mStatus.equals("-") && !mStatus.equalsIgnoreCase(report.getStatus())) {
+            if (!mStatus.startsWith("-") && !mStatus.equalsIgnoreCase(report.getStatus())) {
                 continue;
             }
-            if (!mProject.equals("-")
+            if (!mProject.startsWith("-")
                     && !((mProject.equalsIgnoreCase(report.getP1()) && report.getT1() > 0)
                     || ((mProject.equalsIgnoreCase(report.getP2()) && report.getT2() > 0)
                     || ((mProject.equalsIgnoreCase(report.getP3()) && report.getT2() > 0)
