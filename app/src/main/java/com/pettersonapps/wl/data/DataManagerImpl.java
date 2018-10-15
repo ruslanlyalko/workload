@@ -32,6 +32,7 @@ import static com.pettersonapps.wl.data.Config.DB_HOLIDAYS;
 import static com.pettersonapps.wl.data.Config.DB_PROJECTS;
 import static com.pettersonapps.wl.data.Config.DB_REPORTS;
 import static com.pettersonapps.wl.data.Config.DB_USERS;
+import static com.pettersonapps.wl.data.Config.FIELD_ALLOW_TO_EDIT;
 import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
@@ -221,6 +222,10 @@ public class DataManagerImpl implements DataManager {
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_TOKEN)
                 .removeValue();
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_ALLOW_TO_EDIT)
+                .setValue(false);
         mCurrentUserLiveData = null;
         mAllMyReportsListMutableLiveData = null;
         mAuth.signOut();

@@ -41,6 +41,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                     .addOnFailureListener(e -> getView().hideProgress())
                     .addOnSuccessListener(aVoid -> {
                         mUser.setKey(getAuth().getUid());
+                        mUser.setIsAllowEditPastReports(true);
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
                                     if (getView() == null) return;
