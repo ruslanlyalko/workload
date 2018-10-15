@@ -22,6 +22,7 @@
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackground</item>
         <item name="colorIcon">@color/colorIcon</item>
         <item name="colorIconGray">@color/colorIconGray</item>
+        <item name="colorIconWhite">@color/colorIconWhite</item>
         //
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -35,6 +36,7 @@
         <item name="colorTextProject">@color/colorTextProject</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="editTextStyle">@style/EditTextStyle</item>
+        <item name="drawableMenu">@drawable/ic_menu_gr</item>
     </style>
 
     <!-- Night-->
@@ -59,6 +61,7 @@
         <item name="colorBottomAppBarBackground">@color/colorBottomAppBarBackgroundNight</item>
         <item name="colorIcon">@color/colorIconNight</item>
         <item name="colorIconGray">@color/colorIconGrayNight</item>
+        <item name="colorIconWhite">@color/colorIconWhiteNight</item>
         //
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
@@ -72,6 +75,7 @@
         <item name="colorTextProject">@color/colorTextProjectNight</item>
         <item name="android:editTextStyle">@style/EditTextStyleNight</item>
         <item name="editTextStyle">@style/EditTextStyleNight</item>
+        <item name="drawableMenu">@drawable/ic_menu_b</item>
     </style>
 
     <style name="EditTextStyle" parent="@android:style/Widget.Material.Light.EditText">

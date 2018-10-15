@@ -251,7 +251,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 mImageMenu.setVisibility(View.VISIBLE);
                 hideFab();
                 mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                mFab.setImageResource(R.drawable.ic_add);
+                mFab.setImageResource(R.drawable.ic_add_fab);
             }
         } else {
             hideFab();

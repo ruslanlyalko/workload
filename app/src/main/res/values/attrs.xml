@@ -13,11 +13,14 @@
         <attr name="colorStroke" format="color"/>
         <attr name="colorIcon" format="color"/>
         <attr name="colorIconGray" format="color"/>
+        <attr name="colorIconWhite" format="color"/>
 
         <attr name="colorTextDefault" format="color"/>
         <attr name="colorTextPrimary" format="color"/>
         <attr name="colorTextSecondary" format="color"/>
         <attr name="colorTextGray" format="color"/>
         <attr name="colorTextProject" format="color"/>
+
+        <attr name="drawableMenu" format="reference"/>
     </declare-styleable>
 </resources>
