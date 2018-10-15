@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,28 +55,6 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
         return intent;
     }
 
-    @Override
-    protected Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_project_details;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new ProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(getPresenter().getProject().getTitle());
-        initBarChart();
-        getPresenter().onViewReady();
-    }
-
     private void initBarChart() {
         mBarChart.setNoDataText(getString(R.string.placeholder_no_data));
         mBarChart.setNoDataTextColor(ContextCompat.getColor(this, R.color.colorTextSecondary));
@@ -101,6 +80,12 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
             String[] list = getResources().getStringArray(R.array.departments);
             return list[(int) value];
         });
+        xAxis.setTextColor(ContextCompat.getColor(getContext(),
+                AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+                        ? R.color.colorTextPrimaryNight : R.color.colorTextPrimary));
+        mBarChart.getAxisLeft().setTextColor(ContextCompat.getColor(getContext(),
+                AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+                        ? R.color.colorTextPrimaryNight : R.color.colorTextPrimary));
     }
 
     @OnClick(R.id.button_update)
@@ -150,7 +135,9 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
             data.setBarWidth(0.90f);
             data.setDrawValues(true);
 //             data.setValueFormatter(new LabelValueFormatter());
-            data.setValueTextColor(Color.BLACK);
+            data.setValueTextColor(ContextCompat.getColor(getContext(),
+                    AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+                            ? R.color.colorTextPrimaryNight : R.color.colorTextPrimary));
             set1.setValueTextSize(10f);
             mBarChart.setData(data);
         }
@@ -223,5 +210,27 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_project_details;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new ProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        setToolbarTitle(getPresenter().getProject().getTitle());
+        initBarChart();
+        getPresenter().onViewReady();
     }
 }
