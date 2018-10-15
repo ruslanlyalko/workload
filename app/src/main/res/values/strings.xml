@@ -152,7 +152,7 @@
         <item>Sick leave</item>
     </string-array>
     <string-array name="status_">
-        <item>- status -</item>
+        <item>Status</item>
         <item>Worked on project(s)</item>
         <item>Worked from home</item>
         <item>Working off</item>

@@ -140,7 +140,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             for (Project project : projects) {
                 list.add(project.getTitle());
             }
-            list.add(0, "- project -");
+            list.add(0, CalendarPresenter.KEY_PROJECT);
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, list);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -156,7 +156,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             for (User user : users) {
                 list.add(user.getName());
             }
-            list.add(0, "- user -");
+            list.add(0, CalendarPresenter.KEY_USER);
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, list);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

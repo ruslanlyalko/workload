@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class CalendarPresenter extends BasePresenter<CalendarView> {
 
+    public static final String KEY_USER = "User";
+    public static final String KEY_PROJECT = "Project";
+    private static final String KEY_STATUS = "Status";
     private List<Report> mReports = new ArrayList<>();
     private Date mDate = new Date();
     private String mProject = "-";
@@ -67,13 +70,13 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
         List<Report> list = new ArrayList<>();
         List<Report> listToday = new ArrayList<>();
         for (Report report : mReports) {
-            if (!mUser.startsWith("-") && !mUser.equalsIgnoreCase(report.getUserName())) {
+            if (!mUser.startsWith(KEY_USER) && !mUser.equalsIgnoreCase(report.getUserName())) {
                 continue;
             }
-            if (!mStatus.startsWith("-") && !mStatus.equalsIgnoreCase(report.getStatus())) {
+            if (!mStatus.startsWith(KEY_STATUS) && !mStatus.equalsIgnoreCase(report.getStatus())) {
                 continue;
             }
-            if (!mProject.startsWith("-")
+            if (!mProject.startsWith(KEY_PROJECT)
                     && !((mProject.equalsIgnoreCase(report.getP1()) && report.getT1() > 0)
                     || ((mProject.equalsIgnoreCase(report.getP2()) && report.getT2() > 0)
                     || ((mProject.equalsIgnoreCase(report.getP3()) && report.getT2() > 0)
