@@ -21,6 +21,26 @@ admin.initializeApp();
 		return console.log("Push No Tokens");
 }
 
+
+ exports.turnOffEditMode = functions.https.onRequest((request, response) => {   
+	const usersPromise = admin.database().ref("/USERS").once('value');
+	
+	return usersPromise.then(usersSnap => {
+			var count = 0;
+			usersSnap.forEach(user => {	
+				var userObj = user.val();	
+				
+				if(userObj.isAllowEditPastReports){
+					admin.database().ref(`/USERS/${userObj.key}/isAllowEditPastReports`).set(false);
+					console.log("Changed value for: " + userObj.key);
+					count = count + 1;
+				}
+			});
+			return response.send("Users with enabled edit mode : " + count );	
+
+	});
+ });
+
  exports.checkReports = functions.https.onRequest((request, response) => {   
 	const dateStr = moment().format("YYYYMMDD"); 
 	const hour = parseInt(moment().format("HH"))+3;	
