@@ -25,6 +25,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         getAuth().signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     getDataManager().updateToken();
+                    getDataManager().getMyUser();
                     getView().startMainScreen();
                 })
                 .addOnFailureListener(e -> {

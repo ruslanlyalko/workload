@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.workload.report;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -72,17 +73,15 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     //    private ImageView mCloseBtn;
     private BottomSheetBehavior mSheetBehavior;
 
-    public static Intent getLaunchIntent(final Context activity, User user, Date date, final List<Holiday> holidays) {
+    public static Intent getLaunchIntent(final Context activity, Date date, final List<Holiday> holidays) {
         Intent intent = new Intent(activity, ReportEditActivity.class);
-        intent.putExtra(KEY_USER, user);
         intent.putExtra(KEY_DATE, date);
         intent.putParcelableArrayListExtra(KEY_HOLIDAYS, (ArrayList<? extends Parcelable>) holidays);
         return intent;
     }
 
-    public static Intent getLaunchIntent(final Context activity, User user, Report report, final List<Holiday> holidays) {
+    public static Intent getLaunchIntent(final Context activity, Report report, final List<Holiday> holidays) {
         Intent intent = new Intent(activity, ReportEditActivity.class);
-        intent.putExtra(KEY_USER, user);
         intent.putExtra(KEY_REPORT, report);
         intent.putParcelableArrayListExtra(KEY_HOLIDAYS, (ArrayList<? extends Parcelable>) holidays);
         return intent;
@@ -117,7 +116,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new ReportEditPresenter(intent.getParcelableExtra(KEY_USER), intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE),
+        setPresenter(new ReportEditPresenter(intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE),
                 intent.getParcelableArrayListExtra(KEY_HOLIDAYS)));
     }
 
@@ -320,6 +319,11 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     @Override
     public void showWrongDateOnMobileError() {
         showError(getString(R.string.error_check_date));
+    }
+
+    @Override
+    public void showUser(final MutableLiveData<User> myUser) {
+        myUser.observe(this, user -> getPresenter().setUser(user));
     }
 
     @OnClick({R.id.text_from, R.id.text_to, R.id.image_change_date})

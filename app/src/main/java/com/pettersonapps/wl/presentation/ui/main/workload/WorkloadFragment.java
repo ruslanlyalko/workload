@@ -129,12 +129,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     public void editReport(final User user, final Report report, final List<Holiday> holidays) {
-        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, report, holidays), RC_REPORT);
+        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), report, holidays), RC_REPORT);
     }
 
     @Override
     public void startAddReportScreen(final User user, final Date date, final List<Holiday> holidays) {
-        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, date, holidays), RC_REPORT);
+        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), date, holidays), RC_REPORT);
     }
 
     @Override

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
-    private final User mUser;
+    private  User mUser;
     private final Report mReport;
     private final ArrayList<Holiday> mHolidays;
     private Date mDateTo;
@@ -28,11 +28,8 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     private boolean mAddProjectMode = true;
     private int mPosition;
 
-    ReportEditPresenter(User user, Report report, Date date, ArrayList<Holiday> holidays) {
-        if (user == null)
-            throw new RuntimeException("User can't be empty");
+    ReportEditPresenter( Report report, Date date, ArrayList<Holiday> holidays) {
         mHolidays = holidays;
-        mUser = user;
         if (report == null) {
             report = new Report();
             report.setDate(date);
@@ -47,11 +44,11 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     }
 
     public void onViewReady() {
+        getView().showUser(getDataManager().getMyUser());
         getView().showHoliday(getHoliday(mReport.getDate()));
         getView().showDateFrom(mReport.getDate());
         getView().showDateTo(mDateTo);
         getView().showReportData(mReport);
-        getView().showProjects(mUser.getProjects());
     }
 
     private String getHoliday(final Date date) {
@@ -233,5 +230,10 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         } else {
             getView().changeProject(title, mPosition);
         }
+    }
+
+    public void setUser(final User user) {
+        mUser = user;
+        getView().showProjects(mUser.getProjects());
     }
 }

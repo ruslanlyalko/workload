@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
+import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseView;
 
 import java.util.Date;
@@ -46,4 +47,6 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
     void changeProject(String title, int position);
 
     void showWrongDateOnMobileError();
+
+    void showUser(MutableLiveData<User> myUser);
 }
