@@ -11,6 +11,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Project;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,6 +44,7 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
             if (getDataIndex(pr.getTitle()) != -1)
                 projects.add(pr);
         }
+        Collections.sort(projects, (o1, o2) -> o1.getTitle().compareTo(o2.getTitle()));
         return projects;
     }
 
