@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
@@ -22,6 +24,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
 
     @BindView(R.id.spinner_notification) Spinner mSpinnerNotification;
     @BindView(R.id.switch_night_mode) Switch mSwitchNightMode;
+    @BindView(R.id.text_version) TextView mTextVersion;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -63,6 +66,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             startActivity(MainActivity.getLaunchIntent(getContext(), true));
             getBaseActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
+        mTextVersion.setText(getString(R.string.version_name, BuildConfig.VERSION_NAME));
         getPresenter().onViewReady();
     }
 

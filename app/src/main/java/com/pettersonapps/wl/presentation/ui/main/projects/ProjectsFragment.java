@@ -104,11 +104,11 @@ public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements
 
     @Override
     public void onItemClicked(final View view, final int position) {
-        startActivity(ProjectDetailsActivity.getLaunchIntent(getContext(), mAdapter.getData().get(position)));
+        startActivity(ProjectDetailsActivity.getLaunchIntent(getContext(), mAdapter.getDataFiltered().get(position)));
     }
 
     @Override
     public void onItemLongClicked(final View view, final int position) {
-        startActivity(ProjectEditActivity.getLaunchIntent(getContext(), mAdapter.getData().get(position)));
+        startActivity(ProjectEditActivity.getLaunchIntent(getContext(), mAdapter.getDataFiltered().get(position)));
     }
 }

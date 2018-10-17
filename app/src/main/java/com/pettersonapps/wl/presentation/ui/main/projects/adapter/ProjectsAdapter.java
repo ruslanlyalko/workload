@@ -39,6 +39,10 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         return mData;
     }
 
+    public List<Project> getDataFiltered() {
+        return mDataFiltered;
+    }
+
     public void setData(final List<Project> data) {
         mData = data;
         mDataFiltered = data;

@@ -15,8 +15,8 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.add.UserAddActivity;
-import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.List;
@@ -105,11 +105,11 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
 
     @Override
     public void onItemClicked(final View view, final int position) {
-        startActivity(UserDetailsActivity.getLaunchIntent(getContext(), mAdapter.getData().get(position)));
+        startActivity(UserDetailsActivity.getLaunchIntent(getContext(), mAdapter.getDataFiltered().get(position)));
     }
 
     @Override
     public void onItemLongClicked(final View view, final int position) {
-        startActivity(UserEditActivity.getLaunchIntent(getContext(), mAdapter.getData().get(position)));
+        startActivity(UserEditActivity.getLaunchIntent(getContext(), mAdapter.getDataFiltered().get(position)));
     }
 }
