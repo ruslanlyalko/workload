@@ -102,6 +102,7 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
 
         public void bind(final Project project) {
             mSwitch.setText(project.getTitle());
+            mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(getIndex(project.getTitle()) != -1);
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
