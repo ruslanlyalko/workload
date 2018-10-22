@@ -22,6 +22,7 @@ import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import java.util.List;
 
 import butterknife.BindView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class UsersFragment extends BaseFragment<UsersPresenter> implements UsersView, OnItemClickListener {
 
@@ -90,6 +91,7 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
         mAdapter = new UsersAdapter(this);
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerUsers.setAdapter(mAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerUsers, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }
 

@@ -21,6 +21,7 @@ import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import java.util.List;
 
 import butterknife.BindView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements ProjectsView, OnItemClickListener {
 
@@ -89,6 +90,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements
         mAdapter = new ProjectsAdapter(this);
         mRecyclerProjects.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerProjects.setAdapter(mAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerProjects, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }
 

@@ -19,6 +19,7 @@ import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import java.util.List;
 
 import butterknife.BindView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class HolidaysFragment extends BaseFragment<HolidaysPresenter> implements HolidaysView, OnItemClickListener {
 
@@ -64,6 +65,7 @@ public class HolidaysFragment extends BaseFragment<HolidaysPresenter> implements
         mAdapter = new HolidaysAdapter(this);
         mRecyclerHolidays.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerHolidays.setAdapter(mAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerHolidays, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }
 
