@@ -11,6 +11,7 @@
         <attr name="colorBackgroundMenuItem" format="color"/>
         <attr name="colorDivider" format="color"/>
         <attr name="colorStroke" format="color"/>
+        <attr name="colorInputBorder" format="color"/>
         <attr name="colorIcon" format="color"/>
         <attr name="colorIconGray" format="color"/>
         <attr name="colorIconWhite" format="color"/>

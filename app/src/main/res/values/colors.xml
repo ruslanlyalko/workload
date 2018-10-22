@@ -22,6 +22,7 @@
     <color name="colorIcon">#2a3035</color>
     <color name="colorIconGray">#3f444a</color>
     <color name="colorIconWhite">#fff</color>
+    <color name="colorInputBorder">#e9eaef</color>
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
@@ -44,6 +45,7 @@
     <color name="colorIconNight">#e7e7e7</color>
     <color name="colorIconGrayNight">#e7e7e7</color>
     <color name="colorIconWhiteNight">#e7e7e7</color>
+    <color name="colorInputBorderNight">#5c5c5c</color>
     <!-- - -->
 
     <color name="colorWhite">#ffffff</color>
@@ -74,5 +76,5 @@
         <item>#55ede3</item>
         <item>#b1b1b1</item>
     </array>
-
+    <color name="mtrl_textinput_default_box_stroke_color">#8f8e8e</color>
 </resources>
