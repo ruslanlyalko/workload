@@ -6,7 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.autofill.AutofillManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,15 +24,50 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
 
-    @BindView(R.id.title) TextView mTitle;
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
     @BindView(R.id.button_login) SquareButton mButtonLogin;
     @BindView(R.id.progress) ProgressBar mProgress;
     @BindView(R.id.text_forgot) TextView mTextForgot;
+    @BindView(R.id.layout_root) LinearLayout mLayoutRoot;
+    @BindView(R.id.image_logo) ImageView mImageLogo;
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, LoginActivity.class);
+    }
+
+    @Override
+    protected boolean alwaysNight() {
+        return true;
+    }
+
+    @Override
+    protected boolean hasHomeButton() {
+        return false;
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new LoginPresenter());
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        getPresenter().onViewReady();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_login);
+        mLayoutRoot.startAnimation(animation);
+        Animation animationLogo = AnimationUtils.loadAnimation(this, R.anim.anim_login_logo);
+        mImageLogo.startAnimation(animationLogo);
     }
 
     @OnClick(R.id.button_login)
@@ -74,27 +113,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void hideProgress() {
         mButtonLogin.showProgress(false);
         mProgress.setVisibility(View.GONE);
-    }
-
-    @Override
-    protected boolean hasHomeButton() {
-        return false;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_login;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new LoginPresenter());
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        mTitle.setText(R.string.app_name);
-        getPresenter().onViewReady();
     }
 
     @OnClick(R.id.text_forgot)

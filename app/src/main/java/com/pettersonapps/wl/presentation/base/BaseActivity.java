@@ -38,7 +38,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (alwaysNight() || AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.AppTheme_Dark);
         }
         super.onCreate(savedInstanceState);
@@ -68,6 +68,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             mUnbinder.unbind();
         super.onDestroy();
     }
+
+    ;
+
+    protected boolean alwaysNight() {return false;}
 
     @Override
     protected void attachBaseContext(final Context newBase) {
