@@ -32,6 +32,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.layout_root) LinearLayout mLayoutRoot;
     @BindView(R.id.image_logo) ImageView mImageLogo;
 
+    boolean isShowedAnimation;
+
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, LoginActivity.class);
     }
@@ -64,10 +66,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onStart() {
         super.onStart();
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_login);
-        mLayoutRoot.startAnimation(animation);
-        Animation animationLogo = AnimationUtils.loadAnimation(this, R.anim.anim_login_logo);
-        mImageLogo.startAnimation(animationLogo);
+        if (!isShowedAnimation) {
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_login);
+            mLayoutRoot.startAnimation(animation);
+            Animation animationLogo = AnimationUtils.loadAnimation(this, R.anim.anim_login_logo);
+            mImageLogo.startAnimation(animationLogo);
+            isShowedAnimation = true;
+        }
     }
 
     @OnClick(R.id.button_login)
