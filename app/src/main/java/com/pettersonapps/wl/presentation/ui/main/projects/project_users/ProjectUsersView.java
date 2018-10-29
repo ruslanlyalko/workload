@@ -17,4 +17,7 @@ public interface ProjectUsersView extends BaseView<ProjectUsersPresenter> {
     void showProjects(MutableLiveData<List<User>> users);
 
     void showMyProjects(Project projects);
+
+    void afterSuccessSaving();
+
 }

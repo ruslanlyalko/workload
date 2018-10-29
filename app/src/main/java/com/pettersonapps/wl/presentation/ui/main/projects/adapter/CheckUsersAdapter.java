@@ -12,6 +12,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,6 +26,7 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
 
     private List<User> mData = new ArrayList<>();
     private Project mCurrentProject = new Project();
+    private List<User> mDataChanged = new ArrayList<>();
 
     public CheckUsersAdapter() {
     }
@@ -37,15 +39,10 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
         mData = data;
         notifyDataSetChanged();
     }
-//    public List<User> getDataChecked() {
-//        List<User> projects = new ArrayList<>();
-//        for (User pr : mCurrentProject) {
-//            if (getDataIndex(pr.getName()) != -1)
-//                projects.add(pr);
-//        }
-//        Collections.sort(projects, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-//        return projects;
-//    }
+
+    public List<User> getChangedUsers() {
+        return mDataChanged;
+    }
 
     public void setCurrentProject(final Project data) {
         mCurrentProject = data;
@@ -83,14 +80,14 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
         }
         return -1;
     }
-
-    private int getDataIndex(String title) {
-        for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).getName().equals(title))
-                return i;
-        }
-        return -1;
-    }
+//
+//    private int getDataIndex(String title) {
+//        for (int i = 0; i < mData.size(); i++) {
+//            if (mData.get(i).getName().equals(title))
+//                return i;
+//        }
+//        return -1;
+//    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -106,17 +103,29 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
             mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(getIndex(user.getProjects()) != -1);
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//                if (isChecked) {
-//                    if (getIndex(user.getProjects()) == -1) {
-//                        mCurrentProject.add(user);
-//                    }
-//                } else {
-//                    int ind = getIndex(user.getName());
-//                    if (ind != -1) {
-//                        mCurrentProject.remove(ind);
-//                    }
-//                }
+                if (isChecked) {
+                    if (getIndex(user.getProjects()) == -1) {
+                        user.getProjects().add(mCurrentProject);
+                        Collections.sort(user.getProjects(), (p1, p2) -> p1.getTitle().compareTo(p2.getTitle()));
+                        addUserToUserWithChangedProject(user);
+                    }
+                } else {
+                    int ind = getIndex(user.getProjects());
+                    if (ind != -1) {
+                        user.getProjects().remove(ind);
+                    }
+                    addUserToUserWithChangedProject(user);
+                }
             });
         }
+    }
+
+    private void addUserToUserWithChangedProject(final User user) {
+        for (int i = 0; i < mDataChanged.size(); i++) {
+            if (mDataChanged.get(i).getName().equals(user.getName())) {
+                return;
+            }
+        }
+        mDataChanged.add(user);
     }
 }

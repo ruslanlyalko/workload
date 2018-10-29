@@ -47,6 +47,12 @@ public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> im
     }
 
     @Override
+    public void afterSuccessSaving() {
+        showMessage(getString(R.string.text_report_saved));
+        onBackPressed();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_project_users, menu);
         return super.onCreateOptionsMenu(menu);
@@ -55,7 +61,7 @@ public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> im
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-//            getPresenter().onSave(mCheckProjectsAdapter.get());
+            getPresenter().onSave(mCheckProjectsAdapter.getChangedUsers());
             return true;
         }
         return super.onOptionsItemSelected(item);

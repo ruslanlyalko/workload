@@ -24,6 +24,9 @@ public class ProjectUsersPresenter extends BasePresenter<ProjectUsersView> {
     }
 
     public void onSave(List<User> list) {
-        // todo
+        for (User user : list) {
+            getDataManager().saveUser(user);
+        }
+        getView().afterSuccessSaving();
     }
 }
