@@ -83,6 +83,21 @@
                 tools:text="Person birth" />
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorDivider" />
+
+            <TextView
+                android:id="@+id/text_projects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextProject"
+                android:textSize="16sp"
+                tools:text="Projects" />
+
+            <View
                 android:id="@+id/divider_comments"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

@@ -49,6 +49,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".presentation.ui.main.projects.project_users.ProjectUsersActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".presentation.ui.main.holidays.edit.HolidayEditActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

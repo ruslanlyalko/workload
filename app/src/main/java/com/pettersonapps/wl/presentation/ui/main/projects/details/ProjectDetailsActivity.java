@@ -26,6 +26,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.projects.edit.ProjectEditActivity;
+import com.pettersonapps.wl.presentation.ui.main.projects.project_users.ProjectUsersActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -207,6 +208,10 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_edit) {
             startActivityForResult(ProjectEditActivity.getLaunchIntent(this, getPresenter().getProject()), RC_PROJECT_EDIT);
+            return true;
+        }
+        if (item.getItemId() == R.id.action_user_projects) {
+            startActivity(ProjectUsersActivity.getLaunchIntent(this, getPresenter().getProject()));
             return true;
         }
         return super.onOptionsItemSelected(item);

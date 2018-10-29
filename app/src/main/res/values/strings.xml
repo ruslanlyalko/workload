@@ -15,6 +15,7 @@
     <string name="title_vacations">Vacations &amp; Sick Leave</string>
     <string name="title_user_details">User Details</string>
     <string name="title_user_projects">User Projects</string>
+    <string name="title_project_users">Project Users</string>
     <string name="title_new_workload">New Workload</string>
     <string name="title_edit_workload">Edit Workload</string>
     <string name="title_export">Export</string>
@@ -93,7 +94,8 @@
     <string name="placeholder_no_data">Press \'Get Project Info\' to see data on Chart</string>
     <string name="placeholder_no_users">Seems like all users have reports..</string>
     <string name="placeholder_no_vacations">No vacations yet..</string>
-    <string name="placeholder_no_projects">No projects. Please contact Administrator</string>
+    <string name="placeholder_no_projects_contact_admin">No projects. Please contact Administrator</string>
+    <string name="placeholder_no_projects">No projects are selected</string>
 
     <!--Others-->
     <string name="action_delete">Delete</string>

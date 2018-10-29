@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
@@ -48,9 +49,10 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_common) TextView mTextCommon;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
-    @BindDimen(R.dimen.margin_mini) int mElevation;
     @BindView(R.id.divider_comments) View mDividerComments;
     @BindView(R.id.text_comments) TextView mTextComments;
+    @BindView(R.id.text_projects) TextView mTextProjects;
+    @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsAdapter mReportsAdapter;
 
     public static Intent getLaunchIntent(final Context context, User user) {
@@ -101,6 +103,16 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mDividerComments.setVisibility(View.VISIBLE);
         }
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
+        if (user.getProjects().isEmpty()) {
+            mTextProjects.setText(R.string.placeholder_no_projects);
+        } else {
+            String projects = "";
+            for (Project p : user.getProjects()) {
+                if (!projects.isEmpty()) projects = projects.concat(", ");
+                projects = projects.concat(p.getTitle());
+            }
+            mTextProjects.setText(projects);
+        }
     }
 
     private String getDayOfMonthSuffix(final int n) {
@@ -117,6 +129,11 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             default:
                 return "th";
         }
+    }
+
+    @OnClick(R.id.text_projects)
+    void onProjectsClicked() {
+        startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
     }
 
     @OnClick({R.id.text_email, R.id.text_phone})
@@ -156,7 +173,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_user_projects) {
-            startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
+            onProjectsClicked();
             return true;
         }
         if (item.getItemId() == R.id.action_edit) {

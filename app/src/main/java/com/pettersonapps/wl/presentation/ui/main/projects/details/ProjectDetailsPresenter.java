@@ -22,7 +22,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
     }
 
     public void onViewReady() {
-        mFrom = DateUtils.get1DaysAgo().getTime();
+        mFrom = DateUtils.getFirstDateOfMonth(new Date());
         mTo = DateUtils.getYesterday().getTime();
         getView().showFrom(mFrom);
         getView().showTo(mTo);

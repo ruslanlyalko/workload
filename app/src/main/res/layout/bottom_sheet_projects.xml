@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/placeholder_no_projects"
+        android:text="@string/placeholder_no_projects_contact_admin"
         android:textAppearance="@style/TextAppearance.Body2"
         android:textColor="?attr/colorTextSecondary"
         android:textSize="14sp"
