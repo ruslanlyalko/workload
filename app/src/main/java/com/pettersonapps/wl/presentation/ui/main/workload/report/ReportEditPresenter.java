@@ -20,15 +20,15 @@ import java.util.List;
  */
 public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
-    private  User mUser;
     private final Report mReport;
     private final ArrayList<Holiday> mHolidays;
+    private User mUser;
     private Date mDateTo;
     private boolean mDateStateOneDay = true;
     private boolean mAddProjectMode = true;
     private int mPosition;
 
-    ReportEditPresenter( Report report, Date date, ArrayList<Holiday> holidays) {
+    ReportEditPresenter(Report report, Date date, ArrayList<Holiday> holidays) {
         mHolidays = holidays;
         if (report == null) {
             report = new Report();
@@ -106,6 +106,19 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             getView().errorCantBeMoreThan16();
             return;
         }
+        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().before(DateUtils.get1DaysAgo().getTime())) {
+            getView().showWrongDateOnMobileError();
+            return;
+        }
+        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1MonthForward().getTime())) {
+            getView().showWrongDateOnMobileError();
+            return;
+        }
+        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+                && !(status.startsWith("Day") || status.startsWith("Vacation"))) {
+            getView().showWrongDateOnMobileError();
+            return;
+        }
         getView().showProgress();
         mReport.setUserId(mUser.getKey());
         mReport.setUserName(mUser.getName());
@@ -181,6 +194,11 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         return mUser;
     }
 
+    public void setUser(final User user) {
+        mUser = user;
+        getView().showProjects(mUser.getProjects());
+    }
+
     public Report getReport() {
         return mReport;
     }
@@ -230,10 +248,5 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         } else {
             getView().changeProject(title, mPosition);
         }
-    }
-
-    public void setUser(final User user) {
-        mUser = user;
-        getView().showProjects(mUser.getProjects());
     }
 }
