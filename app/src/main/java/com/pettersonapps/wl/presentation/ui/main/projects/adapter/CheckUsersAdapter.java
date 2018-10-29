@@ -123,7 +123,8 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
     private void addUserToUserWithChangedProject(final User user) {
         for (int i = 0; i < mDataChanged.size(); i++) {
             if (mDataChanged.get(i).getName().equals(user.getName())) {
-                return;
+                mDataChanged.remove(i);
+                break;
             }
         }
         mDataChanged.add(user);
