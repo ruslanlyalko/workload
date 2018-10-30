@@ -28,6 +28,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     public void saveUserNotificationSettings(final String notificationHour) {
         if (mUser == null || TextUtils.isEmpty(notificationHour)) return;
         mUser.setNotificationHour(notificationHour.split(":")[0]);
+        mUser.setRemindMeAt(notificationHour);
         getDataManager().saveUser(mUser);
     }
 }

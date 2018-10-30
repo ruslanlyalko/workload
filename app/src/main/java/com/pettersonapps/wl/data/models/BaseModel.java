@@ -24,14 +24,6 @@ public class BaseModel implements Parcelable {
     public BaseModel() {}
 
     @Override
-    public int describeContents() { return 0; }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {dest.writeString(this.key);}
-
-    protected BaseModel(Parcel in) {this.key = in.readString();}
-
-    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof BaseModel)) return false;
@@ -43,4 +35,12 @@ public class BaseModel implements Parcelable {
     public int hashCode() {
         return Objects.hash(getKey());
     }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {dest.writeString(this.key);}
+
+    protected BaseModel(Parcel in) {this.key = in.readString();}
 }

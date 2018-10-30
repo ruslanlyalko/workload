@@ -21,6 +21,7 @@ public class User extends BaseModel {
     private Date birthday;
     private Date firstWorkingDate;
     private String notificationHour;
+    private String remindMeAt;
     private String token;
     private boolean isAllowEditPastReports;
     private boolean isBlocked;
@@ -32,10 +33,19 @@ public class User extends BaseModel {
         firstWorkingDate = new Date();
         birthday = new Date();
         notificationHour = "18";
+        remindMeAt = "18:00";
         skype = "";
         phone = "";
         comments = "";
         projects = new ArrayList<>();
+    }
+
+    public String getRemindMeAt() {
+        return remindMeAt;
+    }
+
+    public void setRemindMeAt(final String remindMeAt) {
+        this.remindMeAt = remindMeAt;
     }
 
     public boolean getIsAllowEditPastReports() {
@@ -173,6 +183,7 @@ public class User extends BaseModel {
         dest.writeLong(this.birthday != null ? this.birthday.getTime() : -1);
         dest.writeLong(this.firstWorkingDate != null ? this.firstWorkingDate.getTime() : -1);
         dest.writeString(this.notificationHour);
+        dest.writeString(this.remindMeAt);
         dest.writeString(this.token);
         dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
@@ -194,6 +205,7 @@ public class User extends BaseModel {
         long tmpFirstWorkingDate = in.readLong();
         this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
         this.notificationHour = in.readString();
+        this.remindMeAt = in.readString();
         this.token = in.readString();
         this.isAllowEditPastReports = in.readByte() != 0;
         this.isBlocked = in.readByte() != 0;
