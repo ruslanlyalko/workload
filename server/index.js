@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const admin = require('firebase-admin');
 admin.initializeApp();
 // // Create and Deploy Your First Cloud Functions
@@ -40,12 +40,14 @@ admin.initializeApp();
 
 	});
  });
-
- exports.checkReports = functions.https.onRequest((request, response) => {   
+ 
+ exports.reminder = functions.https.onRequest((request, response) => {   
 	const dateStr = moment().format("YYYYMMDD"); 
-	const hour = parseInt(moment().format("HH"))+3;	
-	const hourStr = hour.toString();
-	const reportsPromise = admin.database().ref("/REPORTS").once('value');
+	const dateFrom = moment(dateStr, "YYYYMMDD");
+	const hourStr = moment().tz('Europe/Kiev').format("HH");
+	const minuteStr = moment().tz('Europe/Kiev').format("mm");
+	const hourAndTimeStr = moment().tz('Europe/Kiev').format("HH:mm");
+	const reportsPromise = admin.database().ref("/REPORTS").orderByKey().limitToLast(300).once('value');
 	const usersPromise = admin.database().ref("/USERS").once('value');
 	const holidaysPromise = admin.database().ref("/HOLIDAYS").once('value');
   
@@ -61,22 +63,36 @@ admin.initializeApp();
 		
 		var tokens = [];
 		var count = 0;
+		var sentCount = 0;
 		var missedCount = 0;
 			
 		usersSnap.forEach(user => {	
 			var userObj = user.val();
-			var aKey = dateStr + "_" + userObj.key;
-			console.log("checking ", aKey);	
+			var aKey = dateStr + "_" + userObj.key;			
 			if(reportsSnap.child(aKey).val()){ 
 				count  = count + 1;
-				console.log("found ", userObj.name);
+				console.log("FOUND ", userObj.name + " (" + aKey+ ")");
 			}else{
 				missedCount = missedCount + 1;
-				console.log("missed ", userObj.name + " (" +userObj.token+")");
-				if(userObj.token ){				
-					console.log(userObj.notificationHour, hourStr);		
-					if(userObj.notificationHour === hourStr){
+				console.log("MISSEDD ", userObj.name + " (" + aKey+ ")");
+				if(userObj.remindMeAt){
+					if(userObj.remindMeAt === hourAndTimeStr){
+						console.log("USER REMIND ME AT SETTINGS ", userObj.remindMeAt);
+						if(userObj.token ){
+							sentCount  = sentCount + 1;
+							tokens.push(userObj.token);
+						}else{
+							console.log("USER TOKEN IS EMPTY");
+						}
+					}
+					
+				}else if(userObj.notificationHour === hourStr && minuteStr === "00"){
+					console.log("USER HOUR SETTINGS ", userObj.notificationHour);
+					if(userObj.token ){
+						sentCount  = sentCount + 1;
 						tokens.push(userObj.token);
+					}else{
+						console.log("USER TOKEN IS EMPTY");
 					}
 				}
 			}
@@ -85,16 +101,19 @@ admin.initializeApp();
 		var payload = {
 			data:{
 				title: "It's time to fill in the Workload!",
-				body: "It won't take more than one minute"
+				body: "It won't take more than one minute",
+				type: "reminder"
 			}			
 		}	
 
-		console.log("Reports Count : " + count + "; Missed Count " + missedCount);
-		response.send("Reports Count : " + count + "; Missed Count " + missedCount);	
+		console.log("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads: " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);
+		response.send("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads : " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);	
 		
 		return sendMessagesViaFCM(tokens, payload);		
 	});  
  });
+
+
 
  exports.getProjectInfo = functions.https.onCall((data, context) => {
 	// Checking that the user is authenticated.

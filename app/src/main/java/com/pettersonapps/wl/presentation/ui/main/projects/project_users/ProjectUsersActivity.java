@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> implements ProjectUsersView {
 
@@ -88,6 +89,7 @@ public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> im
         mCheckProjectsAdapter = new CheckUsersAdapter();
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerUsers.setAdapter(mCheckProjectsAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerUsers, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         mRecyclerUsers.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
