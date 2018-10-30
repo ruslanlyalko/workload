@@ -477,6 +477,7 @@ public class DataManagerImpl implements DataManager {
         return result;
     }
 
+
     private int getTotalHoursSpent(final Report report) {
         return report.getT1() + report.getT2() + report.getT3() + report.getT4();
     }

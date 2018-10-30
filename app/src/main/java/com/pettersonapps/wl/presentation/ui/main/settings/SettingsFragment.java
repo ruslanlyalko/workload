@@ -84,7 +84,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     public void populateUserSettings(User user) {
         String[] list = getResources().getStringArray(R.array.notification_hours);
         for (int i = 0; i < list.length; i++) {
-            if (list[i].startsWith(user.getNotificationHour())) {
+            if (list[i].startsWith(user.getRemindMeAt())) {
                 mSpinnerNotification.setSelection(i);
                 break;
             }
