@@ -9,9 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -31,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class CalendarFragment extends BaseFragment<CalendarPresenter> implements CalendarView {
 
@@ -40,7 +44,10 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
+    @BindView(R.id.text_month) TextSwitcher mTextMonth;
+
     private ReportsAdapter mReportsAdapter;
+    private Date mPrevDate = new Date();
 
     public static CalendarFragment newInstance() {
         Bundle args = new Bundle();
@@ -78,6 +85,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_calendar);
+        mTextMonth.setText(DateUtils.getMonth(new Date()));
         setupCalendar();
         setupAdapters();
         setupSpinners();
@@ -126,10 +134,27 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
 
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
-                setToolbarTitle(getString(R.string.title_calendar) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
                 getPresenter().fetchReportsForMonth(firstDayOfNewMonth, DateUtils.getLastDateOfMonth(firstDayOfNewMonth));
+                setNewDate(firstDayOfNewMonth);
             }
         });
+    }
+
+    private void setNewDate(Date newDate) {
+        if (DateUtils.dateEquals(newDate, mPrevDate)) return;
+        if (newDate.before(mPrevDate)) {
+            Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        } else {
+            Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+            Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        }
+        mTextMonth.setText(DateUtils.getMonth(newDate));
+        mPrevDate = newDate;
     }
 
     @Override
@@ -185,5 +210,13 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     public void showReportsOnList(final List<Report> list) {
         mReportsAdapter.setData(list);
+    }
+
+    @OnClick({R.id.title, R.id.text_month})
+    public void onClick() {
+        Date today = new Date();
+        mCalendarView.setCurrentDate(today);
+        setNewDate(today);
+        getPresenter().fetchReportsForMonth(DateUtils.getFirstDateOfMonth(today), DateUtils.getLastDateOfMonth(today));
     }
 }

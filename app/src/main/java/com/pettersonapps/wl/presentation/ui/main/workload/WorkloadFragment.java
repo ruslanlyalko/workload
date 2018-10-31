@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +45,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
+    @BindView(R.id.text_month) TextSwitcher mTextMonth;
 
     private ReportsAdapter mReportsAdapter;
+    private Date mPrevDate = new Date();
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -64,9 +69,26 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
-                setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
+                setNewDate(firstDayOfNewMonth);
             }
         });
+    }
+
+    private void setNewDate(Date newDate) {
+        if (DateUtils.dateEquals(newDate, mPrevDate)) return;
+        if (newDate.before(mPrevDate)) {
+            Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        } else {
+            Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+            Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        }
+        mTextMonth.setText(DateUtils.getMonth(newDate));
+        mPrevDate = newDate;
     }
 
     @Override
@@ -226,10 +248,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         getPresenter().onFabClicked();
     }
 
-    @OnClick(R.id.title)
+    @OnClick({R.id.title, R.id.text_month})
     public void onClick() {
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());
-        setToolbarTitle(getString(R.string.app_name));
+        setNewDate(new Date());
     }
 }
