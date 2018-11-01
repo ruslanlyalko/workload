@@ -14,4 +14,10 @@
         android:title="@string/menu_date"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_email"
+        android:icon="@drawable/ic_email"
+        android:title="@string/menu_email"
+        app:showAsAction="ifRoom" />
+
 </menu>

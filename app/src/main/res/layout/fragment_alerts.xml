@@ -10,16 +10,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_title" />
+            <include
+                android:id="@+id/title"
+                layout="@layout/layout_title" />
+
+            <TextSwitcher
+                android:id="@+id/text_date"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/title"
+                android:layout_alignParentEnd="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="13sp"
+                    tools:text="Tue, Oct 12" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="13sp"
+                    tools:text="MARCH" />
+
+            </TextSwitcher>
 
             <LinearLayout
+                android:id="@+id/layout_no_standard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/title"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
@@ -54,14 +89,18 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/layout_no_standard"
                 android:background="?attr/colorDivider"
                 />
 
             <LinearLayout
+                android:id="@+id/layout_without"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
                 android:orientation="vertical">
 
                 <TextView
@@ -95,10 +134,12 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:layout_below="@id/layout_without"
                 />
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

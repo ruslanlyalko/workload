@@ -10,6 +10,7 @@ public interface Config {
     String DB_REPORTS = "REPORTS";
     String DB_PROJECTS = "PROJECTS";
     String DB_HOLIDAYS = "HOLIDAYS";
+    String DB_SETTINGS = "SETTINGS";
     //
     String FIELD_TITLE = "title";
     String FIELD_NAME = "name";

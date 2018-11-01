@@ -49,6 +49,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     private ReportsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
+    private String mPrevDateStr = "";
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -75,7 +76,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setNewDate(Date newDate) {
-        if (DateUtils.dateEquals(newDate, mPrevDate)) return;
+        String month = DateUtils.getMonth(newDate);
+        if (month.equals(mPrevDateStr)) return;
         if (newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
@@ -87,7 +89,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             mTextMonth.setInAnimation(in);
             mTextMonth.setOutAnimation(out);
         }
-        mTextMonth.setText(DateUtils.getMonth(newDate));
+        mTextMonth.setText(month);
+        mPrevDateStr = month;
         mPrevDate = newDate;
     }
 

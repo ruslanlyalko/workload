@@ -3,6 +3,7 @@ package com.pettersonapps.wl.data;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
@@ -65,4 +66,8 @@ public interface DataManager {
     MutableLiveData<List<Report>> getAllWrongReports(Date date);
 
     MutableLiveData<List<Report>> getVacationReports(final User user);
+
+    MutableLiveData<AppSettings>getSettings();
+
+    Task<Void>  setSettings(AppSettings settings);
 }

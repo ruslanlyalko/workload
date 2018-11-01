@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.alerts;
 
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 public class AlertsPresenter extends BasePresenter<AlertsView> {
 
     private Date mDate = new Date();
+    private AppSettings mSettings = new AppSettings();
 
     AlertsPresenter() {
     }
@@ -32,6 +34,7 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
         setDate(date);
         getView().showReports(getDataManager().getAllWrongReports(mDate));
         getView().showUsers(getDataManager().getAllUsersWithoutReports(mDate));
+        getView().showSettings(getDataManager().getSettings());
     }
 
     public Date getDate() {
@@ -41,5 +44,21 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
     public void setDate(final Date date) {
         mDate = date;
         getView().showDate(date);
+    }
+
+    public void changeEmail(final String newEmail) {
+        mSettings.setNotificationEmail(newEmail);
+        getDataManager().setSettings(mSettings).addOnSuccessListener(aVoid -> {
+            if (getView() != null)
+                getView().showMessage("Saved");
+        });
+    }
+
+    public String getEmail() {
+        return mSettings.getNotificationEmail();
+    }
+
+    public void setSettings(final AppSettings settings) {
+        mSettings = settings;
     }
 }

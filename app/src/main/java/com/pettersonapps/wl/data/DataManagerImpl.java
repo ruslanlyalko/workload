@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
@@ -31,6 +32,7 @@ import java.util.Map;
 import static com.pettersonapps.wl.data.Config.DB_HOLIDAYS;
 import static com.pettersonapps.wl.data.Config.DB_PROJECTS;
 import static com.pettersonapps.wl.data.Config.DB_REPORTS;
+import static com.pettersonapps.wl.data.Config.DB_SETTINGS;
 import static com.pettersonapps.wl.data.Config.DB_USERS;
 import static com.pettersonapps.wl.data.Config.FIELD_ALLOW_TO_EDIT;
 import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
@@ -55,6 +57,7 @@ public class DataManagerImpl implements DataManager {
     private MutableLiveData<List<User>> mAllUsersListLiveData;
     private MutableLiveData<List<Project>> mAllProjectsListMutableLiveData;
     private MutableLiveData<List<Holiday>> mHolidaysListMutableLiveData;
+    private MutableLiveData<AppSettings> mSettingsLiveData;
 
     private DataManagerImpl() {
         mAuth = FirebaseAuth.getInstance();
@@ -477,6 +480,33 @@ public class DataManagerImpl implements DataManager {
         return result;
     }
 
+    @Override
+    public MutableLiveData<AppSettings> getSettings() {
+        if (mSettingsLiveData != null) return mSettingsLiveData;
+        mSettingsLiveData = new MutableLiveData<>();
+        mDatabase.getReference(DB_SETTINGS)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getSettings:onDataChange");
+                        AppSettings value = dataSnapshot.getValue(AppSettings.class);
+                        if (value == null)
+                            value = new AppSettings();
+                        if (mSettingsLiveData != null)
+                            mSettingsLiveData.postValue(value);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        return mSettingsLiveData;
+    }
+
+    @Override
+    public Task<Void> setSettings(final AppSettings settings) {
+        return mDatabase.getReference(DB_SETTINGS).setValue(settings);
+    }
 
     private int getTotalHoursSpent(final Report report) {
         return report.getT1() + report.getT2() + report.getT3() + report.getT4();
