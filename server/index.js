@@ -22,6 +22,75 @@ admin.initializeApp();
 }
 
 
+ exports.yesterdayReminder = functions.https.onRequest((request, response) => {   
+ //	const key = req.query.key;
+	//firebase functions:config:set cron.key="somecoolkey"
+	// Exit if the keys don't match.
+//	if (key !== functions.config().cron.key) {
+//		console.log('The key provided in the request does not match the key set in the environment. Check that', key,
+//			'matches the cron.key attribute in `firebase env:get`');
+//		res.status(403).send('Security key does not match. Make sure your "key" URL query parameter matches the ' +
+//			'cron.key environment variable.');
+//		return null;
+//	}
+	const days = request.query.days;	
+	const type = request.query.type;
+	var message = "fill in the workload for yesterday!"
+	if(type === "last"){
+		message = "last chance to fill in the workload for yesterday!"
+	}
+	const dateStr = moment().subtract(days, 'day').format("YYYYMMDD"); 
+	const reportsPromise = admin.database().ref("/REPORTS").orderByKey().limitToLast(300).once('value');
+	const usersPromise = admin.database().ref("/USERS").once('value');
+	const holidaysPromise = admin.database().ref("/HOLIDAYS").once('value');
+  
+	return Promise.all([reportsPromise, usersPromise, holidaysPromise]).then((result)=> {		
+		const reportsSnap =result[0];
+		const usersSnap =result[1];
+		const holidaysSnap =result[2];
+		
+		if(holidaysSnap.child(dateStr).val()){
+			console.log("Today is Holiday!" );			
+			return response.send("Today is Holiday!");
+		}
+		var count = 0;
+		var sentCount = 0;
+		var missedCount = 0;
+			
+		usersSnap.forEach(user => {	
+			var userObj = user.val();
+			var aKey = dateStr + "_" + userObj.key;			
+			if(reportsSnap.child(aKey).val()){ 
+				count  = count + 1;
+				console.log("FOUND ", userObj.name + " (" + aKey+ ")");
+			}else{
+				missedCount = missedCount + 1;
+				console.log("MISSEDD ", userObj.name + " (" + aKey+ ")");		
+				if(!userObj.isAdmin && userObj.token){
+					sentCount  = sentCount + 1;
+					var tokens = [];
+					tokens.push(userObj.token);
+					var payload = {
+						data:{
+							title: userObj.name + ", " + message,
+							body: "It won't take more than one minute",
+							type: "yesterday_reminder"
+						}
+					}
+					if(type === "first" || type === "last" || userObj.name==="Ruslan Lyalko") 
+						sendMessagesViaFCM(tokens, payload);					
+				}else{
+					console.log("USER TOKEN IS EMPTY");
+				}
+				
+			}
+		});
+	
+		console.log("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);
+		return response.send("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);			
+	});  
+ });
+
  exports.turnOffEditMode = functions.https.onRequest((request, response) => {   
 	const usersPromise = admin.database().ref("/USERS").once('value');
 	
@@ -78,7 +147,7 @@ admin.initializeApp();
 				if(userObj.remindMeAt){
 					if(userObj.remindMeAt === hourAndTimeStr){
 						console.log("USER REMIND ME AT SETTINGS ", userObj.remindMeAt);
-						if(userObj.token ){
+						if(!userObj.isAdmin && userObj.token){
 							sentCount  = sentCount + 1;
 							tokens.push(userObj.token);
 						}else{
@@ -88,7 +157,7 @@ admin.initializeApp();
 					
 				}else if(userObj.notificationHour === hourStr && minuteStr === "00"){
 					console.log("USER HOUR SETTINGS ", userObj.notificationHour);
-					if(userObj.token ){
+					if(!userObj.isAdmin && userObj.token){
 						sentCount  = sentCount + 1;
 						tokens.push(userObj.token);
 					}else{
