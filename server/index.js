@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 const moment = require('moment-timezone');
 const admin = require('firebase-admin');
+const nodemailer = require('nodemailer');
+
 admin.initializeApp();
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -19,6 +21,50 @@ admin.initializeApp();
 			});			
 	else 
 		return console.log("Push No Tokens");
+}
+
+
+function sendModeratorEmail(subject, text){
+	const settingsPromise = admin.database().ref("/SETTINGS").once('value');
+	return settingsPromise.then((snapshot)=>{
+		if(snapshot.val().notificationEmail){
+			console.log("Sending email for ", snapshot.val().notificationEmail);
+			return sendEmail(snapshot.val().notificationEmail, subject, text);
+		} else {
+			return console.log("Notification Email is empty!");
+		}
+	});
+}
+
+
+function sendEmail(to, subject, text){
+	//firebase functions:config:set gmail.email= "someemail@gmail.com"
+	//firebase functions:config:set gmail.password= "somepassword"
+
+	const gmailEmail = functions.config().gmail.email;
+	const gmailPassword = functions.config().gmail.password;
+	const mailTransport = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: gmailEmail,
+			pass: gmailPassword,
+		},
+	});
+
+	const mailOptions = {
+		from: '"PettersonApps Workload" <pa.workload@gmail.com>',
+		to: to,
+		subject: subject,
+		text: text
+	};
+	
+	return mailTransport.sendMail(mailOptions).then(response => {
+		console.log("Email Sent: ", response);
+		return 0;
+	})
+	.catch(error => {
+		console.log("Email Error: ", error);
+	});		   
 }
 
 
@@ -309,3 +355,53 @@ admin.initializeApp();
 		});
 	    
 });
+
+
+
+
+exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
+    .onWrite((change, context) => {		
+		const reportBefore = change.before.val();
+		const reportAfter = change.after.val();
+		var subject = "";		
+		var text = "";
+		var userId = "";
+		
+		if(!change.before.exists() && change.after.exists()) { // create			
+			subject = "Report changed by "+ reportAfter.userName;			
+			text = "  REPORT CREATED\n"+ getReportInfo(reportAfter);
+			userId = reportAfter.userId;			
+		}
+		else if (change.before.exists() && change.after.exists()) { // update
+			subject = "Report changed by "+ reportAfter.userName;
+			text = "  REPORT UPDATED\n"+ getReportInfo(reportAfter) + "\n  OLD REPORT\n" + getReportInfo(reportBefore);
+			userId = reportAfter.userId;
+		}
+		else if (!change.after.exists()) { // delete
+			subject = "Report changed by "+ reportBefore.userName;	
+			text = "  REPORT REMOVED\n"+ getReportInfo(reportBefore);
+			userId = reportBefore.userId;
+		}
+		console.log("Report Changed: ", text);
+		const usersPromise = admin.database().ref("/USERS").child(userId).once('value');
+		return usersPromise.then((snapshot)=>{
+			if(snapshot.val().isAllowEditPastReports){
+				return sendModeratorEmail(subject, text);	
+			} else {
+				return console.log("isAllowEditPastReports = false");
+			}
+		});
+	});
+
+	function getReportInfo(report){
+		return "Status: "+ report.status + "\n"+
+				"Date: "+ moment(report.date.time).format("DD.MM.YYYY") + "\n"+
+				"Project 1: "+ report.p1 + "; time: "+report.t1 + "\n"+
+				"Project 2: "+ report.p2 + "; time: "+report.t2 + "\n"+
+				"Project 3: "+ report.p3 + "; time: "+report.t3 + "\n"+
+				"Project 4: "+ report.p4 + "; time: "+report.t4 + "\n"+
+				"Department: "+ report.userDepartment + "\n"+
+				"User Id: "+ report.userId + "\n";
+	}
+	
+
