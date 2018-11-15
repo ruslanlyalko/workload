@@ -98,6 +98,7 @@
     </android.support.design.card.MaterialCardView>
 
     <RelativeLayout
+        android:id="@+id/layout_reports"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/card_holiday"
@@ -106,7 +107,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_reports"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:focusableInTouchMode="false" />
 
         <TextView

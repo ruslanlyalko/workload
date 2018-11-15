@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.workload;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
@@ -11,9 +12,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +46,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
+    @BindView(R.id.layout_reports) RelativeLayout mLayoutReports;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
@@ -50,6 +54,55 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private ReportsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
+    private float mOldX;
+    private float mOldY;
+    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+        private static final int MIN_DISTANCE = 120;
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(final View v, final MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mOldX = event.getX();
+                    mOldY = event.getY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    float x2 = event.getX();
+                    float y2 = event.getY();
+                    float deltaX = x2 - mOldX;
+                    float deltaY = y2 - mOldY;
+                    Date dateClicked = getPresenter().getDate();
+                    boolean changed = false;
+                    if (deltaX > MIN_DISTANCE) {
+                        dateClicked = DateUtils.addDay(dateClicked, 1);
+                        changed = true;
+                    }
+                    if (deltaX < (0 - MIN_DISTANCE)) {
+                        dateClicked = DateUtils.addDay(dateClicked, -1);
+                        changed = true;
+                    }
+                    if (deltaY > MIN_DISTANCE) {
+                        dateClicked = DateUtils.addWeek(dateClicked, 1);
+                        changed = true;
+                    }
+                    if (deltaY < (0 - MIN_DISTANCE)) {
+                        dateClicked = DateUtils.addWeek(dateClicked, -1);
+                        changed = true;
+                    }
+                    if (changed) {
+                        mCalendarView.setCurrentDate(dateClicked);
+                        getPresenter().fetchReportsForDate(dateClicked);
+                        setNewDate(dateClicked);
+                    }
+//                    else {
+//                        v.performClick();
+//                    }
+                    break;
+            }
+            return true;
+        }
+    };
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -238,9 +291,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         setPresenter(new WorkloadPresenter());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
+        mLayoutReports.setOnTouchListener(mOnTouchListener);
         setupAdapters();
         setupCalendar();
         getPresenter().onViewReady();

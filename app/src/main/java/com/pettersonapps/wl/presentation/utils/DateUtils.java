@@ -213,4 +213,18 @@ public class DateUtils {
         }
         return yearInd;
     }
+
+    public static Date addDay(final Date date, final int days) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date);
+        c1.add(Calendar.DAY_OF_MONTH, days);
+        return c1.getTime();
+    }
+
+    public static Date addWeek(final Date date, final int weeks) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date);
+        c1.add(Calendar.WEEK_OF_YEAR, weeks);
+        return c1.getTime();
+    }
 }
