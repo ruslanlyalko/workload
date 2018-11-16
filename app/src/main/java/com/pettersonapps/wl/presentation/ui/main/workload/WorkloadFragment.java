@@ -10,6 +10,7 @@ import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -57,40 +58,35 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private float mOldX;
     private float mOldY;
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
-        private static final int MIN_DISTANCE = 120;
+        private static final int MIN_DISTANCE = 150;
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(final View v, final MotionEvent event) {
+            float x2 = event.getX();
+            float y2 = event.getY();
+            float deltaX = x2 - mOldX;
+            float deltaY = y2 - mOldY;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mOldX = event.getX();
                     mOldY = event.getY();
                     break;
+                case MotionEvent.ACTION_MOVE:
+                    int days = (int) deltaX / MIN_DISTANCE;
+                    int weeks = (int) deltaY / MIN_DISTANCE;
+                    Date dateMove = getPresenter().getDate();
+                    dateMove = DateUtils.addDay(dateMove, days);
+                    dateMove = DateUtils.addWeek(dateMove, weeks);
+                    mCalendarView.setCurrentDate(dateMove);
+                    break;
                 case MotionEvent.ACTION_UP:
-                    float x2 = event.getX();
-                    float y2 = event.getY();
-                    float deltaX = x2 - mOldX;
-                    float deltaY = y2 - mOldY;
+                    int days1 = (int) deltaX / MIN_DISTANCE;
+                    int weeks1 = (int) deltaY / MIN_DISTANCE;
                     Date dateClicked = getPresenter().getDate();
-                    boolean changed = false;
-                    if (deltaX > MIN_DISTANCE) {
-                        dateClicked = DateUtils.addDay(dateClicked, 1);
-                        changed = true;
-                    }
-                    if (deltaX < (0 - MIN_DISTANCE)) {
-                        dateClicked = DateUtils.addDay(dateClicked, -1);
-                        changed = true;
-                    }
-                    if (deltaY > MIN_DISTANCE) {
-                        dateClicked = DateUtils.addWeek(dateClicked, 1);
-                        changed = true;
-                    }
-                    if (deltaY < (0 - MIN_DISTANCE)) {
-                        dateClicked = DateUtils.addWeek(dateClicked, -1);
-                        changed = true;
-                    }
-                    if (changed) {
+                    dateClicked = DateUtils.addDay(dateClicked, days1);
+                    dateClicked = DateUtils.addWeek(dateClicked, weeks1);
+                    if (!DateUtils.dateEquals(getPresenter().getDate(), dateClicked)) {
                         mCalendarView.setCurrentDate(dateClicked);
                         getPresenter().fetchReportsForDate(dateClicked);
                         setNewDate(dateClicked);
@@ -131,6 +127,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private void setNewDate(Date newDate) {
         String month = DateUtils.getMonth(newDate);
         if (month.equals(mPrevDateStr)) return;
+        if (TextUtils.isEmpty(mPrevDateStr) && month.equals(DateUtils.getMonth(new Date()))) return;
         if (newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
