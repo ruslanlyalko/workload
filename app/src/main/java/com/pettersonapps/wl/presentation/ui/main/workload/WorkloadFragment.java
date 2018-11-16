@@ -76,16 +76,16 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
                     int days = (int) deltaX / MIN_DISTANCE;
                     int weeks = (int) deltaY / MIN_DISTANCE;
                     Date dateMove = getPresenter().getDate();
-                    dateMove = DateUtils.addDay(dateMove, days);
-                    dateMove = DateUtils.addWeek(dateMove, weeks);
+                    dateMove = DateUtils.addDay(dateMove, Math.max(-1, Math.min(1, days)));
+                    dateMove = DateUtils.addWeek(dateMove, Math.max(-1, Math.min(1, weeks)));
                     mCalendarView.setCurrentDate(dateMove);
                     break;
                 case MotionEvent.ACTION_UP:
                     int days1 = (int) deltaX / MIN_DISTANCE;
                     int weeks1 = (int) deltaY / MIN_DISTANCE;
                     Date dateClicked = getPresenter().getDate();
-                    dateClicked = DateUtils.addDay(dateClicked, days1);
-                    dateClicked = DateUtils.addWeek(dateClicked, weeks1);
+                    dateClicked = DateUtils.addDay(dateClicked, Math.max(-1, Math.min(1, days1)));
+                    dateClicked = DateUtils.addWeek(dateClicked, Math.max(-1, Math.min(1, weeks1)));
                     if (!DateUtils.dateEquals(getPresenter().getDate(), dateClicked)) {
                         mCalendarView.setCurrentDate(dateClicked);
                         getPresenter().fetchReportsForDate(dateClicked);
