@@ -14,4 +14,6 @@ public interface SettingsView extends BaseView<SettingsPresenter> {
     void showUser(MutableLiveData<User> myUserDate);
 
     void populateUserSettings(User user);
+
+    void showLoginScreen();
 }

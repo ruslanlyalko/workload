@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
@@ -45,6 +47,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
         inflater.inflate(R.menu.menu_vacations, menu);
     }
 
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_my_vacations;
@@ -58,6 +61,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
+        hideFab();
         mReportsAdapter = new ReportsAdapter(null);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);

@@ -127,7 +127,13 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     public void showUser(final MutableLiveData<User> myUserData) {
-        myUserData.observe(this, user -> getPresenter().setUser(user));
+        myUserData.observe(this, user -> {
+            getPresenter().setUser(user);
+            if (user == null) return;
+            mTextTitle.setText(user.getName());
+            mTextSubtitle.setText(user.getEmail());
+            mTextLetters.setText(getAbbreviation(user.getName()));
+        });
     }
 
     @Override
@@ -176,9 +182,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     public void fabClickedFragment() {
-        if (mCurTabId == TAB_WORKLOAD)
-            onFabClickedFragment();
-        else onBackPressed();
+        onFabClickedFragment();
     }
 
     private int getMenuIdByTab(final int tabId) {
@@ -216,7 +220,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             fragment = rootTabFragment(mCurTabId);
         }
         replaceFragment(fragment);
-        toggleFab(tabId == TAB_WORKLOAD);
     }
 
     @NonNull
@@ -245,22 +248,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         }
     }
 
-    public void toggleFab(final boolean isWorkloadTab) {
-        if (isWorkloadTab) {
-            if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
-                mImageMenu.setVisibility(View.VISIBLE);
-                hideFab();
-                mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                mFab.setImageResource(R.drawable.ic_add_fab);
-            }
-        } else {
-            hideFab();
-            mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-            mFab.setImageResource(R.drawable.ic_reply);
-            showFab();
-        }
-    }
-
     private String getAbbreviation(final String name) {
         if (TextUtils.isEmpty(name)) return "";
         String[] list = name.split(" ");
@@ -274,7 +261,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu:
-                onHomeClicked();
+                //onHomeClicked();
                 return true;
             case R.id.action_vacations:
                 onTabSelected(TAB_VACATION);
@@ -349,7 +336,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         if (state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
             showFragment(rootTabFragment(mCurTabId));
-            toggleFab(mCurTabId == TAB_WORKLOAD);
         }
     }
 
@@ -410,7 +396,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         super.onRestoreInstanceState(savedInstanceState);
         mCurFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         mCurTabId = savedInstanceState.getInt(STATE_CURRENT_TAB_ID);
-        toggleFab(mCurTabId == TAB_WORKLOAD);
     }
 
     protected void replaceFragment(@NonNull Fragment fragment) {

@@ -86,6 +86,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_calendar);
+        hideFab();
         mTextMonth.setText(DateUtils.getMonth(new Date()));
         setupCalendar();
         setupAdapters();

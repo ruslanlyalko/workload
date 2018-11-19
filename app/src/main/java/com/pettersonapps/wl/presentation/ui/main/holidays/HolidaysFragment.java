@@ -39,17 +39,6 @@ public class HolidaysFragment extends BaseFragment<HolidaysPresenter> implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                getPresenter().onAddClicked();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected int getContentView() {
         return R.layout.fragment_holidays;
     }
@@ -62,11 +51,17 @@ public class HolidaysFragment extends BaseFragment<HolidaysPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_holidays);
+        showFab();
         mAdapter = new HolidaysAdapter(this);
         mRecyclerHolidays.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerHolidays.setAdapter(mAdapter);
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerHolidays, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
+    }
+
+    @Override
+    public void onFabClicked() {
+        getPresenter().onAddClicked();
     }
 
     @Override

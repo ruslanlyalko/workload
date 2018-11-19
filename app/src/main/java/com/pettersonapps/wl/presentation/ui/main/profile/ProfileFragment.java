@@ -84,6 +84,8 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
             case R.id.action_logout:
                 getPresenter().onLogoutClicked();
                 return true;
+            case R.id.action_menu:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -102,6 +104,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_profile);
+        hideFab();
         getPresenter().onViewReady();
     }
 }

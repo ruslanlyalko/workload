@@ -31,4 +31,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         mUser.setRemindMeAt(notificationHour);
         getDataManager().saveUser(mUser);
     }
+
+    public void onLogoutClicked() {
+        getDataManager().logout();
+        getView().showLoginScreen();
+    }
 }

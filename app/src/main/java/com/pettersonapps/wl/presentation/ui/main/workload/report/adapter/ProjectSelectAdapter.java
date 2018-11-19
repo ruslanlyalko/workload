@@ -143,6 +143,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
         @OnClick(R.id.image_remove)
         void onRemoveClicked() {
+            if (getAdapterPosition() >= mData.size()) return;
             mData.remove(getAdapterPosition());
             notifyItemRemoved(getAdapterPosition());
             if (mData.size() == 3) {

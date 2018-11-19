@@ -123,6 +123,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_alerts);
+        hideFab();
         setupAdapters();
         getPresenter().onViewReady();
     }

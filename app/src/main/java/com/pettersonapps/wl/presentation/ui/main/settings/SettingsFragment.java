@@ -1,10 +1,12 @@
 package com.pettersonapps.wl.presentation.ui.main.settings;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -15,6 +17,7 @@ import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
+import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
 
@@ -46,6 +49,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_settings);
+        hideFab();
         mSwitchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         mSpinnerNotification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -76,6 +80,16 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                getPresenter().onLogoutClicked();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
     public void showUser(final MutableLiveData<User> data) {
         data.observe(this, getPresenter()::setUser);
     }
@@ -89,5 +103,10 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 break;
             }
         }
+    }
+
+    @Override
+    public void showLoginScreen() {
+        startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

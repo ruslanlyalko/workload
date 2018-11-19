@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="?attr/colorBottomAppBarBackground"
-        app:fabAlignmentMode="center" />
+        app:fabAlignmentMode="center"
+        app:fabCradleRoundedCornerRadius="20dp" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image_menu"
