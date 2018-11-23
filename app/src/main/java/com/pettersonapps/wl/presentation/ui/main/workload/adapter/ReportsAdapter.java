@@ -112,6 +112,8 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         void bind(final Report report) {
             mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), report.getStatus())));
             mTextTitle.setText(report.getStatus());
+            boolean showName = mOnReportClickListener == null || (TextUtils.isEmpty(report.getP3()) && TextUtils.isEmpty(report.getP4()));
+            mTextName.setVisibility(showName ? VISIBLE : GONE);
             mTextName.setText(String.format("%s / %s", report.getUserName(), report.getUserDepartment()));
             mTextProject1.setVisibility(TextUtils.isEmpty(report.getP1()) ? GONE : VISIBLE);
             mTextProject2.setVisibility(TextUtils.isEmpty(report.getP2()) ? GONE : VISIBLE);

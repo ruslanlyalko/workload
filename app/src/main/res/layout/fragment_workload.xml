@@ -49,7 +49,6 @@
         android:layout_height="300dp"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
         app:statusCalendarBackgroundColor="?attr/colorBackground"
         app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
         app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
@@ -70,7 +69,7 @@
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         app:cardBackgroundColor="?attr/colorCardBackground"
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="0dp"
@@ -97,30 +96,15 @@
 
     </android.support.design.card.MaterialCardView>
 
-    <RelativeLayout
-        android:id="@+id/layout_reports"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_reports"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/card_holiday"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="6dp"
+        android:clipToPadding="false"
+        android:focusableInTouchMode="false"
+        android:paddingBottom="44dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_reports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="false" />
-
-        <TextView
-            android:id="@+id/text_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/text_report_placeholder"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="?attr/colorTextPrimary"
-            android:textSize="16sp"
-            android:visibility="gone" />
-    </RelativeLayout>
 </RelativeLayout>
 

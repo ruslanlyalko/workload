@@ -50,7 +50,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
-    @BindView(R.id.layout_reports) RelativeLayout mLayoutReports;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
@@ -60,48 +59,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private String mPrevDateStr = "";
     private float mOldX;
     private float mOldY;
-    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
-        private static final int MIN_DISTANCE = 150;
-
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(final View v, final MotionEvent event) {
-            float x2 = event.getX();
-            float y2 = event.getY();
-            float deltaX = x2 - mOldX;
-            float deltaY = y2 - mOldY;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    mOldX = event.getX();
-                    mOldY = event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    int days = (int) deltaX / MIN_DISTANCE;
-                    int weeks = (int) deltaY / MIN_DISTANCE;
-                    Date dateMove = getPresenter().getDate();
-                    dateMove = DateUtils.addDay(dateMove, Math.max(-1, Math.min(1, days)));
-                    dateMove = DateUtils.addWeek(dateMove, Math.max(-1, Math.min(1, weeks)));
-                    mCalendarView.setCurrentDate(dateMove);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    int days1 = (int) deltaX / MIN_DISTANCE;
-                    int weeks1 = (int) deltaY / MIN_DISTANCE;
-                    Date dateClicked = getPresenter().getDate();
-                    dateClicked = DateUtils.addDay(dateClicked, Math.max(-1, Math.min(1, days1)));
-                    dateClicked = DateUtils.addWeek(dateClicked, Math.max(-1, Math.min(1, weeks1)));
-                    if (!DateUtils.dateEquals(getPresenter().getDate(), dateClicked)) {
-                        mCalendarView.setCurrentDate(dateClicked);
-                        getPresenter().fetchReportsForDate(dateClicked);
-                        setNewDate(dateClicked);
-                    }
-//                    else {
-//                        v.performClick();
-//                    }
-                    break;
-            }
-            return true;
-        }
-    };
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -296,7 +253,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
-        mLayoutReports.setOnTouchListener(mOnTouchListener);
         setupAdapters();
         setupCalendar();
         getPresenter().onViewReady();
