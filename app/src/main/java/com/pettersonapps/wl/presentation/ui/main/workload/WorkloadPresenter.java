@@ -28,7 +28,6 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
         getView().showUser(getDataManager().getMyUser());
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
         getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
-        getView().showHoliday(getHoliday(mDate));
     }
 
     private String getHoliday(final Date date) {
@@ -53,8 +52,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void fetchReportsForDate(Date date) {
         mDate = DateUtils.getDate(date, 1, 1);
-        getView().showReports(getReportsForCurrentDate());
-        getView().showHoliday(getHoliday(mDate));
+        getView().showReports(getReportsForCurrentDate(), mDate);
     }
 
     public void onReportDeleteClicked(final Report report) {
@@ -63,7 +61,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
                 .addOnSuccessListener(aVoid -> getDataManager().removeReport(report)
                         .addOnCompleteListener(task -> {
                             if (getView() == null) return;
-                            getView().showReports(getReportsForCurrentDate());
+                            getView().showReports(getReportsForCurrentDate(), mDate);
                         }))
                 .addOnFailureListener(e -> {
                     if (getView() == null) return;
@@ -102,7 +100,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void setReports(final List<Report> reports) {
         mReports = reports;
-        getView().showReports(getReportsForCurrentDate());
+        getView().showReports(getReportsForCurrentDate(), mDate);
     }
 
     public User getUser() {

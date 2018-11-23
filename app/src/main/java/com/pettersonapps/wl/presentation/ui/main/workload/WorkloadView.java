@@ -22,9 +22,7 @@ public interface WorkloadView extends BaseView<WorkloadPresenter> {
 
     void showHolidaysOnCalendar(MutableLiveData<List<Holiday>> holidays);
 
-    void showHoliday(String holiday);
-
-    void showReports(List<Report> reports);
+    void showReports(List<Report> reports, final Date date);
 
     void showErrorAndStartLoginScreen();
 

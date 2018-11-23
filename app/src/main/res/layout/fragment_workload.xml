@@ -61,50 +61,12 @@
         app:statusCalendarTextColor="?attr/colorTextPrimary"
         app:statusCalendarTextSize="13sp" />
 
-    <android.support.design.card.MaterialCardView
-        android:id="@+id/card_holiday"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/calendar_view"
-        android:layout_marginBottom="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="?attr/colorCardBackground"
-        app:cardCornerRadius="@dimen/card_radius"
-        app:cardElevation="0dp"
-        app:strokeColor="?attr/colorStroke"
-        app:strokeWidth="1.5dp">
-
-        <TextView
-            android:id="@+id/text_holiday_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawablePadding="12dp"
-            android:drawableStart="@drawable/ic_holiday"
-            android:gravity="center_vertical"
-            android:minHeight="44dp"
-            android:paddingBottom="4dp"
-            android:paddingEnd="@dimen/padding_mini"
-            android:paddingStart="@dimen/padding_default"
-            android:paddingTop="4dp"
-            android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="?attr/colorTextPrimary"
-            android:textSize="15sp"
-            tools:text="Holiday Name"
-            tools:visibility="visible" />
-
-    </android.support.design.card.MaterialCardView>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_reports"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card_holiday"
-        android:layout_marginTop="6dp"
-        android:clipToPadding="false"
-        android:focusableInTouchMode="false"
-        android:paddingBottom="44dp" />
+        android:layout_marginBottom="44dp" />
 
 </RelativeLayout>
 

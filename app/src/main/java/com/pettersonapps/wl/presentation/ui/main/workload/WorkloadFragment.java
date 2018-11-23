@@ -5,21 +5,14 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pettersonapps.wl.R;
@@ -28,15 +21,14 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.OnRepClickListener;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
-import com.pettersonapps.wl.presentation.view.OnReportClickListener;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
-import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,20 +37,16 @@ import java.util.TimeZone;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView {
+public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView, OnRepClickListener {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
-    @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
-    @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
-    @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.view_pager) ViewPager mViewPager;
 
-    private ReportsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
-    private float mOldX;
-    private float mOldY;
+    private ReportsPagerAdapter mReportsPagerAdapter;
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -110,7 +98,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         userData.observe(this, user -> {
             if (user == null) return;
             getPresenter().setUser(user);
-            mReportsAdapter.setAllowEdit(user.getIsAllowEditPastReports());
+            mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
         });
     }
 
@@ -119,6 +107,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         reportsData.observe(this, reports -> {
             if (reports == null) return;
             getPresenter().setReports(reports);
+            mReportsPagerAdapter.setReports(reports);
             showCalendarsEvents();
         });
     }
@@ -128,24 +117,13 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         holidaysData.observe(this, holidays -> {
             if (holidays == null) return;
             getPresenter().setHolidays(holidays);
+            mReportsPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
         });
     }
 
     @Override
-    public void showHoliday(final String holiday) {
-        if (holiday == null)
-            mCardHoliday.setVisibility(View.GONE);
-        else {
-            mCardHoliday.postDelayed(() -> {
-                mCardHoliday.setVisibility(View.VISIBLE);
-                mTextHolidayName.setText(holiday);
-            }, 200);
-        }
-    }
-
-    @Override
-    public void showReports(List<Report> reports) {
+    public void showReports(List<Report> reports, final Date date) {
         if ((reports == null || reports.isEmpty())
                 && ((getPresenter().getIsAllowEditPastReports()) ||
                 (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
@@ -153,7 +131,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             showFab();
         else
             hideFab();
-        mReportsAdapter.setData(reports);
+        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), true);
     }
 
     @Override
@@ -194,44 +172,28 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupAdapters() {
-        mReportsAdapter = new ReportsAdapter(new OnReportClickListener() {
+        mReportsPagerAdapter = new ReportsPagerAdapter(getChildFragmentManager());
+        mViewPager.setAdapter(mReportsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onReportClicked(final View view, final int position) {
-                if (mReportsAdapter.getData().size() > position)
-                    getPresenter().onReportLongClicked(mReportsAdapter.getData().get(position));
+            public void onPageScrolled(final int i, final float v, final int i1) {
             }
 
             @Override
-            public void onReportRemoveClicked(final View view, final int position) {
-                AlertDialog.Builder build = new AlertDialog.Builder(getContext());
-                build.setMessage(R.string.text_delete);
-                build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
-                    if (mReportsAdapter.getData().size() > position)
-                        getPresenter().onReportDeleteClicked(mReportsAdapter.getData().get(position));
-                    dialog.dismiss();
-                });
-                build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
-                    dialog.dismiss();
-                });
-                build.show();
+            public void onPageSelected(final int pos) {
+                mCalendarView.setCurrentDate(mReportsPagerAdapter.getDateByPos(pos));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int i) {
             }
         });
-        mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerReports.setAdapter(mReportsAdapter);
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_REPORT) {
-//            getPresenter().fetchReportsForDate();
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mReportsAdapter.notifyDataSetChanged();
+        mReportsPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -268,5 +230,27 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());
         setNewDate(new Date());
+    }
+
+    @Override
+    public void onReportClicked(final Report report) {
+        if (report != null)
+            getPresenter().onReportLongClicked(report);
+    }
+
+    @Override
+    public void onReportRemoveClicked(final Report report) {
+        if (report != null) {
+            AlertDialog.Builder build = new AlertDialog.Builder(getContext());
+            build.setMessage(R.string.text_delete);
+            build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
+                getPresenter().onReportDeleteClicked(report);
+                dialog.dismiss();
+            });
+            build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
+                dialog.dismiss();
+            });
+            build.show();
+        }
     }
 }
