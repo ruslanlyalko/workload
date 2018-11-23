@@ -65,6 +65,7 @@
     <string name="error_cant_be_zero">Please select at least one project!</string>
     <string name="error_cant_be_more_than_16">Can\'t be more than 16 working hours per day!</string>
     <string name="error_cant_be_two_same_projects">You can\'t use the same project twice!</string>
+    <string name="error_cant_save_weekend">You can\'t create workload with status Vacation / Day off / Sick leave on weekends</string>
     <string name="error_cant_be_empty">Field can\'t be empty</string>
     <string name="error_cant_start_with_dash">Title can\'t start with dash symbol</string>
     <string name="error_passwords_should_be_at_least_6_symbols">Password should be at least 6 symbols</string>

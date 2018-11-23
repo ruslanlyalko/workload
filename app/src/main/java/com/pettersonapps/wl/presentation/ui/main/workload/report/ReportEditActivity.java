@@ -285,6 +285,11 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     }
 
     @Override
+    public void errorCantSaveNotWorkingStatusOnWeekends() {
+        showError(getString(R.string.error_cant_save_weekend));
+    }
+
+    @Override
     public void showDateState(final boolean dateStateOneDay) {
         mTextTo.setVisibility(dateStateOneDay ? View.GONE : View.VISIBLE);
         mImageChangeDate.setImageResource(dateStateOneDay ? R.drawable.ic_day : R.drawable.ic_week);

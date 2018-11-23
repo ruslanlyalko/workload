@@ -227,4 +227,10 @@ public class DateUtils {
         c1.add(Calendar.WEEK_OF_YEAR, weeks);
         return c1.getTime();
     }
+
+    public static boolean isWeekends(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    }
 }

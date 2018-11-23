@@ -106,6 +106,13 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             getView().errorCantBeMoreThan16();
             return;
         }
+        boolean weekendDisallowStatus = (status.startsWith("Day")
+                || status.startsWith("Vacation")
+                || status.startsWith("Sick"));
+        if(weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())){
+            getView().errorCantSaveNotWorkingStatusOnWeekends();
+            return;
+        }
         if (!mUser.getIsAllowEditPastReports() && mReport.getDate().before(DateUtils.get1DaysAgo().getTime())) {
             getView().showWrongDateOnMobileError();
             return;

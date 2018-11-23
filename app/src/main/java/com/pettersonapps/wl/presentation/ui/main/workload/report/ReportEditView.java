@@ -34,6 +34,8 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
 
     void errorCantHasTwoEqualsProjects();
 
+    void errorCantSaveNotWorkingStatusOnWeekends();
+
     void showDateState(boolean dateStateOneDay);
 
     void showDateFrom(Date date);
