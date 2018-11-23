@@ -13,6 +13,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
 
     public void onViewReady() {
         if (getCurrentUser() != null) {
+            getDataManager().getAllMyReports();
             getView().startDashboardScreen();
         } else {
             getView().startLoginScreen();

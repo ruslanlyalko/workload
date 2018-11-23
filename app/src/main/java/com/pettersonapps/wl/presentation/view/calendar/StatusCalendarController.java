@@ -112,10 +112,6 @@ public class StatusCalendarController {
      */
     private Calendar tempPreviousMonthCalendar;
 
-    private enum Direction {
-        NONE, HORIZONTAL, VERTICAL
-    }
-
     StatusCalendarController(Paint dayPaint, OverScroller scroller, Rect textSizeRect, AttributeSet attrs,
                              Context context, int currentDayBackgroundColor, int calenderTextColor,
                              int currentSelectedDayBackgroundColor, VelocityTracker velocityTracker,
@@ -250,10 +246,6 @@ public class StatusCalendarController {
         this.currentSelectedDayIndicatorStyle = currentSelectedDayIndicatorStyle;
     }
 
-    void setTargetHeight(int targetHeight) {
-        this.targetHeight = targetHeight;
-    }
-
     float getScreenDensity() {
         return screenDensity;
     }
@@ -262,12 +254,12 @@ public class StatusCalendarController {
         return bigCircleIndicatorRadius;
     }
 
-    void setGrowFactorIndicator(float growfactorIndicator) {
-        this.growfactorIndicator = growfactorIndicator;
-    }
-
     float getGrowFactorIndicator() {
         return growfactorIndicator;
+    }
+
+    void setGrowFactorIndicator(float growfactorIndicator) {
+        this.growfactorIndicator = growfactorIndicator;
     }
 
     void setAnimationStatus(int animationStatus) {
@@ -276,6 +268,10 @@ public class StatusCalendarController {
 
     int getTargetHeight() {
         return targetHeight;
+    }
+
+    void setTargetHeight(int targetHeight) {
+        this.targetHeight = targetHeight;
     }
 
     int getWidth() {
@@ -712,7 +708,7 @@ public class StatusCalendarController {
                 int dayOfWeek = getDayOfWeek(eventsCalendar);
                 int weekNumberForMonth = eventsCalendar.get(Calendar.WEEK_OF_MONTH);
                 float xPosition = widthPerDay * dayOfWeek + paddingWidth + paddingLeft + accumulatedScrollOffset.x + offset - paddingRight;
-                float yPosition = weekNumberForMonth * heightPerDay + (paddingHeight * 1.35f);
+                float yPosition = weekNumberForMonth * heightPerDay + (paddingHeight * 1.3f);
                 if (((animationStatus == EXPOSE_CALENDAR_ANIMATION || animationStatus == ANIMATE_INDICATORS) && xPosition >= growFactor) || yPosition >= growFactor) {
                     // only draw small event indicators if enough of the calendar is exposed
                     continue;
@@ -967,20 +963,24 @@ public class StatusCalendarController {
 
     private void drawCircle(Canvas canvas, float radius, float x, float y) {
 //        canvas.drawCircle(x, y, radius, dayPaint);
-        float top = y - (heightPerDay / 2);// * 0.95f);
-        float left = x - (widthPerDay / 2) + smallIndicatorRadius;
-        float right = x + (widthPerDay / 2) - smallIndicatorRadius;
-        float bottom = y + (heightPerDay / 2);
+        float top = y - (heightPerDay / 2.2f);// * 0.95f);
+        float left = x - (widthPerDay / 2.2f) + smallIndicatorRadius;
+        float right = x + (widthPerDay / 2.2f) - smallIndicatorRadius;
+        float bottom = y + (heightPerDay / 2.2f);
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
     }
 
     private void drawEventIndicatorRect(Canvas canvas, float x, float y, int color, final boolean isCurrentSelectedDay, final boolean isSameAsPrev, final boolean isSameAsNext) {
         dayPaint.setColor(color);
         dayPaint.setStyle(Paint.Style.FILL);
-        float top = isCurrentSelectedDay ? y - (heightPerDay * 0.95f) : y - (2 * smallIndicatorRadius);
-        float left = isSameAsPrev && !isCurrentSelectedDay ? x - (widthPerDay / 1.5f) : x - (widthPerDay / 2) + smallIndicatorRadius;
-        float right = isSameAsNext && !isCurrentSelectedDay ? x + (widthPerDay / 1.5f) : x + (widthPerDay / 2) - smallIndicatorRadius;
+        float top = isCurrentSelectedDay ? y - (heightPerDay * 0.90f) : y - (2 * smallIndicatorRadius);
+        float left = isSameAsPrev && !isCurrentSelectedDay ? x - (widthPerDay / 1.5f) : x - (widthPerDay / 2) + (2 * smallIndicatorRadius);
+        float right = isSameAsNext && !isCurrentSelectedDay ? x + (widthPerDay / 1.5f) : x + (widthPerDay / 2) - (2 * smallIndicatorRadius);
         float bottom = y;
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+    }
+
+    private enum Direction {
+        NONE, HORIZONTAL, VERTICAL
     }
 }
