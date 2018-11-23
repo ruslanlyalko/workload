@@ -11,8 +11,8 @@ android {
         applicationId "com.pettersonapps.wl"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 83
-        versionName "1.0.83"
+        versionCode 85
+        versionName "1.0.85"
     }
 
     signingConfigs {

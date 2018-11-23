@@ -181,7 +181,9 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
             @Override
             public void onPageSelected(final int pos) {
-                mCalendarView.setCurrentDate(mReportsPagerAdapter.getDateByPos(pos));
+                Date date = mReportsPagerAdapter.getDateByPos(pos);
+                mCalendarView.setCurrentDate(date);
+                getPresenter().fetchReportsForDate(date);
             }
 
             @Override
