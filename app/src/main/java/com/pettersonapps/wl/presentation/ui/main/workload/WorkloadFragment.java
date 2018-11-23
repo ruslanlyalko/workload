@@ -22,8 +22,6 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
@@ -35,9 +33,14 @@ import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActiv
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnReportClickListener;
+import com.pettersonapps.wl.presentation.view.calendar.Event;
+import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
+import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,7 +48,7 @@ import butterknife.OnClick;
 public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView {
 
     private static final int RC_REPORT = 1001;
-    @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
+    @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.layout_reports) RelativeLayout mLayoutReports;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
@@ -108,10 +111,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupCalendar() {
+        mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         mCalendarView.displayOtherMonthDays(true);
-        mCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+        mCalendarView.setListener(new StatusCalendarView.StatusCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {
                 getPresenter().fetchReportsForDate(dateClicked);

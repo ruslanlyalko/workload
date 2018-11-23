@@ -43,24 +43,24 @@
 
     </TextSwitcher>
 
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+    <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
         android:id="@+id/calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
         android:layout_below="@id/title"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="?attr/colorBackground"
-        app:compactCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
-        app:compactCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
-        app:compactCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
-        app:compactCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
-        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
-        app:compactCalendarTargetHeight="220dp"
-        app:compactCalendarTextColor="?attr/colorTextPrimary"
-        app:compactCalendarTextSize="13sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        app:statusCalendarBackgroundColor="?attr/colorBackground"
+        app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
+        app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
+        app:statusCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
+        app:statusCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
+        app:statusCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
+        app:statusCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
+        app:statusCalendarShouldSelectFirstDayOfMonthOnScroll="false"
+        app:statusCalendarTargetHeight="300dp"
+        app:statusCalendarTextColor="?attr/colorTextPrimary"
+        app:statusCalendarTextSize="13sp" />
 
     <android.support.design.card.MaterialCardView
         android:id="@+id/card_holiday"

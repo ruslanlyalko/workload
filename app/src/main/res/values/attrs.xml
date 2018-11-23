@@ -24,4 +24,36 @@
 
         <attr name="drawableMenu" format="reference"/>
     </declare-styleable>
+
+    <attr name="statusCalendarEventIndicatorStyle" format="enum">
+        <enum name="fill_large_indicator" value="1" />
+        <enum name="no_fill_large_indicator" value="2" />
+        <enum name="small_indicator" value="3" />
+    </attr>
+    <attr name="statusCalendarCurrentDayIndicatorStyle" format="enum">
+        <enum name="fill_large_indicator" value="1" />
+        <enum name="no_fill_large_indicator" value="2" />
+    </attr>
+    <attr name="statusCalendarCurrentSelectedDayIndicatorStyle" format="enum">
+        <enum name="fill_large_indicator" value="1" />
+        <enum name="no_fill_large_indicator" value="2" />
+    </attr>
+    <declare-styleable name="StatusCalendarView">
+        <attr name="statusCalendarTextSize" format="dimension"/>
+        <attr name="statusCalendarBackgroundColor" format="color"/>
+        <attr name="statusCalendarCurrentDayBackgroundColor" format="color"/>
+        <attr name="statusCalendarCurrentDayTextColor" format="color"/>
+        <attr name="statusCalendarCurrentSelectedDayBackgroundColor" format="color"/>
+        <attr name="statusCalendarCurrentSelectedDayTextColor" format="color"/>
+        <attr name="statusCalendarTextColor" format="color"/>
+        <attr name="statusCalendarMultiEventIndicatorColor" format="color"/>
+        <attr name="statusCalendarTargetHeight" format="dimension"/>
+        <attr name="statusCalendarEventIndicatorStyle"/>
+        <attr name="statusCalendarCurrentDayIndicatorStyle"/>
+        <attr name="statusCalendarCurrentSelectedDayIndicatorStyle"/>
+        <attr name="statusCalendarDisplayOtherMonthDays" format="boolean"/>
+        <attr name="statusCalendarShouldSelectFirstDayOfMonthOnScroll" format="boolean"/>
+        <attr name="statusCalendarOtherMonthDaysTextColor" format="color"/>
+    </declare-styleable>
+
 </resources>
