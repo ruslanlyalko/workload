@@ -53,6 +53,7 @@
     <string name="text_not_standard_reports">Not Standard Reports</string>
     <string name="text_users_without_reports">Users Without Reports</string>
     <string name="text_remind_at">Remind Me At</string>
+    <string name="text_default">Default working time</string>
     <string name="text_get_project_info">Get Project Info</string>
     <string name="text_report_saved">Saved</string>
     <string name="text_user_created">User created</string>
@@ -140,6 +141,10 @@
         <item>10h</item>
         <item>11h</item>
         <item>12h</item>
+    </string-array>
+    <string-array name="default_time">
+        <item>8:00</item>
+        <item>4:00</item>
     </string-array>
     <string-array name="notification_hours">
         <item>16:00</item>

@@ -36,4 +36,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         getDataManager().logout();
         getView().showLoginScreen();
     }
+
+    public void saveUserDefault(final String s) {
+
+    }
 }

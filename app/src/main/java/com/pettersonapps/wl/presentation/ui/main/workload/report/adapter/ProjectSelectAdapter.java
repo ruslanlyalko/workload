@@ -45,13 +45,15 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
         notifyDataSetChanged();
     }
 
-    public void addItem(ProjectSelectable projectSelectable) {
+    public void addItem(ProjectSelectable projectSelectable, boolean is4defaultTime) {
         if (mData.size() > 0) {
             int totalHour = 0;
             for (ProjectSelectable p : mData) {
                 totalHour += p.getSpent();
             }
             projectSelectable.setSpent(Math.max(1, 8 - totalHour));
+        } else {
+            projectSelectable.setSpent(is4defaultTime ? 4 : 8);
         }
         mData.add(projectSelectable);
         if (mData.size() == 4)

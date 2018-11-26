@@ -28,6 +28,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @BindView(R.id.spinner_notification) Spinner mSpinnerNotification;
     @BindView(R.id.switch_night_mode) Switch mSwitchNightMode;
     @BindView(R.id.text_version) TextView mTextVersion;
+    @BindView(R.id.spinner_default) Spinner mSpinnerDefault;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -55,6 +56,17 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 getPresenter().saveUserNotificationSettings(mSpinnerNotification.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+            }
+        });
+        mSpinnerDefault.setSelection(PreferencesHelper.getInstance(getContext()).getDefaultTimeIs4() ? 1 : 0);
+        mSpinnerDefault.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+                PreferencesHelper.getInstance(getContext()).setDefaultTime(position == 1);
             }
 
             @Override
@@ -89,6 +101,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void showUser(final MutableLiveData<User> data) {
         data.observe(this, getPresenter()::setUser);

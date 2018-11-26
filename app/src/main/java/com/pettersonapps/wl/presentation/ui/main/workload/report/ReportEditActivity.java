@@ -37,6 +37,7 @@ import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.Project
 import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectSelectable;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectsListAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -313,7 +314,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     public void addProject(final String title) {
-        mProjectSelectAdapter.addItem(new ProjectSelectable(title));
+        mProjectSelectAdapter.addItem(new ProjectSelectable(title), PreferencesHelper.getInstance(getContext()).getDefaultTimeIs4());
     }
 
     @Override
