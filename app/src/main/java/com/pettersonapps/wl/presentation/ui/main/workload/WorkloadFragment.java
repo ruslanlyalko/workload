@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
@@ -185,6 +184,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
                 Date date = mReportsPagerAdapter.getDateByPos(pos);
                 mCalendarView.setCurrentDate(date);
                 getPresenter().fetchReportsForDate(date);
+                setNewDate(DateUtils.getFirstDateOfMonth(date));
             }
 
             @Override

@@ -4,6 +4,6 @@
     <padding android:top="10dp" />
     <solid android:color="?attr/colorBackgroundMenu" />
     <corners
-        android:topLeftRadius="20dp"
-        android:topRightRadius="20dp" />
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
 </shape>

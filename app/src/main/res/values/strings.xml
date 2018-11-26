@@ -105,8 +105,8 @@
     <string name="department_prompt">Choose Department</string>
     <string name="text_add">Add</string>
     <string name="text_search">Search</string>
-    <string name="day_taken">" - %s year: %d  day taken \n"</string>
-    <string name="days_taken">" - %s year: %d  days taken \n"</string>
+    <string name="day_taken">"   %s year: %d  day taken \n"</string>
+    <string name="days_taken">"   %s year: %d  days taken \n"</string>
     <string name="text_minus">-</string>
     <string name="text_plus">+</string>
     <string name="text_change_password">Change password</string>
