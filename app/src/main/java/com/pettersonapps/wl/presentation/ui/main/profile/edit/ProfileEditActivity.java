@@ -73,16 +73,18 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
+        boolean isEmpty = false;
         if (TextUtils.isEmpty(mInputPhone.getText())) {
             mInputPhone.setError(getString(R.string.error_cant_be_empty));
             mInputPhone.requestFocus();
-            return;
+            isEmpty = true;
         }
         if (TextUtils.isEmpty(mInputSkype.getText())) {
             mInputSkype.setError(getString(R.string.error_cant_be_empty));
             mInputSkype.requestFocus();
-            return;
+            isEmpty = true;
         }
+        if (isEmpty) return;
         // Password
         if (!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 6) {
             mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
