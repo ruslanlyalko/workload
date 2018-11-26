@@ -26,7 +26,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Date;
@@ -201,7 +201,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_user_details);
-        mReportsAdapter = new ReportsAdapter(null);
+        mReportsAdapter = new ReportsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerReports.setAdapter(mReportsAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {

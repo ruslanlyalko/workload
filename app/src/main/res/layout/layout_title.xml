@@ -8,7 +8,7 @@
     android:paddingBottom="20dp"
     android:paddingEnd="16dp"
     android:paddingStart="48dp"
-    android:paddingTop="30dp"
+    android:paddingTop="24dp"
     android:text="@string/app_name"
     android:textAppearance="@style/TextAppearance.Body2"
     android:textColor="?attr/colorTextDefault"

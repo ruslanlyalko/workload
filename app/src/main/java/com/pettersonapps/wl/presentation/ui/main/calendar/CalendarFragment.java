@@ -25,7 +25,7 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.export.ExportActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -119,7 +119,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     }
 
     private void setupAdapters() {
-        mReportsAdapter = new ReportsAdapter(null);
+        mReportsAdapter = new ReportsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
     }

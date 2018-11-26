@@ -45,19 +45,23 @@
 
     <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
         android:id="@+id/calendar_view"
-        android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         app:statusCalendarBackgroundColor="?attr/colorBackground"
         app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
+        app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"
         app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
         app:statusCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
         app:statusCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
+        app:statusCalendarDayPadding="3dp"
+        app:statusCalendarHeaderDaysTextColor="?attr/colorTextProject"
         app:statusCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
         app:statusCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
         app:statusCalendarShouldSelectFirstDayOfMonthOnScroll="false"
-        app:statusCalendarTargetHeight="300dp"
         app:statusCalendarTextColor="?attr/colorTextPrimary"
         app:statusCalendarTextSize="13sp" />
 

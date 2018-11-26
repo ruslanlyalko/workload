@@ -124,14 +124,14 @@ public class ReportFragment extends Fragment {
 
     @OnClick(R.id.layout_root)
     void onItemClick() {
-        if (getParentFragment() instanceof OnRepClickListener)
-            ((OnRepClickListener) getParentFragment()).onReportClicked(mReport);
+        if (getParentFragment() instanceof OnReportClickListener)
+            ((OnReportClickListener) getParentFragment()).onReportClicked(mReport);
     }
 
     @OnClick(R.id.image_delete)
     void onClicked() {
-        if (getParentFragment() instanceof OnRepClickListener)
-            ((OnRepClickListener) getParentFragment()).onReportRemoveClicked(mReport);
+        if (getParentFragment() instanceof OnReportClickListener)
+            ((OnReportClickListener) getParentFragment()).onReportRemoveClicked(mReport);
     }
 
     private Spanned getFormattedText(final String name, final int time) {

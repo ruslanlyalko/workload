@@ -59,6 +59,7 @@ public class StatusCalendarController {
     private int densityAdjustedSnapVelocity;
     private int distanceThresholdForAutoScroll;
     private int targetHeight;
+    private int dayPadding;
     private int animationStatus = 0;
     private int firstDayOfWeekToDraw = Calendar.MONDAY;
     private float xIndicatorOffset;
@@ -100,6 +101,7 @@ public class StatusCalendarController {
     private int multiEventIndicatorColor;
     private int currentDayBackgroundColor;
     private int currentDayTextColor;
+    private int headerDayTextColor;
     private int calenderTextColor;
     private int currentSelectedDayBackgroundColor;
     private int currentSelectedDayTextColor;
@@ -141,6 +143,7 @@ public class StatusCalendarController {
                 currentDayBackgroundColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarCurrentDayBackgroundColor, currentDayBackgroundColor);
                 calenderTextColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarTextColor, calenderTextColor);
                 currentDayTextColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarCurrentDayTextColor, calenderTextColor);
+                headerDayTextColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarHeaderDaysTextColor, calenderTextColor);
                 otherMonthDaysTextColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarOtherMonthDaysTextColor, otherMonthDaysTextColor);
                 currentSelectedDayBackgroundColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarCurrentSelectedDayBackgroundColor, currentSelectedDayBackgroundColor);
                 currentSelectedDayTextColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarCurrentSelectedDayTextColor, calenderTextColor);
@@ -150,6 +153,8 @@ public class StatusCalendarController {
                         (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
                 targetHeight = typedArray.getDimensionPixelSize(R.styleable.StatusCalendarView_statusCalendarTargetHeight,
                         (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, targetHeight, context.getResources().getDisplayMetrics()));
+                dayPadding = typedArray.getDimensionPixelSize(R.styleable.StatusCalendarView_statusCalendarDayPadding,
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dayPadding, context.getResources().getDisplayMetrics()));
                 eventIndicatorStyle = typedArray.getInt(R.styleable.StatusCalendarView_statusCalendarEventIndicatorStyle, SMALL_INDICATOR);
                 currentDayIndicatorStyle = typedArray.getInt(R.styleable.StatusCalendarView_statusCalendarCurrentDayIndicatorStyle, FILL_LARGE_INDICATOR);
                 currentSelectedDayIndicatorStyle = typedArray.getInt(R.styleable.StatusCalendarView_statusCalendarCurrentSelectedDayIndicatorStyle, FILL_LARGE_INDICATOR);
@@ -191,7 +196,7 @@ public class StatusCalendarController {
         initScreenDensityRelatedValues(context);
         xIndicatorOffset = 3.5f * screenDensity;
         //scale small indicator by screen density
-        smallIndicatorRadius = 2.5f * screenDensity;
+        smallIndicatorRadius = 2f * screenDensity;
         //just set a default growFactor to draw full calendar when initialised
         growFactor = Integer.MAX_VALUE;
     }
@@ -274,6 +279,14 @@ public class StatusCalendarController {
         this.targetHeight = targetHeight;
     }
 
+    public int getDayPadding() {
+        return dayPadding;
+    }
+
+    public void setDayPadding(final int dayPadding) {
+        this.dayPadding = dayPadding;
+    }
+
     int getWidth() {
         return width;
     }
@@ -317,6 +330,10 @@ public class StatusCalendarController {
 
     void setCurrentDayTextColor(int currentDayTextColor) {
         this.currentDayTextColor = currentDayTextColor;
+    }
+
+    public void setHeaderDayTextColor(final int headerDayTextColor) {
+        this.headerDayTextColor = headerDayTextColor;
     }
 
     void showNextMonth() {
@@ -708,7 +725,7 @@ public class StatusCalendarController {
                 int dayOfWeek = getDayOfWeek(eventsCalendar);
                 int weekNumberForMonth = eventsCalendar.get(Calendar.WEEK_OF_MONTH);
                 float xPosition = widthPerDay * dayOfWeek + paddingWidth + paddingLeft + accumulatedScrollOffset.x + offset - paddingRight;
-                float yPosition = weekNumberForMonth * heightPerDay + (paddingHeight * 1.3f);
+                float yPosition = weekNumberForMonth * heightPerDay + (paddingHeight * 0.8f);
                 if (((animationStatus == EXPOSE_CALENDAR_ANIMATION || animationStatus == ANIMATE_INDICATORS) && xPosition >= growFactor) || yPosition >= growFactor) {
                     // only draw small event indicators if enough of the calendar is exposed
                     continue;
@@ -729,20 +746,9 @@ public class StatusCalendarController {
                         Event event = eventsList.get(0);
                         drawEventIndicatorCircle(canvas, xPosition, yPosition, event.getColor());
                     } else {
-                        yPosition += indicatorOffset;
-                        // offset event indicators to draw below selected day indicators
-                        // this makes sure that they do no overlap
-                        // if (shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay)) {
-                        // yPosition += indicatorOffset;
-                        //}
+                        //     yPosition -= indicatorOffset;
+//                        drawRect(canvas, xPosition, yPosition, eventsList.get(0).getColor());
                         drawSingleEvent(canvas, xPosition, yPosition, isCurrentSelectedDay, eventsList.get(0), uniqEvents);
-//                        if (eventsList.size() >= 3) {
-//                            drawEventsWithPlus(canvas, xPosition, yPosition, eventsList);
-//                        } else if (eventsList.size() == 2) {
-//                            drawTwoEvents(canvas, xPosition, yPosition, eventsList);
-//                        } else if (eventsList.size() == 1) {
-//                            drawSingleEvent(canvas, xPosition, yPosition, eventsList);
-//                        }
                     }
                 }
             }
@@ -788,38 +794,6 @@ public class StatusCalendarController {
         return false;
     }
 
-    private void drawSingleEvent(Canvas canvas, float xPosition, float yPosition, List<Event> eventsList) {
-        Event event = eventsList.get(0);
-        drawEventIndicatorCircle(canvas, xPosition, yPosition, event.getColor());
-    }
-
-    private void drawTwoEvents(Canvas canvas, float xPosition, float yPosition, List<Event> eventsList) {
-        //draw fist event just left of center
-        drawEventIndicatorCircle(canvas, xPosition + (xIndicatorOffset * -1), yPosition, eventsList.get(0).getColor());
-        //draw second event just right of center
-        drawEventIndicatorCircle(canvas, xPosition + (xIndicatorOffset * 1), yPosition, eventsList.get(1).getColor());
-    }
-
-    //draw 2 eventsByMonthAndYearMap followed by plus indicator to show there are more than 2 eventsByMonthAndYearMap
-    private void drawEventsWithPlus(Canvas canvas, float xPosition, float yPosition, List<Event> eventsList) {
-        // k = size() - 1, but since we don't want to draw more than 2 indicators, we just stop after 2 iterations so we can just hard k = -2 instead
-        // we can use the below loop to draw arbitrary eventsByMonthAndYearMap based on the current screen size, for example, larger screens should be able to
-        // display more than 2 evens before displaying plus indicator, but don't draw more than 3 indicators for now
-        for (int j = 0, k = -2; j < 3; j++, k += 2) {
-            Event event = eventsList.get(j);
-            float xStartPosition = xPosition + (xIndicatorOffset * k);
-            if (j == 2) {
-                dayPaint.setColor(multiEventIndicatorColor);
-                dayPaint.setStrokeWidth(multiDayIndicatorStrokeWidth);
-                canvas.drawLine(xStartPosition - smallIndicatorRadius, yPosition, xStartPosition + smallIndicatorRadius, yPosition, dayPaint);
-                canvas.drawLine(xStartPosition, yPosition - smallIndicatorRadius, xStartPosition, yPosition + smallIndicatorRadius, dayPaint);
-                dayPaint.setStrokeWidth(0);
-            } else {
-                drawEventIndicatorCircle(canvas, xStartPosition, yPosition, event.getColor());
-            }
-        }
-    }
-
     // zero based indexes used internally so instead of returning range of 1-7 like calendar class
     // it returns 0-6 where 0 is Sunday instead of 1
     int getDayOfWeek(Calendar calendar) {
@@ -861,10 +835,10 @@ public class StatusCalendarController {
             if (dayRow == 0) {
                 // first row, so draw the first letter of the day
                 if (shouldDrawDaysHeader) {
-                    dayPaint.setColor(calenderTextColor);
+                    dayPaint.setColor(headerDayTextColor);
                     dayPaint.setTypeface(Typeface.DEFAULT_BOLD);
                     dayPaint.setStyle(Paint.Style.FILL);
-                    dayPaint.setColor(calenderTextColor);
+                    dayPaint.setColor(headerDayTextColor);
                     canvas.drawText(dayColumnNames[dayColumn], xPosition, paddingHeight, dayPaint);
                     dayPaint.setTypeface(Typeface.DEFAULT);
                 }
@@ -879,8 +853,8 @@ public class StatusCalendarController {
                     // TODO calculate position of circle in a more reliable way
                     if (noEventsForDay(todayCalender)) {
                         drawDayCircleIndicator(currentDayIndicatorStyle, canvas, xPosition, yPosition, currentDayBackgroundColor);
-                        defaultCalenderTextColorToUse = currentDayTextColor;
                     }
+                    defaultCalenderTextColorToUse = currentDayTextColor;
                 }
                 if (day <= 0) {
                     if (displayOtherMonthDays) {
@@ -932,19 +906,19 @@ public class StatusCalendarController {
         } else {
             dayPaint.setStyle(Paint.Style.FILL);
         }
-        drawCircle(canvas, x, y, color, circleScale);
+        drawRect(canvas, x, y, color, circleScale);
         dayPaint.setStrokeWidth(strokeWidth);
         dayPaint.setStyle(Paint.Style.FILL);
     }
 
     // Draw Circle on certain days to highlight them
-    private void drawCircle(Canvas canvas, float x, float y, int color, float circleScale) {
+    private void drawRect(Canvas canvas, float x, float y, int color, float circleScale) {
         dayPaint.setColor(color);
         if (animationStatus == ANIMATE_INDICATORS) {
             float maxRadius = circleScale * bigCircleIndicatorRadius * 1.4f;
-            drawCircle(canvas, growfactorIndicator > maxRadius ? maxRadius : growfactorIndicator, x, y - (textHeight / 6));
+            drawRect(canvas, growfactorIndicator > maxRadius ? maxRadius : growfactorIndicator, x, y - (textHeight / 6));
         } else {
-            drawCircle(canvas, circleScale * bigCircleIndicatorRadius, x, y - (textHeight / 6));
+            drawRect(canvas, circleScale * bigCircleIndicatorRadius, x, y - (textHeight / 6));
         }
     }
 
@@ -952,7 +926,7 @@ public class StatusCalendarController {
         dayPaint.setColor(color);
         if (eventIndicatorStyle == SMALL_INDICATOR) {
             dayPaint.setStyle(Paint.Style.FILL);
-            drawCircle(canvas, smallIndicatorRadius, x, y);
+            drawRect(canvas, smallIndicatorRadius, x, y);
         } else if (eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
             dayPaint.setStyle(Paint.Style.STROKE);
             drawDayCircleIndicator(NO_FILL_LARGE_INDICATOR, canvas, x, y, color);
@@ -961,22 +935,22 @@ public class StatusCalendarController {
         }
     }
 
-    private void drawCircle(Canvas canvas, float radius, float x, float y) {
-//        canvas.drawCircle(x, y, radius, dayPaint);
-        float top = y - (heightPerDay / 2.2f);// * 0.95f);
-        float left = x - (widthPerDay / 2.2f) + smallIndicatorRadius;
-        float right = x + (widthPerDay / 2.2f) - smallIndicatorRadius;
-        float bottom = y + (heightPerDay / 2.2f);
+    private void drawRect(Canvas canvas, float radius, float x, float y) {
+//        canvas.drawRect(x, y, radius, dayPaint);
+        float top = y - (heightPerDay / 2f) + dayPadding;// * 0.95f);
+        float left = x - (widthPerDay / 2f) + dayPadding;
+        float right = x + (widthPerDay / 2f) - dayPadding;
+        float bottom = y + (heightPerDay / 2f) - dayPadding;
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
     }
 
     private void drawEventIndicatorRect(Canvas canvas, float x, float y, int color, final boolean isCurrentSelectedDay, final boolean isSameAsPrev, final boolean isSameAsNext) {
         dayPaint.setColor(color);
         dayPaint.setStyle(Paint.Style.FILL);
-        float top = isCurrentSelectedDay ? y - (heightPerDay * 0.90f) : y - (2 * smallIndicatorRadius);
-        float left = isSameAsPrev && !isCurrentSelectedDay ? x - (widthPerDay / 1.5f) : x - (widthPerDay / 2) + (2 * smallIndicatorRadius);
-        float right = isSameAsNext && !isCurrentSelectedDay ? x + (widthPerDay / 1.5f) : x + (widthPerDay / 2) - (2 * smallIndicatorRadius);
-        float bottom = y;
+        float top = isCurrentSelectedDay ? y - (heightPerDay / 2f) + dayPadding : y + (heightPerDay / 2f) - dayPadding - (2 * smallIndicatorRadius);
+        float left = isSameAsPrev && !isCurrentSelectedDay ? x - (widthPerDay / 1.5f) : x - (widthPerDay / 2f) + dayPadding;
+        float right = isSameAsNext && !isCurrentSelectedDay ? x + (widthPerDay / 1.5f) : x + (widthPerDay / 2f) - dayPadding;
+        float bottom = y + (heightPerDay / 2f) - dayPadding;
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
     }
 

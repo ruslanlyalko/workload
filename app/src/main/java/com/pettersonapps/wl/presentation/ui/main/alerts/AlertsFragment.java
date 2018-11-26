@@ -23,7 +23,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -141,7 +141,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
         });
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerUsers.setAdapter(mUsersAdapter);
-        mReportsAdapter = new ReportsAdapter(null);
+        mReportsAdapter = new ReportsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
     }

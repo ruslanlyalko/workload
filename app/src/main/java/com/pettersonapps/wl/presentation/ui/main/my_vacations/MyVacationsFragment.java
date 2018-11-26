@@ -7,15 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
-import com.pettersonapps.wl.presentation.ui.main.workload.adapter.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Date;
@@ -62,7 +60,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
         hideFab();
-        mReportsAdapter = new ReportsAdapter(null);
+        mReportsAdapter = new ReportsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
         getPresenter().onViewReady();

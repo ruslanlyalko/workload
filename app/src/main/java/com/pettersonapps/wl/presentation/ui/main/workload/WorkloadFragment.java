@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
@@ -21,7 +22,7 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.pager.OnRepClickListener;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.OnReportClickListener;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
@@ -37,7 +38,7 @@ import java.util.TimeZone;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView, OnRepClickListener {
+public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView, OnReportClickListener {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;

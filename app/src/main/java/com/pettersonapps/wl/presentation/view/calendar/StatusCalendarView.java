@@ -186,6 +186,10 @@ public class StatusCalendarView extends View {
         compactCalendarController.setCurrentDayTextColor(currentDayTextColor);
     }
 
+    public void setHeaderDayTextColor(int headerDayTextColor) {
+        compactCalendarController.setHeaderDayTextColor(headerDayTextColor);
+    }
+
     /**
      * see {@link #addEvent(Event, boolean)} when adding single events
      * or {@link #addEvents(java.util.List)}  when adding multiple events
@@ -348,6 +352,15 @@ public class StatusCalendarView extends View {
         checkTargetHeight();
     }
 
+    public int getDayPadding() {
+        return compactCalendarController.getDayPadding();
+    }
+
+    public void setDayPadding(final int dayPadding) {
+        compactCalendarController.setDayPadding(dayPadding);
+        invalidate();
+    }
+
     public void showCalendar() {
         checkTargetHeight();
         animationHandler.openCalendar();
@@ -388,9 +401,9 @@ public class StatusCalendarView extends View {
         int width = MeasureSpec.getSize(parentWidth);
         int height = MeasureSpec.getSize(parentHeight);
         if (width > 0 && height > 0) {
-            compactCalendarController.onMeasure(width, height, getPaddingRight(), getPaddingLeft());
+            compactCalendarController.onMeasure(width, width, getPaddingRight(), getPaddingLeft());
         }
-        setMeasuredDimension(width, height);
+        setMeasuredDimension(width, width);
     }
 
     @Override

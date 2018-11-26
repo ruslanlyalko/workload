@@ -48,12 +48,14 @@
         <attr name="statusCalendarTextColor" format="color"/>
         <attr name="statusCalendarMultiEventIndicatorColor" format="color"/>
         <attr name="statusCalendarTargetHeight" format="dimension"/>
+        <attr name="statusCalendarDayPadding" format="dimension"/>
         <attr name="statusCalendarEventIndicatorStyle"/>
         <attr name="statusCalendarCurrentDayIndicatorStyle"/>
         <attr name="statusCalendarCurrentSelectedDayIndicatorStyle"/>
         <attr name="statusCalendarDisplayOtherMonthDays" format="boolean"/>
         <attr name="statusCalendarShouldSelectFirstDayOfMonthOnScroll" format="boolean"/>
         <attr name="statusCalendarOtherMonthDaysTextColor" format="color"/>
+        <attr name="statusCalendarHeaderDaysTextColor" format="color"/>
     </declare-styleable>
 
 </resources>

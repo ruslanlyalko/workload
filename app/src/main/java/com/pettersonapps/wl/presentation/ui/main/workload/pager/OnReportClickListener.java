@@ -7,7 +7,7 @@ import com.pettersonapps.wl.data.models.Report;
  * on 14.01.2018.
  */
 
-public interface OnRepClickListener {
+public interface OnReportClickListener {
 
     void onReportClicked(Report report);
 

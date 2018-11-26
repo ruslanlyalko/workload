@@ -1,8 +1,7 @@
-package com.pettersonapps.wl.presentation.ui.main.workload.adapter;
+package com.pettersonapps.wl.presentation.ui.report;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
@@ -21,14 +20,12 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
-import com.pettersonapps.wl.presentation.view.OnReportClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -39,16 +36,9 @@ import static android.view.View.VISIBLE;
  */
 public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHolder> {
 
-    private final OnReportClickListener mOnReportClickListener;
     private List<Report> mData = new ArrayList<>();
-    private boolean mAllowEdit;
 
-    public ReportsAdapter(@Nullable OnReportClickListener onReportClickListener) {
-        mOnReportClickListener = onReportClickListener;
-    }
-
-    public void setAllowEdit(boolean allow) {
-        mAllowEdit = allow;
+    public ReportsAdapter() {
     }
 
     public List<Report> getData() {
@@ -112,8 +102,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         void bind(final Report report) {
             mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), report.getStatus())));
             mTextTitle.setText(report.getStatus());
-            boolean showName = mOnReportClickListener == null || (TextUtils.isEmpty(report.getP3()) && TextUtils.isEmpty(report.getP4()));
-            mTextName.setVisibility(showName ? VISIBLE : GONE);
+            mTextName.setVisibility(VISIBLE);
             mTextName.setText(String.format("%s / %s", report.getUserName(), report.getUserDepartment()));
             mTextProject1.setVisibility(TextUtils.isEmpty(report.getP1()) ? GONE : VISIBLE);
             mTextProject2.setVisibility(TextUtils.isEmpty(report.getP2()) ? GONE : VISIBLE);
@@ -124,26 +113,12 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
             mTextProject3.setText(getFormattedText(report.getP3(), report.getT3()));
             mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
             mTextDate.setText(DateUtils.toStringDate(report.getDate()));
-            mImageDelete.setVisibility(mOnReportClickListener != null
-                    && (mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
-                    ? VISIBLE : GONE);
+            mImageDelete.setVisibility(GONE);
         }
 
         private Spanned getFormattedText(final String name, final int time) {
             if (TextUtils.isEmpty(name)) return SpannableString.valueOf("");
             return Html.fromHtml("<b>" + name + "</b> " + time + "h");
-        }
-
-        @OnClick(R.id.layout_root)
-        void onItemClick(View v) {
-            if (mOnReportClickListener != null)
-                mOnReportClickListener.onReportClicked(v, getAdapterPosition());
-        }
-
-        @OnClick(R.id.image_delete)
-        void onClicked(View view) {
-            if (mOnReportClickListener != null)
-                mOnReportClickListener.onReportRemoveClicked(view, getAdapterPosition());
         }
     }
 }
