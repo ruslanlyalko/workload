@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -32,6 +34,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private final OnItemClickListener mOnItemClickListener;
     private List<User> mData = new ArrayList<>();
     private List<User> mDataFiltered = new ArrayList<>();
+    private int mLastAnimatedPosition;
+    private Animation mAnimation;
 
     public UsersAdapter(final OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
@@ -40,14 +44,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public List<User> getData() {
         return mData;
     }
-    public List<User> getDataFiltered() {
-        return mDataFiltered;
-    }
 
     public void setData(final List<User> data) {
-        mData = data;
-        mDataFiltered = data;
-        notifyDataSetChanged();
+        if (mData.isEmpty()) {
+            mData = data;
+            mDataFiltered = data;
+            notifyItemRangeInserted(0, mData.size());
+        } else {
+            mData = data;
+            mDataFiltered = data;
+            notifyDataSetChanged();
+        }
+    }
+
+    public List<User> getDataFiltered() {
+        return mDataFiltered;
     }
 
     @NonNull
@@ -56,6 +67,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_user, parent, false);
+        if (mAnimation == null)
+            mAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.item_animation_fall_down);
         return new ViewHolder(v);
     }
 
@@ -129,6 +142,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mTextLetters.setText(getAbbreviation(user.getName()));
             mImageAdmin.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
             mImageEdit.setVisibility(user.getIsAllowEditPastReports() ? View.VISIBLE : View.GONE);
+            runEnterAnimation(itemView, getAdapterPosition());
         }
 
         private String getAbbreviation(final String name) {
@@ -151,6 +165,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             if (mOnItemClickListener != null)
                 mOnItemClickListener.onItemLongClicked(v, getAdapterPosition());
             return true;
+        }
+
+        private void runEnterAnimation(View view, int position) {
+            if (position >= mDataFiltered.size()) {
+                return;
+            }
+            if (position > mLastAnimatedPosition) {
+                mLastAnimatedPosition = position;
+                view.startAnimation(mAnimation);
+            }
         }
     }
 }

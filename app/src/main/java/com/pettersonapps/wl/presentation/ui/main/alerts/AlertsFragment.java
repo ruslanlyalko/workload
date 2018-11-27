@@ -82,7 +82,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
 
     private void changeEmail() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.text_chnage_email);
+        builder.setTitle(R.string.text_change_email);
         final EditText input = new EditText(getContext());
         LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT,

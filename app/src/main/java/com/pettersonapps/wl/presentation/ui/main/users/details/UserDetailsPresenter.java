@@ -34,7 +34,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
             value = value + 1;
             mYears.append(yearInd, value);
         }
-        getView().showReportsByYear(mUser.getFirstWorkingDate(), mYears);
+        getView().showReportsByYear(mYears);
     }
 
     public User getUser() {

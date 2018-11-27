@@ -29,8 +29,8 @@ import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProject
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -43,10 +43,12 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.text_name) TextView mTextName;
     @BindView(R.id.text_email) TextView mTextEmail;
+    @BindView(R.id.text_first) TextView mTextFirst;
     @BindView(R.id.text_phone) TextView mTextPhone;
     @BindView(R.id.text_skype) TextView mTextSkype;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_common) TextView mTextCommon;
+    @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.divider_comments) View mDividerComments;
@@ -70,12 +72,12 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @Override
-    public void showReportsByYear(final Date firstWorkingDate, final SparseIntArray years) {
-        String text = "First Working Day: " + DateUtils.toStringStandardDate(firstWorkingDate) + "\n";
+    public void showReportsByYear(final SparseIntArray years) {
+        String text = "";
         for (int i = 0; i < years.size(); i++) {
             String day = (years.keyAt(i) + 1) + getDayOfMonthSuffix(years.keyAt(i) + 1);
             int count = years.get(years.keyAt(i));
-            text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count);
+            text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count).trim();
         }
         mTextCommon.setText(text);
     }
@@ -102,6 +104,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mTextComments.setVisibility(View.VISIBLE);
             mDividerComments.setVisibility(View.VISIBLE);
         }
+        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime()));
+        mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         if (user.getProjects().isEmpty()) {
             mTextProjects.setText(R.string.placeholder_no_projects);

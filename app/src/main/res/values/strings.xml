@@ -116,7 +116,8 @@
     <string name="text_immediately_login">Immediately login</string>
     <string name="text_export">Start exporting</string>
     <string name="version_name">Workload version %s</string>
-    <string name="text_chnage_email">Notification email</string>
+    <string name="text_change_email">Notification email</string>
+    <string name="text_petterson">\@pettersonapps.com</string>
 
     <!--arrays-->
     <string-array name="departments">

@@ -18,7 +18,7 @@ public interface UserDetailsView extends BaseView<UserDetailsPresenter> {
 
     void showReports(MutableLiveData<List<Report>> vacationReportsData);
 
-    void showReportsByYear(Date firstWorkingDate, SparseIntArray mYears);
+    void showReportsByYear(SparseIntArray mYears);
 
     void showUserDetails(User user);
 }

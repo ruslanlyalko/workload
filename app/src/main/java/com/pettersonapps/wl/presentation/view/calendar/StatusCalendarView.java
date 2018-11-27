@@ -170,7 +170,7 @@ public class StatusCalendarView extends View {
     public void setCurrentDate(Date dateTimeMonth) {
         compactCalendarController.setCurrentDate(dateTimeMonth);
         ValueAnimator animator = ValueAnimator.ofInt(0, StatusCalendarController.MAX_COEFFICIENT);
-        animator.setDuration(400);
+        animator.setDuration(200);
         animator.setInterpolator(new DecelerateInterpolator());
         animator.addUpdateListener(animation -> {
             compactCalendarController.setCoefficient((int) animation.getAnimatedValue());
