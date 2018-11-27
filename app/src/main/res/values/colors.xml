@@ -3,8 +3,8 @@
     // Day
     <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#fff</color>
-    <color name="colorAccent">#42BC8E</color>
-    <color name="colorBottomAppBarBackground">#42BC8E</color>
+    <color name="colorAccent">#00bc8c</color>
+    <color name="colorBottomAppBarBackground">#00bc8c</color>
     <color name="colorBackgroundMenu">#fff</color>
     <color name="colorBackgroundMenuItem">#effbfc</color>
     <color name="colorBackground">#fff</color>
@@ -26,7 +26,7 @@
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
-    <color name="colorAccentNight">#42BC8E</color>
+    <color name="colorAccentNight">#00bc8c</color>
     <color name="colorBottomAppBarBackgroundNight">#262626</color>
     <color name="colorBackgroundMenuNight">#262626</color>
     <color name="colorBackgroundMenuItemNight">#28393b</color>

@@ -45,7 +45,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
         notifyDataSetChanged();
     }
 
-    public void addItem(ProjectSelectable projectSelectable, boolean is4defaultTime) {
+    public void addItem(ProjectSelectable projectSelectable, int defaultWorkingTime) {
         if (mData.size() > 0) {
             int totalHour = 0;
             for (ProjectSelectable p : mData) {
@@ -53,7 +53,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
             }
             projectSelectable.setSpent(Math.max(1, 8 - totalHour));
         } else {
-            projectSelectable.setSpent(is4defaultTime ? 4 : 8);
+            projectSelectable.setSpent(defaultWorkingTime);
         }
         mData.add(projectSelectable);
         if (mData.size() == 4)

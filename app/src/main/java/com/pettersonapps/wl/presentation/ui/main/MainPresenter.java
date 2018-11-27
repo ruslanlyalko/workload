@@ -1,5 +1,7 @@
 package com.pettersonapps.wl.presentation.ui.main;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 
@@ -36,7 +38,16 @@ public class MainPresenter extends BasePresenter<MainView> {
         return mUser;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final User user, final boolean isNightMode) {
         mUser = user;
+        if (user.getVersion() == null || !user.getVersion().equals(BuildConfig.VERSION_NAME)) {
+            getDataManager().updateVersion();
+        }
+        if (user.getToken() == null || !user.getToken().equals(FirebaseInstanceId.getInstance().getToken())) {
+            getDataManager().updateToken();
+        }
+        if (user.getIsNightMode() != isNightMode) {
+            getDataManager().updateNightMode(isNightMode);
+        }
     }
 }

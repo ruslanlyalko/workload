@@ -44,7 +44,7 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
 
     void showProjects(List<Project> projects);
 
-    void addProject(String title);
+    void addProject(String title, int defaultWorkingTime);
 
     void changeProject(String title, int position);
 

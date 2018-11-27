@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -128,7 +129,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @Override
     public void showUser(final MutableLiveData<User> myUserData) {
         myUserData.observe(this, user -> {
-            getPresenter().setUser(user);
+            getPresenter().setUser(user, AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
             if (user == null) return;
             mTextTitle.setText(user.getName());
             mTextSubtitle.setText(user.getEmail());

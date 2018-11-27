@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
@@ -36,10 +37,14 @@ import static com.pettersonapps.wl.data.Config.DB_SETTINGS;
 import static com.pettersonapps.wl.data.Config.DB_USERS;
 import static com.pettersonapps.wl.data.Config.FIELD_ALLOW_TO_EDIT;
 import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
+import static com.pettersonapps.wl.data.Config.FIELD_DEFAULT_WORKING_TIME;
+import static com.pettersonapps.wl.data.Config.FIELD_IS_NIGHT_MODE;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
+import static com.pettersonapps.wl.data.Config.FIELD_REMIND_ME_AT;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
 import static com.pettersonapps.wl.data.Config.FIELD_TOKEN;
 import static com.pettersonapps.wl.data.Config.FIELD_USER_ID;
+import static com.pettersonapps.wl.data.Config.FIELD_VERSION;
 
 /**
  * Created by Ruslan Lyalko
@@ -155,45 +160,33 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<User>> getAllUsersWithoutReports(final Date date) {
+    public MutableLiveData<List<User>> getAllUsersWithoutReports(List<User> users, final Date date) {
         final MutableLiveData<List<User>> result = new MutableLiveData<>();
-        mDatabase.getReference(DB_USERS)
-                .orderByChild(FIELD_NAME)
-                .addValueEventListener(new ValueEventListener() {
+        if (users.isEmpty()) return result;
+        List<User> listUsers = new ArrayList<>();
+        for (User user : users) {
+            if (user != null && !user.getIsAdmin() && !user.getIsBlocked())
+                listUsers.add(user);
+        }
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_DATE_TIME)
+                .startAt(DateUtils.getStart(date).getTime())
+                .endAt(DateUtils.getEnd(date).getTime())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Users");
-                        List<User> listUsers = new ArrayList<>();
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            User user = snap.getValue(User.class);
-                            if (user != null && !user.getIsAdmin())
-                                listUsers.add(user);
+                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Reports");
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if (report == null) return;
+                            for (int i = 0; i < listUsers.size(); i++) {
+                                if (listUsers.get(i).getKey().equals(report.getUserId())) {
+                                    listUsers.remove(i);
+                                    break;
+                                }
+                            }
                         }
-                        mDatabase.getReference(DB_REPORTS)
-                                .orderByChild(FIELD_DATE_TIME)
-                                .startAt(DateUtils.getStart(date).getTime())
-                                .endAt(DateUtils.getEnd(date).getTime())
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Reports");
-                                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
-                                            Report report = snapReport.getValue(Report.class);
-                                            if (report == null) return;
-                                            for (int i = 0; i < listUsers.size(); i++) {
-                                                if (listUsers.get(i).getKey().equals(report.getUserId())) {
-                                                    listUsers.remove(i);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        result.postValue(listUsers);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                                    }
-                                });
+                        result.postValue(listUsers);
                     }
 
                     @Override
@@ -216,6 +209,42 @@ public class DataManagerImpl implements DataManager {
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_TOKEN)
                 .setValue(FirebaseInstanceId.getInstance().getToken());
+    }
+
+    @Override
+    public void updateRemindMeAt(final String remindMeAt) {
+        if (mAuth.getCurrentUser() == null) return;
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_REMIND_ME_AT)
+                .setValue(remindMeAt);
+    }
+
+    @Override
+    public void updateDefaultWorkingTime(final int defaultWorkingTime) {
+        if (mAuth.getCurrentUser() == null) return;
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_DEFAULT_WORKING_TIME)
+                .setValue(defaultWorkingTime);
+    }
+
+    @Override
+    public void updateVersion() {
+        if (mAuth.getCurrentUser() == null) return;
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_VERSION)
+                .setValue(BuildConfig.VERSION_NAME);
+    }
+
+    @Override
+    public void updateNightMode(final boolean isNightMode) {
+        if (mAuth.getCurrentUser() == null) return;
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_IS_NIGHT_MODE)
+                .setValue(isNightMode);
     }
 
     @Override

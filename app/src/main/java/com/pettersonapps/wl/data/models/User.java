@@ -21,13 +21,17 @@ public class User extends BaseModel {
     private Date birthday;
     private Date firstWorkingDate;
     private String notificationHour;
-    private String remindMeAt;
-    private String token;
-    private boolean isAllowEditPastReports;
     private boolean isBlocked;
     private boolean isAdmin;
     private List<Project> projects;
     private String comments;
+    private boolean isAllowEditPastReports;
+    //
+    private String remindMeAt;
+    private String token;
+    private String version;
+    private boolean isNightMode;
+    private int defaultWorkingTime;
 
     public User() {
         firstWorkingDate = new Date();
@@ -36,8 +40,18 @@ public class User extends BaseModel {
         remindMeAt = "18:00";
         skype = "";
         phone = "";
+        version = "";
         comments = "";
+        defaultWorkingTime = 8;
         projects = new ArrayList<>();
+    }
+
+    public int getDefaultWorkingTime() {
+        return defaultWorkingTime;
+    }
+
+    public void setDefaultWorkingTime(final int defaultWorkingTime) {
+        this.defaultWorkingTime = defaultWorkingTime;
     }
 
     public String getRemindMeAt() {
@@ -160,6 +174,22 @@ public class User extends BaseModel {
         this.firstWorkingDate = firstWorkingDate;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(final String version) {
+        this.version = version;
+    }
+
+    public boolean getIsNightMode() {
+        return isNightMode;
+    }
+
+    public void setIsNightMode(final boolean nightMode) {
+        isNightMode = nightMode;
+    }
+
     public String getComments() {
         return comments;
     }
@@ -183,13 +213,16 @@ public class User extends BaseModel {
         dest.writeLong(this.birthday != null ? this.birthday.getTime() : -1);
         dest.writeLong(this.firstWorkingDate != null ? this.firstWorkingDate.getTime() : -1);
         dest.writeString(this.notificationHour);
-        dest.writeString(this.remindMeAt);
-        dest.writeString(this.token);
-        dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.projects);
         dest.writeString(this.comments);
+        dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
+        dest.writeString(this.remindMeAt);
+        dest.writeString(this.token);
+        dest.writeString(this.version);
+        dest.writeByte(this.isNightMode ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.defaultWorkingTime);
     }
 
     protected User(Parcel in) {
@@ -205,13 +238,16 @@ public class User extends BaseModel {
         long tmpFirstWorkingDate = in.readLong();
         this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
         this.notificationHour = in.readString();
-        this.remindMeAt = in.readString();
-        this.token = in.readString();
-        this.isAllowEditPastReports = in.readByte() != 0;
         this.isBlocked = in.readByte() != 0;
         this.isAdmin = in.readByte() != 0;
         this.projects = in.createTypedArrayList(Project.CREATOR);
         this.comments = in.readString();
+        this.isAllowEditPastReports = in.readByte() != 0;
+        this.remindMeAt = in.readString();
+        this.token = in.readString();
+        this.version = in.readString();
+        this.isNightMode = in.readByte() != 0;
+        this.defaultWorkingTime = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

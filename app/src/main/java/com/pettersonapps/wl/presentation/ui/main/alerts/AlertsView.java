@@ -16,11 +16,19 @@ import java.util.List;
  */
 public interface AlertsView extends BaseView<AlertsPresenter> {
 
-    void showReports(MutableLiveData<List<Report>> allWrongReports);
+    void showSettings(MutableLiveData<AppSettings> settings);
 
-    void showUsers(MutableLiveData<List<User>> allUsersWithoutReports);
+    void showReports(MutableLiveData<List<Report>> allReports);
+
+    void showAllUsers(MutableLiveData<List<User>> allUsers);
+
+    void showProgress();
+
+    void hideProgress();
 
     void showDate(Date date);
 
-    void showSettings(MutableLiveData<AppSettings> settings);
+    void showUsersWithoutReports(List<User> allUsersWithoutReports);
+
+    void showWrongReports(List<Report> allWrongReports);
 }

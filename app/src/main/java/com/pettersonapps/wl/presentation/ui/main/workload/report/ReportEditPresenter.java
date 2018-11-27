@@ -109,7 +109,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         boolean weekendDisallowStatus = (status.startsWith("Day")
                 || status.startsWith("Vacation")
                 || status.startsWith("Sick"));
-        if(weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())){
+        if (weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())) {
             getView().errorCantSaveNotWorkingStatusOnWeekends();
             return;
         }
@@ -251,7 +251,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     public void changeProject(final String title) {
         if (mAddProjectMode) {
-            getView().addProject(title);
+            getView().addProject(title, mUser.getDefaultWorkingTime());
         } else {
             getView().changeProject(title, mPosition);
         }

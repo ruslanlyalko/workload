@@ -25,11 +25,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         getView().populateUserSettings(user);
     }
 
-    public void saveUserNotificationSettings(final String notificationHour) {
-        if (mUser == null || TextUtils.isEmpty(notificationHour)) return;
-        mUser.setNotificationHour(notificationHour.split(":")[0]);
-        mUser.setRemindMeAt(notificationHour);
-        getDataManager().saveUser(mUser);
+    public void saveUserNotificationSettings(final String remindMeAt) {
+        if (mUser == null || TextUtils.isEmpty(remindMeAt)) return;
+        getDataManager().updateRemindMeAt(remindMeAt);
     }
 
     public void onLogoutClicked() {
@@ -37,7 +35,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         getView().showLoginScreen();
     }
 
-    public void saveUserDefault(final String s) {
-
+    public void saveUserDefaultWorkingTime(final int defaultWorkingTime) {
+        if (mUser == null || mUser.getDefaultWorkingTime() == defaultWorkingTime) return;
+        getDataManager().updateDefaultWorkingTime(defaultWorkingTime);
     }
 }

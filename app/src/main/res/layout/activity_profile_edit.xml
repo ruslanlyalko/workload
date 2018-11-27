@@ -32,10 +32,10 @@
                 android:paddingStart="12dp"
                 android:textColorHint="?attr/colorInputBorder"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/card_radius"
-                app:boxCornerRadiusTopStart="@dimen/card_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+                app:boxCornerRadiusBottomStart="@dimen/input_radius"
+                app:boxCornerRadiusTopEnd="@dimen/input_radius"
+                app:boxCornerRadiusTopStart="@dimen/input_radius"
                 app:boxStrokeWidth="1.5dp">
 
                 <android.support.design.widget.TextInputEditText
@@ -58,10 +58,10 @@
                 android:paddingStart="12dp"
                 android:textColorHint="?attr/colorInputBorder"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/card_radius"
-                app:boxCornerRadiusTopStart="@dimen/card_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+                app:boxCornerRadiusBottomStart="@dimen/input_radius"
+                app:boxCornerRadiusTopEnd="@dimen/input_radius"
+                app:boxCornerRadiusTopStart="@dimen/input_radius"
                 app:boxStrokeWidth="1.5dp">
 
                 <android.support.design.widget.TextInputEditText
@@ -84,10 +84,10 @@
                 android:paddingStart="12dp"
                 android:textColorHint="?attr/colorInputBorder"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/card_radius"
-                app:boxCornerRadiusTopStart="@dimen/card_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+                app:boxCornerRadiusBottomStart="@dimen/input_radius"
+                app:boxCornerRadiusTopEnd="@dimen/input_radius"
+                app:boxCornerRadiusTopStart="@dimen/input_radius"
                 app:boxStrokeWidth="1.5dp">
 
                 <android.support.design.widget.TextInputEditText
@@ -124,10 +124,10 @@
                 android:paddingStart="12dp"
                 android:textColorHint="?attr/colorInputBorder"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/card_radius"
-                app:boxCornerRadiusTopStart="@dimen/card_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+                app:boxCornerRadiusBottomStart="@dimen/input_radius"
+                app:boxCornerRadiusTopEnd="@dimen/input_radius"
+                app:boxCornerRadiusTopStart="@dimen/input_radius"
                 app:boxStrokeWidth="1.5dp">
 
                 <android.support.design.widget.TextInputEditText
@@ -151,10 +151,10 @@
                 android:paddingStart="12dp"
                 android:textColorHint="?attr/colorInputBorder"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/card_radius"
-                app:boxCornerRadiusBottomStart="@dimen/card_radius"
-                app:boxCornerRadiusTopEnd="@dimen/card_radius"
-                app:boxCornerRadiusTopStart="@dimen/card_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+                app:boxCornerRadiusBottomStart="@dimen/input_radius"
+                app:boxCornerRadiusTopEnd="@dimen/input_radius"
+                app:boxCornerRadiusTopStart="@dimen/input_radius"
                 app:boxStrokeWidth="1.5dp">
 
                 <android.support.design.widget.TextInputEditText

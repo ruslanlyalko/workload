@@ -43,12 +43,4 @@ public class BaseModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {dest.writeString(this.key);}
 
     protected BaseModel(Parcel in) {this.key = in.readString();}
-
-    public static final Creator<BaseModel> CREATOR = new Creator<BaseModel>() {
-        @Override
-        public BaseModel createFromParcel(Parcel source) {return new BaseModel(source);}
-
-        @Override
-        public BaseModel[] newArray(int size) {return new BaseModel[size];}
-    };
 }

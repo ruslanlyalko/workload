@@ -9,7 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -51,6 +53,13 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_settings);
         hideFab();
+        //
+        String[] remindHours = getResources().getStringArray(R.array.notification_hours);
+        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_settings, remindHours);
+        mSpinnerNotification.setAdapter(adapter);
+        String[] defaultWorkingTime = getResources().getStringArray(R.array.default_time);
+        SpinnerAdapter adapterTime = new ArrayAdapter<>(getContext(), R.layout.spinner_item_settings, defaultWorkingTime);
+        mSpinnerDefault.setAdapter(adapterTime);
         mSwitchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         mSpinnerNotification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -62,11 +71,10 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             public void onNothingSelected(final AdapterView<?> parent) {
             }
         });
-        mSpinnerDefault.setSelection(PreferencesHelper.getInstance(getContext()).getDefaultTimeIs4() ? 1 : 0);
         mSpinnerDefault.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                PreferencesHelper.getInstance(getContext()).setDefaultTime(position == 1);
+                getPresenter().saveUserDefaultWorkingTime(position == 0 ? 8 : 4);
             }
 
             @Override
@@ -116,6 +124,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
                 break;
             }
         }
+        mSpinnerDefault.setSelection(user.getDefaultWorkingTime() == 8 ? 0 : 1);
     }
 
     @Override

@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -44,6 +46,10 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
     @BindView(R.id.text_users_placeholder) TextView mTextUsersPlaceholder;
     @BindView(R.id.text_date) TextSwitcher mTextDate;
     @BindDimen(R.dimen.margin_default) int mDefault;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.layout_no_standard) LinearLayout mLayoutNoStandard;
+    @BindView(R.id.divider) View mDivider;
+    @BindView(R.id.layout_without) LinearLayout mLayoutWithout;
     private UsersAdapter mUsersAdapter;
     private ReportsAdapter mReportsAdapter;
     private Date mPrevDate;
@@ -147,21 +153,52 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
     }
 
     @Override
-    public void showReports(final MutableLiveData<List<Report>> allWrongReports) {
-        allWrongReports.observe(this, list -> {
-            if (list != null)
-                mTextReportsPlaceholder.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
-            mReportsAdapter.setData(list);
-        });
+    public void showSettings(final MutableLiveData<AppSettings> settings) {
+        settings.observe(this, set -> getPresenter().setSettings(set));
     }
 
     @Override
-    public void showUsers(final MutableLiveData<List<User>> allUsersWithoutReports) {
-        allUsersWithoutReports.observe(this, list -> {
-            if (list != null)
-                mTextUsersPlaceholder.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
-            mUsersAdapter.setData(list);
-        });
+    public void showReports(final MutableLiveData<List<Report>> allReports) {
+        allReports.observe(this, list -> getPresenter().setReports(list));
+    }
+
+    @Override
+    public void showAllUsers(final MutableLiveData<List<User>> allUsers) {
+        allUsers.observe(this, users -> getPresenter().setUsers(users));
+    }
+
+    @Override
+    public void showUsersWithoutReports(final List<User> allUsersWithoutReports) {
+        if (allUsersWithoutReports == null) {
+            return;
+        }
+        mTextUsersPlaceholder.setVisibility(allUsersWithoutReports.isEmpty() ? View.VISIBLE : View.GONE);
+        mUsersAdapter.setData(allUsersWithoutReports);
+    }
+
+    @Override
+    public void showWrongReports(final List<Report> allWrongReports) {
+        if (allWrongReports == null) {
+            return;
+        }
+        mTextReportsPlaceholder.setVisibility(allWrongReports.isEmpty() ? View.VISIBLE : View.GONE);
+        mReportsAdapter.setData(allWrongReports);
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mLayoutNoStandard.setVisibility(View.GONE);
+        mDivider.setVisibility(View.GONE);
+        mLayoutWithout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+        mLayoutNoStandard.setVisibility(View.VISIBLE);
+        mDivider.setVisibility(View.VISIBLE);
+        mLayoutWithout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -181,11 +218,6 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
         }
         mTextDate.setText(DateUtils.toStringDate(newDate));
         mPrevDate = newDate;
-    }
-
-    @Override
-    public void showSettings(final MutableLiveData<AppSettings> settings) {
-        settings.observe(this, set -> getPresenter().setSettings(set));
     }
 
     @OnClick(R.id.text_date)

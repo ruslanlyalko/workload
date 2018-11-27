@@ -48,13 +48,21 @@
 
             </TextSwitcher>
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:padding="32dp" />
+
             <LinearLayout
                 android:id="@+id/layout_no_standard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,6 +100,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@id/layout_no_standard"
                 android:background="?attr/colorDivider"
+                android:visibility="gone"
                 />
 
             <LinearLayout
@@ -99,7 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"

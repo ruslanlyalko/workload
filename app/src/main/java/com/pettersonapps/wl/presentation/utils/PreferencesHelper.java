@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 public class PreferencesHelper {
 
     private static final String KEY_NIGHT_MODE = "night";
-    private static final String KEY_4_HOUR = "hour_4";
     private static PreferencesHelper ourInstance;
     private final SharedPreferences mPrefs;
 
@@ -32,17 +31,6 @@ public class PreferencesHelper {
     public void setNightMode(boolean isNightModeEnabled) {
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(KEY_NIGHT_MODE, isNightModeEnabled);
-        editor.apply();
-        editor.commit();
-    }
-
-    public boolean getDefaultTimeIs4() {
-        return mPrefs.getBoolean(KEY_4_HOUR, false);
-    }
-
-    public void setDefaultTime(boolean is4Hour) {
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putBoolean(KEY_4_HOUR, is4Hour);
         editor.apply();
         editor.commit();
     }

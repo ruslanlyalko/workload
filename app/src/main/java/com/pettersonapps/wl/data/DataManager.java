@@ -28,11 +28,19 @@ public interface DataManager {
 
     MutableLiveData<List<User>> getAllUsers();
 
-    MutableLiveData<List<User>> getAllUsersWithoutReports(Date date);
+    MutableLiveData<List<User>> getAllUsersWithoutReports(List<User> users, Date date);
 
     Task<Void> changePassword(String newPassword);
 
     void updateToken();
+
+    void updateRemindMeAt(final String remindMeAt);
+
+    void updateDefaultWorkingTime(final int defaultWorkingTime);
+
+    void updateVersion();
+
+    void updateNightMode(final boolean isNightMode);
 
     void logout();
 
@@ -67,7 +75,7 @@ public interface DataManager {
 
     MutableLiveData<List<Report>> getVacationReports(final User user);
 
-    MutableLiveData<AppSettings>getSettings();
+    MutableLiveData<AppSettings> getSettings();
 
-    Task<Void>  setSettings(AppSettings settings);
+    Task<Void> setSettings(AppSettings settings);
 }
