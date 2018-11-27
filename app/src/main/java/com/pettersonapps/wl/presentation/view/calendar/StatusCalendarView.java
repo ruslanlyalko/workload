@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.view.calendar;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.OverScroller;
 
 import java.util.Calendar;
@@ -167,7 +169,14 @@ public class StatusCalendarView extends View {
 
     public void setCurrentDate(Date dateTimeMonth) {
         compactCalendarController.setCurrentDate(dateTimeMonth);
-        invalidate();
+        ValueAnimator animator = ValueAnimator.ofInt(0, StatusCalendarController.MAX_COEFFICIENT);
+        animator.setDuration(400);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.addUpdateListener(animation -> {
+            compactCalendarController.setCoefficient((int) animation.getAnimatedValue());
+            invalidate();
+        });
+        animator.start();
     }
 
     public int getWeekNumberForCurrentMonth() {

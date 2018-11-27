@@ -39,6 +39,7 @@ public class StatusCalendarController {
     private static final int DAYS_IN_WEEK = 7;
     private static final float SNAP_VELOCITY_DIP_PER_SECOND = 400;
     private static final float ANIMATION_SCREEN_SET_DURATION_MILLIS = 700;
+    static final int MAX_COEFFICIENT = 40;
 
     private int eventIndicatorStyle = SMALL_INDICATOR;
     private int currentDayIndicatorStyle = FILL_LARGE_INDICATOR;
@@ -85,6 +86,7 @@ public class StatusCalendarController {
     private StatusCalendarController.Direction currentDirection = StatusCalendarController.Direction.NONE;
     private Date currentDate = new Date();
     private Locale locale;
+    private Calendar lastCalender;
     private Calendar currentCalender;
     private Calendar todayCalender;
     private Calendar calendarWithFirstDayOfMonth;
@@ -108,6 +110,7 @@ public class StatusCalendarController {
     private int calenderBackgroundColor = Color.WHITE;
     private int otherMonthDaysTextColor;
     private TimeZone timeZone;
+    private int coefficient;
 
     /**
      * Only used in onDrawCurrentMonth to temporarily calculate previous month days
@@ -168,6 +171,7 @@ public class StatusCalendarController {
 
     private void init(Context context) {
         currentCalender = Calendar.getInstance(timeZone, locale);
+        lastCalender = Calendar.getInstance(timeZone, locale);
         todayCalender = Calendar.getInstance(timeZone, locale);
         calendarWithFirstDayOfMonth = Calendar.getInstance(timeZone, locale);
         eventsCalendar = Calendar.getInstance(timeZone, locale);
@@ -177,6 +181,7 @@ public class StatusCalendarController {
         calendarWithFirstDayOfMonth.setMinimalDaysInFirstWeek(1);
         todayCalender.setMinimalDaysInFirstWeek(1);
         currentCalender.setMinimalDaysInFirstWeek(1);
+        lastCalender.setMinimalDaysInFirstWeek(1);
         tempPreviousMonthCalendar.setMinimalDaysInFirstWeek(1);
         setFirstDayOfWeek(firstDayOfWeekToDraw);
         setUseWeekDayAbbreviation(false);
@@ -192,6 +197,7 @@ public class StatusCalendarController {
         todayCalender.setTime(new Date());
         setToMidnight(todayCalender);
         currentCalender.setTime(currentDate);
+        lastCalender.setTime(currentDate);
         setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, -monthsScrolledSoFar, 0);
         initScreenDensityRelatedValues(context);
         xIndicatorOffset = 3.5f * screenDensity;
@@ -199,6 +205,7 @@ public class StatusCalendarController {
         smallIndicatorRadius = 2f * screenDensity;
         //just set a default growFactor to draw full calendar when initialised
         growFactor = Integer.MAX_VALUE;
+        coefficient = MAX_COEFFICIENT;
     }
 
     private void initScreenDensityRelatedValues(Context context) {
@@ -606,10 +613,19 @@ public class StatusCalendarController {
         monthsScrolledSoFar = 0;
         accumulatedScrollOffset.x = 0;
         scroller.startScroll(0, 0, 0, 0);
+        lastCalender.setTime(currentDate);
         currentDate = new Date(dateTimeMonth.getTime());
         currentCalender.setTime(currentDate);
         todayCalender = Calendar.getInstance(timeZone, locale);
         setToMidnight(currentCalender);
+    }
+
+    public int getCoefficient() {
+        return coefficient;
+    }
+
+    public void setCoefficient(final int coefficient) {
+        this.coefficient = coefficient;
     }
 
     private void setToMidnight(Calendar calendar) {
@@ -713,10 +729,11 @@ public class StatusCalendarController {
         List<Events> uniqEvents = eventsContainer.getEventsForMonthAndYear(currentMonth, currentMonthToDrawCalender.get(Calendar.YEAR));
         boolean shouldDrawCurrentDayCircle = currentMonth == todayCalender.get(Calendar.MONTH);
         boolean shouldDrawSelectedDayCircle = currentMonth == currentCalender.get(Calendar.MONTH);
+        boolean shouldDrawLastSelectedDayCircle = currentMonth == lastCalender.get(Calendar.MONTH);
         int todayDayOfMonth = todayCalender.get(Calendar.DAY_OF_MONTH);
         int currentYear = todayCalender.get(Calendar.YEAR);
         int selectedDayOfMonth = currentCalender.get(Calendar.DAY_OF_MONTH);
-        float indicatorOffset = bigCircleIndicatorRadius / 2;
+        int lastSelectedDayOfMonth = lastCalender.get(Calendar.DAY_OF_MONTH);
         if (uniqEvents != null) {
             for (int i = 0; i < uniqEvents.size(); i++) {
                 Events events = uniqEvents.get(i);
@@ -741,6 +758,7 @@ public class StatusCalendarController {
                 int eventYear = eventsCalendar.get(Calendar.YEAR);
                 boolean isSameDayAsCurrentDay = shouldDrawCurrentDayCircle && (todayDayOfMonth == dayOfMonth) && (eventYear == currentYear);
                 boolean isCurrentSelectedDay = shouldDrawSelectedDayCircle && (selectedDayOfMonth == dayOfMonth);
+                boolean isLastSelectedDay = shouldDrawLastSelectedDayCircle && (lastSelectedDayOfMonth == dayOfMonth);
                 if (shouldDrawIndicatorsBelowSelectedDays || (!shouldDrawIndicatorsBelowSelectedDays && !isSameDayAsCurrentDay && !isCurrentSelectedDay) || animationStatus == EXPOSE_CALENDAR_ANIMATION) {
                     if (eventIndicatorStyle == FILL_LARGE_INDICATOR || eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
                         Event event = eventsList.get(0);
@@ -748,15 +766,16 @@ public class StatusCalendarController {
                     } else {
                         //     yPosition -= indicatorOffset;
 //                        drawRect(canvas, xPosition, yPosition, eventsList.get(0).getColor());
-                        drawSingleEvent(canvas, xPosition, yPosition, isCurrentSelectedDay, eventsList.get(0), uniqEvents);
+                        drawSingleEvent(canvas, xPosition, yPosition, isCurrentSelectedDay, isLastSelectedDay, eventsList.get(0), uniqEvents);
                     }
                 }
             }
         }
     }
 
-    private void drawSingleEvent(final Canvas canvas, final float xPosition, final float yPosition, final boolean isCurrentSelectedDay, final Event event, final List<Events> uniqEvents) {
-        drawEventIndicatorRect(canvas, xPosition, yPosition, event.getColor(), isCurrentSelectedDay,
+    private void drawSingleEvent(final Canvas canvas, final float xPosition, final float yPosition, final boolean isCurrentSelectedDay,
+                                 final boolean isLastSelectedDay, final Event event, final List<Events> uniqEvents) {
+        drawEventIndicatorRect(canvas, xPosition, yPosition, event.getColor(), isCurrentSelectedDay, isLastSelectedDay,
                 sameAsPrev(uniqEvents, event), sameAsNext(uniqEvents, event));
     }
 
@@ -846,8 +865,13 @@ public class StatusCalendarController {
                 int day = ((dayRow - 1) * 7 + dayColumn + 1) - firstDayOfMonth;
                 int defaultCalenderTextColorToUse = calenderTextColor;
                 if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
-                    if (noEventsForDay(currentCalender))
-                        drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
+                    if (noEventsForDay(currentCalender)) {
+                        dayPaint.setColor(currentSelectedDayBackgroundColor);
+                        dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
+//                        drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
+                        drawRect(canvas, xPosition, yPosition - (textHeight / 6));
+                        dayPaint.setAlpha(255);
+                    }
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
                 } else if (isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {
                     // TODO calculate position of circle in a more reliable way
@@ -944,14 +968,38 @@ public class StatusCalendarController {
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
     }
 
-    private void drawEventIndicatorRect(Canvas canvas, float x, float y, int color, final boolean isCurrentSelectedDay, final boolean isSameAsPrev, final boolean isSameAsNext) {
-        dayPaint.setColor(color);
-        dayPaint.setStyle(Paint.Style.FILL);
-        float top = isCurrentSelectedDay ? y - (heightPerDay / 2f) + dayPadding : y + (heightPerDay / 2f) - dayPadding - (2 * smallIndicatorRadius);
-        float left = isSameAsPrev && !isCurrentSelectedDay ? x - (widthPerDay / 1.5f) : x - (widthPerDay / 2f) + dayPadding;
-        float right = isSameAsNext && !isCurrentSelectedDay ? x + (widthPerDay / 1.5f) : x + (widthPerDay / 2f) - dayPadding;
+    private void drawRect(Canvas canvas, float x, float y) {
+        float top = y - (heightPerDay / 2f) + dayPadding;
+        float left = x - (widthPerDay / 2f) + dayPadding;
+        float right = x + (widthPerDay / 2f) - dayPadding;
         float bottom = y + (heightPerDay / 2f) - dayPadding;
         canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+    }
+
+    private void drawEventIndicatorRect(Canvas canvas, float x, float y, int color, final boolean isCurrentSelectedDay,
+                                        final boolean isLastCurrentSelectedDay, final boolean isSameAsPrev, final boolean isSameAsNext) {
+        dayPaint.setColor(color);
+        dayPaint.setStyle(Paint.Style.FILL);
+        float topMin = y - (heightPerDay / 2f) + dayPadding;
+        float topMax = y + (heightPerDay / 2f) - dayPadding - (2 * smallIndicatorRadius);
+        float diff = topMax - topMin;
+        float top;
+        if (isCurrentSelectedDay)
+            top = topMax - (diff * (coefficient) / MAX_COEFFICIENT);
+        else if (isLastCurrentSelectedDay)
+            top = topMin + (diff * (coefficient) / MAX_COEFFICIENT);
+        else
+            top = topMax;
+        float left = x - (widthPerDay / 2f) + dayPadding;
+        float right = x + (widthPerDay / 2f) - dayPadding;
+        float bottom = y + (heightPerDay / 2f) - dayPadding;
+        canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+        if (isSameAsPrev) {//&& !isCurrentSelectedDay && !isLastCurrentSelectedDay) {
+            canvas.drawRoundRect(left - (2 * dayPadding), topMax, left + dayPadding, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+        }
+        if (isSameAsNext) {
+            canvas.drawRoundRect(right - dayPadding, topMax, right + (2 * dayPadding), bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+        }
     }
 
     private enum Direction {
