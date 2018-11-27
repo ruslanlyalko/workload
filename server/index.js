@@ -68,6 +68,67 @@ function sendEmail(to, subject, text){
 }
 
 
+exports.pushTest = functions.https.onRequest((request, response) => {   
+	 const userId = request.query.userId;
+	 
+
+	const userPromise = admin.database().ref("/USERS").child(userId).once('value');
+
+	return userPromise.then(userSnap => {
+		var userObj = userSnap.val();
+		var tokens = [];
+		if(userObj.token) {
+			tokens.push(userObj.token);
+			var payload = {
+				
+				apns:{
+					payload:{
+						aps:{
+							"content-available": 1,
+							alert:{
+								title: "It's time to fill in the Workload!",
+								body: "It won't take more than one minute"
+							},
+							"badge" : 1,					  
+						}
+					}
+				},
+
+				notification:{
+
+					title: "It's time to fill in the Workload!",
+					body: "It won't take more than one minute"
+	
+				},
+				
+				data:{
+					apns:{
+						payload:{
+							aps:{
+								"content-available": 1,
+								alert:{
+									title: "It's time to fill in the Workload!",
+									body: "It won't take more than one minute"
+								},
+								"badge" : 1,					  
+							}
+						}
+					},
+					title: "It's time to fill in the Workload!",
+					body: "It won't take more than one minute",
+					type: "reminder"
+				}			
+			}	
+			sendMessagesViaFCM(tokens, payload);
+			console.log("Push Sent");
+			return response.send("Push Sent to the user with id = " + userId + ". And token = " + userObj.token);		
+		} else {
+			console.log("Push Not Sent");
+			return response.send("Push Not Send to the user with id = " + userId + ". Maybe there is no token!");		
+		}
+	});	
+});
+
  exports.yesterdayReminder = functions.https.onRequest((request, response) => {   
  //	const key = req.query.key;
 	//firebase functions:config:set cron.key="somecoolkey"
