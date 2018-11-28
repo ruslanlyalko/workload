@@ -36,13 +36,12 @@ public class PushNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
-        if (remoteMessage.getData() != null && remoteMessage.getData().containsKey(KEY_TITLE) && remoteMessage.getData().containsKey(KEY_BODY)) {
+        if (remoteMessage.getNotification() != null && remoteMessage.getNotification().getTitle() != null && remoteMessage.getNotification().getBody() != null) {
+            Log.d(TAG, remoteMessage.getNotification().getBody());
+            showNotification(this, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        } else if (remoteMessage.getData() != null && remoteMessage.getData().containsKey(KEY_TITLE) && remoteMessage.getData().containsKey(KEY_BODY)) {
             Log.d(TAG, remoteMessage.getData().toString());
             showNotification(this, remoteMessage.getData().get(KEY_TITLE), remoteMessage.getData().get(KEY_BODY));
-        }
-        if (remoteMessage.getNotification() != null && remoteMessage.getNotification().getBody() != null) {
-            Log.d(TAG, remoteMessage.getNotification().getBody());
-            showNotification(this, getString(R.string.app_name), remoteMessage.getNotification().getBody());
         }
     }
 
