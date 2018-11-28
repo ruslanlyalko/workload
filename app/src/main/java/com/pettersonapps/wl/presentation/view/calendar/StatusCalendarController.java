@@ -67,6 +67,7 @@ public class StatusCalendarController {
     private float multiDayIndicatorStrokeWidth;
     private float bigCircleIndicatorRadius;
     private float smallIndicatorRadius;
+    private float lineIndicatorRadius;
     private float growFactor = 0f;
     private float screenDensity = 1;
     private float growfactorIndicator;
@@ -202,7 +203,8 @@ public class StatusCalendarController {
         initScreenDensityRelatedValues(context);
         xIndicatorOffset = 3.5f * screenDensity;
         //scale small indicator by screen density
-        smallIndicatorRadius = 2f * screenDensity;
+        lineIndicatorRadius = 1.5f * screenDensity;
+        smallIndicatorRadius = 2.5f * screenDensity;
         //just set a default growFactor to draw full calendar when initialised
         growFactor = Integer.MAX_VALUE;
         coefficient = MAX_COEFFICIENT;
@@ -404,7 +406,7 @@ public class StatusCalendarController {
         //makes easier to find radius
         bigCircleIndicatorRadius = getInterpolatedBigCircleIndicator();
         // scale the selected day indicators slightly so that event indicators can be drawn below
-        bigCircleIndicatorRadius = shouldDrawIndicatorsBelowSelectedDays && eventIndicatorStyle == StatusCalendarView.SMALL_INDICATOR ? bigCircleIndicatorRadius * 0.85f : bigCircleIndicatorRadius;
+        bigCircleIndicatorRadius = shouldDrawIndicatorsBelowSelectedDays && eventIndicatorStyle == StatusCalendarView.SMALL_INDICATOR ? bigCircleIndicatorRadius * 0.75f : bigCircleIndicatorRadius;
     }
 
     //assume square around each day of width and height = heightPerDay and get diagonal line length
@@ -760,57 +762,20 @@ public class StatusCalendarController {
                 boolean isCurrentSelectedDay = shouldDrawSelectedDayCircle && (selectedDayOfMonth == dayOfMonth);
                 boolean isLastSelectedDay = shouldDrawLastSelectedDayCircle && (lastSelectedDayOfMonth == dayOfMonth);
                 if (shouldDrawIndicatorsBelowSelectedDays || (!shouldDrawIndicatorsBelowSelectedDays && !isSameDayAsCurrentDay && !isCurrentSelectedDay) || animationStatus == EXPOSE_CALENDAR_ANIMATION) {
-                    if (eventIndicatorStyle == FILL_LARGE_INDICATOR || eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
+                    if (eventIndicatorStyle == SMALL_INDICATOR) {
                         Event event = eventsList.get(0);
+                        yPosition = yPosition + bigCircleIndicatorRadius;
+                        if (shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay)) {
+                            yPosition += (2 * smallIndicatorRadius);
+                        }
                         drawEventIndicatorCircle(canvas, xPosition, yPosition, event.getColor());
                     } else {
-                        //     yPosition -= indicatorOffset;
-//                        drawRect(canvas, xPosition, yPosition, eventsList.get(0).getColor());
-                        drawSingleEvent(canvas, xPosition, yPosition, isCurrentSelectedDay, isLastSelectedDay, eventsList.get(0), uniqEvents);
+                        drawEventIndicatorRect(canvas, xPosition, yPosition, eventsList.get(0).getColor(), isCurrentSelectedDay, isLastSelectedDay,
+                                sameAsPrev(uniqEvents, eventsList.get(0)));
                     }
                 }
             }
         }
-    }
-
-    private void drawSingleEvent(final Canvas canvas, final float xPosition, final float yPosition, final boolean isCurrentSelectedDay,
-                                 final boolean isLastSelectedDay, final Event event, final List<Events> uniqEvents) {
-        drawEventIndicatorRect(canvas, xPosition, yPosition, event.getColor(), isCurrentSelectedDay, isLastSelectedDay,
-                sameAsPrev(uniqEvents, event), sameAsNext(uniqEvents, event));
-    }
-
-    private boolean sameAsNext(final List<Events> uniqEvents, final Event event) {
-        Calendar nextCalendar = Calendar.getInstance();
-        nextCalendar.setTimeInMillis(event.getTimeInMillis());
-        if (nextCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
-            return false;
-        nextCalendar.add(Calendar.DAY_OF_MONTH, 1);
-        Calendar itemCalendar = Calendar.getInstance();
-        for (Events events : uniqEvents) {
-            itemCalendar.setTimeInMillis(events.getTimeInMillis());
-            if (itemCalendar.get(Calendar.DAY_OF_YEAR) == nextCalendar.get(Calendar.DAY_OF_YEAR)
-                    && itemCalendar.get(Calendar.YEAR) == nextCalendar.get(Calendar.YEAR)
-                    && event.getColor() == events.getEvents().get(0).getColor())
-                return true;
-        }
-        return false;
-    }
-
-    private boolean sameAsPrev(final List<Events> uniqEvents, final Event event) {
-        Calendar prevCalendar = Calendar.getInstance();
-        prevCalendar.setTimeInMillis(event.getTimeInMillis());
-        if (prevCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
-            return false;
-        prevCalendar.add(Calendar.DAY_OF_MONTH, -1);
-        Calendar itemCalendar = Calendar.getInstance();
-        for (Events events : uniqEvents) {
-            itemCalendar.setTimeInMillis(events.getTimeInMillis());
-            if (itemCalendar.get(Calendar.DAY_OF_YEAR) == prevCalendar.get(Calendar.DAY_OF_YEAR)
-                    && itemCalendar.get(Calendar.YEAR) == prevCalendar.get(Calendar.YEAR)
-                    && event.getColor() == events.getEvents().get(0).getColor())
-                return true;
-        }
-        return false;
     }
 
     // zero based indexes used internally so instead of returning range of 1-7 like calendar class
@@ -865,18 +830,28 @@ public class StatusCalendarController {
                 int day = ((dayRow - 1) * 7 + dayColumn + 1) - firstDayOfMonth;
                 int defaultCalenderTextColorToUse = calenderTextColor;
                 if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
-                    if (noEventsForDay(currentCalender)) {
-                        dayPaint.setColor(currentSelectedDayBackgroundColor);
-                        dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
+                    dayPaint.setColor(currentSelectedDayBackgroundColor);
+                    dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
 //                        drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
-                        drawRect(canvas, xPosition, yPosition - (textHeight / 6));
-                        dayPaint.setAlpha(255);
+                    if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                        if (noEventsForDay(currentCalender)) {
+                            drawRect(canvas, xPosition, yPosition - (textHeight / 6));
+                        }
+                    } else {
+                        drawCircle(canvas, bigCircleIndicatorRadius, xPosition, yPosition - (textHeight / 6));
                     }
+                    dayPaint.setAlpha(255);
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
                 } else if (isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {
                     // TODO calculate position of circle in a more reliable way
                     if (noEventsForDay(todayCalender)) {
-                        drawDayCircleIndicator(currentDayIndicatorStyle, canvas, xPosition, yPosition, currentDayBackgroundColor);
+//                        drawDayCircleIndicator(currentDayIndicatorStyle, canvas, xPosition, yPosition, currentDayBackgroundColor);
+                        dayPaint.setColor(currentDayBackgroundColor);
+                        if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                            drawRect(canvas, xPosition, yPosition - (textHeight / 6));
+                        } else {
+                            drawCircle(canvas, bigCircleIndicatorRadius, xPosition, yPosition - (textHeight / 6));
+                        }
                     }
                     defaultCalenderTextColorToUse = currentDayTextColor;
                 }
@@ -901,6 +876,23 @@ public class StatusCalendarController {
                 }
             }
         }
+    }
+
+    private boolean sameAsPrev(final List<Events> uniqEvents, final Event event) {
+        Calendar prevCalendar = Calendar.getInstance();
+        prevCalendar.setTimeInMillis(event.getTimeInMillis());
+        if (prevCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+            return false;
+        prevCalendar.add(Calendar.DAY_OF_MONTH, -1);
+        Calendar itemCalendar = Calendar.getInstance();
+        for (Events events : uniqEvents) {
+            itemCalendar.setTimeInMillis(events.getTimeInMillis());
+            if (itemCalendar.get(Calendar.DAY_OF_YEAR) == prevCalendar.get(Calendar.DAY_OF_YEAR)
+                    && itemCalendar.get(Calendar.YEAR) == prevCalendar.get(Calendar.YEAR)
+                    && event.getColor() == events.getEvents().get(0).getColor())
+                return true;
+        }
+        return false;
     }
 
     private boolean noEventsForDay(final Calendar currentCalender) {
@@ -930,19 +922,19 @@ public class StatusCalendarController {
         } else {
             dayPaint.setStyle(Paint.Style.FILL);
         }
-        drawRect(canvas, x, y, color, circleScale);
+        drawCircle(canvas, x, y, color, circleScale);
         dayPaint.setStrokeWidth(strokeWidth);
         dayPaint.setStyle(Paint.Style.FILL);
     }
 
     // Draw Circle on certain days to highlight them
-    private void drawRect(Canvas canvas, float x, float y, int color, float circleScale) {
+    private void drawCircle(Canvas canvas, float x, float y, int color, float circleScale) {
         dayPaint.setColor(color);
         if (animationStatus == ANIMATE_INDICATORS) {
             float maxRadius = circleScale * bigCircleIndicatorRadius * 1.4f;
-            drawRect(canvas, growfactorIndicator > maxRadius ? maxRadius : growfactorIndicator, x, y - (textHeight / 6));
+            drawCircle(canvas, growfactorIndicator > maxRadius ? maxRadius : growfactorIndicator, x, y - (textHeight / 6));
         } else {
-            drawRect(canvas, circleScale * bigCircleIndicatorRadius, x, y - (textHeight / 6));
+            drawCircle(canvas, circleScale * bigCircleIndicatorRadius, x, y - (textHeight / 6));
         }
     }
 
@@ -950,7 +942,7 @@ public class StatusCalendarController {
         dayPaint.setColor(color);
         if (eventIndicatorStyle == SMALL_INDICATOR) {
             dayPaint.setStyle(Paint.Style.FILL);
-            drawRect(canvas, smallIndicatorRadius, x, y);
+            drawCircle(canvas, smallIndicatorRadius, x, y);
         } else if (eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
             dayPaint.setStyle(Paint.Style.STROKE);
             drawDayCircleIndicator(NO_FILL_LARGE_INDICATOR, canvas, x, y, color);
@@ -959,13 +951,8 @@ public class StatusCalendarController {
         }
     }
 
-    private void drawRect(Canvas canvas, float radius, float x, float y) {
-//        canvas.drawRect(x, y, radius, dayPaint);
-        float top = y - (heightPerDay / 2f) + dayPadding;// * 0.95f);
-        float left = x - (widthPerDay / 2f) + dayPadding;
-        float right = x + (widthPerDay / 2f) - dayPadding;
-        float bottom = y + (heightPerDay / 2f) - dayPadding;
-        canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+    private void drawCircle(Canvas canvas, float radius, float x, float y) {
+        canvas.drawCircle(x, y, radius, dayPaint);
     }
 
     private void drawRect(Canvas canvas, float x, float y) {
@@ -977,11 +964,11 @@ public class StatusCalendarController {
     }
 
     private void drawEventIndicatorRect(Canvas canvas, float x, float y, int color, final boolean isCurrentSelectedDay,
-                                        final boolean isLastCurrentSelectedDay, final boolean isSameAsPrev, final boolean isSameAsNext) {
+                                        final boolean isLastCurrentSelectedDay, final boolean isSameAsPrev) {
         dayPaint.setColor(color);
         dayPaint.setStyle(Paint.Style.FILL);
         float topMin = y - (heightPerDay / 2f) + dayPadding;
-        float topMax = y + (heightPerDay / 2f) - dayPadding - (2 * smallIndicatorRadius);
+        float topMax = y + (heightPerDay / 2f) - dayPadding - (2 * lineIndicatorRadius);
         float diff = topMax - topMin;
         float top;
         if (isCurrentSelectedDay)
@@ -993,12 +980,9 @@ public class StatusCalendarController {
         float left = x - (widthPerDay / 2f) + dayPadding;
         float right = x + (widthPerDay / 2f) - dayPadding;
         float bottom = y + (heightPerDay / 2f) - dayPadding;
-        canvas.drawRoundRect(left, top, right, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+        canvas.drawRoundRect(left, top, right, bottom, lineIndicatorRadius, lineIndicatorRadius, dayPaint);
         if (isSameAsPrev) {//&& !isCurrentSelectedDay && !isLastCurrentSelectedDay) {
-            canvas.drawRoundRect(left - (2 * dayPadding), topMax, left + dayPadding, bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
-        }
-        if (isSameAsNext) {
-            canvas.drawRoundRect(right - dayPadding, topMax, right + (2 * dayPadding), bottom, smallIndicatorRadius, smallIndicatorRadius, dayPaint);
+            canvas.drawRoundRect(left - (3 * dayPadding), topMax, left + dayPadding, bottom, lineIndicatorRadius, lineIndicatorRadius, dayPaint);
         }
     }
 

@@ -14,7 +14,7 @@
 
     <TextSwitcher
         android:id="@+id/text_month"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/title"
         android:layout_alignParentEnd="true">
@@ -22,7 +22,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="?attr/colorTextSecondary"
@@ -32,7 +31,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="?attr/colorTextSecondary"

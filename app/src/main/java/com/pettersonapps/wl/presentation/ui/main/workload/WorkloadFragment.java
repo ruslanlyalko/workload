@@ -56,6 +56,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupCalendar() {
+        //todo change this parameter according to the user preferences
+        mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
         mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);

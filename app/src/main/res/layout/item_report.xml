@@ -43,6 +43,7 @@
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/text_title"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
@@ -70,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_name"
-            android:layout_marginStart="4dp"
             android:layout_marginEnd="12dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp">
 
             <TextView
