@@ -106,8 +106,8 @@ public class ReportFragment extends Fragment {
         mCardRoot.setVisibility(VISIBLE);
         mTextTitle.setTextColor(ContextCompat.getColor(getContext(), ColorUtils.getTextColorByStatus(mTextDate.getResources(), report.getStatus())));
         mTextTitle.setText(report.getStatus());
-        boolean showName = (TextUtils.isEmpty(report.getP3()) && TextUtils.isEmpty(report.getP4()));
-        mTextName.setVisibility(showName ? VISIBLE : GONE);
+//        boolean showName = (TextUtils.isEmpty(report.getP3()) && TextUtils.isEmpty(report.getP4()));
+//        mTextName.setVisibility(showName ? VISIBLE : GONE);
         mTextName.setText(String.format("%s / %s", report.getUserName(), report.getUserDepartment()));
         mTextProject1.setVisibility(TextUtils.isEmpty(report.getP1()) ? GONE : VISIBLE);
         mTextProject2.setVisibility(TextUtils.isEmpty(report.getP2()) ? GONE : VISIBLE);

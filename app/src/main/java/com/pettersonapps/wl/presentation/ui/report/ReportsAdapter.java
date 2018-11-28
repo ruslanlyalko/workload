@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
@@ -13,7 +12,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
@@ -46,14 +44,14 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
     }
 
     public void setData(final List<Report> data) {
-        if (data.size() <= 1 && mData.size() <= 1) {
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(mData, data));
-            mData = data;
-            diffResult.dispatchUpdatesTo(this);
-        } else {
-            mData = data;
-            notifyDataSetChanged();
-        }
+//        if (data.size() <= 1 && mData.size() <= 1) {
+//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(mData, data));
+//            mData = data;
+//            diffResult.dispatchUpdatesTo(this);
+//        } else {
+        mData = data;
+        notifyDataSetChanged();
+//        }
     }
 
     @NonNull
@@ -87,7 +85,6 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         @BindView(R.id.text_title) TextView mTextTitle;
         @BindView(R.id.text_name) TextView mTextName;
         @BindView(R.id.text_date) TextView mTextDate;
-        @BindView(R.id.image_delete) ImageView mImageDelete;
         @BindView(R.id.text_project_1) TextView mTextProject1;
         @BindView(R.id.text_project_2) TextView mTextProject2;
         @BindView(R.id.text_project_3) TextView mTextProject3;
@@ -113,7 +110,6 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
             mTextProject3.setText(getFormattedText(report.getP3(), report.getT3()));
             mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
             mTextDate.setText(DateUtils.toStringDate(report.getDate()));
-            mImageDelete.setVisibility(GONE);
         }
 
         private Spanned getFormattedText(final String name, final int time) {

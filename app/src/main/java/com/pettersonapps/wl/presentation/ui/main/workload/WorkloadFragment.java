@@ -131,7 +131,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             showFab();
         else
             hideFab();
-        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), true);
+        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
     }
 
     @Override

@@ -52,111 +52,88 @@
             tools:text="Jul 12, 2018"
             />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_title"
-            android:orientation="horizontal">
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextSecondary"
+            android:textSize="14sp"
+            tools:text="Ivan, 9"
+            />
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+        <com.wefika.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_name"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="4dp">
 
-                <TextView
-                    android:id="@+id/text_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:maxLines="2"
-                    android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextSecondary"
-                    android:textSize="14sp"
-                    tools:text="Ivan, 9"
-                    />
-
-                <TextView
-                    android:id="@+id/text_project_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_name"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_name"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_toEndOf="@id/text_project_1"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_project_1"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_project_1"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_toEndOf="@id/text_project_3"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/image_delete"
-                android:layout_width="40dp"
+            <TextView
+                android:id="@+id/text_project_1"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_project_styled"
-                android:clickable="true"
-                android:contentDescription="@string/action_delete"
-                android:focusable="true"
-                android:padding="8dp"
-                android:src="@drawable/ic_delete_g" />
-        </LinearLayout>
+                android:background="@drawable/bg_project_rounded"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:textAppearance="@style/TextAppearance.Body1"
+                android:textColor="?attr/colorTextDefault"
+                android:textSize="13sp"
+                tools:text="Project 2h" />
+
+            <TextView
+                android:id="@+id/text_project_2"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_project_rounded"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:textAppearance="@style/TextAppearance.Body1"
+                android:textColor="?attr/colorTextDefault"
+                android:textSize="13sp"
+                tools:text="Project 2h" />
+
+            <TextView
+                android:id="@+id/text_project_3"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_project_rounded"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:textAppearance="@style/TextAppearance.Body1"
+                android:textColor="?attr/colorTextDefault"
+                android:textSize="13sp"
+                tools:text="Project 2h" />
+
+            <TextView
+                android:id="@+id/text_project_4"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_project_rounded"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:textAppearance="@style/TextAppearance.Body1"
+                android:textColor="?attr/colorTextDefault"
+                android:textSize="13sp"
+                tools:text="Project 2h" />
+        </com.wefika.flowlayout.FlowLayout>
 
     </RelativeLayout>
 
