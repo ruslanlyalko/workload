@@ -69,64 +69,41 @@ function sendEmail(to, subject, text){
 
 
 exports.pushTest = functions.https.onRequest((request, response) => {   
-	 const userId = request.query.userId;
-	 
+		 
+	const settingsPromise = admin.database().ref("/PUSH_TEST").once('value');
 
-	const userPromise = admin.database().ref("/USERS").child(userId).once('value');
+	return settingsPromise.then(settingsSnap => {
+		var settingsObj = settingsSnap.val();
+		const userId = settingsObj.userId;
+		const title = settingsObj.title;
+		const body = settingsObj.body;
 
-	return userPromise.then(userSnap => {
-		var userObj = userSnap.val();
-		var tokens = [];
-		if(userObj.token) {
-			tokens.push(userObj.token);
-			var payload = {
+		const userPromise = admin.database().ref("/USERS").child(userId).once('value');
+
+		return userPromise.then(userSnap => {
+			var userObj = userSnap.val();
+			var tokens = [];
+			if(userObj.token) {
+				tokens.push(userObj.token);
 				
-				apns:{
-					payload:{
-						aps:{
-							"content-available": 1,
-							alert:{
-								title: "It's time to fill in the Workload!",
-								body: "It won't take more than one minute"
-							},
-							"badge" : 1,					  
-						}
+				var payload = {
+					notification:{
+						title: title,
+						body: body,
+						type: "yesterday_reminder",
+						"content_available" : "1",
+						badge: "1"
 					}
-				},
-
-				notification:{
-
-					title: "It's time to fill in the Workload!",
-					body: "It won't take more than one minute"
-	
-				},
-				
-				data:{
-					apns:{
-						payload:{
-							aps:{
-								"content-available": 1,
-								alert:{
-									title: "It's time to fill in the Workload!",
-									body: "It won't take more than one minute"
-								},
-								"badge" : 1,					  
-							}
-						}
-					},
-					title: "It's time to fill in the Workload!",
-					body: "It won't take more than one minute",
-					type: "reminder"
-				}			
-			}	
-			sendMessagesViaFCM(tokens, payload);
-			console.log("Push Sent");
-			return response.send("Push Sent to the user with id = " + userId + ". And token = " + userObj.token);		
-		} else {
-			console.log("Push Not Sent");
-			return response.send("Push Not Send to the user with id = " + userId + ". Maybe there is no token!");		
-		}
-	});	
+				}
+				sendMessagesViaFCM(tokens, payload);
+				console.log("Push Sent");
+				return response.send("Push Sent to the user with id = " + userId + ". And token = " + userObj.token);		
+			} else {
+				console.log("Push Not Sent");
+				return response.send("Push Not Send to the user with id = " + userId + ". Maybe there is no token!");		
+			}
+		});	
+	});
 });
 
  exports.yesterdayReminder = functions.https.onRequest((request, response) => {   
@@ -178,10 +155,12 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 					var tokens = [];
 					tokens.push(userObj.token);
 					var payload = {
-						data:{
+						notification:{
 							title: userObj.name + ", " + message,
 							body: "It won't take more than one minute",
-							type: "yesterday_reminder"
+							type: "yesterday_reminder",
+							"content_available" : "1",
+							badge: "1"
 						}
 					}
 					if(type === "first" || type === "last" || userObj.name==="Ruslan Lyalko") 
@@ -275,10 +254,12 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 		});
 	
 		var payload = {
-			data:{
+			notification:{
 				title: "It's time to fill in the Workload!",
 				body: "It won't take more than one minute",
-				type: "reminder"
+				type: "reminder",
+				"content_available" : "1",
+				badge: "1"
 			}			
 		}	
 
