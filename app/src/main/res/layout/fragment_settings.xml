@@ -72,6 +72,18 @@
     </LinearLayout>
 
     <Switch
+        android:id="@+id/switch_old_style_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/text_old_style_calendar"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary" />
+
+    <Switch
         android:id="@+id/switch_night_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

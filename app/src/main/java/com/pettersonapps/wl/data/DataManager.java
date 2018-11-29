@@ -38,6 +38,8 @@ public interface DataManager {
 
     void updateDefaultWorkingTime(final int defaultWorkingTime);
 
+    void updateOldStyleCalendar(final boolean isEnabled);
+
     void updateVersion();
 
     void updateNightMode(final boolean isNightMode);

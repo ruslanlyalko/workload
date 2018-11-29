@@ -32,6 +32,7 @@ public class User extends BaseModel {
     private String version;
     private boolean isNightMode;
     private int defaultWorkingTime;
+    private boolean isOldStyleCalendar;
 
     public User() {
         firstWorkingDate = new Date();
@@ -198,6 +199,14 @@ public class User extends BaseModel {
         this.comments = comments;
     }
 
+    public void setIsOldStyleCalendar(final boolean oldStyleCalendar) {
+        isOldStyleCalendar = oldStyleCalendar;
+    }
+
+    public boolean getIsOldStyleCalendar() {
+        return isOldStyleCalendar;
+    }
+
     @Override
     public int describeContents() { return 0; }
 
@@ -223,6 +232,7 @@ public class User extends BaseModel {
         dest.writeString(this.version);
         dest.writeByte(this.isNightMode ? (byte) 1 : (byte) 0);
         dest.writeInt(this.defaultWorkingTime);
+        dest.writeByte(this.isOldStyleCalendar ? (byte) 1 : (byte) 0);
     }
 
     protected User(Parcel in) {
@@ -248,6 +258,7 @@ public class User extends BaseModel {
         this.version = in.readString();
         this.isNightMode = in.readByte() != 0;
         this.defaultWorkingTime = in.readInt();
+        this.isOldStyleCalendar = in.readByte() != 0;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

@@ -204,7 +204,7 @@ public class StatusCalendarController {
         xIndicatorOffset = 3.5f * screenDensity;
         //scale small indicator by screen density
         lineIndicatorRadius = 1.5f * screenDensity;
-        smallIndicatorRadius = 2.5f * screenDensity;
+        smallIndicatorRadius = 3f * screenDensity;
         //just set a default growFactor to draw full calendar when initialised
         growFactor = Integer.MAX_VALUE;
         coefficient = MAX_COEFFICIENT;

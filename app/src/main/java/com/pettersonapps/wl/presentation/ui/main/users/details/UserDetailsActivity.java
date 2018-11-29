@@ -104,7 +104,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mTextComments.setVisibility(View.VISIBLE);
             mDividerComments.setVisibility(View.VISIBLE);
         }
-        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime()));
+        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00%s", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime(),user.getIsOldStyleCalendar()?", Old Style Calendar":" "));
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         if (user.getProjects().isEmpty()) {

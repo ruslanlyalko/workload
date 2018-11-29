@@ -33,7 +33,7 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
             if (report.getStatus().startsWith("Day")
                     || report.getStatus().startsWith("Vacation")
                     || report.getStatus().startsWith("Sick")) {
-                listVacationReports.add(report);
+                listVacationReports.add(0, report);
                 int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
                 int value = years.get(yearInd);
                 value = value + 1;

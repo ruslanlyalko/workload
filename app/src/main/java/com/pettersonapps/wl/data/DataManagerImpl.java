@@ -39,6 +39,7 @@ import static com.pettersonapps.wl.data.Config.FIELD_ALLOW_TO_EDIT;
 import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_DEFAULT_WORKING_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_IS_NIGHT_MODE;
+import static com.pettersonapps.wl.data.Config.FIELD_IS_OLD_STYLE_CALENDAR;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
 import static com.pettersonapps.wl.data.Config.FIELD_REMIND_ME_AT;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
@@ -227,6 +228,15 @@ public class DataManagerImpl implements DataManager {
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_DEFAULT_WORKING_TIME)
                 .setValue(defaultWorkingTime);
+    }
+
+    @Override
+    public void updateOldStyleCalendar(final boolean isEnabled) {
+        if (mAuth.getCurrentUser() == null) return;
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_IS_OLD_STYLE_CALENDAR)
+                .setValue(isEnabled);
     }
 
     @Override

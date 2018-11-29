@@ -44,6 +44,7 @@
                     android:layout_height="match_parent"
                     android:hint="@string/hint_phone"
                     android:inputType="phone"
+                    android:maxLength="26"
                     android:textAppearance="@style/TextAppearance.Body2" />
 
             </android.support.design.widget.TextInputLayout>
@@ -70,6 +71,7 @@
                     android:layout_height="match_parent"
                     android:hint="@string/hint_skype"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:textAppearance="@style/TextAppearance.Body2" />
 
             </android.support.design.widget.TextInputLayout>

@@ -56,7 +56,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupCalendar() {
-        //todo change this parameter according to the user preferences
         mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
         mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
         mCalendarView.setUseThreeLetterAbbreviation(true);
@@ -101,6 +100,9 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             if (user == null) return;
             getPresenter().setUser(user);
             mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
+            if (user.getIsOldStyleCalendar())
+                mCalendarView.setEventIndicatorStyle(StatusCalendarView.SMALL_INDICATOR);
+            else mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
         });
     }
 

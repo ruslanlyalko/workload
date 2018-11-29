@@ -39,4 +39,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         if (mUser == null || mUser.getDefaultWorkingTime() == defaultWorkingTime) return;
         getDataManager().updateDefaultWorkingTime(defaultWorkingTime);
     }
+
+    public void saveOldStyleCalendar(final boolean isChecked) {
+        if (mUser == null || mUser.getIsOldStyleCalendar() == isChecked) return;
+        getDataManager().updateOldStyleCalendar(isChecked);
+    }
 }

@@ -6,7 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +23,7 @@ import java.util.Random;
 public class PushNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "PushService";
-    private static final String CHANEL_ID = "default_id";
+    private static final String CHANEL_ID = "a_default_id";
     private static final String CHANEL_NAME = "Default";
     private static final String KEY_TITLE = "title";
     private static final String KEY_BODY = "body";
@@ -46,19 +46,27 @@ public class PushNotificationService extends FirebaseMessagingService {
     }
 
     private void showNotification(Context context, String title, String body) {
+        Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.workload_notification);
+        //        final Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         final NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager == null) return;
         final Notification.Builder notificationBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannel(new NotificationChannel(CHANEL_ID,
-                    CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            NotificationChannel channel = new NotificationChannel(CHANEL_ID,
+                    CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            AudioAttributes att = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            channel.setSound(soundUri, att);
+            notificationManager.createNotificationChannel(channel);
             notificationBuilder = new Notification.Builder(context, CHANEL_ID);
             notificationBuilder.setChannelId(CHANEL_ID);
+            notificationManager.getNotificationChannel(CHANEL_ID).setSound(soundUri, att);
         } else {
             notificationBuilder = new Notification.Builder(context);
         }
-        final Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder
                 .setSmallIcon(R.drawable.ic_stat_main)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
@@ -67,7 +75,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                 .setTicker(body)
                 .setColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setPriority(Notification.PRIORITY_HIGH)
-                .setSound(defaultSoundUri)
+                .setSound(soundUri)
                 .setAutoCancel(true);
         final PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
                 SplashActivity.getLaunchIntent(context), PendingIntent.FLAG_UPDATE_CURRENT);

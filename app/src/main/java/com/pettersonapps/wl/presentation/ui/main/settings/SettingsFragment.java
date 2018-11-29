@@ -29,6 +29,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
 
     @BindView(R.id.spinner_notification) Spinner mSpinnerNotification;
     @BindView(R.id.switch_night_mode) Switch mSwitchNightMode;
+    @BindView(R.id.switch_old_style_calendar) Switch mSwitchOldStyleCalendar;
     @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.spinner_default) Spinner mSpinnerDefault;
 
@@ -90,6 +91,9 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             startActivity(MainActivity.getLaunchIntent(getContext(), true));
             getBaseActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
+        mSwitchOldStyleCalendar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            getPresenter().saveOldStyleCalendar(isChecked);
+        });
         mTextVersion.setText(getString(R.string.version_name, BuildConfig.VERSION_NAME));
         getPresenter().onViewReady();
     }
@@ -125,6 +129,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             }
         }
         mSpinnerDefault.setSelection(user.getDefaultWorkingTime() == 8 ? 0 : 1);
+        mSwitchOldStyleCalendar.setChecked(user.getIsOldStyleCalendar());
     }
 
     @Override
