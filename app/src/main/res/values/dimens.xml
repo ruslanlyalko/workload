@@ -38,5 +38,6 @@
     <dimen name="card_radius">3dp</dimen>
     <dimen name="input_radius">7dp</dimen>
     <dimen name="menu_height">56dp</dimen>
+    <dimen name="calendar_height">260dp</dimen>
 
 </resources>

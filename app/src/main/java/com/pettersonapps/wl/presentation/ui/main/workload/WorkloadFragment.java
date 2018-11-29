@@ -43,6 +43,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.view_pager) ViewPager mViewPager;
+//    @BindDimen(R.dimen.calendar_height) int mTargetHeight;
 
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
@@ -100,9 +101,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             if (user == null) return;
             getPresenter().setUser(user);
             mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
-            if (user.getIsOldStyleCalendar())
+            if (user.getIsOldStyleCalendar()) {
                 mCalendarView.setEventIndicatorStyle(StatusCalendarView.SMALL_INDICATOR);
-            else mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
+//                mCalendarView.setTargetHeight(mTargetHeight);
+            } else mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
         });
     }
 
