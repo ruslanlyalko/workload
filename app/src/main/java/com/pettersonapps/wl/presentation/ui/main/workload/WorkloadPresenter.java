@@ -70,7 +70,8 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     }
 
     public void onReportLongClicked(final Report report) {
-        if (report.getDate().before(DateUtils.get1DaysAgo().getTime())) return;
+        if (!getIsAllowEditPastReports() && report.getDate().before(DateUtils.get1DaysAgo().getTime()))
+            return;
         getView().editReport(mUser, report, mHolidays);
     }
 

@@ -142,7 +142,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mTextLetters.setText(getAbbreviation(user.getName()));
             mImageAdmin.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
             mImageEdit.setVisibility(user.getIsAllowEditPastReports() ? View.VISIBLE : View.GONE);
-            runEnterAnimation(itemView, getAdapterPosition());
+//            runEnterAnimation(itemView, getAdapterPosition());
         }
 
         private String getAbbreviation(final String name) {
