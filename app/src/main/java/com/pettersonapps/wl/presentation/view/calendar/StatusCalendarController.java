@@ -17,6 +17,7 @@ import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -34,13 +35,12 @@ public class StatusCalendarController {
     public static final int EXPOSE_CALENDAR_ANIMATION = 1;
     public static final int EXPAND_COLLAPSE_CALENDAR = 2;
     public static final int ANIMATE_INDICATORS = 3;
+    static final int MAX_COEFFICIENT = 40;
     private static final int VELOCITY_UNIT_PIXELS_PER_SECOND = 1000;
     private static final int LAST_FLING_THRESHOLD_MILLIS = 300;
     private static final int DAYS_IN_WEEK = 7;
     private static final float SNAP_VELOCITY_DIP_PER_SECOND = 400;
     private static final float ANIMATION_SCREEN_SET_DURATION_MILLIS = 700;
-    static final int MAX_COEFFICIENT = 40;
-
     private int eventIndicatorStyle = SMALL_INDICATOR;
     private int currentDayIndicatorStyle = FILL_LARGE_INDICATOR;
     private int currentSelectedDayIndicatorStyle = FILL_LARGE_INDICATOR;
@@ -831,7 +831,8 @@ public class StatusCalendarController {
                 int defaultCalenderTextColorToUse = calenderTextColor;
                 if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
                     dayPaint.setColor(currentSelectedDayBackgroundColor);
-                    dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
+                    if (!DateUtils.dateEquals(currentCalender.getTime(), lastCalender.getTime()))
+                        dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
 //                        drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
                     if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
                         if (noEventsForDay(currentCalender)) {
@@ -843,15 +844,14 @@ public class StatusCalendarController {
                     dayPaint.setAlpha(255);
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
                 } else if (isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {
-                    // TODO calculate position of circle in a more reliable way
-                    if (noEventsForDay(todayCalender)) {
 //                        drawDayCircleIndicator(currentDayIndicatorStyle, canvas, xPosition, yPosition, currentDayBackgroundColor);
-                        dayPaint.setColor(currentDayBackgroundColor);
-                        if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                    dayPaint.setColor(currentDayBackgroundColor);
+                    if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                        if (noEventsForDay(todayCalender)) {
                             drawRect(canvas, xPosition, yPosition - (textHeight / 6));
-                        } else {
-                            drawCircle(canvas, bigCircleIndicatorRadius, xPosition, yPosition - (textHeight / 6));
                         }
+                    } else {
+                        drawCircle(canvas, bigCircleIndicatorRadius, xPosition, yPosition - (textHeight / 6));
                     }
                     defaultCalenderTextColorToUse = currentDayTextColor;
                 }
