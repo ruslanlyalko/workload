@@ -40,8 +40,8 @@
     <!--Texts-->
     <string name="text_login">Login</string>
     <string name="text_blocked">Is Blocked</string>
-    <string name="text_night_mode">Night Mode</string>
-    <string name="text_old_style_calendar">Old Style Calendar</string>
+    <string name="text_night_mode">Night mode</string>
+    <string name="text_old_style_calendar">Old style calendar</string>
     <string name="text_allow_edit">Allow To Edit All Workloads</string>
     <string name="text_save">Save</string>
     <string name="text_register">Register User</string>
@@ -53,7 +53,7 @@
     <string name="text_forgot_password_click_here_to_send_reset_instructions"><u>Forgot password? Click here to send Reset Instruction</u></string>
     <string name="text_not_standard_reports">Not Standard Reports</string>
     <string name="text_users_without_reports">Users Without Reports</string>
-    <string name="text_remind_at">Remind Me At</string>
+    <string name="text_remind_at">Remind me at</string>
     <string name="text_default">Default working time</string>
     <string name="text_get_project_info">Get Project Info</string>
     <string name="text_report_saved">Saved</string>
