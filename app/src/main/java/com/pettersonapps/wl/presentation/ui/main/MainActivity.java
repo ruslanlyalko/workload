@@ -61,14 +61,17 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.image_menu) AppCompatImageView mImageMenu;
     @BindView(R.id.bottom_sheet) LinearLayout mLayoutBottomSheet;
+    @BindView(R.id.bottom_sheet_delete) LinearLayout mLayoutBottomSheetDelete;
     @BindView(R.id.image_logo) ImageView mImageLogo;
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_subtitle) TextView mTextSubtitle;
     @BindView(R.id.text_letters) TextView mTextLetters;
     @BindView(R.id.navigation_list) NavigationView mNavigationList;
+    @BindView(R.id.navigation_list_delete) NavigationView mNavigationListDelete;
     @BindView(R.id.touch_outside) View mTouchOutSide;
     @BindView(R.id.layout_profile) RelativeLayout mLayoutProfile;
     private BottomSheetBehavior mSheetBehavior;
+    private BottomSheetBehavior mSheetBehaviorDelete;
     private float mOldY;
     private Fragment mCurFragment;
     private int mCurTabId = TAB_WORKLOAD;
@@ -178,12 +181,27 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                     return false;
             }
         });
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override
     public void fabClickedFragment() {
         onFabClickedFragment();
+    }
+
+    public void onShowDeleteMenu() {
+        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mNavigationListDelete.setNavigationItemSelectedListener(menuItem -> {
+            mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            switch (menuItem.getItemId()) {
+                case R.id.action_delete:
+                    onDeleteClickedFragment();
+                    return true;
+            }
+            return false;
+        });
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private int getMenuIdByTab(final int tabId) {
@@ -317,7 +335,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mBottomAppBar.setOnTouchListener(mOnTouchListener);
         mBottomAppBar.setNavigationIcon(null);
         mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
-        mSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        mSheetBehaviorDelete = BottomSheetBehavior.from(mLayoutBottomSheetDelete);
+        BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull final View view, final int i) {
             }
@@ -332,7 +351,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 else
                     mTouchOutSide.setVisibility(View.GONE);
             }
-        });
+        };
+        mSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
         getPresenter().onViewReady();
         if (state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
@@ -422,5 +443,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @OnClick(R.id.touch_outside)
     public void onTouchClick() {
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 }

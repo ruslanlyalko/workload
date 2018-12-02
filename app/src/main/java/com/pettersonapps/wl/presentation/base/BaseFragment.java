@@ -129,6 +129,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     public void onFabClicked() {}
 
+    public void onDeleteClicked() {}
+
     protected void hideKeyboard() {
         getBaseActivity().hideKeyboard();
     }

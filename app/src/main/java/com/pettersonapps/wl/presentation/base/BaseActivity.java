@@ -137,6 +137,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
+    protected void onDeleteClickedFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        BaseFragment frag = (BaseFragment) fm.findFragmentById(R.id.container);
+        if (frag != null) {
+            frag.onDeleteClicked();
+        }
+    }
+
     public Context getContext() {
         return this;
     }

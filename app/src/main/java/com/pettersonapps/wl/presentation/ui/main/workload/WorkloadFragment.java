@@ -1,7 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.workload;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
+import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.OnReportClickListener;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
@@ -48,6 +48,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
     private ReportsPagerAdapter mReportsPagerAdapter;
+    private Report mReportToDelete;
 
     public static WorkloadFragment newInstance() {
         Bundle args = new Bundle();
@@ -234,6 +235,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         getPresenter().onFabClicked();
     }
 
+    @Override
+    public void onDeleteClicked() {
+        getPresenter().onReportDeleteClicked(mReportToDelete);
+    }
+
     @OnClick({R.id.title, R.id.text_month})
     public void onClick() {
         mCalendarView.setCurrentDate(new Date());
@@ -250,16 +256,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void onReportRemoveClicked(final Report report) {
         if (report != null) {
-            AlertDialog.Builder build = new AlertDialog.Builder(getContext());
-            build.setMessage(R.string.text_delete);
-            build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
-                getPresenter().onReportDeleteClicked(report);
-                dialog.dismiss();
-            });
-            build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
-                dialog.dismiss();
-            });
-            build.show();
+            ((MainActivity) getBaseActivity()).onShowDeleteMenu();
+            mReportToDelete = report;
         }
     }
 }
