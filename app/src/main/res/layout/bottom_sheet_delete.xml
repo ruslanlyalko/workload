@@ -19,24 +19,26 @@
         android:layout_marginTop="12dp"
         android:text="@string/text_are_you_sure_you_want_to_delete_this_workload"
         android:textAppearance="@style/TextAppearance.Body2"
-        android:textColor="@color/colorTextSecondary"
+        android:textColor="?attr/colorTextSecondary"
         android:textSize="14sp" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_list_delete"
+    <TextView
+        android:id="@+id/text_delete"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="?attr/colorBackgroundMenu"
-        android:elevation="0dp"
-        android:theme="@style/NavigationTheme"
-        app:elevation="0dp"
-        app:itemBackground="@drawable/bg_selector_menu_item"
-        app:itemHorizontalPadding="12dp"
-        app:itemIconPadding="16dp"
-        app:itemIconTint="@color/color_selector_menu_icon"
-        app:itemTextColor="@color/color_selector_menu_item"
-        app:menu="@menu/menu_nav_delete"
-        app:theme="@style/TextAppearance.MenuItem" />
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_delete_g"
+        android:drawablePadding="16dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/menu_delete"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
+        android:textSize="16sp" />
 
 </LinearLayout>

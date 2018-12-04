@@ -119,7 +119,7 @@
     <string name="version_name">Workload version %s</string>
     <string name="text_change_email">Notification email</string>
     <string name="text_petterson">\@pettersonapps.com</string>
-    <string name="text_are_you_sure_you_want_to_delete_this_workload">Are you sure you want to delete\n this Workload?</string>
+    <string name="text_are_you_sure_you_want_to_delete_this_workload">Are you sure you want to delete \nthis Workload?</string>
 
     <!--arrays-->
     <string-array name="departments">

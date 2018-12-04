@@ -66,8 +66,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_subtitle) TextView mTextSubtitle;
     @BindView(R.id.text_letters) TextView mTextLetters;
+    @BindView(R.id.text_delete) TextView mTextDelete;
     @BindView(R.id.navigation_list) NavigationView mNavigationList;
-    @BindView(R.id.navigation_list_delete) NavigationView mNavigationListDelete;
     @BindView(R.id.touch_outside) View mTouchOutSide;
     @BindView(R.id.layout_profile) RelativeLayout mLayoutProfile;
     private BottomSheetBehavior mSheetBehavior;
@@ -192,15 +192,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     public void onShowDeleteMenu() {
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        mNavigationListDelete.setNavigationItemSelectedListener(menuItem -> {
-            mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            switch (menuItem.getItemId()) {
-                case R.id.action_delete:
-                    onDeleteClickedFragment();
-                    return true;
-            }
-            return false;
-        });
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
@@ -299,6 +290,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     public void onBackPressed() {
         if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else if (mSheetBehaviorDelete.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+            mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
 //            Pair<Integer, Fragment> pair = popFragmentFromBackStack();
 //            if (pair != null) {
@@ -432,6 +425,12 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @OnClick(R.id.image_menu)
     public void onMenuClick() {
         onHomeClicked();
+    }
+
+    @OnClick(R.id.text_delete)
+    public void onDeleteClick() {
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        onDeleteClickedFragment();
     }
 
     @OnClick(R.id.layout_profile)
