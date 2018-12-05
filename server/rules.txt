@@ -1,0 +1,159 @@
+{
+"rules": {
+".read": false,
+".write": false,
+
+"REPORTS":{
+  ".read": "auth != null",
+  ".write": "auth != null",
+  ".indexOn": ["date/time", "userId"],
+    
+  "$reportId":{ 
+    "key":{
+        ".validate": "newData.val() === $reportId"
+    },
+    "updatedAt":{
+      "time":{
+        // avoid user to change past workloads with wrong date on phone
+        ".validate": "newData.val() >= (now-86400000) && newData.val() < (now+360000)"            
+      },
+      ".validate": "newData.hasChild('time')"
+    }, 
+    "date":{
+      "time":{    
+        //  date = [-1 year : +1 month]
+        ".validate": "newData.isNumber() && newData.val() < (now + 2678400000) && newData.val() > (now-31536000000) && ( root.child('USERS').child(auth.uid).child('isAllowEditPastReports').val()===true || newData.val() > (now-345600000))"
+      },
+      ".validate": "newData.hasChild('time')"
+    },       
+    "userId":{
+        ".validate": "auth.uid === newData.val()"
+    },  
+    "userDepartment":{
+        ".validate": "newData.val()===root.child('USERS').child(auth.uid).child('department').val()"
+    },  
+    "userName":{
+        ".validate": "newData.val()===root.child('USERS').child(auth.uid).child('name').val()"
+    },
+    "status":{
+      ".validate" : "newData.isString()"
+    },
+    "p1":{
+      ".validate" : "newData.isString()"
+    },
+    "p2":{
+      ".validate" : "newData.isString()"
+    },
+    "p3":{
+      ".validate" : "newData.isString()"
+    },
+    "p4":{
+      ".validate" : "newData.isString()"
+    },
+    "t1":{
+      ".validate" : "newData.isNumber() && newData.val() >= 0 && newData.val() <= 12"
+    },
+    "t2":{
+      ".validate" : "newData.isNumber() && newData.val() >= 0 && newData.val() <= 12"
+    },
+    "t3":{
+      ".validate" : "newData.isNumber() && newData.val() >= 0 && newData.val() <= 12"
+    },
+    "t4":{
+      ".validate" : "newData.isNumber() && newData.val() >= 0 && newData.val() <= 12"
+    },
+  	"$other": { ".validate": false }
+  }
+},
+
+"USERS":{
+  ".read":"root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+    
+  "$uid":{
+    
+    ".read": "$uid===auth.uid || root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+    ".write": "$uid===auth.uid || root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+    
+    "birthday":{
+      "time":{        
+        ".validate": "newData.isNumber()"
+      },
+      ".validate": "newData.hasChild('time')"
+    },      
+		"firstWorkingDate":{
+      "time":{        
+        ".validate": "newData.isNumber()"
+      },
+      ".validate": "newData.hasChild('time')"
+    },
+		"version":{
+        ".validate": "newData.isString()"
+		},
+    "department":{
+        ".validate": "newData.isString()"
+    },
+    "comments":{
+        ".validate": "newData.isString()"
+    },
+    "email":{
+        ".validate": "newData.isString()"
+    },
+    "key":{
+        ".validate": "newData.isString()"
+    },
+    "name":{
+        ".validate": "newData.isString()"
+    },
+    "skype":{
+        ".validate": "newData.isString()"
+    },
+    "phone":{
+        ".validate": "newData.isString()"
+    },
+    "notificationHour":{
+        ".validate": "newData.isString()"
+    },
+    "remindMeAt":{
+        ".validate": "newData.isString()"
+    },
+    "isAdmin":{
+        ".validate": "newData.isBoolean()"
+    },
+    "isAllowEditPastReports":{
+        ".validate": "newData.isBoolean() && (newData.val()===false || root.child('USERS').child(auth.uid).child('isAdmin').val()===true || data.val() === newData.val())"
+    },
+    "isBlocked":{
+        ".validate": "newData.isBoolean()"
+    },
+    "isNightMode":{
+        ".validate": "newData.isBoolean()"
+    },
+    "isOldStyleCalendar":{
+        ".validate": "newData.isBoolean()"
+    },
+    "defaultWorkingTime":{
+        ".validate": "newData.isNumber()"
+    }
+    
+  }
+},
+
+ "PROJECTS":{
+   ".read": "auth!=null && root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+   ".write": "auth!=null && root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+   ".indexOn": "title"  
+},
+
+ "HOLIDAYS":{
+   ".read": "auth != null",
+   ".write": "auth != null && root.child('USERS').child(auth.uid).child('isAdmin').val()===true"
+},
+   
+	"SETTINGS":{
+		".read": "auth!=null && root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+		".write": "auth!=null && root.child('USERS').child(auth.uid).child('isAdmin').val()===true",
+
+}
+  
+}
+}

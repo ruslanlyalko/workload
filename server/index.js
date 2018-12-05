@@ -399,7 +399,19 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 });
 
 
-
+exports.userWatcher = functions.database.ref('/USERS/{userId}')
+    .onWrite((change, context) => {		
+		if(change.after.exists()) { 
+			const dateFormatted= moment(change.after.child("birthday/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.userId, dateFormatted);			
+			change.after.ref.child("birthday/formatted").set(dateFormatted);
+			const firstFormatted= moment(change.after.child("firstWorkingDate/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.userId, firstFormatted);			
+			return change.after.ref.child("firstWorkingDate/formatted").set(firstFormatted);
+		}
+		else
+		 return null;
+});
 
 exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
     .onWrite((change, context) => {		
@@ -412,12 +424,29 @@ exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
 		if(!change.before.exists() && change.after.exists()) { // create			
 			subject = "Report changed by "+ reportAfter.userName;			
 			text = "  REPORT CREATED\n"+ getReportInfo(reportAfter);
-			userId = reportAfter.userId;			
+			userId = reportAfter.userId;		
+
+			// updated formatted date
+			const dateFormatted= moment(change.after.child("date/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.reportId, dateFormatted);			
+			change.after.ref.child("date/formatted").set(dateFormatted);
+			const updatedFormatted= moment(change.after.child("updatedAt/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.reportId, updatedFormatted);			
+			change.after.ref.child("updatedAt/formatted").set(updatedFormatted);
+		
 		}
 		else if (change.before.exists() && change.after.exists()) { // update
 			subject = "Report changed by "+ reportAfter.userName;
 			text = "  REPORT UPDATED\n"+ getReportInfo(reportAfter) + "\n  OLD REPORT\n" + getReportInfo(reportBefore);
 			userId = reportAfter.userId;
+
+			// updated formatted date
+			const dateFormatted= moment(change.after.child("date/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.reportId, dateFormatted);			
+			change.after.ref.child("date/formatted").set(dateFormatted);
+			const updatedFormatted= moment(change.after.child("updatedAt/time").val()).format("HH:mm:ss DD.MM.YYYY");
+			console.log(context.params.reportId, updatedFormatted);			
+			change.after.ref.child("updatedAt/formatted").set(updatedFormatted);
 		}
 		else if (!change.after.exists()) { // delete
 			subject = "Report changed by "+ reportBefore.userName;	
