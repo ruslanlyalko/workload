@@ -2,21 +2,14 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
     $(".login-cover").hide();
-
     var dialog = document.querySelector('#loginDialog');
-    /*
-    if (! dialog.showModal) {
-      dialogPolyfill.registerDialog(dialog);
-    }
-    */
+    /*if (! dialog.showModal) {    dialogPolyfill.registerDialog(dialog);}*/
     dialog.close();	
 	var database = firebase.database();
-	
 	var myUserRef = database.ref('USERS/' + user.uid );
 	myUserRef.on('value', function(snapshot) {
 		updateProfile( snapshot.val());
 	});
-		
 	var usersRef = database.ref('USERS/');
 	usersRef.orderByChild("name").on('value', function(snapshot) {
 		$("#usersList").empty();
@@ -24,15 +17,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 			addUser(user.val());
 		});
 	});
-	/*var usersRef = database.ref('USERS/');
-	usersRef.orderByChild("name").on('child_changed', function(snapshot) {
-		updateUser(snapshot.val());
-	});*/
-	
   } else {
-
     $(".login-cover").show();
-
 	// No user is signed in.
     var dialog = document.querySelector('#loginDialog');
     if (! dialog.showModal) {
@@ -41,21 +27,26 @@ firebase.auth().onAuthStateChanged(function(user) {
     dialog.showModal();
 	$("#loginProgress").hide();
 	$("#loginBtn").show();
-	$("#loginEmail").text("");
-	$("#loginPassword").text("");
-		
+	$("#forgotBtn").show();
+	$("#loginEmail").val("");
+	$("#loginPassword").val("");
   }
 });
 
 function updateProfile(user){
-	$("#userName").text(user.name);
-	
+	$("#profileName").text(user.name);
+	$("#profileDepartment").text(user.department);
+	$("#profileEmail").text(user.email);
+	$("#profilePhone").text(user.phone);
+	$("#profileSkype").text(user.skype);
+	$("#profileBirthday").text($.datepicker.formatDate('dd M yy', new Date(user.birthday.time)));
+	$("#profileFirst").text($.datepicker.formatDate('dd M yy', new Date(user.firstWorkingDate.time)));
+	if (user.isAdmin){
+			
+	}
 };
 
-
-
-function addUser(user){
-	
+function addUser(user){	
 	if(user.isAllowEditPastReports){
 		$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">person</i>'
 		+ user.name + ' <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--accent" onClick="onDisableClicked(this.id)">Disable Edit Mode</button></span></li>');
@@ -65,101 +56,70 @@ function addUser(user){
 	}
 };
 
-function updateUser(user){
-	$('#element'+user.key).empty();
-	/*
-	if(user.isAllowEditPastReports){
-		$("#element"+user.key).add('<span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">person</i>'
-		+ user.name + ' <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--accent" onClick="onDisableClicked(this.id)">Disable Edit Mode</button></span>');
-	} else{
-		$("#element"+user.key).add('<span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">person</i>'
-		+ user.name + ' <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--primary"  onClick="onEnableClicked(this.id)">Enable Edit Mode</button></span>');
-	}
-	*/
-};
-
-
-function onEnableClicked(clicked_id){
-	var database = firebase.database();
-	 database.ref('USERS/' + clicked_id +'/isAllowEditPastReports').set(true);
+function onEnableClicked(clicked_id){	
+	firebase.database().ref('USERS/' + clicked_id +'/isAllowEditPastReports').set(true);
 }
 
 function onDisableClicked(clicked_id){
-	var database = firebase.database();
-	database.ref('USERS/' + clicked_id +'/isAllowEditPastReports').set(false);
+	firebase.database().ref('USERS/' + clicked_id +'/isAllowEditPastReports').set(false);
 }
 
 /* FORGOT PROCESS */
 
-$("#aBtn").click(
+$("#forgotBtn").click(
   function(){
-
-    var email = $("#loginEmail").val();    
-
+    var email = $("#loginEmail").val(); 
     if(email != ""){      
-		$("#aBtn").hide();
-		$("#loginProgress").show();
+			$("#loginBtn").hide();
+			$("#forgotBtn").hide();
+			$("#loginProgress").show();
 		firebase.auth().sendPasswordResetEmail(email)
 		.then(function(){		
 		  $("#loginError").show().text("Email sent");  
-		  $("#aBtn").show();
+			$("#forgotBtn").show();
+			$("#loginBtn").show();
 		  $("#loginProgress").hide();
 		})
-		.catch(function(error) {
-			// Handle Errors here.
-			var errorCode = error.code;
+		.catch(function(error) {			
 			var errorMessage = error.message;
-
 			$("#loginProgress").hide();
 			$("#loginError").show().text(errorMessage);        
-			$("#aBtn").show();
-		});
-		
+			$("#forgotBtn").show();
+			$("#loginBtn").show();
+		});		
 	}
   }
 );
-
-
 
 
 /* LOGIN PROCESS */
 
 $("#loginBtn").click(
   function(){
-
-
-    var email = $("#loginEmail").val();
-    var password = $("#loginPassword").val();
-
-    if(email != "" && password != ""){
-      $("#loginProgress").show();
-      $("#loginBtn").hide();
-      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-        $("#loginError").show().text(errorMessage);
-        $("#loginProgress").hide();
-        $("#loginBtn").show();
-      });
-    }
-  }
-);
+		var email = $("#loginEmail").val();
+	var password = $("#loginPassword").val();
+	if(email != "" && password != ""){
+		$("#loginProgress").show();
+		$("#loginBtn").hide();
+		$("#forgotBtn").hide();
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {			
+			var errorMessage = error.message;
+			$("#loginError").show().text(errorMessage);
+			$("#loginProgress").hide();
+			$("#loginBtn").show();
+			$("#forgotBtn").show();
+		});
+	}
+});
 
 
 /* LOGOUT PROCESS */
 
 $("#signOutBtn").click(
   function(){
-
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-
-    }).catch(function(error) {
-      // An error happened.
+    firebase.auth().signOut().then(function() {      
+    }).catch(function(error) {      
       alert(error.message);
     });
-
   }
 );

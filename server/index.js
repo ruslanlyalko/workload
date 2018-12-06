@@ -8,42 +8,43 @@ admin.initializeApp();
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-/*
+
 exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
     .onWrite((change, context) => {		
 		const reportBefore = change.before.val();
 		const reportAfter = change.after.val();
 		var subject = "";		
 		var text = "";
-		var userId = "";
+		var userId = "";		
 		
 		if(!change.before.exists() && change.after.exists()) { // create			
 			subject = "Report changed by "+ reportAfter.userName;			
 			text = "  REPORT CREATED\n"+ getReportInfo(reportAfter);
-			userId = reportAfter.userId;
+			userId = reportAfter.userId;			
 		}
 		else if (change.before.exists() && change.after.exists()) { // update
 			subject = "Report changed by "+ reportAfter.userName;
 			text = "  REPORT UPDATED\n"+ getReportInfo(reportAfter) + "\n  OLD REPORT\n" + getReportInfo(reportBefore);
-			userId = reportAfter.userId;
+			userId = reportAfter.userId;			
 		}
 		else if (!change.after.exists()) { // delete
 			subject = "Report changed by "+ reportBefore.userName;	
 			text = "  REPORT REMOVED\n"+ getReportInfo(reportBefore);
-			userId = reportBefore.userId;
-		}
-		
+			userId = reportBefore.userId;			
+			}
+		if(!userId) return null;
+		console.log(subject, text);
 		const usersPromise = admin.database().ref("/USERS").child(userId).child("isAllowEditPastReports").once('value');
 		return usersPromise.then((snapshot)=>{
 			if(snapshot.val()){
-				console.log(subject, text);
-						return sendModeratorEmail(subject, text);	
-			} else {
+				console.log("EMAIL SENT!", userId);
+				return sendModeratorEmail(subject, text);	
+			} else {				
 				return null;
 			}
 		});
 	});
-	*/
+	
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------

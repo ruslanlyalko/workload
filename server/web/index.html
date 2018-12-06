@@ -18,22 +18,22 @@
     <div class="mdl-dialog__content">
       <p id="loginError"></p>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="loginEmail">
+        <input class="mdl-textfield__input" type="email" id="loginEmail">
         <label class="mdl-textfield__label" for="sample3">Email</label>
       </div>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="loginPassword">
+        <input class="mdl-textfield__input" type="password" id="loginPassword">
         <label class="mdl-textfield__label" for="sample3">Password</label>
       </div>
     </div>
     <div class="mdl-dialog__actions">
       <!-- Flat button with ripple -->
-		<button id="aBtn" class="mdl-button mdl-js-button mdl-js-ripple-effect">
-		  Forgot
-		</button>
 		<!-- Colored raised button -->
 		<button id="loginBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
 			Sign In
+		</button>
+    <button id="forgotBtn" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+		  Forgot
 		</button>
 		<!-- MDL Spinner Component -->
 		<div id="loginProgress" class="mdl-spinner mdl-js-spinner is-active"></div>
@@ -58,30 +58,56 @@
           <span class="page-title-span"> | </span>
           <span class="page-title-span"> Home </span>
         </span>
+
         <div class="mdl-layout-spacer"></div>
-        <nav class="mdl-navigation">
+        <nav class="mdl-navigation">            
+          <a class="mdl-navigation__link" target="_blank" href="https://itunes.apple.com/ua/app/workload/id1441658830?l=ru&mt=8">App Store</a>			  
+          <a class="mdl-navigation__link" target="_blank" href="https://play.google.com/store/apps/details?id=com.pettersonapps.wl">Play Store</a>			  
           <button id="signOutBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
-            Sign Out <i class="button-right-icon material-icons">account_circle</i>
+               Sign Out <i class="button-right-icon material-icons">account_circle</i>
           </button>
         </nav>
       </div>
+       <!-- Tabs -->
+      <div id="navTabs" class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Profile</a>
+        <a href="#scroll-tab-2" class="mdl-layout__tab">Users</a>
+        <a href="#scroll-tab-3" class="mdl-layout__tab">Reports</a>
+      </div>
 	  </header>
-    <div class="mdl-layout__drawer">
-		 <span id="userName" class="mdl-layout-title"></span>
-			<nav class="mdl-navigation">
-			  <a class="mdl-navigation__link" target="_blank" href="https://play.google.com/store/apps/details?id=com.pettersonapps.wl">App Store</a>			  
-			  <a class="mdl-navigation__link" target="_blank" href="https://play.google.com/store/apps/details?id=com.pettersonapps.wl">Play Store</a>			  
-			</nav>
-    </div>
+  
 
 	<main class="mdl-layout__content">
-		  
-			  <ul id="usersList" class="demo-list-icon mdl-list">
-			 
-			</ul>
-		
-	</main>
+      <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+          <div class="page-content"><!-- Your content goes here -->            
+          <h4 id="profileName"></h4>
+          <p id="profileDepartment"></p>
+          <p id="profileEmail"></p>
+          <p id="profilePhone"></p>
+          <p id="profileSkype"></p>          
+          <p id="profileBirthday"></p>
+          <p id="profileFirst"></p>
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+          <div class="page-content"><ul id="usersList" class="demo-list-icon mdl-list"></ul></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-3">
+          <div class="page-content"><!-- Your content goes here --></div>
+        </section>			  
+	
+  </main>
+  <footer class="mdl-mini-footer">
+      <div class="mdl-mini-footer__left-section">
+        <div class="mdl-logo">Workload 2018</div>
+        <ul class="mdl-mini-footer__link-list">          
+            <li><a href="http://pettersonapps.com/mobile-apps-privacy-policy">Help</a></li>
+          <li><a href="http://pettersonapps.com/mobile-apps-privacy-policy">Privacy & Terms</a></li>
+        </ul>
+      </div>
+    </footer>
  </div>
+
 <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -96,8 +122,9 @@
   firebase.initializeApp(config);
 </script>
 
-  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-  <script src="index.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+<script src="index.js"></script>
 
-  </body>
+</body>
 </html>
