@@ -154,6 +154,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     @Override
+    public void copyReport(final User user, final Report report, final List<Holiday> holidays) {
+        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), report, holidays), RC_REPORT);
+    }
+
+    @Override
     public void startAddReportScreen(final User user, final Date date, final List<Holiday> holidays) {
         startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), date, holidays), RC_REPORT);
     }
@@ -250,7 +255,13 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void onReportClicked(final Report report) {
         if (report != null)
-            getPresenter().onReportLongClicked(report);
+            getPresenter().onReportClicked(report);
+    }
+
+    @Override
+    public void onReportCopyClicked(final Report report) {
+        if (report != null)
+            getPresenter().onReportCopyClicked(report);
     }
 
     @Override

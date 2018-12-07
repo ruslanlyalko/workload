@@ -102,6 +102,7 @@
     <string name="placeholder_no_projects">No projects are selected</string>
 
     <!--Others-->
+    <string name="action_copy">Copy</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
     <string name="department_prompt">Choose Department</string>

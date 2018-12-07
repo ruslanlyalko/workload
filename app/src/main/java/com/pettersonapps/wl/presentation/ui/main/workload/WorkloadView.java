@@ -28,6 +28,8 @@ public interface WorkloadView extends BaseView<WorkloadPresenter> {
 
     void editReport(User user, Report report, final List<Holiday> holidays);
 
+    void copyReport(User user, Report report, List<Holiday> holidays);
+
     void startAddReportScreen(final User user, final Date date, final List<Holiday> holidays);
 
     void showWrongDateOnMobileError();

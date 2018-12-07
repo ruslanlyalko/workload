@@ -11,5 +11,7 @@ public interface OnReportClickListener {
 
     void onReportClicked(Report report);
 
+    void onReportCopyClicked(Report report);
+
     void onReportRemoveClicked(Report report);
 }

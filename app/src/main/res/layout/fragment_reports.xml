@@ -85,17 +85,32 @@
                     tools:text="Ivan, 9"
                     />
 
+                <ImageView
+                    android:id="@+id/image_copy"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="12dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/action_copy"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_copy_wh" />
+
                 <TextView
                     android:id="@+id/text_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/text_title"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="12dp"
-                    android:layout_alignBaseline="@id/text_title"
                     android:layout_marginStart="12dp"
                     android:textAppearance="@style/TextAppearance.Body2"
                     android:textColor="?attr/colorTextSecondary"
                     android:textSize="13sp"
+                    android:visibility="gone"
                     tools:text="Jul 12, 2018"
                     />
 

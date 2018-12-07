@@ -20,7 +20,6 @@ public class User extends BaseModel {
     private String skype;
     private Date birthday;
     private Date firstWorkingDate;
-    private String notificationHour;
     private boolean isBlocked;
     private boolean isAdmin;
     private List<Project> projects;
@@ -37,7 +36,6 @@ public class User extends BaseModel {
     public User() {
         firstWorkingDate = new Date();
         birthday = new Date();
-        notificationHour = "18";
         remindMeAt = "18:00";
         skype = "";
         phone = "";
@@ -93,14 +91,6 @@ public class User extends BaseModel {
 
     public void setToken(final String token) {
         this.token = token;
-    }
-
-    public String getNotificationHour() {
-        return notificationHour;
-    }
-
-    public void setNotificationHour(final String notificationHour) {
-        this.notificationHour = notificationHour;
     }
 
     public boolean getIsBlocked() {
@@ -221,7 +211,6 @@ public class User extends BaseModel {
         dest.writeString(this.skype);
         dest.writeLong(this.birthday != null ? this.birthday.getTime() : -1);
         dest.writeLong(this.firstWorkingDate != null ? this.firstWorkingDate.getTime() : -1);
-        dest.writeString(this.notificationHour);
         dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.projects);
@@ -247,7 +236,6 @@ public class User extends BaseModel {
         this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
         long tmpFirstWorkingDate = in.readLong();
         this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
-        this.notificationHour = in.readString();
         this.isBlocked = in.readByte() != 0;
         this.isAdmin = in.readByte() != 0;
         this.projects = in.createTypedArrayList(Project.CREATOR);

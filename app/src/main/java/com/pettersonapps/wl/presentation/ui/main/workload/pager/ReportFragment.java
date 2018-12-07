@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -21,6 +22,8 @@ import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +42,7 @@ public class ReportFragment extends Fragment {
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_name) TextView mTextName;
     @BindView(R.id.text_date) TextView mTextDate;
+    @BindView(R.id.image_copy) ImageView mImageCopy;
     @BindView(R.id.image_delete) ImageView mImageDelete;
     @BindView(R.id.text_project_1) TextView mTextProject1;
     @BindView(R.id.text_project_2) TextView mTextProject2;
@@ -118,6 +122,18 @@ public class ReportFragment extends Fragment {
         mTextProject3.setText(getFormattedText(report.getP3(), report.getT3()));
         mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
         mTextDate.setText(DateUtils.toStringDate(report.getDate()));
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            mImageCopy.setImageResource(R.drawable.ic_copy_bl);
+        } else {
+            mImageCopy.setImageResource(R.drawable.ic_copy_wh);
+        }
+        if ((report.getDate().before(DateUtils.getStart(new Date())))) {
+            mImageCopy.setVisibility(VISIBLE);
+            mTextDate.setVisibility(GONE);
+        } else {
+            mImageCopy.setVisibility(GONE);
+            mTextDate.setVisibility(VISIBLE);
+        }
         mImageDelete.setVisibility((mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
                 ? VISIBLE : GONE);
     }
@@ -132,6 +148,12 @@ public class ReportFragment extends Fragment {
     void onClicked() {
         if (getParentFragment() instanceof OnReportClickListener)
             ((OnReportClickListener) getParentFragment()).onReportRemoveClicked(mReport);
+    }
+
+    @OnClick(R.id.image_copy)
+    void onCopyClicked() {
+        if (getParentFragment() instanceof OnReportClickListener)
+            ((OnReportClickListener) getParentFragment()).onReportCopyClicked(mReport);
     }
 
     private Spanned getFormattedText(final String name, final int time) {

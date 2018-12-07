@@ -28,6 +28,23 @@ public class Report extends BaseModel implements Parcelable {
     private int t4;
     private Date updatedAt;
 
+    public Report(Report reportToCopy) {
+        date = new Date();
+        updatedAt = new Date();
+        userId = reportToCopy.userId;
+        userName = reportToCopy.userName;
+        userDepartment = reportToCopy.userDepartment;
+        status = reportToCopy.status;
+        p1 = reportToCopy.p1;
+        t1 = reportToCopy.t1;
+        p2 = reportToCopy.p2;
+        t2 = reportToCopy.t2;
+        p3 = reportToCopy.p3;
+        t3 = reportToCopy.t3;
+        p4 = reportToCopy.p4;
+        t4 = reportToCopy.t4;
+    }
+
     public Report() {
         date = new Date();
     }
