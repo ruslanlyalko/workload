@@ -127,12 +127,11 @@ public class ReportFragment extends Fragment {
         } else {
             mImageCopy.setImageResource(R.drawable.ic_copy_wh);
         }
+        mTextDate.setVisibility(GONE);
         if ((report.getDate().before(DateUtils.getStart(new Date())))) {
             mImageCopy.setVisibility(VISIBLE);
-            mTextDate.setVisibility(GONE);
         } else {
             mImageCopy.setVisibility(GONE);
-            mTextDate.setVisibility(VISIBLE);
         }
         mImageDelete.setVisibility((mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
                 ? VISIBLE : GONE);

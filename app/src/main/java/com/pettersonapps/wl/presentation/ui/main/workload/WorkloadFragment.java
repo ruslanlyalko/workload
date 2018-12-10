@@ -79,7 +79,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     private void setNewDate(Date newDate) {
         String month = DateUtils.getMonth(newDate);
         if (month.equals(mPrevDateStr)) return;
-        if (TextUtils.isEmpty(mPrevDateStr) && month.equals(DateUtils.getMonth(new Date()))) return;
         if (newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);

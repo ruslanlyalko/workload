@@ -18,6 +18,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +47,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public void setData(final List<User> data) {
+        Collections.sort(data, (o1, o2) -> Boolean.compare(o1.getIsBlocked(), o2.getIsBlocked()));
         if (mData.isEmpty()) {
             mData = data;
             mDataFiltered = data;
@@ -124,6 +126,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         @BindView(R.id.text_subtitle) TextView mTextSubtitle;
         @BindView(R.id.text_letters) TextView mTextLetters;
         @BindView(R.id.image_edit) ImageView mImageEdit;
+        @BindView(R.id.image_offline) ImageView mImageOffline;
         @BindView(R.id.image_admin) ImageView mImageAdmin;
 
         ViewHolder(View view) {
@@ -142,6 +145,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mTextLetters.setText(getAbbreviation(user.getName()));
             mImageAdmin.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
             mImageEdit.setVisibility(user.getIsAllowEditPastReports() ? View.VISIBLE : View.GONE);
+            mImageOffline.setVisibility(TextUtils.isEmpty(user.getToken()) ? View.VISIBLE : View.GONE);
 //            runEnterAnimation(itemView, getAdapterPosition());
         }
 
