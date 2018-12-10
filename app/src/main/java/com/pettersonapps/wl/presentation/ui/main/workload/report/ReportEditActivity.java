@@ -349,6 +349,8 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                     } else {
                         datePickerDialog.setMaxDate(DateUtils.get1DaysForward());
                     }
+                } else {
+                    datePickerDialog.setMinDate(DateUtils.get1YearAgo());
                 }
                 datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "to");
@@ -368,6 +370,8 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                     } else {
                         datePickerDialog1.setMaxDate(DateUtils.get1DaysForward());
                     }
+                } else {
+                    datePickerDialog1.setMinDate(DateUtils.get1YearAgo());
                 }
                 datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog1.show(getFragmentManager(), "to");

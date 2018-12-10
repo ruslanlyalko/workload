@@ -73,6 +73,8 @@ public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_projects);
         showFab();
+        mEditSearch.setOnQueryTextListener(null);
+        mEditSearch.setQuery("", false);
         mEditSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String s) {

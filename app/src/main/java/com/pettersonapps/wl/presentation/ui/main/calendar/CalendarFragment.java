@@ -43,7 +43,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @BindView(R.id.spinner_status) Spinner mSpinnerStatus;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
-    @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
+    @BindView(R.id.text_statistic) TextView mTextStatistic;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
 
     private ReportsAdapter mReportsAdapter;
@@ -214,6 +214,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     public void showReportsOnList(final List<Report> list) {
         mReportsAdapter.setData(list);
+        mTextStatistic.setText(getString(R.string.statistics, list.size()));
     }
 
     @OnClick({R.id.title, R.id.text_month})

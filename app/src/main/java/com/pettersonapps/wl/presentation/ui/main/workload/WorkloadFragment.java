@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.animation.Animation;
@@ -131,7 +130,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showReports(List<Report> reports, final Date date) {
         if ((reports == null || reports.isEmpty())
-                && ((getPresenter().getIsAllowEditPastReports()) ||
+                && ((getPresenter().getIsAllowEditPastReports() && date.after(DateUtils.get1YearAgo().getTime())) ||
                 (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
                         && getPresenter().getDate().before(DateUtils.get1MonthForward().getTime()))))
             showFab();

@@ -495,7 +495,7 @@ public class DataManagerImpl implements DataManager {
         mDatabase.getReference(DB_REPORTS)
                 .orderByChild(FIELD_USER_ID)
                 .equalTo(user.getKey())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getVacationReports:onDataChange");

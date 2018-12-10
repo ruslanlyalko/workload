@@ -194,6 +194,16 @@ public class DateUtils {
         return calendar;
     }
 
+
+    public static Calendar get1YearAgo() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar;
+    }
+
     public static boolean dateEquals(final Date d1, final Date d2) {
         Calendar c1 = Calendar.getInstance();
         c1.setTime(d1);

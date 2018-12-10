@@ -28,7 +28,10 @@ import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,7 +87,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     public void showUserDetails(final User user) {
-        mTextName.setText(String.format("%s / %s", user.getName(), user.getDepartment()));
+        mTextName.setText(String.format("%s / %s %s", user.getName(), user.getDepartment(), user.getIsBlocked() ? "/ (Blocked)" : ""));
         mTextEmail.setText(user.getEmail());
         if (TextUtils.isEmpty(user.getPhone())) {
             mTextPhone.setText(R.string.text_not_specified);
@@ -104,7 +107,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mTextComments.setVisibility(View.VISIBLE);
             mDividerComments.setVisibility(View.VISIBLE);
         }
-        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00%s", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime(),user.getIsOldStyleCalendar()?", Old Style Calendar":" "));
+        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00%s", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime(), user.getIsOldStyleCalendar() ? ", Old Style Calendar" : " "));
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         if (user.getProjects().isEmpty()) {
@@ -184,7 +187,29 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             startActivityForResult(UserEditActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        Report report = new Report();
+        switch (item.getItemId()) {
+            case R.id.action_add_vacation:
+                report.setStatus(getString(R.string.status_vacation));
+                break;
+            case R.id.action_add_day_off:
+                report.setStatus(getString(R.string.status_day_off));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(report.getDate());
+        DatePickerDialog datePickerDialog1 = DatePickerDialog.newInstance((v, year, monthOfYear, dayOfMonth) -> {
+            Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
+            report.setDate(newDate);
+            getPresenter().saveReport(report);
+        }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
+        datePickerDialog1.setMinDate(DateUtils.get1YearAgo());
+        datePickerDialog1.setMaxDate(DateUtils.get1MonthForward());
+        datePickerDialog1.show(getFragmentManager(), "date");
+        return true;
     }
 
     @Override

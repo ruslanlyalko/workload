@@ -121,6 +121,11 @@
     <string name="text_change_email">Notification email</string>
     <string name="text_petterson">\@pettersonapps.com</string>
     <string name="text_are_you_sure_you_want_to_delete_this_workload">Are you sure you want to delete \nthis Workload?</string>
+    <string name="text_add_vacation">Add Vacation</string>
+    <string name="text_add_day_off">Add Day off</string>
+    <string name="status_day_off">Day off (Personal reasons)</string>
+    <string name="status_vacation">Vacations</string>
+    <string name="statistics">Total count: %d</string>
 
     <!--arrays-->
     <string-array name="departments">

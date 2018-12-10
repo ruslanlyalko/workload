@@ -45,4 +45,12 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         mUser = user;
         getView().showUserDetails(mUser);
     }
+
+    public void saveReport(final Report report) {
+        report.setUserDepartment(mUser.getDepartment());
+        report.setUserId(mUser.getKey());
+        report.setUserName(mUser.getName());
+        report.setKey(DateUtils.toString(report.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
+        getDataManager().saveReport(report);
+    }
 }

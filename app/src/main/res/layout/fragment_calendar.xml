@@ -114,24 +114,24 @@
             android:layout_marginTop="8dp"
             >
 
+            <TextView
+                android:id="@+id/text_statistic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
+                android:textSize="14sp" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_reports"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text_statistic"
                 android:focusableInTouchMode="false"
                 android:nestedScrollingEnabled="false" />
 
-            <TextView
-                android:id="@+id/text_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/text_report_placeholder"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="?attr/colorTextPrimary"
-                android:textSize="16sp"
-                android:visibility="gone" />
         </RelativeLayout>
 
         <View

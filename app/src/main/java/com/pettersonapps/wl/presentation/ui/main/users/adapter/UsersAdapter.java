@@ -37,6 +37,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private List<User> mDataFiltered = new ArrayList<>();
     private int mLastAnimatedPosition;
     private Animation mAnimation;
+    private String mQuery;
 
     public UsersAdapter(final OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
@@ -56,6 +57,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mData = data;
             mDataFiltered = data;
             notifyDataSetChanged();
+            if (!TextUtils.isEmpty(mQuery))
+                getFilter().filter(mQuery);
         }
     }
 
@@ -94,8 +97,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
+                mQuery = charSequence.toString();
+                if (mQuery.isEmpty()) {
                     mDataFiltered = mData;
                 } else {
                     List<User> filteredList = new ArrayList<>();

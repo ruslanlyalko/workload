@@ -74,6 +74,8 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_users);
         showFab();
+        mEditSearch.setOnQueryTextListener(null);
+        mEditSearch.setQuery("", false);
         mEditSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String s) {
