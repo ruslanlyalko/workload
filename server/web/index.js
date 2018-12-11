@@ -10,13 +10,27 @@ firebase.auth().onAuthStateChanged(function(user) {
 	myUserRef.on('value', function(snapshot) {
 		updateProfile( snapshot.val());
 	});
-	var usersRef = database.ref('USERS/');
-	usersRef.orderByChild("name").on('value', function(snapshot) {
+	database.ref('USERS/').orderByChild("name").on('value', function(snapshot) {
 		$("#usersList").empty();
 		snapshot.forEach(user => {				
 			addUser(user.val());
 		});
 	});
+
+	database.ref('PROJECTS/').orderByChild("title").on('value', function(snapshot) {
+		$("#projectsList").empty();
+		snapshot.forEach(project => {				
+			addProject(project.val());
+		});
+	});
+
+	database.ref('HOLIDAYS/').orderByChild("date/time").on('value', function(snapshot) {
+		$("#holidaysList").empty();
+		snapshot.forEach(holiday => {				
+			addHoliday(holiday.val());
+		});
+	});
+
   } else {
     $(".login-cover").show();
 	// No user is signed in.
@@ -32,6 +46,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	$("#loginPassword").val("");
   }
 });
+var mUser;
 
 function updateProfile(user){
 	$("#profileName").text(user.name);
@@ -41,19 +56,40 @@ function updateProfile(user){
 	$("#profileSkype").text(user.skype);
 	$("#profileBirthday").text($.datepicker.formatDate('dd M yy', new Date(user.birthday.time)));
 	$("#profileFirst").text($.datepicker.formatDate('dd M yy', new Date(user.firstWorkingDate.time)));
-	if (user.isAdmin){
+	if (!user.isAdmin){
 			
 	}
+	mUser = user;
 };
 
 function addUser(user){	
 	if(user.isAllowEditPastReports){
-		$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">person</i>'
-		+ user.name + ' <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--accent" onClick="onDisableClicked(this.id)">Disable Edit Mode</button></span></li>');
+		if(user.isBlocked)
+			$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content">  <i class="material-icons mdl-list__item-avatar">person</i>'
+			+ user.name + '&nbsp (Blocked) &nbsp <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--accent" onClick="onDisableClicked(this.id)">Disable Edit Mode</button></span></li>');
+		else 
+			$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content">  <i class="material-icons mdl-list__item-avatar">person</i>'
+			+ user.name + '&nbsp <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--accent" onClick="onDisableClicked(this.id)">Disable Edit Mode</button></span></li>');
 	} else{
-		$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">person</i>'
-		+ user.name + ' <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--primary"  onClick="onEnableClicked(this.id)">Enable Edit Mode</button></span></li>');
+		if(user.isBlocked)
+			$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-avatar">person</i>'
+			+ user.name + '&nbsp (Blocked) &nbsp <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--primary"  onClick="onEnableClicked(this.id)">Enable Edit Mode</button></span></li>');
+		else
+			$("#usersList").append('<li id=element"'+user.key+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-avatar">person</i>'
+			+ user.name + '&nbsp <button id="'+user.key+'" class="mdl-button mdl-js-button mdl-button--primary"  onClick="onEnableClicked(this.id)">Enable Edit Mode</button></span></li>');		
 	}
+};
+
+function addProject(project){		
+		$("#projectsList").append('<li id=element"'+project.key
+		+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">assignment</i> '
+		+ project.title + '</span></li>');
+};
+
+function addHoliday(holiday){		
+	$("#holidaysList").append('<li id=element"'+holiday.key
+	+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-icon">weekend</i>'
+	+ holiday.title + '&nbsp&nbsp <b>'+$.datepicker.formatDate('dd M yy', new Date(holiday.date.time))+'</b></span> </li>');
 };
 
 function onEnableClicked(clicked_id){	
@@ -62,6 +98,17 @@ function onEnableClicked(clicked_id){
 
 function onDisableClicked(clicked_id){
 	firebase.database().ref('USERS/' + clicked_id +'/isAllowEditPastReports').set(false);
+}
+
+
+function showUserDialog(phone, skype){
+	var dialog = document.querySelector('#userDialog');
+	if (! dialog.showModal) {
+		dialogPolyfill.registerDialog(dialog);
+	}
+	dialog.showModal();
+	$("#userPhone").val(phone);
+	$("#userSkype").val(skype);
 }
 
 /* FORGOT PROCESS */
@@ -117,9 +164,13 @@ $("#loginBtn").click(
 
 $("#signOutBtn").click(
   function(){
-    firebase.auth().signOut().then(function() {      
-    }).catch(function(error) {      
-      alert(error.message);
-    });
-  }
+	logout();
+	}
 );
+
+function logout(){
+  firebase.auth().signOut().then(function() {      
+	}).catch(function(error) {      
+		alert(error.message);
+	});
+}

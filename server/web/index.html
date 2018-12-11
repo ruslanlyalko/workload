@@ -38,11 +38,36 @@
 		<!-- MDL Spinner Component -->
 		<div id="loginProgress" class="mdl-spinner mdl-js-spinner is-active"></div>
 	 
-		
-
     </div>
   </dialog>
 
+  
+  <!--  DIALOG -->
+  <dialog id="userDialog" class="mdl-dialog">
+      <h4 class="mdl-dialog__title">Profile</h4>
+      <div class="mdl-dialog__content">
+        <p id="userError"></p>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="userPhone">
+          <label class="mdl-textfield__label" for="sample3">Phone</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="userSkype">
+          <label class="mdl-textfield__label" for="sample3">Skype</label>
+        </div>
+      </div>
+      <div class="mdl-dialog__actions">
+        <!-- Flat button with ripple -->
+      <!-- Colored raised button -->
+      <button id="userSaveBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+        Save
+      </button>
+      <!-- MDL Spinner Component -->
+      <div id="userProgress" class="mdl-spinner mdl-js-spinner is-active"></div>
+     
+      </div>
+    </dialog>
+  
   <!-- MAIN PAGE CONTENT -->
 
   <div class="login-cover">
@@ -70,16 +95,17 @@
       </div>
        <!-- Tabs -->
       <div id="navTabs" class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Profile</a>
+        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Profile</a>        
         <a href="#scroll-tab-2" class="mdl-layout__tab">Users</a>
-        <a href="#scroll-tab-3" class="mdl-layout__tab">Reports</a>
+        <a href="#scroll-tab-3" class="mdl-layout__tab">Projects</a>
+        <a href="#scroll-tab-4" class="mdl-layout__tab">Holidays</a>
       </div>
 	  </header>
   
 
 	<main class="mdl-layout__content">
-      <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-          <div class="page-content"><!-- Your content goes here -->            
+       <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+          <div class="page-content"> <div class="demo-card-wide mdl-card mdl-shadow--2dp">     
           <h4 id="profileName"></h4>
           <p id="profileDepartment"></p>
           <p id="profileEmail"></p>
@@ -88,24 +114,31 @@
           <p id="profileBirthday"></p>
           <p id="profileFirst"></p>
           </div>
+          </div>
         </section>
         <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-          <div class="page-content"><ul id="usersList" class="demo-list-icon mdl-list"></ul></div>
+          <div class="page-content">
+              <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                <ul id="usersList" class="demo-list-action mdl-list"></ul>
+              </div>
+          </div>
         </section>
         <section class="mdl-layout__tab-panel" id="scroll-tab-3">
-          <div class="page-content"><!-- Your content goes here --></div>
+          <div class="page-content">
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp"><ul id="projectsList" class="demo-list-icon mdl-list"></ul>
+            </div>
+          </div>
+        </section>		
+        <section class="mdl-layout__tab-panel" id="scroll-tab-4">
+          <div class="page-content">
+              <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                <ul id="holidaysList" class="demo-list-icon mdl-list"></ul>
+              </div>
+            </div>
         </section>			  
 	
   </main>
-  <footer class="mdl-mini-footer">
-      <div class="mdl-mini-footer__left-section">
-        <div class="mdl-logo">Workload 2018</div>
-        <ul class="mdl-mini-footer__link-list">          
-            <li><a href="http://pettersonapps.com/mobile-apps-privacy-policy">Help</a></li>
-          <li><a href="http://pettersonapps.com/mobile-apps-privacy-policy">Privacy & Terms</a></li>
-        </ul>
-      </div>
-    </footer>
+ 
  </div>
 
 <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>

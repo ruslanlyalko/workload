@@ -13,9 +13,15 @@
 }
 
 .page-content {
-  margin-left: 20px;
+  margin: 20px;  
 }
 
+.demo-card-wide.mdl-card {
+  width: 600px;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 /*Login Section */
 
 .login-cover {
@@ -35,6 +41,9 @@
   display: none;
 }
 
+#userProgress {
+  display: none;
+}
 
 #loginError {
   display: none;
