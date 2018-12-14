@@ -341,6 +341,43 @@ exports.getProjectInfo = functions.https.onCall((data, context) => {
 		});	
 });
 // ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+exports.isBlocked = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {	  
+	  throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
+		  'while authenticated.');
+	}
+	const userIsBlockedPromise = admin.database().ref("/USERS").child(context.auth.uid).child("isBlocked").once('value');
+	return userIsBlockedPromise.then(snap => {
+		const isBlocked = snap.val(); 
+			return {
+				isBlocked: isBlocked
+			}	
+		});	
+});
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+exports.isRightDate = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {	  
+	  throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
+		  'while authenticated.');
+	}
+	const date = data.date;
+	// Checking attribute.
+	if (!(typeof date === 'number') || date < 0) {	  
+	  throw new functions.https.HttpsError('invalid-argument', 'The function must be called with ' +
+		  'three arguments, first "project" should containing the project title.');
+	}
+	const isRight = moment(date).format("DDMMYYYY") === moment().format("DDMMYYYY");
+	return {
+		isRight: isRight
+	}			
+});
+// ----------------------------------------------------------------------------
 function getReportInfo(report){
 	return "Status: "+ report.status + "\n"+
 			"Date: "+ moment(report.date.time).format("DD.MM.YYYY") + "\n"+
