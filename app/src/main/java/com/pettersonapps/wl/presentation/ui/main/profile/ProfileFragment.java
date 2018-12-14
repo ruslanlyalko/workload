@@ -13,6 +13,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
+import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 import com.pettersonapps.wl.presentation.ui.main.profile.edit.ProfileEditActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -82,7 +83,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
                 getPresenter().onEditClicked();
                 return true;
             case R.id.action_logout:
-                getPresenter().onLogoutClicked();
+                ((MainActivity) getBaseActivity()).onShowLogoutMenu();
                 return true;
             case R.id.action_menu:
                 return true;

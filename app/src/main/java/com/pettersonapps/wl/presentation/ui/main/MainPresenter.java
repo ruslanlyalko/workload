@@ -49,5 +49,18 @@ public class MainPresenter extends BasePresenter<MainView> {
         if (user.getIsNightMode() != isNightMode) {
             getDataManager().updateNightMode(isNightMode);
         }
+        if (mUser.getIsBlocked()) {
+            getDataManager().isBlocked().addOnSuccessListener(checkBlocked -> {
+                if (checkBlocked.getIsBlocked()) {
+                    getAuth().signOut();
+                    getView().showErrorAndStartLoginScreen();
+                }
+            });
+        }
+    }
+
+    public void onLogout() {
+        getDataManager().logout();
+        getView().showLoginScreen();
     }
 }

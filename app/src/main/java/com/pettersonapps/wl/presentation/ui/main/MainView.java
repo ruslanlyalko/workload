@@ -16,4 +16,8 @@ public interface MainView extends BaseView<MainPresenter> {
     void showMenu(User user);
 
     void fabClickedFragment();
+
+    void showErrorAndStartLoginScreen();
+
+    void showLoginScreen();
 }

@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.autofill.AutofillManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
@@ -60,6 +62,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
+        mInputPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onLoginClick();
+                return true;
+            }
+            return false;
+        });
         getPresenter().onViewReady();
     }
 
@@ -83,11 +92,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void showForgotPasswordButton() {
         mTextForgot.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void errorWrongCredentials() {
-        showError(getString(R.string.error_wrong_credentials));
     }
 
     @Override
@@ -118,6 +122,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void hideProgress() {
         mButtonLogin.showProgress(false);
         mProgress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showBlockedError() {
+        Toast.makeText(getContext(), R.string.error_blocked, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showInternetError() {
+        showError(getString(R.string.error_no_internet));
     }
 
     @OnClick(R.id.text_forgot)

@@ -27,10 +27,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.multibackstack.BackStackActivity;
+import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
@@ -62,16 +64,17 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @BindView(R.id.image_menu) AppCompatImageView mImageMenu;
     @BindView(R.id.bottom_sheet) LinearLayout mLayoutBottomSheet;
     @BindView(R.id.bottom_sheet_delete) LinearLayout mLayoutBottomSheetDelete;
+    @BindView(R.id.bottom_sheet_logout) LinearLayout mLayoutBottomSheetLogout;
     @BindView(R.id.image_logo) ImageView mImageLogo;
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_subtitle) TextView mTextSubtitle;
     @BindView(R.id.text_letters) TextView mTextLetters;
-    @BindView(R.id.text_delete) TextView mTextDelete;
     @BindView(R.id.navigation_list) NavigationView mNavigationList;
     @BindView(R.id.touch_outside) View mTouchOutSide;
     @BindView(R.id.layout_profile) RelativeLayout mLayoutProfile;
     private BottomSheetBehavior mSheetBehavior;
     private BottomSheetBehavior mSheetBehaviorDelete;
+    private BottomSheetBehavior mSheetBehaviorLogout;
     private float mOldY;
     private Fragment mCurFragment;
     private int mCurTabId = TAB_WORKLOAD;
@@ -181,6 +184,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                     return false;
             }
         });
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
@@ -190,9 +194,27 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         onFabClickedFragment();
     }
 
+    @Override
+    public void showErrorAndStartLoginScreen() {
+        Toast.makeText(getContext(), R.string.error_blocked, Toast.LENGTH_LONG).show();
+        startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    @Override
+    public void showLoginScreen() {
+        startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
     public void onShowDeleteMenu() {
-        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    public void onShowLogoutMenu() {
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private int getMenuIdByTab(final int tabId) {
@@ -288,7 +310,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     public void onBackPressed() {
-        if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        if (mSheetBehaviorLogout.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+            mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else if (mSheetBehaviorDelete.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -329,6 +353,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mBottomAppBar.setNavigationIcon(null);
         mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
         mSheetBehaviorDelete = BottomSheetBehavior.from(mLayoutBottomSheetDelete);
+        mSheetBehaviorLogout = BottomSheetBehavior.from(mLayoutBottomSheetLogout);
         BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull final View view, final int i) {
@@ -347,6 +372,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         };
         mSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
         mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorLogout.setBottomSheetCallback(bottomSheetCallback);
         getPresenter().onViewReady();
         if (state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
@@ -433,6 +459,12 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         onDeleteClickedFragment();
     }
 
+    @OnClick(R.id.text_logout)
+    public void onLogoutClick() {
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        getPresenter().onLogout();
+    }
+
     @OnClick(R.id.layout_profile)
     public void onProfileClick() {
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -443,5 +475,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     public void onTouchClick() {
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 }

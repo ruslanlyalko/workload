@@ -107,7 +107,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                getPresenter().onLogoutClicked();
+                ((MainActivity) getBaseActivity()).onShowLogoutMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

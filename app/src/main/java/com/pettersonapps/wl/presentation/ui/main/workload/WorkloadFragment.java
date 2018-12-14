@@ -143,7 +143,6 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     public void showErrorAndStartLoginScreen() {
         Toast.makeText(getContext(), R.string.error_blocked, Toast.LENGTH_LONG).show();
         startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        getBaseActivity().finish();
     }
 
     @Override
@@ -164,6 +163,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showWrongDateOnMobileError() {
         showError(getString(R.string.error_check_date));
+    }
+
+    @Override
+    public void showInternetError() {
+        showError(getString(R.string.error_no_internet));
     }
 
     void showCalendarsEvents() {

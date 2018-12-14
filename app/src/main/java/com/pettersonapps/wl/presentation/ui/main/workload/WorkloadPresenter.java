@@ -56,17 +56,18 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     }
 
     public void onReportDeleteClicked(final Report report) {
-        report.setUpdatedAt(new Date());
-        getDataManager().saveReport(report)
-                .addOnSuccessListener(aVoid -> getDataManager().removeReport(report)
-                        .addOnCompleteListener(task -> {
-                            if (getView() == null) return;
-                            getView().showReports(getReportsForCurrentDate(), mDate);
-                        }))
-                .addOnFailureListener(e -> {
-                    if (getView() == null) return;
-                    getView().showWrongDateOnMobileError();
-                });
+        getDataManager().isRightDate().addOnSuccessListener(checkDate -> {
+            if (checkDate == null) {
+                getView().showInternetError();
+            } else if (checkDate.getIsRight()) {
+                getDataManager().removeReport(report);
+                if (getView() == null) return;
+                getView().showReports(getReportsForCurrentDate(), mDate);
+            } else {
+                if (getView() == null) return;
+                getView().showWrongDateOnMobileError();
+            }
+        }).addOnFailureListener(e -> getView().showError(e.getLocalizedMessage()));
     }
 
     public void onReportClicked(final Report report) {
@@ -115,9 +116,5 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void setUser(final User user) {
         mUser = user;
-        if (mUser.getIsBlocked()) {
-            getAuth().signOut();
-            getView().showErrorAndStartLoginScreen();
-        }
     }
 }

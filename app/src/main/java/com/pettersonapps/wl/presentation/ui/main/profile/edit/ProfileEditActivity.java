@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
@@ -22,16 +24,22 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> implements ProfileEditView {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.scroll_view) ScrollView mScrollView;
+    @BindView(R.id.input_layout_phone) TextInputLayout mInputLayoutPhone;
+    @BindView(R.id.input_layout_skype) TextInputLayout mInputLayoutSkype;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
     @BindView(R.id.input_skype) TextInputEditText mInputSkype;
 
     @BindView(R.id.input_birthday) TextInputEditText mInputBirthday;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
+    @BindView(R.id.input_layout_password) TextInputLayout mInputLayoutPassword;
     @BindView(R.id.input_password_confirm) TextInputEditText mInputPasswordConfirm;
+    @BindView(R.id.input_layout_password_confirm) TextInputLayout mInputLayoutPasswordConfirm;
 
     @BindView(R.id.button_save) SquareButton mButtonSave;
     @BindView(R.id.progress) ProgressBar mProgress;
@@ -71,26 +79,58 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
         onBackPressed();
     }
 
+    @OnTextChanged(R.id.input_phone)
+    public void onPhoneTextChanged(CharSequence text) {
+        if (!text.toString().isEmpty()) {
+            mInputLayoutPhone.setError(null);
+        }
+    }
+
+    @OnTextChanged(R.id.input_skype)
+    public void onSkypeTextChanged(CharSequence text) {
+        if (!text.toString().isEmpty()) {
+            mInputLayoutSkype.setError(null);
+        }
+    }
+
+    @OnTextChanged(R.id.input_password)
+    public void onPasswordTextChanged(CharSequence text) {
+        if (text.toString().isEmpty() || text.toString().length() >= 6) {
+            mInputLayoutPassword.setError(null);
+        }
+    }
+
+    @OnTextChanged(R.id.input_password_confirm)
+    public void onPasswordCTextChanged(CharSequence text) {
+        if (text.toString().isEmpty() || text.toString().equals(mInputPassword.getText().toString())) {
+            mInputLayoutPasswordConfirm.setError(null);
+        }
+    }
+
     @OnClick(R.id.button_save)
     public void onSaveClick() {
         boolean isEmpty = false;
-        if (TextUtils.isEmpty(mInputPhone.getText())) {
-            mInputPhone.setError(getString(R.string.error_cant_be_empty));
-            mInputPhone.requestFocus();
+        if (TextUtils.isEmpty(mInputSkype.getText())) {
+            mInputLayoutSkype.setError(getString(R.string.error_cant_be_empty));
+            mInputSkype.requestFocus();
             isEmpty = true;
         }
-        if (TextUtils.isEmpty(mInputSkype.getText())) {
-            mInputSkype.setError(getString(R.string.error_cant_be_empty));
-            mInputSkype.requestFocus();
+        if (TextUtils.isEmpty(mInputPhone.getText())) {
+            mInputLayoutPhone.setError(getString(R.string.error_cant_be_empty));
+            mInputPhone.requestFocus();
             isEmpty = true;
         }
         if (isEmpty) return;
         // Password
         if (!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 6) {
-            mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
+            mInputLayoutPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
             mInputPassword.requestFocus();
         } else if (!TextUtils.isEmpty(mInputPassword.getText()) && !mInputPassword.getText().toString().equals(mInputPasswordConfirm.getText().toString())) {
-            mInputPasswordConfirm.setError(getString(R.string.error_passwords_should_equals));
+            mInputLayoutPasswordConfirm.setError(getString(R.string.error_passwords_should_equals));
+            mScrollView.postDelayed(() -> {
+                mScrollView.fullScroll(View.FOCUS_DOWN);
+                mInputPasswordConfirm.requestFocus();
+            }, 50);
             mInputPasswordConfirm.requestFocus();
         } else
             getPresenter().onSave(mInputSkype.getText().toString(), mInputPhone.getText().toString(), mInputPassword.getText().toString());

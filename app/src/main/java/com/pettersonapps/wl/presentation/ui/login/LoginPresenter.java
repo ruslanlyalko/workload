@@ -24,14 +24,25 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         getView().showProgress();
         getAuth().signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    getDataManager().updateToken();
-                    getDataManager().getMyUser();
-                    getView().startMainScreen();
+                    getDataManager().isBlocked().addOnSuccessListener(checkBlocked -> {
+                        if (checkBlocked.getIsBlocked()) {
+                            getView().hideProgress();
+                            getAuth().signOut();
+                            getView().showBlockedError();
+                        } else {
+                            getDataManager().updateToken();
+                            getDataManager().getMyUser();
+                            getView().startMainScreen();
+                        }
+                    }).addOnFailureListener(e -> {
+                        getView().hideProgress();
+                        getView().showInternetError();
+                    });
                 })
                 .addOnFailureListener(e -> {
                     getView().hideProgress();
                     getView().showForgotPasswordButton();
-                    getView().errorWrongCredentials();
+                    getView().showError(e.getLocalizedMessage());
                 });
     }
 

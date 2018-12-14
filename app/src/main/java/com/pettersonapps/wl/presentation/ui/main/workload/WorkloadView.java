@@ -33,4 +33,6 @@ public interface WorkloadView extends BaseView<WorkloadPresenter> {
     void startAddReportScreen(final User user, final Date date, final List<Holiday> holidays);
 
     void showWrongDateOnMobileError();
+
+    void showInternetError();
 }

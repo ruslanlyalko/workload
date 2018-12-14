@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
 import com.pettersonapps.wl.data.models.AppSettings;
+import com.pettersonapps.wl.data.models.CheckBlocked;
+import com.pettersonapps.wl.data.models.CheckDate;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
@@ -57,6 +59,10 @@ public interface DataManager {
     //projects
 
     Task<ProjectInfo> getProjectInfo(String project, Date from, Date to);
+
+    Task<CheckBlocked> isBlocked();
+
+    Task<CheckDate> isRightDate();
 
     Task<Void> saveProject(Project project);
 

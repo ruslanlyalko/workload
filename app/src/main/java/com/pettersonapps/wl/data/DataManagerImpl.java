@@ -16,6 +16,8 @@ import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.data.models.AppSettings;
+import com.pettersonapps.wl.data.models.CheckBlocked;
+import com.pettersonapps.wl.data.models.CheckDate;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;
@@ -336,6 +338,43 @@ public class DataManagerImpl implements DataManager {
                     if (task.isSuccessful()) {
                         try {
                             return new ProjectInfo(task.getResult().getData());
+                        } catch (Exception e) {
+                            return null;
+                        }
+                    }
+                    return null;
+                });
+    }
+
+    @Override
+    public Task<CheckBlocked> isBlocked() {
+        Map<String, Object> data = new HashMap<>();
+        return mFunctions
+                .getHttpsCallable("isBlocked")
+                .call(data)
+                .continueWith((Task<HttpsCallableResult> task) -> {
+                    if (task.isSuccessful()) {
+                        try {
+                            return new CheckBlocked(task.getResult().getData());
+                        } catch (Exception e) {
+                            return null;
+                        }
+                    }
+                    return null;
+                });
+    }
+
+    @Override
+    public Task<CheckDate> isRightDate() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("date", new Date().getTime());
+        return mFunctions
+                .getHttpsCallable("isRightDate")
+                .call(data)
+                .continueWith((Task<HttpsCallableResult> task) -> {
+                    if (task.isSuccessful()) {
+                        try {
+                            return new CheckDate(task.getResult().getData());
                         } catch (Exception e) {
                             return null;
                         }
