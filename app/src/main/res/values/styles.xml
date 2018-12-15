@@ -38,6 +38,7 @@
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="editTextStyle">@style/EditTextStyle</item>
         <item name="drawableMenu">@drawable/ic_menu_gr</item>
+        <item name="colorSnow">@color/colorSnow</item>
     </style>
 
     <!-- Night-->
@@ -78,6 +79,7 @@
         <item name="android:editTextStyle">@style/EditTextStyleNight</item>
         <item name="editTextStyle">@style/EditTextStyleNight</item>
         <item name="drawableMenu">@drawable/ic_menu_b</item>
+        <item name="colorSnow">@color/colorSnowNight</item>
     </style>
 
     <style name="EditTextStyle" parent="@android:style/Widget.Material.Light.EditText">

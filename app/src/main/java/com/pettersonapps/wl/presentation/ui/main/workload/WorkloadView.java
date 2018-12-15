@@ -2,6 +2,7 @@ package com.pettersonapps.wl.presentation.ui.main.workload;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
@@ -35,4 +36,6 @@ public interface WorkloadView extends BaseView<WorkloadPresenter> {
     void showWrongDateOnMobileError();
 
     void showInternetError();
+
+    void showSettings(MutableLiveData<AppSettings> settings);
 }

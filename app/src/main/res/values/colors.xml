@@ -23,6 +23,7 @@
     <color name="colorIconGray">#3f444a</color>
     <color name="colorIconWhite">#fff</color>
     <color name="colorInputBorder">#959697</color>
+    <color name="colorSnow">#A0C3D0</color>
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
@@ -46,6 +47,7 @@
     <color name="colorIconGrayNight">#e7e7e7</color>
     <color name="colorIconWhiteNight">#e7e7e7</color>
     <color name="colorInputBorderNight">#a8a8a8</color>
+    <color name="colorSnowNight">#ffffff</color>
     <!-- - -->
 
     <color name="colorWhite">#ffffff</color>

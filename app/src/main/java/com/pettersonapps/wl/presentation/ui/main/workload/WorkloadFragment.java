@@ -8,12 +8,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.Toast;
 
+import com.jetradarmobile.snowfall.SnowfallView;
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
@@ -35,6 +38,7 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView, OnReportClickListener {
 
@@ -42,6 +46,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.view_pager) ViewPager mViewPager;
+    @BindView(R.id.snowfall) SnowfallView mSnowfall;
 //    @BindDimen(R.dimen.calendar_height) int mTargetHeight;
 
     private Date mPrevDate = new Date();
@@ -62,6 +67,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         mCalendarView.displayOtherMonthDays(true);
+        mTextMonth.setText(DateUtils.getMonth(new Date()));
+        mPrevDateStr = DateUtils.getMonth(new Date());
         mCalendarView.setListener(new StatusCalendarView.StatusCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {
@@ -170,6 +177,14 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         showError(getString(R.string.error_no_internet));
     }
 
+    @Override
+    public void showSettings(final MutableLiveData<AppSettings> settings) {
+        settings.observe(this, appSettings -> {
+            if (appSettings != null)
+                mSnowfall.setVisibility(appSettings.getIsSnowig() ? View.VISIBLE : View.INVISIBLE);
+        });
+    }
+
     void showCalendarsEvents() {
         mCalendarView.removeAllEvents();
         List<Report> reports = getPresenter().getReports();
@@ -252,6 +267,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());
         setNewDate(new Date());
+    }
+
+    @OnLongClick(R.id.title)
+    public boolean onLongClick() {
+        mSnowfall.setVisibility(View.VISIBLE);
+        return false;
     }
 
     @Override

@@ -12,6 +12,22 @@
         android:id="@+id/title"
         layout="@layout/layout_title" />
 
+    <com.jetradarmobile.snowfall.SnowfallView
+        android:id="@+id/snowfall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/title"
+        android:visibility="invisible"
+        app:snowflakeAlphaMax="215"
+        app:snowflakeAlphaMin="100"
+        app:snowflakeImage="@drawable/ic_snow"
+        app:snowflakeSizeMax="10dp"
+        app:snowflakeSizeMin="3dp"
+        app:snowflakeSpeedMax="5"
+        app:snowflakeSpeedMin="2"
+        app:snowflakesFadingEnabled="true"
+        app:snowflakesNum="15" />
+
     <TextSwitcher
         android:id="@+id/text_month"
         android:layout_width="150dp"

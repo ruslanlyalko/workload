@@ -26,6 +26,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
+        getView().showSettings(getDataManager().getSettings());
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
         getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
     }
