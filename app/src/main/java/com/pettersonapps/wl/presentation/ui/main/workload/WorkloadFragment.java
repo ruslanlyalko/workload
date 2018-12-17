@@ -181,7 +181,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
             if (appSettings != null)
-                mSnowfall.setVisibility(appSettings.getIsSnowig() ? View.VISIBLE : View.INVISIBLE);
+                mSnowfall.setVisibility(appSettings.getIsSnowing() ? View.VISIBLE : View.INVISIBLE);
         });
     }
 

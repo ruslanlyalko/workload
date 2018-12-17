@@ -12,14 +12,14 @@ import java.util.Objects;
 public class AppSettings implements Parcelable {
 
     private String notificationEmail;
-    private boolean isSnowig;
+    private boolean isSnowing;
 
-    public boolean getIsSnowig() {
-        return isSnowig;
+    public boolean getIsSnowing() {
+        return isSnowing;
     }
 
-    public void setIsSnowig(final boolean snowig) {
-        isSnowig = snowig;
+    public void setIsSnowing(final boolean snowig) {
+        isSnowing = snowig;
     }
 
     public String getNotificationEmail() {
@@ -35,13 +35,13 @@ public class AppSettings implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppSettings that = (AppSettings) o;
-        return isSnowig == that.isSnowig &&
+        return isSnowing == that.isSnowing &&
                 Objects.equals(notificationEmail, that.notificationEmail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notificationEmail, isSnowig);
+        return Objects.hash(notificationEmail, isSnowing);
     }
 
     public AppSettings() {}
@@ -52,12 +52,12 @@ public class AppSettings implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.notificationEmail);
-        dest.writeByte(this.isSnowig ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isSnowing ? (byte) 1 : (byte) 0);
     }
 
     protected AppSettings(Parcel in) {
         this.notificationEmail = in.readString();
-        this.isSnowig = in.readByte() != 0;
+        this.isSnowing = in.readByte() != 0;
     }
 
     public static final Creator<AppSettings> CREATOR = new Creator<AppSettings>() {
