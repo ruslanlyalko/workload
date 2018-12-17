@@ -44,6 +44,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.text_reports_placeholder) TextView mTextReportsPlaceholder;
     @BindView(R.id.text_users_placeholder) TextView mTextUsersPlaceholder;
+    @BindView(R.id.text_users_header) TextView mTextUsersHeader;
     @BindView(R.id.text_date) TextSwitcher mTextDate;
     @BindDimen(R.dimen.margin_default) int mDefault;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
@@ -173,6 +174,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
             return;
         }
         mTextUsersPlaceholder.setVisibility(allUsersWithoutReports.isEmpty() ? View.VISIBLE : View.GONE);
+        mTextUsersHeader.setText(getString(R.string.text_users_without_reports, allUsersWithoutReports.size()));
         mUsersAdapter.setData(allUsersWithoutReports);
     }
 

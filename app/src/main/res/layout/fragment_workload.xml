@@ -21,9 +21,9 @@
         app:snowflakeAlphaMax="215"
         app:snowflakeAlphaMin="100"
         app:snowflakeImage="@drawable/ic_snow"
-        app:snowflakeSizeMax="10dp"
+        app:snowflakeSizeMax="12dp"
         app:snowflakeSizeMin="3dp"
-        app:snowflakeSpeedMax="5"
+        app:snowflakeSpeedMax="4"
         app:snowflakeSpeedMin="2"
         app:snowflakesFadingEnabled="true"
         app:snowflakesNum="15" />

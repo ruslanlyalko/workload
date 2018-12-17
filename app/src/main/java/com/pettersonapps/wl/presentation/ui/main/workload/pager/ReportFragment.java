@@ -48,6 +48,8 @@ public class ReportFragment extends Fragment {
     @BindView(R.id.text_project_2) TextView mTextProject2;
     @BindView(R.id.text_project_3) TextView mTextProject3;
     @BindView(R.id.text_project_4) TextView mTextProject4;
+    @BindView(R.id.text_project_5) TextView mTextProject5;
+    @BindView(R.id.text_project_6) TextView mTextProject6;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
 
@@ -117,10 +119,14 @@ public class ReportFragment extends Fragment {
         mTextProject2.setVisibility(TextUtils.isEmpty(report.getP2()) ? GONE : VISIBLE);
         mTextProject3.setVisibility(TextUtils.isEmpty(report.getP3()) ? GONE : VISIBLE);
         mTextProject4.setVisibility(TextUtils.isEmpty(report.getP4()) ? GONE : VISIBLE);
+        mTextProject5.setVisibility(TextUtils.isEmpty(report.getP5()) ? GONE : VISIBLE);
+        mTextProject6.setVisibility(TextUtils.isEmpty(report.getP6()) ? GONE : VISIBLE);
         mTextProject1.setText(getFormattedText(report.getP1(), report.getT1()));
         mTextProject2.setText(getFormattedText(report.getP2(), report.getT2()));
         mTextProject3.setText(getFormattedText(report.getP3(), report.getT3()));
         mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
+        mTextProject5.setText(getFormattedText(report.getP5(), report.getT5()));
+        mTextProject6.setText(getFormattedText(report.getP6(), report.getT6()));
         mTextDate.setText(DateUtils.toStringDate(report.getDate()));
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             mImageCopy.setImageResource(R.drawable.ic_copy_bl);

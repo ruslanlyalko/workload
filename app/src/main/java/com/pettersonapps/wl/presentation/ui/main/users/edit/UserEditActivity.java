@@ -38,6 +38,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @BindView(R.id.spinner_department) Spinner mSpinnerDepartment;
     @BindView(R.id.switch_blocked) Switch mSwitchBlocked;
     @BindView(R.id.switch_allow_edit) Switch mSwitchAllowEdit;
+    @BindView(R.id.switch_vip) Switch mSwitchVip;
     @BindView(R.id.progress) ProgressBar mProgress;
 
     public static Intent getLaunchIntent(final Context activity, User user) {
@@ -79,7 +80,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
                 mInputSkype.getText().toString(),
                 mInputComments.getText().toString(),
                 String.valueOf(mSpinnerDepartment.getSelectedItem()),
-                mSwitchBlocked.isChecked(), mSwitchAllowEdit.isChecked());
+                mSwitchBlocked.isChecked(), mSwitchAllowEdit.isChecked(), mSwitchVip.isChecked());
     }
 
     @OnClick({R.id.input_birthday, R.id.input_first_working_day})
@@ -152,5 +153,6 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mInputFirstWorkingDay.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mSwitchAllowEdit.setChecked(user.getIsAllowEditPastReports());
         mSwitchBlocked.setChecked(user.getIsBlocked());
+        mSwitchVip.setChecked(user.getIsVip());
     }
 }

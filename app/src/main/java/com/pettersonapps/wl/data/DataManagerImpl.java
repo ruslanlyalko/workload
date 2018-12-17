@@ -476,7 +476,7 @@ public class DataManagerImpl implements DataManager {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
         mDatabase.getReference(DB_REPORTS)
                 .orderByChild(FIELD_DATE_TIME)
-                .startAt(DateUtils.getStart(from).getTime())
+                .startAt(DateUtils.getEnd(DateUtils.get1DaysAgo(from)).getTime())
                 .endAt(DateUtils.getEnd(to).getTime())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

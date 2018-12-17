@@ -43,6 +43,7 @@
     <string name="text_night_mode">Night mode</string>
     <string name="text_old_style_calendar">Old style calendar</string>
     <string name="text_allow_edit">Allow To Edit All Workloads</string>
+    <string name="text_vip">VIP</string>
     <string name="text_save">Save</string>
     <string name="text_register">Register User</string>
     <string name="text_report_placeholder">Click to add New Report</string>
@@ -52,7 +53,7 @@
     <string name="text_tomorrow">Tomorrow</string>
     <string name="text_forgot_password_click_here_to_send_reset_instructions"><u>Forgot password? Click here to send Reset Instruction</u></string>
     <string name="text_not_standard_reports">Not Standard Reports</string>
-    <string name="text_users_without_reports">Users Without Reports</string>
+    <string name="text_users_without_reports">Users Without Reports: %d</string>
     <string name="text_remind_at">Remind me at</string>
     <string name="text_default">Default working time</string>
     <string name="text_get_project_info">Get Project Info</string>
@@ -111,8 +112,8 @@
     <string name="department_prompt">Choose Department</string>
     <string name="text_add">Add</string>
     <string name="text_search">Search</string>
-    <string name="day_taken">"   %s year: %d  day taken \n"</string>
-    <string name="days_taken">"   %s year: %d  days taken \n"</string>
+    <string name="day_taken">"%s year: %d  day taken \n"</string>
+    <string name="days_taken">"%s year: %d  days taken \n"</string>
     <string name="text_minus">-</string>
     <string name="text_plus">+</string>
     <string name="text_change_password">Change password</string>

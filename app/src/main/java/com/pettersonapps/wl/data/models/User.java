@@ -30,6 +30,7 @@ public class User extends BaseModel {
     private String token;
     private String version;
     private boolean isNightMode;
+    private boolean isVip;
     private int defaultWorkingTime;
     private boolean isOldStyleCalendar;
 
@@ -197,6 +198,14 @@ public class User extends BaseModel {
         return isOldStyleCalendar;
     }
 
+    public boolean getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(final boolean vip) {
+        isVip = vip;
+    }
+
     @Override
     public int describeContents() { return 0; }
 
@@ -220,6 +229,7 @@ public class User extends BaseModel {
         dest.writeString(this.token);
         dest.writeString(this.version);
         dest.writeByte(this.isNightMode ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isVip ? (byte) 1 : (byte) 0);
         dest.writeInt(this.defaultWorkingTime);
         dest.writeByte(this.isOldStyleCalendar ? (byte) 1 : (byte) 0);
     }
@@ -245,6 +255,7 @@ public class User extends BaseModel {
         this.token = in.readString();
         this.version = in.readString();
         this.isNightMode = in.readByte() != 0;
+        this.isVip = in.readByte() != 0;
         this.defaultWorkingTime = in.readInt();
         this.isOldStyleCalendar = in.readByte() != 0;
     }

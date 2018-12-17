@@ -64,7 +64,6 @@
         android:src="@drawable/ic_edit_workload"
         tools:ignore="ContentDescription" />
 
-
     <ImageView
         android:id="@+id/image_offline"
         android:layout_width="16dp"
@@ -73,6 +72,16 @@
         android:layout_marginTop="18dp"
         android:layout_toEndOf="@id/image_edit"
         android:src="@drawable/ic_offline"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/image_vip"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@id/image_offline"
+        android:src="@drawable/ic_vip"
         tools:ignore="ContentDescription" />
 
     <TextView

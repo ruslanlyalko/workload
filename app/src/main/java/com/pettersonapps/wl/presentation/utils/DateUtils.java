@@ -164,6 +164,13 @@ public class DateUtils {
         return calendar;
     }
 
+    public static Date get1DaysAgo(final Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        return calendar.getTime();
+    }
+
     public static Calendar get1DaysAgo() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -266,5 +273,4 @@ public class DateUtils {
             return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays;
         }
     }
-
 }

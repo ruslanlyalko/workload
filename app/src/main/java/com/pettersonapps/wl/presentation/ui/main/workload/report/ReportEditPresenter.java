@@ -93,6 +93,20 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             mReport.setP4("");
             mReport.setT4(0);
         }
+        if (data.size() > 4 && allowSaveData) {
+            mReport.setP5(data.get(4).getTitle());
+            mReport.setT5(data.get(4).getSpent());
+        } else {
+            mReport.setP5("");
+            mReport.setT5(0);
+        }
+        if (data.size() > 5 && allowSaveData) {
+            mReport.setP6(data.get(5).getTitle());
+            mReport.setT6(data.get(5).getSpent());
+        } else {
+            mReport.setP6("");
+            mReport.setT6(0);
+        }
         //
         if (hasTwoSameProjects()) {
             getView().errorCantHasTwoEqualsProjects();
@@ -184,6 +198,12 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         if (!TextUtils.isEmpty(mReport.getP4())) {
             names.add(mReport.getP4());
         }
+        if (!TextUtils.isEmpty(mReport.getP5())) {
+            names.add(mReport.getP5());
+        }
+        if (!TextUtils.isEmpty(mReport.getP6())) {
+            names.add(mReport.getP6());
+        }
         for (int i = 0; i < names.size() - 1; i++) {
             for (int j = i + 1; j < names.size(); j++) {
                 if (i != j && names.get(i).equals(names.get(j)))
@@ -194,7 +214,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     }
 
     private int getTotalHoursSpent(final Report report) {
-        return report.getT1() + report.getT2() + report.getT3() + report.getT4();
+        return report.getT1() + report.getT2() + report.getT3() + report.getT4()+ report.getT5() + report.getT6();
     }
 
     public User getUser() {

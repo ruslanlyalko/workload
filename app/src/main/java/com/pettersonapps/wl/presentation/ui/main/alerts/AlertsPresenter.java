@@ -64,12 +64,12 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
         }
         List<User> listUsers = new ArrayList<>();
         for (User user : mUsers) {
-            if (user != null && !user.getIsAdmin() && !user.getIsBlocked())
+            if (user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
                 listUsers.add(user);
         }
         List<Report> wrongReports = new ArrayList<>();
         for (Report report : mReports) {
-            if (!(report.getStatus().startsWith("Work") && getTotalHoursSpent(report) == 8)) {
+            if (!(report.getStatus().startsWith("Work"))) {//todo
                 wrongReports.add(report);
             }
             for (int i = 0; i < listUsers.size(); i++) {

@@ -26,6 +26,10 @@ public class Report extends BaseModel implements Parcelable {
     private int t3;
     private String p4;
     private int t4;
+    private String p5;
+    private int t5;
+    private String p6;
+    private int t6;
     private Date updatedAt;
 
     public Report(Report reportToCopy) {
@@ -43,6 +47,10 @@ public class Report extends BaseModel implements Parcelable {
         t3 = reportToCopy.t3;
         p4 = reportToCopy.p4;
         t4 = reportToCopy.t4;
+        p5 = reportToCopy.p5;
+        t5 = reportToCopy.t5;
+        p6 = reportToCopy.p6;
+        t6 = reportToCopy.t6;
     }
 
     public Report() {
@@ -156,6 +164,38 @@ public class Report extends BaseModel implements Parcelable {
         this.t4 = t4;
     }
 
+    public String getP5() {
+        return p5;
+    }
+
+    public void setP5(final String p5) {
+        this.p5 = p5;
+    }
+
+    public int getT5() {
+        return t5;
+    }
+
+    public void setT5(final int t5) {
+        this.t5 = t5;
+    }
+
+    public String getP6() {
+        return p6;
+    }
+
+    public void setP6(final String p6) {
+        this.p6 = p6;
+    }
+
+    public int getT6() {
+        return t6;
+    }
+
+    public void setT6(final int t6) {
+        this.t6 = t6;
+    }
+
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -174,6 +214,8 @@ public class Report extends BaseModel implements Parcelable {
                 t2 == report.t2 &&
                 t3 == report.t3 &&
                 t4 == report.t4 &&
+                t5 == report.t5 &&
+                t6 == report.t6 &&
                 Objects.equals(userId, report.userId) &&
                 Objects.equals(userName, report.userName) &&
                 Objects.equals(userDepartment, report.userDepartment) &&
@@ -183,12 +225,14 @@ public class Report extends BaseModel implements Parcelable {
                 Objects.equals(p2, report.p2) &&
                 Objects.equals(p3, report.p3) &&
                 Objects.equals(p4, report.p4) &&
+                Objects.equals(p5, report.p5) &&
+                Objects.equals(p6, report.p6) &&
                 Objects.equals(updatedAt, report.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, userName, userDepartment, date, status, p1, t1, p2, t2, p3, t3, p4, t4, updatedAt);
+        return Objects.hash(super.hashCode(), userId, userName, userDepartment, date, status, p1, t1, p2, t2, p3, t3, p4, t4, p5, t5, p6, t6, updatedAt);
     }
 
     @Override
@@ -210,6 +254,10 @@ public class Report extends BaseModel implements Parcelable {
         dest.writeInt(this.t3);
         dest.writeString(this.p4);
         dest.writeInt(this.t4);
+        dest.writeString(this.p5);
+        dest.writeInt(this.t5);
+        dest.writeString(this.p6);
+        dest.writeInt(this.t6);
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
     }
 
@@ -229,6 +277,10 @@ public class Report extends BaseModel implements Parcelable {
         this.t3 = in.readInt();
         this.p4 = in.readString();
         this.t4 = in.readInt();
+        this.p5 = in.readString();
+        this.t5 = in.readInt();
+        this.p6 = in.readString();
+        this.t6 = in.readInt();
         long tmpUpdatedAt = in.readLong();
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
     }

@@ -21,7 +21,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         getView().showUserData(mUser);
     }
 
-    public void onSave(String name, String phone, String skype, String comments, String department, boolean isBlocked, boolean isAllowEdit) {
+    public void onSave(String name, String phone, String skype, String comments, String department, boolean isBlocked, boolean isAllowEdit, final boolean vip) {
         getView().showProgress();
         mUser.setName(name);
         mUser.setPhone(phone);
@@ -30,6 +30,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         mUser.setDepartment(department);
         mUser.setIsBlocked(isBlocked);
         mUser.setIsAllowEditPastReports(isAllowEdit);
+        mUser.setIsVip(vip);
         getDataManager().saveUser(mUser)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;

@@ -256,6 +256,12 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         if (report.getT4() > 0) {
             list.add(new ProjectSelectable(report.getP4(), report.getT4()));
         }
+        if (report.getT5() > 0) {
+            list.add(new ProjectSelectable(report.getP5(), report.getT5()));
+        }
+        if (report.getT6() > 0) {
+            list.add(new ProjectSelectable(report.getP6(), report.getT6()));
+        }
         mProjectSelectAdapter.setData(list);
     }
 

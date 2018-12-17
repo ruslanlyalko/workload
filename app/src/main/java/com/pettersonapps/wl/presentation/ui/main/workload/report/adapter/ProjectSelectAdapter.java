@@ -56,7 +56,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
             projectSelectable.setSpent(defaultWorkingTime);
         }
         mData.add(projectSelectable);
-        if (mData.size() == 4)
+        if (mData.size() == 6)
             notifyItemChanged(mData.size() - 1);
         else
             notifyItemInserted(mData.size() - 1);
@@ -91,7 +91,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
     @Override
     public int getItemCount() {
-        return Math.min(mData.size() + 1, 4);
+        return Math.min(mData.size() + 1, 6);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
