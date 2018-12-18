@@ -7,6 +7,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,18 +24,33 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void onViewReady() {
         getView().showUserDetails(mUser);
-        getView().showReports(getDataManager().getVacationReports(mUser));
+        getView().showReports(getDataManager().getUserReports(mUser));
     }
 
     public void setReports(final List<Report> reports) {
         SparseIntArray mYears = new SparseIntArray();
+        List<Report> vacationReports = new ArrayList<>();
         for (Report report : reports) {
-            int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
-            int value = mYears.get(yearInd);
-            value = value + 1;
-            mYears.append(yearInd, value);
+            if (report.getStatus().startsWith("Day")
+                    || report.getStatus().startsWith("Vacation")
+                    || report.getStatus().startsWith("Sick")) {
+                vacationReports.add(report);
+                int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
+                int value = mYears.get(yearInd);
+                value = value + 1;
+                mYears.append(yearInd, value);
+            }
         }
+        getView().showVacationsReports(vacationReports);
         getView().showReportsByYear(mYears);
+        String lastReports = "";
+        for (int i = 0; i < Math.min(10, reports.size()); i++) {
+            if (DateUtils.isSameMonth(reports.get(i).getDate()))
+                lastReports = lastReports.concat(DateUtils.toString(reports.get(i).getDate(), "EE d") + ";  ");
+            else
+                lastReports = lastReports.concat(DateUtils.toString(reports.get(i).getDate(), "EE d MMM") + ";  ");
+        }
+        getView().showLast10Reports(lastReports);
     }
 
     public User getUser() {

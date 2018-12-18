@@ -529,7 +529,7 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<Report>> getVacationReports(final User user) {
+    public MutableLiveData<List<Report>> getUserReports(final User user) {
         final MutableLiveData<List<Report>> result = new MutableLiveData<>();
         mDatabase.getReference(DB_REPORTS)
                 .orderByChild(FIELD_USER_ID)
@@ -537,15 +537,12 @@ public class DataManagerImpl implements DataManager {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getVacationReports:onDataChange");
+                        Log.d(TAG, "getUserReports:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if (report == null) continue;
-                            if (report.getStatus().startsWith("Day")
-                                    || report.getStatus().startsWith("Vacation")
-                                    || report.getStatus().startsWith("Sick"))
-                                list.add(report);
+                            list.add(report);
                         }
                         Collections.sort(list, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
                         result.postValue(list);

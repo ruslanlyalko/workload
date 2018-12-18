@@ -148,8 +148,8 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
             if (getAdapterPosition() >= mData.size()) return;
             mData.remove(getAdapterPosition());
             notifyItemRemoved(getAdapterPosition());
-            if (mData.size() == 3) {
-                notifyItemInserted(3);
+            if (mData.size() == 5) {
+                notifyItemInserted(5);
             }
         }
 

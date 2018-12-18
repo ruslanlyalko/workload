@@ -51,10 +51,12 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_skype) TextView mTextSkype;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_common) TextView mTextCommon;
+    @BindView(R.id.text_last_10_reports) TextView mTextLastReports;
     @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.divider_comments) View mDividerComments;
+    @BindView(R.id.divider_last_10_reports) View mDividerLast10Reports;
     @BindView(R.id.text_comments) TextView mTextComments;
     @BindView(R.id.text_projects) TextView mTextProjects;
     @BindDimen(R.dimen.margin_mini) int mElevation;
@@ -70,7 +72,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
-            mReportsAdapter.setData(list);
         });
     }
 
@@ -120,6 +121,20 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             }
             mTextProjects.setText(projects);
         }
+    }
+
+    @Override
+    public void showLast10Reports(String lastReports) {
+        if (lastReports.isEmpty())
+            lastReports = "There are no reports";
+        else
+            lastReports = "Last 10 reports: \n" + lastReports;
+        mTextLastReports.setText(lastReports);
+    }
+
+    @Override
+    public void showVacationsReports(final List<Report> vacationReports) {
+        mReportsAdapter.setData(vacationReports);
     }
 
     private String getDayOfMonthSuffix(final int n) {

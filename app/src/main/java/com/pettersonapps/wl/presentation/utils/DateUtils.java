@@ -273,4 +273,10 @@ public class DateUtils {
             return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays;
         }
     }
+
+    public static boolean isSameMonth(final Date date) {
+        Calendar year = Calendar.getInstance();
+        year.setTime(date);
+        return year.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH);
+    }
 }

@@ -81,7 +81,7 @@ public interface DataManager {
 
     MutableLiveData<List<Report>> getAllWrongReports(Date date);
 
-    MutableLiveData<List<Report>> getVacationReports(final User user);
+    MutableLiveData<List<Report>> getUserReports(final User user);
 
     MutableLiveData<AppSettings> getSettings();
 

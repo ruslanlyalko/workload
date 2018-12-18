@@ -21,4 +21,8 @@ public interface UserDetailsView extends BaseView<UserDetailsPresenter> {
     void showReportsByYear(SparseIntArray mYears);
 
     void showUserDetails(User user);
+
+    void showLast10Reports(String lastReports);
+
+    void showVacationsReports(List<Report> vacationReports);
 }
