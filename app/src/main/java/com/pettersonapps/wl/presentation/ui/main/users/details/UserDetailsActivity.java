@@ -307,6 +307,13 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         getPresenter().onViewReady();
     }
 
+    @OnClick(R.id.text_month)
+    public void onClick() {
+        mCalendarView.setCurrentDate(new Date());
+        getPresenter().fetchReportsForDate(new Date());
+        setNewDate(new Date());
+    }
+
     private void setupAdapter() {
         mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
         mViewPager.setAdapter(mReportsPagerAdapter);
