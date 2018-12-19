@@ -12,7 +12,10 @@ import java.util.Objects;
 public class AppSettings implements Parcelable {
 
     private String notificationEmail;
+    private String defaultPushTitle;
+    private String defaultPushBody;
     private boolean isSnowing;
+    private boolean isSnowig;
 
     public boolean getIsSnowing() {
         return isSnowing;
@@ -20,6 +23,30 @@ public class AppSettings implements Parcelable {
 
     public void setIsSnowing(final boolean snowig) {
         isSnowing = snowig;
+    }
+
+    public boolean getIsSnowig() {
+        return isSnowig;
+    }
+
+    public String getDefaultPushTitle() {
+        return defaultPushTitle;
+    }
+
+    public void setDefaultPushTitle(final String defaultPushTitle) {
+        this.defaultPushTitle = defaultPushTitle;
+    }
+
+    public String getDefaultPushBody() {
+        return defaultPushBody;
+    }
+
+    public void setDefaultPushBody(final String defaultPushBody) {
+        this.defaultPushBody = defaultPushBody;
+    }
+
+    public void setIsSnowig(final boolean snowig) {
+        isSnowig = snowig;
     }
 
     public String getNotificationEmail() {
@@ -52,12 +79,18 @@ public class AppSettings implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.notificationEmail);
+        dest.writeString(this.defaultPushTitle);
+        dest.writeString(this.defaultPushBody);
         dest.writeByte(this.isSnowing ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isSnowig ? (byte) 1 : (byte) 0);
     }
 
     protected AppSettings(Parcel in) {
         this.notificationEmail = in.readString();
+        this.defaultPushTitle = in.readString();
+        this.defaultPushBody = in.readString();
         this.isSnowing = in.readByte() != 0;
+        this.isSnowig = in.readByte() != 0;
     }
 
     public static final Creator<AppSettings> CREATOR = new Creator<AppSettings>() {

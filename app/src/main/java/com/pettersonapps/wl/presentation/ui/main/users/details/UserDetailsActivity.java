@@ -31,6 +31,7 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.push.UserPushActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
@@ -61,7 +62,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_phone) TextView mTextPhone;
     @BindView(R.id.text_skype) TextView mTextSkype;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
-    @BindView(R.id.text_common) TextView mTextCommon;
+    @BindView(R.id.text_common) TextView mTextVacations;
     @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
@@ -116,7 +117,10 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             int count = years.get(years.keyAt(i));
             text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count).trim();
         }
-        mTextCommon.setText(text);
+        if (!TextUtils.isEmpty(text))
+            mTextVacations.setText(text);
+        else
+            mTextVacations.setText(R.string.text_no_vacations);
     }
 
     @Override
@@ -241,6 +245,10 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             startActivityForResult(UserEditActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
             return true;
         }
+        if (item.getItemId() == R.id.action_user_push) {
+            startActivity(UserPushActivity.getLaunchIntent(this, getPresenter().getUser()));
+            return true;
+        }
         Report report = new Report();
         switch (item.getItemId()) {
             case R.id.action_add_vacation:
@@ -362,7 +370,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @OnClick(R.id.text_common)
-    public void onClick() {
+    public void onVacationClick() {
         if (mRecyclerReports.getVisibility() == View.VISIBLE) {
             mRecyclerReports.setVisibility(View.GONE);
         } else {

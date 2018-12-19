@@ -23,6 +23,7 @@ import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
+import com.pettersonapps.wl.presentation.ui.main.alerts.settings.AlertsSettingsActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
@@ -73,8 +74,8 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
             case R.id.action_date:
                 changeDate();
                 return true;
-            case R.id.action_email:
-                changeEmail();
+            case R.id.action_settings:
+                startActivity(AlertsSettingsActivity.getLaunchIntent(getContext()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -5,6 +5,7 @@ import android.util.SparseIntArray;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
+import com.pettersonapps.wl.data.models.UserPush;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -96,4 +97,5 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     public void setHolidays(final List<Holiday> holidays) {
         mHolidays = holidays;
     }
+
 }

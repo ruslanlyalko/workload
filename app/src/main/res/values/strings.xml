@@ -16,6 +16,7 @@
     <string name="title_user_details">User Details</string>
     <string name="title_user_projects">User Projects</string>
     <string name="title_project_users">Project Users</string>
+    <string name="title_alerts_settings">Settings</string>
     <string name="title_new_workload">New Workload</string>
     <string name="title_edit_workload">Edit Workload</string>
     <string name="title_export">Export</string>
@@ -23,6 +24,9 @@
     <!--Hints-->
     <string name="hint_email">Email</string>
     <string name="hint_title">Title</string>
+    <string name="hint_body">Body</string>
+    <string name="hint_default_title">Default Push Title</string>
+    <string name="hint_default_body">Default Push Body</string>
     <string name="hint_phone">Phone</string>
     <string name="hint_phone_optional">Phone (optional)</string>
     <string name="hint_skype">Skype</string>
@@ -86,6 +90,7 @@
     <string name="menu_users">Users</string>
     <string name="menu_projects">Projects</string>
     <string name="menu_save">Save</string>
+    <string name="menu_send">SEND</string>
     <string name="menu_holidays">Holidays</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_vacations">Vacations</string>
@@ -131,7 +136,12 @@
     <string name="status_day_off">Day off (Personal reasons)</string>
     <string name="status_vacation">Vacations</string>
     <string name="statistics">Total count: %d</string>
-    <string name="error_no_internet" >No internet connection</string>
+    <string name="error_no_internet">No internet connection</string>
+    <string name="hint_moderator_notification_email">Moderator notification email</string>
+    <string name="text_snow">Snow Effect</string>
+    <string name="text_no_vacations">There are no vacations yet</string>
+    <string name="menu_users_push">Users push</string>
+    <string name="sent">Push sent!</string>
 
     <!--arrays-->
     <string-array name="departments">

@@ -29,6 +29,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     private static final String KEY_USER = "user";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_save) SquareButton mButtonSave;
+    @BindView(R.id.progress) ProgressBar mProgress;
     @BindView(R.id.input_name) TextInputEditText mInputName;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
     @BindView(R.id.input_skype) TextInputEditText mInputSkype;
@@ -39,7 +40,6 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @BindView(R.id.switch_blocked) Switch mSwitchBlocked;
     @BindView(R.id.switch_allow_edit) Switch mSwitchAllowEdit;
     @BindView(R.id.switch_vip) Switch mSwitchVip;
-    @BindView(R.id.progress) ProgressBar mProgress;
 
     public static Intent getLaunchIntent(final Context activity, User user) {
         Intent intent = new Intent(activity, UserEditActivity.class);

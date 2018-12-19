@@ -23,6 +23,7 @@ public class User extends BaseModel {
     private boolean isBlocked;
     private boolean isAdmin;
     private List<Project> projects;
+    private List<UserPush> pushHistory;
     private String comments;
     private boolean isAllowEditPastReports;
     //
@@ -36,6 +37,7 @@ public class User extends BaseModel {
 
     public User() {
         firstWorkingDate = new Date();
+        pushHistory = new ArrayList<>();
         birthday = new Date();
         remindMeAt = "18:00";
         skype = "";
@@ -44,6 +46,14 @@ public class User extends BaseModel {
         comments = "";
         defaultWorkingTime = 8;
         projects = new ArrayList<>();
+    }
+
+    public List<UserPush> getPushHistory() {
+        return pushHistory;
+    }
+
+    public void setPushHistory(final List<UserPush> pushHistory) {
+        this.pushHistory = pushHistory;
     }
 
     public int getDefaultWorkingTime() {
@@ -223,6 +233,7 @@ public class User extends BaseModel {
         dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.projects);
+        dest.writeTypedList(this.pushHistory);
         dest.writeString(this.comments);
         dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
         dest.writeString(this.remindMeAt);
@@ -249,6 +260,7 @@ public class User extends BaseModel {
         this.isBlocked = in.readByte() != 0;
         this.isAdmin = in.readByte() != 0;
         this.projects = in.createTypedArrayList(Project.CREATOR);
+        this.pushHistory = in.createTypedArrayList(UserPush.CREATOR);
         this.comments = in.readString();
         this.isAllowEditPastReports = in.readByte() != 0;
         this.remindMeAt = in.readString();
