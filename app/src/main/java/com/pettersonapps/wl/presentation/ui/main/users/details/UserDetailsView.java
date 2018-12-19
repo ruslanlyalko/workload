@@ -3,6 +3,7 @@ package com.pettersonapps.wl.presentation.ui.main.users.details;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
 
+import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseView;
@@ -22,7 +23,9 @@ public interface UserDetailsView extends BaseView<UserDetailsPresenter> {
 
     void showUserDetails(User user);
 
-    void showLast10Reports(String lastReports);
-
     void showVacationsReports(List<Report> vacationReports);
+
+    void showReportOnCalendar(List<Report> reportsForCurrentDate, Date date);
+
+    void showHolidaysOnCalendar(MutableLiveData<List<Holiday>> allHolidays);
 }

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,23 +19,32 @@ import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
+import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.view.calendar.Event;
+import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -51,7 +62,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_skype) TextView mTextSkype;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_common) TextView mTextCommon;
-    @BindView(R.id.text_last_10_reports) TextView mTextLastReports;
     @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
@@ -59,8 +69,14 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.divider_last_10_reports) View mDividerLast10Reports;
     @BindView(R.id.text_comments) TextView mTextComments;
     @BindView(R.id.text_projects) TextView mTextProjects;
+    @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
+    @BindView(R.id.view_pager) ViewPager mViewPager;
+    @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindDimen(R.dimen.margin_mini) int mElevation;
+    private ReportsPagerAdapter mReportsPagerAdapter;
     private ReportsAdapter mReportsAdapter;
+    private Date mPrevDate = new Date();
+    private String mPrevDateStr = "";
 
     public static Intent getLaunchIntent(final Context context, User user) {
         Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -72,7 +88,24 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
+            mReportsPagerAdapter.setReports(list);
+            showCalendarsEvents();
         });
+    }
+
+    private void showCalendarsEvents() {
+        mCalendarView.removeAllEvents();
+        List<Report> reports = getPresenter().getReports();
+        for (Report report : reports) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+        }
+        List<Holiday> holidays = getPresenter().getHolidays();
+        for (Holiday holiday : holidays) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.bg_event_holiday),
+                    holiday.getDate().getTime()), true);
+        }
+        mCalendarView.invalidate();
     }
 
     @Override
@@ -124,17 +157,23 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @Override
-    public void showLast10Reports(String lastReports) {
-        if (lastReports.isEmpty())
-            lastReports = "There are no reports";
-        else
-            lastReports = "Last 10 reports: \n" + lastReports;
-        mTextLastReports.setText(lastReports);
+    public void showVacationsReports(final List<Report> vacationReports) {
+        mReportsAdapter.setData(vacationReports);
     }
 
     @Override
-    public void showVacationsReports(final List<Report> vacationReports) {
-        mReportsAdapter.setData(vacationReports);
+    public void showReportOnCalendar(final List<Report> reportsForCurrentDate, final Date date) {
+        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
+    }
+
+    @Override
+    public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> holidaysData) {
+        holidaysData.observe(this, holidays -> {
+            if (holidays == null) return;
+            getPresenter().setHolidays(holidays);
+            mReportsPagerAdapter.setHolidays(holidays);
+            showCalendarsEvents();
+        });
     }
 
     private String getDayOfMonthSuffix(final int n) {
@@ -255,6 +294,79 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
                 mToolbar.setElevation(mElevation);
             }
         });
+        setupAdapter();
+        setupCalendar();
         getPresenter().onViewReady();
+    }
+
+    private void setupAdapter() {
+        mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
+        mViewPager.setAdapter(mReportsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(final int i, final float v, final int i1) {
+            }
+
+            @Override
+            public void onPageSelected(final int pos) {
+                Date date = mReportsPagerAdapter.getDateByPos(pos);
+                mCalendarView.setCurrentDate(date);
+                getPresenter().fetchReportsForDate(date);
+                setNewDate(DateUtils.getFirstDateOfMonth(date));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int i) {
+            }
+        });
+    }
+
+    private void setupCalendar() {
+        mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
+        mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
+        mCalendarView.setUseThreeLetterAbbreviation(true);
+        mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
+        mCalendarView.displayOtherMonthDays(true);
+        mTextMonth.setText(DateUtils.getMonth(new Date()));
+        mPrevDateStr = DateUtils.getMonth(new Date());
+        mCalendarView.setListener(new StatusCalendarView.StatusCalendarViewListener() {
+            @Override
+            public void onDayClick(final Date dateClicked) {
+                getPresenter().fetchReportsForDate(dateClicked);
+            }
+
+            @Override
+            public void onMonthScroll(final Date firstDayOfNewMonth) {
+                setNewDate(firstDayOfNewMonth);
+            }
+        });
+    }
+
+    private void setNewDate(final Date newDate) {
+        String month = DateUtils.getMonth(newDate);
+        if (month.equals(mPrevDateStr)) return;
+        if (newDate.before(mPrevDate)) {
+            Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        } else {
+            Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+            Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        }
+        mTextMonth.setText(month);
+        mPrevDateStr = month;
+        mPrevDate = newDate;
+    }
+
+    @OnClick(R.id.text_common)
+    public void onClick() {
+        if (mRecyclerReports.getVisibility() == View.VISIBLE) {
+            mRecyclerReports.setVisibility(View.GONE);
+        } else {
+            mRecyclerReports.setVisibility(View.VISIBLE);
+        }
     }
 }

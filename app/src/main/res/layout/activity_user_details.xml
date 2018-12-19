@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -150,16 +151,58 @@
                 android:layout_height="1dp"
                 android:background="?attr/colorDivider" />
 
-            <TextView
-                android:id="@+id/text_last_10_reports"
-                android:layout_width="match_parent"
+            <TextSwitcher
+                android:id="@+id/text_month"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:lineSpacingExtra="5sp"
-                android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="?attr/colorTextProject"
-                android:textSize="16sp"
-                tools:text="Comments" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="15sp"
+                    tools:text="MARCH" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="15sp"
+                    tools:text="MARCH" />
+
+            </TextSwitcher>
+
+            <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
+                android:id="@+id/calendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                app:statusCalendarBackgroundColor="?attr/colorBackground"
+                app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
+                app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"
+                app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
+                app:statusCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
+                app:statusCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
+                app:statusCalendarDayPadding="3dp"
+                app:statusCalendarHeaderDaysTextColor="?attr/colorTextProject"
+                app:statusCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
+                app:statusCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
+                app:statusCalendarShouldSelectFirstDayOfMonthOnScroll="false"
+                app:statusCalendarTextColor="?attr/colorTextPrimary"
+                app:statusCalendarTextSize="13sp" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -184,7 +227,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

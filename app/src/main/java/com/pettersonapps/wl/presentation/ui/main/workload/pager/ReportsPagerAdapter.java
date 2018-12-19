@@ -17,12 +17,14 @@ import java.util.List;
 
 public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
 
+    private final boolean mShowButtons;
     private List<Report> mReports = new ArrayList<>();
     private List<Holiday> mHolidays = new ArrayList<>();
     private boolean mIsAllowEditPastReports;
 
-    public ReportsPagerAdapter(final FragmentManager fragmentManager) {
+    public ReportsPagerAdapter(final FragmentManager fragmentManager, final boolean showButtons) {
         super(fragmentManager);
+        mShowButtons = showButtons;
     }
 
     public void setReports(final List<Report> reports) {
@@ -42,7 +44,7 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        return ReportFragment.newInstance(getReport(position), getHoliday(position), mIsAllowEditPastReports);
+        return ReportFragment.newInstance(getReport(position), getHoliday(position), mIsAllowEditPastReports, mShowButtons);
     }
 
     @NonNull

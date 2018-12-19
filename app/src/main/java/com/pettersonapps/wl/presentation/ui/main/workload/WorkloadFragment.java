@@ -201,7 +201,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupAdapters() {
-        mReportsPagerAdapter = new ReportsPagerAdapter(getChildFragmentManager());
+        mReportsPagerAdapter = new ReportsPagerAdapter(getChildFragmentManager(), true);
         mViewPager.setAdapter(mReportsPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

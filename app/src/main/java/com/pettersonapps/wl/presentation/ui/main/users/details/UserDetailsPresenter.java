@@ -2,12 +2,14 @@ package com.pettersonapps.wl.presentation.ui.main.users.details;
 
 import android.util.SparseIntArray;
 
+import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +19,9 @@ import java.util.List;
 public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     private User mUser;
+    private Date mDate = new Date();
+    private List<Report> mReports = new ArrayList<>();
+    private List<Holiday> mHolidays;
 
     UserDetailsPresenter(User user) {
         mUser = user;
@@ -25,9 +30,11 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     public void onViewReady() {
         getView().showUserDetails(mUser);
         getView().showReports(getDataManager().getUserReports(mUser));
+        getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
     }
 
     public void setReports(final List<Report> reports) {
+        mReports = reports;
         SparseIntArray mYears = new SparseIntArray();
         List<Report> vacationReports = new ArrayList<>();
         for (Report report : reports) {
@@ -43,14 +50,6 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         }
         getView().showVacationsReports(vacationReports);
         getView().showReportsByYear(mYears);
-        String lastReports = "";
-        for (int i = 0; i < Math.min(10, reports.size()); i++) {
-            if (DateUtils.isSameMonth(reports.get(i).getDate()))
-                lastReports = lastReports.concat(DateUtils.toString(reports.get(i).getDate(), "EE d") + ";  ");
-            else
-                lastReports = lastReports.concat(DateUtils.toString(reports.get(i).getDate(), "EE d MMM") + ";  ");
-        }
-        getView().showLast10Reports(lastReports);
     }
 
     public User getUser() {
@@ -68,5 +67,33 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         report.setUserName(mUser.getName());
         report.setKey(DateUtils.toString(report.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
         getDataManager().saveReport(report);
+    }
+
+    public void fetchReportsForDate(final Date date) {
+        mDate = DateUtils.getDate(date, 1, 1);
+        getView().showReportOnCalendar(getReportsForCurrentDate(), mDate);
+    }
+
+    private List<Report> getReportsForCurrentDate() {
+        List<Report> result = new ArrayList<>();
+        for (Report r : mReports) {
+            if (r.getDate().after(DateUtils.getStart(mDate))
+                    && r.getDate().before(DateUtils.getEnd(mDate))) {
+                result.add(r);
+            }
+        }
+        return result;
+    }
+
+    public List<Report> getReports() {
+        return mReports;
+    }
+
+    public List<Holiday> getHolidays() {
+        return mHolidays;
+    }
+
+    public void setHolidays(final List<Holiday> holidays) {
+        mHolidays = holidays;
     }
 }

@@ -38,6 +38,7 @@ public class ReportFragment extends Fragment {
     private static final String KEY_REPORT = "report";
     private static final String KEY_HOLIDAY = "holiday";
     private static final String KEY_ALLOW_EDIT = "allow_edit";
+    private static final String KEY_SHOW_ACTIONS = "show_buttons";
     @BindView(R.id.layout_root) MaterialCardView mCardRoot;
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_name) TextView mTextName;
@@ -58,14 +59,16 @@ public class ReportFragment extends Fragment {
     private Report mReport = null;
     private Holiday mHoliday = null;
     private boolean mAllowEdit;
+    private boolean mShowButtons;
 
-    public static ReportFragment newInstance(@Nullable Report report, @Nullable Holiday holiday, final boolean isAllowEditPastReports) {
+    public static ReportFragment newInstance(@Nullable Report report, @Nullable Holiday holiday, final boolean isAllowEditPastReports, final boolean showButtons) {
         Bundle args = new Bundle();
         if (report != null)
             args.putParcelable(KEY_REPORT, report);
         if (holiday != null)
             args.putParcelable(KEY_HOLIDAY, holiday);
         args.putBoolean(KEY_ALLOW_EDIT, isAllowEditPastReports);
+        args.putBoolean(KEY_SHOW_ACTIONS, showButtons);
         ReportFragment fragment = new ReportFragment();
         fragment.setArguments(args);
         return fragment;
@@ -78,6 +81,7 @@ public class ReportFragment extends Fragment {
             mReport = getArguments().getParcelable(KEY_REPORT);
             mHoliday = getArguments().getParcelable(KEY_HOLIDAY);
             mAllowEdit = getArguments().getBoolean(KEY_ALLOW_EDIT, false);
+            mShowButtons = getArguments().getBoolean(KEY_SHOW_ACTIONS, false);
         }
     }
 
@@ -134,12 +138,12 @@ public class ReportFragment extends Fragment {
             mImageCopy.setImageResource(R.drawable.ic_copy_wh);
         }
         mTextDate.setVisibility(GONE);
-        if ((report.getDate().before(DateUtils.getStart(new Date())))) {
+        if (mShowButtons && (report.getDate().before(DateUtils.getStart(new Date())))) {
             mImageCopy.setVisibility(VISIBLE);
         } else {
             mImageCopy.setVisibility(GONE);
         }
-        mImageDelete.setVisibility((mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
+        mImageDelete.setVisibility(mShowButtons && (mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
                 ? VISIBLE : GONE);
     }
 
