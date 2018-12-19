@@ -22,6 +22,7 @@ import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnLongClick;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class UsersFragment extends BaseFragment<UsersPresenter> implements UsersView, OnItemClickListener {
@@ -118,5 +119,11 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
     @Override
     public void onItemLongClicked(final View view, final int position) {
         startActivity(UserEditActivity.getLaunchIntent(getContext(), mAdapter.getDataFiltered().get(position)));
+    }
+
+    @OnLongClick(R.id.title)
+    public boolean onLongClick() {
+        mAdapter.setShowVersion(true);
+        return false;
     }
 }

@@ -38,9 +38,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private int mLastAnimatedPosition;
     private Animation mAnimation;
     private String mQuery;
+    private boolean mShowVersion;
 
     public UsersAdapter(final OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setShowVersion(final boolean showVersion) {
+        mShowVersion = showVersion;
+        notifyDataSetChanged();
     }
 
     public List<User> getData() {
@@ -140,7 +146,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
-            mTextSubtitle.setText(user.getDepartment());
+            if (mShowVersion && !TextUtils.isEmpty(user.getVersion()))
+                mTextSubtitle.setText(String.format("%s v%s", user.getDepartment(), user.getVersion()));
+            else
+                mTextSubtitle.setText(user.getDepartment());
             if (!user.getIsBlocked()) {
                 mImageLogo.setImageResource(R.drawable.bg_oval_green);
             } else {
