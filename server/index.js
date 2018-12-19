@@ -48,6 +48,36 @@ exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
+
+exports.userPushWatcher = functions.database.ref('/USERS/{userId}/pushHistory/{pushId}')
+.onCreate((change, context) => {		
+	const pushDetails = change.val();
+	const usersPromise = admin.database().ref("/USERS").child(context.params.userId).once('value');
+	return usersPromise.then((snapshot)=>{
+		var tokens = [];		
+			if(snapshot.val().token) {
+				tokens.push(snapshot.val().token);
+				var payload = {
+					notification:{
+						title: pushDetails.title,
+						body: pushDetails.body,
+						type: "direct_reminder",
+						"content_available" : "1",
+						badge: "1"
+					}
+				}	
+				console.log("Sending direct push");	
+				return sendMessagesViaFCM(tokens, payload);
+			} else {
+				return console.log("Direct push not sent. Maybe there is no token!");		
+			}
+		
+	});
+
+});
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 exports.turnOffEditMode = functions.https.onRequest((request, response) => {   
 	const usersPromise = admin.database().ref("/USERS").once('value');
 	return usersPromise.then(usersSnap => {
@@ -122,32 +152,33 @@ exports.reminder = functions.https.onRequest((request, response) => {
 		var count = 0;
 		var sentCount = 0;
 		var missedCount = 0;
+		var logText = "";
 		usersSnap.forEach(user => {	
 			var userObj = user.val();
 			var aKey = dateStr + "_" + userObj.key;			
 			if(reportsSnap.child(aKey).val()){ 
 				count  = count + 1;
-				console.log("FOUND ", userObj.name + " (" + aKey+ ")");
+				logText = logText + "FOUND " + userObj.name + " (" + aKey+ ")\n";
 			}else{
 				missedCount = missedCount + 1;
-				console.log("MISSEDD ", userObj.name + " (" + aKey+ ")");
+				logText = logText + "MISSEDD "+ userObj.name + " (" + aKey+ ")\n";
 				if(userObj.remindMeAt){
 					if(userObj.remindMeAt === hourAndTimeStr){
-						console.log("USER REMIND ME AT SETTINGS ", userObj.remindMeAt);
+						logText = logText + "USER REMIND ME AT SETTINGS " + userObj.remindMeAt+"\n";
 						if(!userObj.isAdmin && userObj.token){
 							sentCount  = sentCount + 1;
 							tokens.push(userObj.token);
 						}else{
-							console.log("USER TOKEN IS EMPTY");
+							logText = logText +"USER TOKEN IS EMPTY\n";
 						}
 					}
 				}else if(userObj.notificationHour === hourStr && minuteStr === "00"){
-					console.log("USER HOUR SETTINGS ", userObj.notificationHour);
+					logText = logText +"USER HOUR SETTINGS " + userObj.notificationHour+"\n";
 					if(!userObj.isAdmin && userObj.token){
 						sentCount  = sentCount + 1;
 						tokens.push(userObj.token);
 					}else{
-						console.log("USER TOKEN IS EMPTY");
+						logText = logText +"USER TOKEN IS EMPTY\n";
 					}
 				}
 			}
@@ -160,9 +191,9 @@ exports.reminder = functions.https.onRequest((request, response) => {
 				"content_available" : "1",
 				badge: "1"
 			}			
-		}	
-		console.log("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads: " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);
-		response.send("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads : " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);	
+		}			
+		console.log("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads: " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);
+		response.send("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads : " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);	
 		return sendMessagesViaFCM(tokens, payload);		
 	});  
  });
@@ -189,6 +220,7 @@ exports.reminder = functions.https.onRequest((request, response) => {
 			console.log("Today is Holiday!" );			
 			return response.send("Today is Holiday!");
 		}
+		var logText = "";
 		var count = 0;
 		var sentCount = 0;
 		var missedCount = 0;
@@ -197,10 +229,10 @@ exports.reminder = functions.https.onRequest((request, response) => {
 			var aKey = dateStr + "_" + userObj.key;			
 			if(reportsSnap.child(aKey).val()){ 
 				count  = count + 1;
-				console.log("FOUND ", userObj.name + " (" + aKey+ ")");
+				logText = logText + "FOUND " + userObj.name + " (" + aKey+ ")\n";
 			}else{
 				missedCount = missedCount + 1;
-				console.log("MISSEDD ", userObj.name + " (" + aKey+ ")");		
+				logText = logText + "MISSEDD " + userObj.name + " (" + aKey+ ")\n";		
 				if(!userObj.isAdmin && userObj.token){
 					sentCount  = sentCount + 1;
 					var tokens = [];
@@ -217,12 +249,12 @@ exports.reminder = functions.https.onRequest((request, response) => {
 					if(type === "first" || type === "last" || userObj.name==="Ruslan Lyalko") 
 						sendMessagesViaFCM(tokens, payload);					
 				}else{
-					console.log("USER TOKEN IS EMPTY");
+					logText = logText + "USER TOKEN IS EMPTY\n";
 				}
 			}
 		});
-		console.log("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);
-		return response.send("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount);			
+		console.log("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);
+		return response.send("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);			
 	});  
  });
 // ----------------------------------------------------------------------------
