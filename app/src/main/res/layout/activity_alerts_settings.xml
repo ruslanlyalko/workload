@@ -76,10 +76,26 @@
         android:layout_marginTop="16dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/input_last_version"
+            android:id="@+id/input_last_version_andorid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_last_android_version"
+            android:hint="@string/hint_latest_android_version"
+            android:inputType="textEmailAddress"
+            android:textAppearance="@style/TextAppearance.Body2" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input_last_version_ios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_latest_ios_version"
             android:inputType="textEmailAddress"
             android:textAppearance="@style/TextAppearance.Body2" />
     </android.support.design.widget.TextInputLayout>

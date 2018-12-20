@@ -23,7 +23,7 @@ public class AlertsSettingsPresenter extends BasePresenter<AlertsSettingsView> {
         getView().populateSettings(settings);
     }
 
-    public void onSave(final String email, final String title, final String body, final String latestVersion, final boolean isSnowing) {
+    public void onSave(final String email, final String title, final String body, final String latestVersion, final String latestVersionIos, final boolean isSnowing) {
         if (mSettings == null) return;
         mSettings.setIsSnowig(isSnowing);
         mSettings.setIsSnowing(isSnowing);
@@ -31,6 +31,7 @@ public class AlertsSettingsPresenter extends BasePresenter<AlertsSettingsView> {
         mSettings.setDefaultPushTitle(title);
         mSettings.setDefaultPushBody(body);
         mSettings.setAndroidLatestVersion(latestVersion);
+        mSettings.setIosLatestVersion(latestVersionIos);
         getView().showProgress();
         getDataManager().setSettings(mSettings).addOnSuccessListener(aVoid -> {
             if (getView() != null) {

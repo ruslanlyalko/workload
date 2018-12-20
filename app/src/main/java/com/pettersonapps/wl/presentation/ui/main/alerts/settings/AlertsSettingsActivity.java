@@ -22,7 +22,8 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
-    @BindView(R.id.input_last_version) TextInputEditText mInputLastVersion;
+    @BindView(R.id.input_last_version_andorid) TextInputEditText mInputLastVersionAndroid;
+    @BindView(R.id.input_last_version_ios) TextInputEditText mInputLastVersionIos;
     @BindView(R.id.input_title) TextInputEditText mInputTitle;
     @BindView(R.id.input_body) TextInputEditText mInputBody;
     @BindView(R.id.switch_snow) Switch mSwitchSnow;
@@ -68,7 +69,8 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
         getPresenter().onSave(mInputEmail.getText().toString().trim(),
                 mInputTitle.getText().toString().trim(),
                 mInputBody.getText().toString().trim(),
-                mInputLastVersion.getText().toString().trim(),
+                mInputLastVersionAndroid.getText().toString().trim(),
+                mInputLastVersionIos.getText().toString().trim(),
                 mSwitchSnow.isChecked());
     }
 
@@ -90,7 +92,8 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
         mInputEmail.setText(settings.getNotificationEmail());
         mInputTitle.setText(settings.getDefaultPushTitle());
         mInputBody.setText(settings.getDefaultPushBody());
-        mInputLastVersion.setText(settings.getAndroidLatestVersion());
+        mInputLastVersionAndroid.setText(settings.getAndroidLatestVersion());
+        mInputLastVersionIos.setText(settings.getIosLatestVersion());
         mSwitchSnow.setChecked(settings.getIsSnowing());
     }
 

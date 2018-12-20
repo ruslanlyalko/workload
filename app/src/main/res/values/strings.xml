@@ -141,7 +141,8 @@
     <string name="statistics">Total count: %d</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="hint_moderator_notification_email">Moderator notification email</string>
-    <string name="hint_last_android_version">Latest Android version</string>
+    <string name="hint_latest_android_version">Latest Android version</string>
+    <string name="hint_latest_ios_version">Latest iOS version</string>
     <string name="text_snow">Snow Effect</string>
     <string name="text_no_vacations">There are no vacations yet</string>
     <string name="menu_users_push">Users push</string>

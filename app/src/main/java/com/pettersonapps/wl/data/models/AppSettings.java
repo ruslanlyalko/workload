@@ -12,11 +12,20 @@ import java.util.Objects;
 public class AppSettings implements Parcelable {
 
     private String androidLatestVersion;
+    private String iosLatestVersion;
     private String notificationEmail;
     private String defaultPushTitle;
     private String defaultPushBody;
     private boolean isSnowing;
     private boolean isSnowig;
+
+    public String getIosLatestVersion() {
+        return iosLatestVersion;
+    }
+
+    public void setIosLatestVersion(final String iosLatestVersion) {
+        this.iosLatestVersion = iosLatestVersion;
+    }
 
     public String getAndroidLatestVersion() {
         return androidLatestVersion;
@@ -88,6 +97,7 @@ public class AppSettings implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.androidLatestVersion);
+        dest.writeString(this.iosLatestVersion);
         dest.writeString(this.notificationEmail);
         dest.writeString(this.defaultPushTitle);
         dest.writeString(this.defaultPushBody);
@@ -97,6 +107,7 @@ public class AppSettings implements Parcelable {
 
     protected AppSettings(Parcel in) {
         this.androidLatestVersion = in.readString();
+        this.iosLatestVersion = in.readString();
         this.notificationEmail = in.readString();
         this.defaultPushTitle = in.readString();
         this.defaultPushBody = in.readString();
