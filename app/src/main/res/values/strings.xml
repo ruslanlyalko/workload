@@ -128,7 +128,8 @@
     <string name="text_copied">Copied</string>
     <string name="text_immediately_login">Immediately login</string>
     <string name="text_export">Start exporting</string>
-    <string name="version_name">Workload version %s</string>
+    <string name="version_name">Current version %s</string>
+    <string name="version_name_available">Current version %s\nAvailable %s</string>
     <string name="text_change_email">Notification email</string>
     <string name="text_petterson">\@pettersonapps.com</string>
     <string name="text_are_you_sure_you_want_to_delete_this_workload">Are you sure you want to delete \nthis Workload?</string>
@@ -140,10 +141,12 @@
     <string name="statistics">Total count: %d</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="hint_moderator_notification_email">Moderator notification email</string>
+    <string name="hint_last_android_version">Latest Android version</string>
     <string name="text_snow">Snow Effect</string>
     <string name="text_no_vacations">There are no vacations yet</string>
     <string name="menu_users_push">Users push</string>
     <string name="sent">Push sent!</string>
+    <string name="btn_update">Update</string>
 
     <!--arrays-->
     <string-array name="departments">

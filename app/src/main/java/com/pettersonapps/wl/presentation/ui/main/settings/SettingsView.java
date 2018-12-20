@@ -2,6 +2,7 @@ package com.pettersonapps.wl.presentation.ui.main.settings;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseView;
 
@@ -17,5 +18,7 @@ public interface SettingsView extends BaseView<SettingsPresenter> {
 
     void showLoginScreen();
 
-    void showOnPlayStore();
+    void showAppOnPlayStore();
+
+    void showSettings(MutableLiveData<AppSettings> settings);
 }

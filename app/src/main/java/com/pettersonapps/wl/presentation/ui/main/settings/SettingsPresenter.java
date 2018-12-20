@@ -22,6 +22,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     public void setUser(final User user) {
         mUser = user;
+        getView().showSettings(getDataManager().getSettings());
         getView().populateUserSettings(user);
     }
 

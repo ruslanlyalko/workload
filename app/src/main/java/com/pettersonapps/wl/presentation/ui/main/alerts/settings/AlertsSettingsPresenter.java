@@ -1,6 +1,5 @@
 package com.pettersonapps.wl.presentation.ui.main.alerts.settings;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 
@@ -24,18 +23,18 @@ public class AlertsSettingsPresenter extends BasePresenter<AlertsSettingsView> {
         getView().populateSettings(settings);
     }
 
-    public void onSave(final String email, final String title, final String body, final boolean isSnowing) {
+    public void onSave(final String email, final String title, final String body, final String latestVersion, final boolean isSnowing) {
         if (mSettings == null) return;
         mSettings.setIsSnowig(isSnowing);
         mSettings.setIsSnowing(isSnowing);
         mSettings.setNotificationEmail(email);
         mSettings.setDefaultPushTitle(title);
         mSettings.setDefaultPushBody(body);
+        mSettings.setAndroidLatestVersion(latestVersion);
         getView().showProgress();
         getDataManager().setSettings(mSettings).addOnSuccessListener(aVoid -> {
             if (getView() != null) {
                 getView().afterSaving();
-
             }
         }).addOnFailureListener(e -> {
             if (getView() != null) {

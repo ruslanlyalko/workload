@@ -22,6 +22,7 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
+    @BindView(R.id.input_last_version) TextInputEditText mInputLastVersion;
     @BindView(R.id.input_title) TextInputEditText mInputTitle;
     @BindView(R.id.input_body) TextInputEditText mInputBody;
     @BindView(R.id.switch_snow) Switch mSwitchSnow;
@@ -64,9 +65,10 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-        getPresenter().onSave(mInputEmail.getText().toString(),
-                mInputTitle.getText().toString(),
-                mInputBody.getText().toString(),
+        getPresenter().onSave(mInputEmail.getText().toString().trim(),
+                mInputTitle.getText().toString().trim(),
+                mInputBody.getText().toString().trim(),
+                mInputLastVersion.getText().toString().trim(),
                 mSwitchSnow.isChecked());
     }
 
@@ -88,6 +90,7 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
         mInputEmail.setText(settings.getNotificationEmail());
         mInputTitle.setText(settings.getDefaultPushTitle());
         mInputBody.setText(settings.getDefaultPushBody());
+        mInputLastVersion.setText(settings.getAndroidLatestVersion());
         mSwitchSnow.setChecked(settings.getIsSnowing());
     }
 

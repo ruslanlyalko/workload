@@ -1,6 +1,7 @@
 package com.pettersonapps.wl.presentation.ui.main.settings;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Switch;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import com.pettersonapps.wl.BuildConfig;
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
@@ -25,6 +28,7 @@ import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class SettingsFragment extends BaseFragment<SettingsPresenter> implements SettingsView {
 
@@ -33,6 +37,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @BindView(R.id.switch_old_style_calendar) Switch mSwitchOldStyleCalendar;
     @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.spinner_default) Spinner mSpinnerDefault;
+    @BindView(R.id.button_update) Button mButtonUpdate;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -56,6 +61,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
         setToolbarTitle(R.string.title_settings);
         hideFab();
         //
+        mTextVersion.setText(getString(R.string.version_name, BuildConfig.VERSION_NAME));
         String[] remindHours = getResources().getStringArray(R.array.notification_hours);
         SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_settings, remindHours);
         mSpinnerNotification.setAdapter(adapter);
@@ -95,7 +101,6 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
         mSwitchOldStyleCalendar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             getPresenter().saveOldStyleCalendar(isChecked);
         });
-        mTextVersion.setText(getString(R.string.version_name, BuildConfig.VERSION_NAME));
         getPresenter().onViewReady();
     }
 
@@ -138,10 +143,47 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
         startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
+    @OnClick(R.id.button_update)
+    public void showAppOnPlayStore() {
+        try {
+            Intent rateIntent = rateIntentForUrl("market://details");
+            startActivity(rateIntent);
+        } catch (ActivityNotFoundException e) {
+            Intent rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
+            startActivity(rateIntent);
+        }
+    }
+
+    private Intent rateIntentForUrl(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getContext().getPackageName())));
+        int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+        flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+        intent.addFlags(flags);
+        return intent;
+    }
+
     @Override
-    public void showOnPlayStore(){
-        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.pettersonapps.wl"));
-        startActivity(i);
+    public void showSettings(final MutableLiveData<AppSettings> settings) {
+        settings.observe(this, appSettings -> {
+            if (appSettings != null) {
+                if (getVersion(BuildConfig.VERSION_NAME) < getVersion(appSettings.getAndroidLatestVersion())) {
+                    mButtonUpdate.setVisibility(View.VISIBLE);
+                    mTextVersion.setText(getString(R.string.version_name_available, BuildConfig.VERSION_NAME, appSettings.getAndroidLatestVersion()));
+                } else {
+                    mButtonUpdate.setVisibility(View.GONE);
+                    mTextVersion.setText(getString(R.string.version_name, BuildConfig.VERSION_NAME));
+                }
+            }
+        });
+    }
+
+    private int getVersion(final String versionName) {
+        int res = 0;
+        try {
+            res = Integer.parseInt(versionName.replace(".", ""));
+        } catch (Exception e) {
+            return res;
+        }
+        return res;
     }
 }
