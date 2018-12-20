@@ -10,6 +10,8 @@ import com.pettersonapps.wl.presentation.base.BasePresenter;
  */
 public class LoginPresenter extends BasePresenter<LoginView> {
 
+    private String mEmailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
     LoginPresenter() {
     }
 
@@ -17,8 +19,21 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void onLogin(final String email, final String password) {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            getView().errorEmpty();
+        if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+            getView().errorEmptyEmail();
+            getView().errorEmptyPassword();
+            return;
+        }
+        if (TextUtils.isEmpty(email)) {
+            getView().errorEmptyEmail();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            getView().errorEmptyPassword();
+            return;
+        }
+        if (!email.matches(mEmailPattern)) {
+            getView().errorWrongEmail();
             return;
         }
         getView().showProgress();
@@ -47,8 +62,16 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void onForgot(final String email) {
+        if (TextUtils.isEmpty(email)) {
+            getView().errorEmptyEmail();
+            return;
+        }
+        if (!email.matches(mEmailPattern)) {
+            getView().errorWrongEmail();
+            return;
+        }
         getAuth().sendPasswordResetEmail(email)
                 .addOnSuccessListener(aVoid -> getView().showMessage("Email sent!"))
-                .addOnFailureListener(e -> getView().showError("Please provide valid email address in field above"));
+                .addOnFailureListener(e -> getView().showError(e.getLocalizedMessage()));
     }
 }

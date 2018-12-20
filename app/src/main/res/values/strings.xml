@@ -75,6 +75,7 @@
     <string name="error_cant_be_two_same_projects">You can\'t use the same project twice!</string>
     <string name="error_cant_save_weekend">You can\'t create workload with status Vacation / Day off / Sick leave on weekends</string>
     <string name="error_cant_be_empty">Field can\'t be empty</string>
+    <string name="error_email_badly_formatted">The email address is badly formatted</string>
     <string name="error_cant_be_empty_phone">Phone can\'t be empty</string>
     <string name="error_cant_be_empty_skype">Skype can\'t be empty</string>
     <string name="error_cant_be_empty_phone_skype">Phone and skype can\'t be empty</string>

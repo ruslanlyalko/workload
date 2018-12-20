@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,9 +25,11 @@ import com.pettersonapps.wl.presentation.view.SquareButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
 
+    private String mEmailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
     @BindView(R.id.button_login) SquareButton mButtonLogin;
@@ -35,6 +39,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.image_logo) ImageView mImageLogo;
 
     boolean isShowedAnimation;
+    @BindView(R.id.input_layout_email) TextInputLayout mInputLayoutEmail;
+    @BindView(R.id.input_layout_password) TextInputLayout mInputLayoutPassword;
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, LoginActivity.class);
@@ -84,19 +90,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    @OnClick(R.id.button_login)
-    public void onLoginClick() {
-        getPresenter().onLogin(String.valueOf(mInputEmail.getText()), String.valueOf(mInputPassword.getText()));
-    }
-
     @Override
     public void showForgotPasswordButton() {
         mTextForgot.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void errorEmpty() {
-        showError(getString(R.string.error_wrong_credentials));
     }
 
     @Override
@@ -134,8 +130,40 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         showError(getString(R.string.error_no_internet));
     }
 
+    @Override
+    public void errorEmptyEmail() {
+        mInputLayoutEmail.setError(getString(R.string.error_cant_be_empty));
+    }
+
+    @Override
+    public void errorEmptyPassword() {
+        mInputLayoutPassword.setError(getString(R.string.error_cant_be_empty));
+    }
+
+    @Override
+    public void errorWrongEmail() {
+        mInputLayoutEmail.setError(getString(R.string.error_email_badly_formatted));
+    }
+
+    @OnClick(R.id.button_login)
+    public void onLoginClick() {
+        getPresenter().onLogin(String.valueOf(mInputEmail.getText().toString().trim()), String.valueOf(mInputPassword.getText().toString().trim()));
+    }
+
+    @OnTextChanged(R.id.input_email)
+    void onEmailChanged(CharSequence text) {
+        if (!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
+            mInputLayoutEmail.setError(null);
+    }
+
+    @OnTextChanged(R.id.input_password)
+    void onPasswordChanged(CharSequence text) {
+        if (!TextUtils.isEmpty(text))
+            mInputLayoutPassword.setError(null);
+    }
+
     @OnClick(R.id.text_forgot)
     public void onClick() {
-        getPresenter().onForgot(mInputEmail.getText().toString());
+        getPresenter().onForgot(mInputEmail.getText().toString().trim());
     }
 }

@@ -16,4 +16,6 @@ public interface SettingsView extends BaseView<SettingsPresenter> {
     void populateUserSettings(User user);
 
     void showLoginScreen();
+
+    void showOnPlayStore();
 }

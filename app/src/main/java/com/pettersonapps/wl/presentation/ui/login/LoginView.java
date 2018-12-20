@@ -10,8 +10,6 @@ public interface LoginView extends BaseView<LoginPresenter> {
 
     void showForgotPasswordButton();
 
-    void errorEmpty();
-
     void startMainScreen();
 
     void showProgress();
@@ -21,4 +19,10 @@ public interface LoginView extends BaseView<LoginPresenter> {
     void showBlockedError();
 
     void showInternetError();
+
+    void errorEmptyEmail();
+
+    void errorEmptyPassword();
+
+    void errorWrongEmail();
 }

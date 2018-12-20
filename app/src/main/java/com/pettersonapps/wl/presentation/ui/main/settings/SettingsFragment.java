@@ -2,6 +2,7 @@ package com.pettersonapps.wl.presentation.ui.main.settings;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
@@ -135,5 +136,12 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @Override
     public void showLoginScreen() {
         startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    @Override
+    public void showOnPlayStore(){
+        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.pettersonapps.wl"));
+        startActivity(i);
     }
 }
