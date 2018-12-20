@@ -115,7 +115,7 @@ public class UserPushActivity extends BaseActivity<UserPushPresenter> implements
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_user_projects);
+        setToolbarTitle(R.string.title_user_push);
         mUsersPushAdapter = new UsersPushAdapter();
         mRecyclerPush.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerPush.setAdapter(mUsersPushAdapter);
