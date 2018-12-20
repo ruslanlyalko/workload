@@ -115,7 +115,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
                 mTextTitle.setText(project.getTitle());
                 SpinnerAdapter adapter = new ArrayAdapter<>(mTextMinus.getContext(), R.layout.spinner_item, mHours);
                 mSpinnerHours.setAdapter(adapter);
-                selectHour(String.format(Locale.US, "%dh", project.getSpent()));
+                selectHour(String.format(Locale.US, "%.0fh", project.getSpent()));
                 mSpinnerHours.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -155,18 +155,18 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
         @OnClick({R.id.text_plus, R.id.text_minus})
         void onPlusMinusClicked(View view) {
-            int spent = mData.get(getAdapterPosition()).getSpent();
+            float spent = mData.get(getAdapterPosition()).getSpent();
             switch (view.getId()) {
                 case R.id.text_plus:
                     if (spent < 12) {
                         mData.get(getAdapterPosition()).setSpent(spent + 1);
-                        selectHour(String.format(Locale.US, "%dh", spent + 1));
+                        selectHour(String.format(Locale.US, "%.0fh", spent + 1));
                     }
                     break;
                 case R.id.text_minus:
                     if (spent > 1) {
                         mData.get(getAdapterPosition()).setSpent(spent - 1);
-                        selectHour(String.format(Locale.US, "%dh", spent - 1));
+                        selectHour(String.format(Locale.US, "%.0fh", spent - 1));
                     }
                     break;
             }

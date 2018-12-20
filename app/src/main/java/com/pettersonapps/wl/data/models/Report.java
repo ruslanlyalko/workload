@@ -19,17 +19,17 @@ public class Report extends BaseModel implements Parcelable {
     private Date date;
     private String status;
     private String p1;
-    private int t1;
+    private float t1;
     private String p2;
-    private int t2;
+    private float t2;
     private String p3;
-    private int t3;
+    private float t3;
     private String p4;
-    private int t4;
+    private float t4;
     private String p5;
-    private int t5;
+    private float t5;
     private String p6;
-    private int t6;
+    private float t6;
     private Date updatedAt;
 
     public Report(Report reportToCopy) {
@@ -108,11 +108,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p1 = p1;
     }
 
-    public int getT1() {
+    public float getT1() {
         return t1;
     }
 
-    public void setT1(final int t1) {
+    public void setT1(final float t1) {
         this.t1 = t1;
     }
 
@@ -124,11 +124,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p2 = p2;
     }
 
-    public int getT2() {
+    public float getT2() {
         return t2;
     }
 
-    public void setT2(final int t2) {
+    public void setT2(final float t2) {
         this.t2 = t2;
     }
 
@@ -140,11 +140,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p3 = p3;
     }
 
-    public int getT3() {
+    public float getT3() {
         return t3;
     }
 
-    public void setT3(final int t3) {
+    public void setT3(final float t3) {
         this.t3 = t3;
     }
 
@@ -156,11 +156,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p4 = p4;
     }
 
-    public int getT4() {
+    public float getT4() {
         return t4;
     }
 
-    public void setT4(final int t4) {
+    public void setT4(final float t4) {
         this.t4 = t4;
     }
 
@@ -172,11 +172,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p5 = p5;
     }
 
-    public int getT5() {
+    public float getT5() {
         return t5;
     }
 
-    public void setT5(final int t5) {
+    public void setT5(final float t5) {
         this.t5 = t5;
     }
 
@@ -188,11 +188,11 @@ public class Report extends BaseModel implements Parcelable {
         this.p6 = p6;
     }
 
-    public int getT6() {
+    public float getT6() {
         return t6;
     }
 
-    public void setT6(final int t6) {
+    public void setT6(final float t6) {
         this.t6 = t6;
     }
 
@@ -247,17 +247,17 @@ public class Report extends BaseModel implements Parcelable {
         dest.writeLong(this.date != null ? this.date.getTime() : -1);
         dest.writeString(this.status);
         dest.writeString(this.p1);
-        dest.writeInt(this.t1);
+        dest.writeFloat(this.t1);
         dest.writeString(this.p2);
-        dest.writeInt(this.t2);
+        dest.writeFloat(this.t2);
         dest.writeString(this.p3);
-        dest.writeInt(this.t3);
+        dest.writeFloat(this.t3);
         dest.writeString(this.p4);
-        dest.writeInt(this.t4);
+        dest.writeFloat(this.t4);
         dest.writeString(this.p5);
-        dest.writeInt(this.t5);
+        dest.writeFloat(this.t5);
         dest.writeString(this.p6);
-        dest.writeInt(this.t6);
+        dest.writeFloat(this.t6);
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
     }
 
@@ -270,17 +270,17 @@ public class Report extends BaseModel implements Parcelable {
         this.date = tmpDate == -1 ? null : new Date(tmpDate);
         this.status = in.readString();
         this.p1 = in.readString();
-        this.t1 = in.readInt();
+        this.t1 = in.readFloat();
         this.p2 = in.readString();
-        this.t2 = in.readInt();
+        this.t2 = in.readFloat();
         this.p3 = in.readString();
-        this.t3 = in.readInt();
+        this.t3 = in.readFloat();
         this.p4 = in.readString();
-        this.t4 = in.readInt();
+        this.t4 = in.readFloat();
         this.p5 = in.readString();
-        this.t5 = in.readInt();
+        this.t5 = in.readFloat();
         this.p6 = in.readString();
-        this.t6 = in.readInt();
+        this.t6 = in.readFloat();
         long tmpUpdatedAt = in.readLong();
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
     }

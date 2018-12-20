@@ -583,7 +583,7 @@ public class DataManagerImpl implements DataManager {
         return mDatabase.getReference(DB_SETTINGS).setValue(settings);
     }
 
-    private int getTotalHoursSpent(final Report report) {
+    private float getTotalHoursSpent(final Report report) {
         return report.getT1() + report.getT2() + report.getT3() + report.getT4();
     }
 }

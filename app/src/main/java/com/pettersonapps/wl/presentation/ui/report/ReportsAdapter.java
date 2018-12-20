@@ -21,6 +21,7 @@ import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,9 +119,14 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
             mTextDate.setText(DateUtils.toStringDate(report.getDate()));
         }
 
-        private Spanned getFormattedText(final String name, final int time) {
+        private Spanned getFormattedText(final String name, final float time) {
             if (TextUtils.isEmpty(name)) return SpannableString.valueOf("");
-            return Html.fromHtml("<b>" + name + "</b> " + time + "h");
+            String timeStr = String.format(Locale.US, "%.0fh", time);
+            float ex = time % 1;
+            if (ex != 0) {
+                timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
+            }
+            return Html.fromHtml("<b>" + name + "</b> " + timeStr);
         }
     }
 }

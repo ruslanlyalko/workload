@@ -83,7 +83,7 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
         getView().showUsersWithoutReports(listUsers);
     }
 
-    private int getTotalHoursSpent(final Report report) {
+    private float getTotalHoursSpent(final Report report) {
         return report.getT1() + report.getT2() + report.getT3() + report.getT4();
     }
 

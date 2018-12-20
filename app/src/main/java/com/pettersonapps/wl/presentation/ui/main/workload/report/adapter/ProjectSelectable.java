@@ -9,15 +9,8 @@ import android.os.Parcelable;
  */
 public class ProjectSelectable implements Parcelable {
 
-    public static final Parcelable.Creator<ProjectSelectable> CREATOR = new Parcelable.Creator<ProjectSelectable>() {
-        @Override
-        public ProjectSelectable createFromParcel(Parcel source) {return new ProjectSelectable(source);}
-
-        @Override
-        public ProjectSelectable[] newArray(int size) {return new ProjectSelectable[size];}
-    };
     private String title;
-    private int spent = 8;
+    private float spent = 8;
 
     public ProjectSelectable() {
     }
@@ -26,14 +19,9 @@ public class ProjectSelectable implements Parcelable {
         this.title = title;
     }
 
-    public ProjectSelectable(final String title, final int spent) {
+    public ProjectSelectable(final String title, final float spent) {
         this.title = title;
         this.spent = spent;
-    }
-
-    protected ProjectSelectable(Parcel in) {
-        this.title = in.readString();
-        this.spent = in.readInt();
     }
 
     public String getTitle() {
@@ -44,11 +32,11 @@ public class ProjectSelectable implements Parcelable {
         this.title = title;
     }
 
-    public int getSpent() {
+    public float getSpent() {
         return spent;
     }
 
-    public void setSpent(final int spent) {
+    public void setSpent(final float spent) {
         this.spent = spent;
     }
 
@@ -58,6 +46,19 @@ public class ProjectSelectable implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeInt(this.spent);
+        dest.writeFloat(this.spent);
     }
+
+    protected ProjectSelectable(Parcel in) {
+        this.title = in.readString();
+        this.spent = in.readFloat();
+    }
+
+    public static final Creator<ProjectSelectable> CREATOR = new Creator<ProjectSelectable>() {
+        @Override
+        public ProjectSelectable createFromParcel(Parcel source) {return new ProjectSelectable(source);}
+
+        @Override
+        public ProjectSelectable[] newArray(int size) {return new ProjectSelectable[size];}
+    };
 }

@@ -213,8 +213,8 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         return false;
     }
 
-    private int getTotalHoursSpent(final Report report) {
-        return report.getT1() + report.getT2() + report.getT3() + report.getT4()+ report.getT5() + report.getT6();
+    private float getTotalHoursSpent(final Report report) {
+        return report.getT1() + report.getT2() + report.getT3() + report.getT4() + report.getT5() + report.getT6();
     }
 
     public User getUser() {
