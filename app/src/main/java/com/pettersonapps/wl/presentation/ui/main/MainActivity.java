@@ -36,6 +36,7 @@ import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.MyProjectsFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_vacations.MyVacationsFragment;
 import com.pettersonapps.wl.presentation.ui.main.profile.ProfileFragment;
 import com.pettersonapps.wl.presentation.ui.main.projects.ProjectsFragment;
@@ -57,6 +58,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private static final int TAB_PROJECTS = 6;
     private static final int TAB_HOLIDAYS = 7;
     private static final int TAB_SETTINGS = 8;
+    private static final int TAB_MY_PROJECTS = 9;
     private static final String STATE_CURRENT_TAB_ID = "current_tab_id";
     private static final String KEY_SETTINGS = "settings";
     @BindView(R.id.bottom_app_bar) BottomAppBar mBottomAppBar;
@@ -180,6 +182,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 case R.id.action_settings:
                     onTabSelected(TAB_SETTINGS);
                     return true;
+                case R.id.action_my_projects:
+                    onTabSelected(TAB_MY_PROJECTS);
+                    return true;
                 default:
                     return false;
             }
@@ -237,6 +242,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return R.id.action_holidays;
             case TAB_SETTINGS:
                 return R.id.action_settings;
+            case TAB_MY_PROJECTS:
+                return R.id.action_my_projects;
             default:
                 throw new IllegalArgumentException();
         }
@@ -275,6 +282,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return HolidaysFragment.newInstance();
             case TAB_SETTINGS:
                 return SettingsFragment.newInstance();
+            case TAB_MY_PROJECTS:
+                return MyProjectsFragment.newInstance();
             default:
                 throw new IllegalArgumentException();
         }

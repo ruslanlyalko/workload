@@ -63,6 +63,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity
+            android:name=".presentation.ui.main.my_projects.add.ProjectAddActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
             android:name=".presentation.ui.main.projects.details.ProjectDetailsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

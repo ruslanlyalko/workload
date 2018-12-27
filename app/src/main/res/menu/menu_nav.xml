@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_time"
             android:title="@string/menu_workload" />
         <item
+            android:id="@+id/action_my_projects"
+            android:icon="@drawable/ic_projects"
+            android:title="@string/menu_my_projects" />
+        <item
             android:id="@+id/action_vacations"
             android:icon="@drawable/ic_vacation"
             android:title="@string/menu_vacations" />

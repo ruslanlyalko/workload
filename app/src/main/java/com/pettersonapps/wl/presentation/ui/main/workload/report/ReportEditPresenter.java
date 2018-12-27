@@ -3,6 +3,7 @@ package com.pettersonapps.wl.presentation.ui.main.workload.report;
 import android.text.TextUtils;
 
 import com.pettersonapps.wl.data.models.Holiday;
+import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
@@ -223,7 +224,13 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     public void setUser(final User user) {
         mUser = user;
-        getView().showProjects(mUser.getProjects());
+        List<Project> onlyNotHiddenProjects = new ArrayList<>();
+        for (Project project : mUser.getProjects()) {
+            if (!project.getIsHidden()) {
+                onlyNotHiddenProjects.add(project);
+            }
+        }
+        getView().showProjects(onlyNotHiddenProjects);
     }
 
     public Report getReport() {
