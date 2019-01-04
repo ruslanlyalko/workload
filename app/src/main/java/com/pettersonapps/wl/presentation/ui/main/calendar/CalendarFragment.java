@@ -25,6 +25,8 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.calendar.export.ExportActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -36,7 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CalendarFragment extends BaseFragment<CalendarPresenter> implements CalendarView {
+public class CalendarFragment extends BaseFragment<CalendarPresenter> implements CalendarView, ReportClickListener {
 
     @BindView(R.id.spinner_projects) Spinner mSpinnerProjects;
     @BindView(R.id.spinner_users) Spinner mSpinnerUsers;
@@ -119,7 +121,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     }
 
     private void setupAdapters() {
-        mReportsAdapter = new ReportsAdapter();
+        mReportsAdapter = new ReportsAdapter(this);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
     }
@@ -181,6 +183,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     public void showSpinnerUsersData(final MutableLiveData<List<User>> usersData) {
         usersData.observe(this, users -> {
             if (users == null) return;
+            getPresenter().setUsers(users);
             List<String> list = new ArrayList<>();
             for (User user : users) {
                 list.add(user.getName());
@@ -217,11 +220,21 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
         mTextStatistic.setText(getString(R.string.statistics, list.size()));
     }
 
+    @Override
+    public void showUserDetails(final User user) {
+        startActivity(UserDetailsActivity.getLaunchIntent(getContext(), user));
+    }
+
     @OnClick({R.id.title, R.id.text_month})
     public void onClick() {
         Date today = new Date();
         mCalendarView.setCurrentDate(today);
         setNewDate(today);
         getPresenter().fetchReportsForMonth(DateUtils.getFirstDateOfMonth(today), DateUtils.getLastDateOfMonth(today));
+    }
+
+    @Override
+    public void onReportClicked(final Report report) {
+        getPresenter().onReportClicked(report.getUserId());
     }
 }

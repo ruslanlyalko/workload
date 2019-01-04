@@ -24,4 +24,6 @@ public interface CalendarView extends BaseView<CalendarPresenter> {
     void showReportsOnCalendar(final List<Report> reports);
 
     void showReportsOnList(List<Report> list);
+
+    void showUserDetails(User user);
 }

@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.view_pager) ViewPager mViewPager;
+    @BindView(R.id.image_logo) ImageView mImageLogo;
     @BindView(R.id.snowfall) SnowfallView mSnowfall;
 //    @BindDimen(R.dimen.calendar_height) int mTargetHeight;
 
@@ -247,6 +250,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            mImageLogo.setImageResource(R.drawable.ic_logo_night);
+        } else {
+            mImageLogo.setImageResource(R.drawable.ic_logo_white);
+        }
         setupAdapters();
         setupCalendar();
         getPresenter().onViewReady();

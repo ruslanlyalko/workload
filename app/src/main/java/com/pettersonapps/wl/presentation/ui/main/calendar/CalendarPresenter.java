@@ -1,6 +1,7 @@
 package com.pettersonapps.wl.presentation.ui.main.calendar;
 
 import com.pettersonapps.wl.data.models.Report;
+import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -22,6 +23,7 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     private String mProject = "-";
     private String mUser = "-";
     private String mStatus = "-";
+    private List<User> mUsers = new ArrayList<>();
 
     CalendarPresenter() {
     }
@@ -89,5 +91,18 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
         }
         getView().showReportsOnCalendar(list);
         getView().showReportsOnList(listToday);
+    }
+
+    public void onReportClicked(final String userId) {
+        for (User user : mUsers) {
+            if (user.getKey().equalsIgnoreCase(userId)) {
+                getView().showUserDetails(user);
+                break;
+            }
+        }
+    }
+
+    public void setUsers(final List<User> users) {
+        mUsers = users;
     }
 }

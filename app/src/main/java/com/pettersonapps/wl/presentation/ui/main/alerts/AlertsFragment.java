@@ -26,6 +26,7 @@ import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.alerts.settings.AlertsSettingsActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
@@ -39,7 +40,7 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AlertsFragment extends BaseFragment<AlertsPresenter> implements AlertsView {
+public class AlertsFragment extends BaseFragment<AlertsPresenter> implements AlertsView, ReportClickListener {
 
     @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
@@ -149,7 +150,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
         });
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerUsers.setAdapter(mUsersAdapter);
-        mReportsAdapter = new ReportsAdapter();
+        mReportsAdapter = new ReportsAdapter(this);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
     }
@@ -186,6 +187,11 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
         }
         mTextReportsPlaceholder.setVisibility(allWrongReports.isEmpty() ? View.VISIBLE : View.GONE);
         mReportsAdapter.setData(allWrongReports);
+    }
+
+    @Override
+    public void showUserDetails(final User user) {
+        startActivity(UserDetailsActivity.getLaunchIntent(getContext(), user));
     }
 
     @Override
@@ -226,5 +232,10 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
     @OnClick(R.id.text_date)
     public void onClick() {
         changeDate();
+    }
+
+    @Override
+    public void onReportClicked(final Report report) {
+        getPresenter().onReportClicked(report.getUserId());
     }
 }

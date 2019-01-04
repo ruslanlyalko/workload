@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -36,8 +37,10 @@ import static android.view.View.VISIBLE;
 public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHolder> {
 
     private List<Report> mData = new ArrayList<>();
+    private ReportClickListener mReportClickListener;
 
-    public ReportsAdapter() {
+    public ReportsAdapter(ReportClickListener reportClickListener) {
+        this.mReportClickListener = reportClickListener;
     }
 
     public List<Report> getData() {
@@ -127,6 +130,13 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
                 timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
             }
             return Html.fromHtml("<b>" + name + "</b> " + timeStr);
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClick() {
+            if (mReportClickListener != null) {
+                mReportClickListener.onReportClicked(getData().get(getAdapterPosition()));
+            }
         }
     }
 }

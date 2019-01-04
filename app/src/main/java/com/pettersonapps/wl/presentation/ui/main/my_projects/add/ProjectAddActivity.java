@@ -90,7 +90,7 @@ public class ProjectAddActivity extends BaseActivity<ProjectAddPresenter> implem
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_add);
+        setToolbarTitle(R.string.title_add_project);
         getPresenter().onViewReady();
     }
 }

@@ -60,7 +60,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
         hideFab();
-        mReportsAdapter = new ReportsAdapter();
+        mReportsAdapter = new ReportsAdapter(null);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
         getPresenter().onViewReady();

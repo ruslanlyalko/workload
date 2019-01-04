@@ -31,4 +31,6 @@ public interface AlertsView extends BaseView<AlertsPresenter> {
     void showUsersWithoutReports(List<User> allUsersWithoutReports);
 
     void showWrongReports(List<Report> allWrongReports);
+
+    void showUserDetails(User user);
 }

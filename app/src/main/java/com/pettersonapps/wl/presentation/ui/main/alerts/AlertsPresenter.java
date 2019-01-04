@@ -111,4 +111,13 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
     public void setSettings(final AppSettings settings) {
         mSettings = settings;
     }
+
+    public void onReportClicked(final String userId) {
+        for (User user : mUsers) {
+            if (user.getKey().equalsIgnoreCase(userId)) {
+                getView().showUserDetails(user);
+                break;
+            }
+        }
+    }
 }

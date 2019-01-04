@@ -37,6 +37,7 @@ import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdap
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.utils.ViewUtils;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -115,6 +116,9 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         for (int i = 0; i < years.size(); i++) {
             String day = (years.keyAt(i) + 1) + getDayOfMonthSuffix(years.keyAt(i) + 1);
             int count = years.get(years.keyAt(i));
+            if (!text.isEmpty()) {
+                text = text + "\n";
+            }
             text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count).trim();
         }
         if (!TextUtils.isEmpty(text))
@@ -125,7 +129,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     public void showUserDetails(final User user) {
-        mTextName.setText(String.format("%s / %s %s", user.getName(), user.getDepartment(), user.getIsBlocked() ? "/ (Blocked)" : ""));
+        mTextName.setText(String.format("%s / %s %s", user.getName(), user.getDepartment(), user.getIsBlocked() ? " (Blocked)" : ""));
         mTextEmail.setText(user.getEmail());
         if (TextUtils.isEmpty(user.getPhone())) {
             mTextPhone.setText(R.string.text_not_specified);
@@ -292,7 +296,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_user_details);
-        mReportsAdapter = new ReportsAdapter();
+        mReportsAdapter = new ReportsAdapter(null);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerReports.setAdapter(mReportsAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
@@ -379,9 +383,9 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @OnClick(R.id.text_common)
     public void onVacationClick() {
         if (mRecyclerReports.getVisibility() == View.VISIBLE) {
-            mRecyclerReports.setVisibility(View.GONE);
+            ViewUtils.collapse(mRecyclerReports);
         } else {
-            mRecyclerReports.setVisibility(View.VISIBLE);
+            ViewUtils.expand(mRecyclerReports);
         }
     }
 }

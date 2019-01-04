@@ -10,7 +10,18 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/layout_title" />
+        layout="@layout/layout_title"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="40dp"
+        android:paddingTop="16dp"
+        android:src="@drawable/ic_logo_white" />
 
     <com.jetradarmobile.snowfall.SnowfallView
         android:id="@+id/snowfall"
@@ -23,8 +34,8 @@
         app:snowflakeImage="@drawable/ic_snow"
         app:snowflakeSizeMax="12dp"
         app:snowflakeSizeMin="3dp"
-        app:snowflakeSpeedMax="4"
-        app:snowflakeSpeedMin="2"
+        app:snowflakeSpeedMax="3"
+        app:snowflakeSpeedMin="1"
         app:snowflakesFadingEnabled="true"
         app:snowflakesNum="15" />
 
