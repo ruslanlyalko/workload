@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
+import com.pettersonapps.wl.data.models.Vacation;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
-import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.my_vacations.adapter.VacationsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.text_common) TextView mTextCommon;
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
-    private ReportsAdapter mReportsAdapter;
+    private VacationsAdapter mVacationsAdapter;
 
     public static MyVacationsFragment newInstance(User user) {
         Bundle args = new Bundle();
@@ -44,7 +45,6 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_vacations, menu);
     }
-
 
     @Override
     protected int getContentView() {
@@ -60,9 +60,9 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
         hideFab();
-        mReportsAdapter = new ReportsAdapter(null);
+        mVacationsAdapter = new VacationsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerReports.setAdapter(mReportsAdapter);
+        mRecyclerReports.setAdapter(mVacationsAdapter);
         getPresenter().onViewReady();
     }
 
@@ -83,8 +83,8 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     }
 
     @Override
-    public void setReportsToAdapter(final List<Report> list) {
-        mReportsAdapter.setData(list);
+    public void setReportsToAdapter(final List<Vacation> list) {
+        mVacationsAdapter.setData(list);
         mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
     }
 

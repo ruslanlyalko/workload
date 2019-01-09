@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
 
 import com.pettersonapps.wl.data.models.Report;
+import com.pettersonapps.wl.data.models.Vacation;
 import com.pettersonapps.wl.presentation.base.BaseView;
 
 import java.util.Date;
@@ -19,5 +20,5 @@ public interface MyVacationsView extends BaseView<MyVacationsPresenter> {
 
     void showReportsByYear(final Date firstWorkingDate, SparseIntArray years);
 
-    void setReportsToAdapter(List<Report> list);
+    void setReportsToAdapter(List<Vacation> list);
 }

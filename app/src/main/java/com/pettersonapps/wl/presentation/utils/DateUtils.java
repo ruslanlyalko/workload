@@ -16,6 +16,8 @@ import java.util.Locale;
 public class DateUtils {
 
     private static final String FORMAT_STANDARD_DATE = "dd MMMM yyyy";
+    private static final String FORMAT_NORMAL_DATE = "dd MMM";
+    private static final String FORMAT_NORMAL_DATE_YEAR = "dd MMM yyyy";
     private static final String FORMAT_DATE_FULL = "EEEE d MMM";
     private static final String FORMAT_DATE = "EE, d MMM";
     private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
@@ -47,6 +49,13 @@ public class DateUtils {
     public static String toStringStandardDate(final Date date) {
         if (date == null) return "";
         return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.US).format(date);
+    }
+
+    private static String toStringNormalDate(final Date date) {
+        if (date == null) return "";
+        if (isCurrentYear(date))
+            return new SimpleDateFormat(FORMAT_NORMAL_DATE, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_NORMAL_DATE_YEAR, Locale.US).format(date);
     }
 
     public static String toStringDate(final Date date) {
@@ -201,7 +210,6 @@ public class DateUtils {
         return calendar;
     }
 
-
     public static Calendar get1YearAgo() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -1);
@@ -251,6 +259,14 @@ public class DateUtils {
         return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
     }
 
+    public static int daysBetween(Date date1, Date date2) {
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        return daysBetween(calendar1, calendar2);
+    }
+
     public static int daysBetween(Calendar day1, Calendar day2) {
         Calendar dayOne = (Calendar) day1.clone(),
                 dayTwo = (Calendar) day2.clone();
@@ -278,5 +294,23 @@ public class DateUtils {
         Calendar year = Calendar.getInstance();
         year.setTime(date);
         return year.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH);
+    }
+
+    private static boolean isSameMonth(final Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
+    }
+
+    public static String toStringDates(final Date from, final Date to) {
+        if (dateEquals(from, to)) {
+            return toStringNormalDate(from);
+        }
+        if (isSameMonth(from, to)) {
+            return String.format(Locale.US, "%s - %s", toString(from, "dd"), toStringNormalDate(to));
+        } else
+            return String.format(Locale.US, "%s - %s", toString(from, "dd MMM"), toStringNormalDate(to));
     }
 }
