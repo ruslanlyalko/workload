@@ -20,7 +20,7 @@
         android:paddingBottom="16dp"
         android:paddingEnd="16dp"
         android:paddingStart="40dp"
-        android:paddingTop="16dp"
+        android:paddingTop="14dp"
         android:src="@drawable/ic_logo_white" />
 
     <com.jetradarmobile.snowfall.SnowfallView
