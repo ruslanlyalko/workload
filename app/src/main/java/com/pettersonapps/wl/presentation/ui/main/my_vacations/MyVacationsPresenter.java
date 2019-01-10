@@ -61,26 +61,26 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
             Report report = reports.get(i);
             if (prevReport != null) {
                 if (DateUtils.daysBetween(prevReport.getDate(), report.getDate()) == 1
-                        && i != reports.size() - 1
                         && prevReport.getStatus().equals(report.getStatus())) {
                     if (firstReportDate == null)
                         firstReportDate = prevReport.getDate();
                 } else {
                     if (firstReportDate != null) {
-                        list.add(new Vacation(report.getUserDepartment(), report.getUserName(), report.getUserId(), report.getStatus(), prevReport.getDate(), firstReportDate));
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
                     } else {
-                        list.add(new Vacation(report.getUserDepartment(), report.getUserName(), report.getUserId(), report.getStatus(), prevReport.getDate(), prevReport.getDate()));
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
                     }
                     firstReportDate = null;
                 }
             }
             prevReport = report;
         }
-        if (firstReportDate != null) {
-            list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
-        } else {
-            list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
-        }
+        if (prevReport != null)
+            if (firstReportDate != null) {
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
+            } else {
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
+            }
         return list;
     }
 }

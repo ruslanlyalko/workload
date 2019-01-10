@@ -16,8 +16,8 @@ import java.util.Locale;
 public class DateUtils {
 
     private static final String FORMAT_STANDARD_DATE = "dd MMMM yyyy";
-    private static final String FORMAT_NORMAL_DATE = "dd MMM";
-    private static final String FORMAT_NORMAL_DATE_YEAR = "dd MMM yyyy";
+    private static final String FORMAT_NORMAL_DATE = "d MMM";
+    private static final String FORMAT_NORMAL_DATE_YEAR = "d MMM yyyy";
     private static final String FORMAT_DATE_FULL = "EEEE d MMM";
     private static final String FORMAT_DATE = "EE, d MMM";
     private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
@@ -309,8 +309,8 @@ public class DateUtils {
             return toStringNormalDate(from);
         }
         if (isSameMonth(from, to)) {
-            return String.format(Locale.US, "%s - %s", toString(from, "dd"), toStringNormalDate(to));
+            return String.format(Locale.US, "%s - %s", toString(from, "d"), toStringNormalDate(to));
         } else
-            return String.format(Locale.US, "%s - %s", toString(from, "dd MMM"), toStringNormalDate(to));
+            return String.format(Locale.US, "%s - %s", toString(from, "d MMM"), toStringNormalDate(to));
     }
 }

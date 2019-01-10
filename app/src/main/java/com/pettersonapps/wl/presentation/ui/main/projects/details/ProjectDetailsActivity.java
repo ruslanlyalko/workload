@@ -149,12 +149,12 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public void showFrom(final Date date) {
-        mInputFrom.setText(DateUtils.toStringDate(date));
+        mInputFrom.setText(DateUtils.toStringStandardDate(date));
     }
 
     @Override
     public void showTo(final Date date) {
-        mInputTo.setText(DateUtils.toStringDate(date));
+        mInputTo.setText(DateUtils.toStringStandardDate(date));
     }
 
     @OnClick({R.id.input_from, R.id.input_to})
