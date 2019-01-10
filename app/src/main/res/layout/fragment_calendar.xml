@@ -106,38 +106,68 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/layout_reports"
+        <LinearLayout
+            android:id="@+id/layout_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_filters"
             android:layout_marginTop="8dp"
+            android:orientation="vertical"
             >
 
             <TextView
-                android:id="@+id/text_statistic"
+                android:id="@+id/text_reports_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:padding="16dp"
-                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Body2"
                 android:textColor="?attr/colorTextPrimary"
-                android:textSize="14sp" />
+                android:textSize="16sp"
+                tools:text="@string/text_total_filled" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_reports"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_statistic"
                 android:focusableInTouchMode="false"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
 
-        </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorDivider"
+                />
+
+            <TextView
+                android:id="@+id/text_users_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="16dp"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
+                android:textSize="16sp"
+                tools:text="@string/text_users_without_reports" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_below="@id/layout_reports" />
+            android:layout_below="@id/layout_results" />
     </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>

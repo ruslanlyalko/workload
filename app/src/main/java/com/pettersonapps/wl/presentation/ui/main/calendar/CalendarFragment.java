@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -24,12 +25,15 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
+import com.pettersonapps.wl.presentation.ui.main.alerts.settings.AlertsSettingsActivity;
 import com.pettersonapps.wl.presentation.ui.main.calendar.export.ExportActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
 import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,10 +49,14 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @BindView(R.id.spinner_status) Spinner mSpinnerStatus;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
-    @BindView(R.id.text_statistic) TextView mTextStatistic;
+    @BindView(R.id.text_reports_header) TextView mTextReportsHeader;
+    @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.text_users_header) TextView mTextUsersHeader;
+    @BindView(R.id.layout_results) LinearLayout mLayoutResults;
 
     private ReportsAdapter mReportsAdapter;
+    private UsersAdapter mUsersAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
@@ -69,6 +77,9 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
         switch (item.getItemId()) {
             case R.id.action_export:
                 startActivity(ExportActivity.getLaunchIntent(getBaseActivity()));
+                return true;
+            case R.id.action_settings:
+                startActivity(AlertsSettingsActivity.getLaunchIntent(getContext()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -124,12 +135,25 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
         mReportsAdapter = new ReportsAdapter(this);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mReportsAdapter);
+        mUsersAdapter = new UsersAdapter(new OnItemClickListener() {
+            @Override
+            public void onItemClicked(final View view, final int position) {
+                startActivity(UserDetailsActivity.getLaunchIntent(getContext(), mUsersAdapter.getData().get(position)));
+            }
+
+            @Override
+            public void onItemLongClicked(final View view, final int position) {
+            }
+        });
+        mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerUsers.setAdapter(mUsersAdapter);
     }
 
     private void setupCalendar() {
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         mCalendarView.displayOtherMonthDays(true);
+        mCalendarView.shouldSelectFirstDayOfMonthOnScroll(true);
         mCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {
@@ -139,6 +163,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
                 getPresenter().fetchReportsForMonth(firstDayOfNewMonth, DateUtils.getLastDateOfMonth(firstDayOfNewMonth));
+                getPresenter().fetchReports(firstDayOfNewMonth);
                 setNewDate(firstDayOfNewMonth);
             }
         });
@@ -217,12 +242,21 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     public void showReportsOnList(final List<Report> list) {
         mReportsAdapter.setData(list);
-        mTextStatistic.setText(getString(R.string.statistics, list.size()));
+        mTextReportsHeader.setText(getString(R.string.text_total_filled, list.size()));
     }
 
     @Override
     public void showUserDetails(final User user) {
         startActivity(UserDetailsActivity.getLaunchIntent(getContext(), user));
+    }
+
+    @Override
+    public void showUsersWithoutReports(final List<User> allUsersWithoutReports) {
+        if (allUsersWithoutReports == null) {
+            return;
+        }
+        mTextUsersHeader.setText(getString(R.string.text_users_without_reports, allUsersWithoutReports.size()));
+        mUsersAdapter.setData(allUsersWithoutReports);
     }
 
     @OnClick({R.id.title, R.id.text_month})
@@ -236,5 +270,17 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     @Override
     public void onReportClicked(final Report report) {
         getPresenter().onReportClicked(report.getUserId());
+    }
+
+    @OnClick({R.id.text_reports_header, R.id.text_users_header})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.text_reports_header:
+                mRecyclerReports.setVisibility(mRecyclerReports.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                break;
+            case R.id.text_users_header:
+                mRecyclerUsers.setVisibility(mRecyclerUsers.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                break;
+        }
     }
 }

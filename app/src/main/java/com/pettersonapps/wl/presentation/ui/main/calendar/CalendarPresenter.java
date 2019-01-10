@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Ruslan Lyalko
  * on 05.09.2018.
@@ -19,11 +24,12 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     public static final String KEY_PROJECT = "Project";
     private static final String KEY_STATUS = "Status";
     private List<Report> mReports = new ArrayList<>();
+    private List<User> mUsers = new ArrayList<>();
     private Date mDate = new Date();
     private String mProject = "-";
     private String mUser = "-";
     private String mStatus = "-";
-    private List<User> mUsers = new ArrayList<>();
+    private ArrayList<User> mFilteredUsers = new ArrayList<>();
 
     CalendarPresenter() {
     }
@@ -67,11 +73,39 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     }
 
     private void showFilteredReports() {
+        Observable.fromCallable(this::filterReportsBackground)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<FilterResult>() {
+
+                    @Override
+                    public void onNext(final FilterResult result) {
+                        if (getView() == null) return;
+                        getView().showReportsOnCalendar(result.allReports);
+                        getView().showReportsOnList(result.todayReports);
+                        getView().showUsersWithoutReports(result.todayUsers);
+                    }
+
+                    @Override
+                    public void onError(final Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    private FilterResult filterReportsBackground() {
         Date from = DateUtils.getStart(mDate);
         Date to = DateUtils.getEnd(mDate);
-        List<Report> list = new ArrayList<>();
-        List<Report> listToday = new ArrayList<>();
+        List<Report> allFilteredReports = new ArrayList<>();
+        List<Report> todayFilteredReports = new ArrayList<>();
+        List<Report> todayReports = new ArrayList<>();
+        List<User> usersWithoutAnyReports = new ArrayList<>(mFilteredUsers);
         for (Report report : mReports) {
+            if (report.getDate().after(from) && report.getDate().before(to))
+                todayReports.add(report);
             if (!mUser.startsWith(KEY_USER) && !mUser.equalsIgnoreCase(report.getUserName())) {
                 continue;
             }
@@ -80,17 +114,25 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
             }
             if (!mProject.startsWith(KEY_PROJECT)
                     && !((mProject.equalsIgnoreCase(report.getP1()) && report.getT1() > 0)
-                    || ((mProject.equalsIgnoreCase(report.getP2()) && report.getT2() > 0)
-                    || ((mProject.equalsIgnoreCase(report.getP3()) && report.getT2() > 0)
-                    || ((mProject.equalsIgnoreCase(report.getP4())) && report.getT2() > 0))))) {
+                    || ((mProject.equalsIgnoreCase(report.getP2()) && report.getT2() > 0))
+                    || ((mProject.equalsIgnoreCase(report.getP3()) && report.getT3() > 0))
+                    || ((mProject.equalsIgnoreCase(report.getP4()) && report.getT4() > 0))
+                    || ((mProject.equalsIgnoreCase(report.getP5()) && report.getT5() > 0))
+                    || ((mProject.equalsIgnoreCase(report.getP6())) && report.getT6() > 0))) {
                 continue;
             }
-            list.add(report);
+            allFilteredReports.add(report);
             if (report.getDate().after(from) && report.getDate().before(to))
-                listToday.add(report);
+                todayFilteredReports.add(report);
         }
-        getView().showReportsOnCalendar(list);
-        getView().showReportsOnList(listToday);
+        for (Report report : todayReports) {
+            for (int i = 0; i < usersWithoutAnyReports.size(); i++) {
+                if (usersWithoutAnyReports.get(i).getKey().equals(report.getUserId())) {
+                    usersWithoutAnyReports.remove(usersWithoutAnyReports.get(i));
+                }
+            }
+        }
+        return new FilterResult(allFilteredReports, todayFilteredReports, usersWithoutAnyReports);
     }
 
     public void onReportClicked(final String userId) {
@@ -104,5 +146,26 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
 
     public void setUsers(final List<User> users) {
         mUsers = users;
+        mFilteredUsers = new ArrayList<>();
+        for (User user : mUsers) {
+            if (user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
+                mFilteredUsers.add(user);
+        }
+    }
+
+    class FilterResult {
+
+        public List<Report> allReports;
+        public List<Report> todayReports;
+        public List<User> todayUsers;
+
+        public FilterResult() {
+        }
+
+        FilterResult(final List<Report> allReports, final List<Report> todayReports, final List<User> todayUsers) {
+            this.allReports = allReports;
+            this.todayReports = todayReports;
+            this.todayUsers = todayUsers;
+        }
     }
 }

@@ -17,7 +17,8 @@
         <item
             android:id="@+id/action_alerts"
             android:icon="@drawable/ic_info"
-            android:title="@string/menu_alerts" />
+            android:title="@string/menu_alerts"
+            android:visible="false" />
         <item
             android:id="@+id/action_calendar"
             android:icon="@drawable/ic_date"

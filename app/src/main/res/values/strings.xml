@@ -60,7 +60,7 @@
     <string name="text_tomorrow">Tomorrow</string>
     <string name="text_forgot_password_click_here_to_send_reset_instructions"><u>Forgot password? Click here to send Reset Instruction</u></string>
     <string name="text_not_standard_reports">Not Standard Reports</string>
-    <string name="text_users_without_reports">Users Without Reports: %d</string>
+    <string name="text_users_without_reports">Users without reports: %d</string>
     <string name="text_remind_at">Remind me at</string>
     <string name="text_default">Default working time</string>
     <string name="text_get_project_info">Get Project Info</string>
@@ -141,7 +141,7 @@
     <string name="text_add_day_off">Add Day off</string>
     <string name="status_day_off">Day off (Personal reasons)</string>
     <string name="status_vacation">Vacations</string>
-    <string name="statistics">Total count: %d</string>
+    <string name="text_total_filled">Total filled reports: %d</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="hint_moderator_notification_email">Moderator notification email</string>
     <string name="hint_latest_android_version">Latest Android version</string>
