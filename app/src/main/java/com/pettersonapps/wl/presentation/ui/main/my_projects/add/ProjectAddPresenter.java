@@ -46,7 +46,7 @@ public class ProjectAddPresenter extends BasePresenter<ProjectAddView> {
 
     private Project getProjectByName(final String title, List<Project> projects) {
         for (Project project : projects) {
-            if (project.getTitle().equalsIgnoreCase(title)) {
+            if (project.getTitle().replaceAll(" ", "").equalsIgnoreCase(title.replaceAll(" ", ""))) {
                 return project;
             }
         }
