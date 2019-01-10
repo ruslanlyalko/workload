@@ -4,10 +4,11 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
 import com.pettersonapps.wl.R;
@@ -16,6 +17,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +27,7 @@ public class ProjectAddActivity extends BaseActivity<ProjectAddPresenter> implem
 
     private static final String KEY_PROJECT = "project";
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.input_title) TextInputEditText mInputTitle;
+    @BindView(R.id.input_title) AutoCompleteTextView mInputTitle;
     @BindView(R.id.button_save) SquareButton mButtonSave;
     @BindView(R.id.progress) ProgressBar mProgress;
 
@@ -71,6 +73,17 @@ public class ProjectAddActivity extends BaseActivity<ProjectAddPresenter> implem
     @Override
     public void showUser(final MutableLiveData<User> myUser) {
         myUser.observe(this, user -> getPresenter().setUser(user));
+    }
+
+    @Override
+    public void setAutocomplete(final List<Project> projects) {
+        List<String> list = new ArrayList<>();
+        for (Project project : projects) {
+            list.add(project.getTitle());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.select_dialog_item, list);
+        mInputTitle.setThreshold(3);
+        mInputTitle.setAdapter(adapter);
     }
 
     @Override

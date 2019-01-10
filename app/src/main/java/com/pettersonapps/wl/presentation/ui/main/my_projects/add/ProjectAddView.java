@@ -25,4 +25,6 @@ public interface ProjectAddView extends BaseView<ProjectAddPresenter> {
     void showProjects(MutableLiveData<List<Project>> allProjects);
 
     void showUser(MutableLiveData<User> myUser);
+
+    void setAutocomplete(final List<Project> projects);
 }

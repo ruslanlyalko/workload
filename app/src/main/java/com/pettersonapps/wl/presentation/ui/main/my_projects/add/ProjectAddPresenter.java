@@ -25,6 +25,7 @@ public class ProjectAddPresenter extends BasePresenter<ProjectAddView> {
 
     public void setProjects(final List<Project> projects) {
         mProjects = projects;
+        getView().setAutocomplete(projects);
     }
 
     public void setUser(final User user) {
