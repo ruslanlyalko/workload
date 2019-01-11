@@ -88,11 +88,63 @@
         app:statusCalendarTextColor="?attr/colorTextPrimary"
         app:statusCalendarTextSize="13sp" />
 
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/card_edit_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendar_view"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="?attr/colorCardBackground"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorStroke"
+        app:strokeWidth="1.5dp"
+        tools:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_edit_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/image_remove"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4sp"
+                android:minHeight="44dp"
+                android:paddingBottom="8dp"
+                android:paddingEnd="@dimen/padding_mini"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingTop="8dp"
+                android:text="@string/text_you_ve_been_granted_edit_mode_nplease_fill_in_missed_workloads_till_the_end_of_the_day"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
+                android:textSize="15sp"
+                tools:visibility="visible" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/image_remove"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/action_delete"
+                android:padding="3dp"
+                app:srcCompat="@drawable/ic_delete_x"
+                />
+        </RelativeLayout>
+
+    </android.support.design.card.MaterialCardView>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calendar_view"
+        android:layout_below="@id/card_edit_mode"
         android:layout_marginBottom="44dp" />
 
 </RelativeLayout>

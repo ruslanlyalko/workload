@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -30,6 +31,8 @@ import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdap
 import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
+import com.pettersonapps.wl.presentation.utils.ViewUtils;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
@@ -50,6 +53,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.image_logo) ImageView mImageLogo;
     @BindView(R.id.snowfall) SnowfallView mSnowfall;
+    @BindView(R.id.card_edit_mode) CardView mCardEditMode;
 //    @BindDimen(R.dimen.calendar_height) int mTargetHeight;
 
     private Date mPrevDate = new Date();
@@ -109,6 +113,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         userData.observe(this, user -> {
             if (user == null) return;
             getPresenter().setUser(user);
+            Date date = new Date(PreferencesHelper.getInstance(getContext()).getHideEditModeMessageDate());
+            mCardEditMode.setVisibility(user.getIsAllowEditPastReports() && !DateUtils.dateEquals(date, new Date()) ? View.VISIBLE : View.GONE);
             mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
             if (user.getIsOldStyleCalendar()) {
                 mCalendarView.setEventIndicatorStyle(StatusCalendarView.SMALL_INDICATOR);
@@ -301,5 +307,11 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             ((MainActivity) getBaseActivity()).onShowDeleteMenu();
             mReportToDelete = report;
         }
+    }
+
+    @OnClick(R.id.image_remove)
+    public void onRemoveClick() {
+        ViewUtils.collapse(mCardEditMode);
+        PreferencesHelper.getInstance(getContext()).setHideEditModeMessageDate(new Date().getTime());
     }
 }

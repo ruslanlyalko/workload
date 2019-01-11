@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 public class PreferencesHelper {
 
     private static final String KEY_NIGHT_MODE = "night";
+    private static final String KEY_HIDE_EDIT_MODE = "hide_edit_mode";
     private static PreferencesHelper ourInstance;
     private final SharedPreferences mPrefs;
 
@@ -31,6 +32,17 @@ public class PreferencesHelper {
     public void setNightMode(boolean isNightModeEnabled) {
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(KEY_NIGHT_MODE, isNightModeEnabled);
+        editor.apply();
+        editor.commit();
+    }
+
+    public long getHideEditModeMessageDate() {
+        return mPrefs.getLong(KEY_HIDE_EDIT_MODE, 0);
+    }
+
+    public void setHideEditModeMessageDate(long date) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putLong(KEY_HIDE_EDIT_MODE, date);
         editor.apply();
         editor.commit();
     }
