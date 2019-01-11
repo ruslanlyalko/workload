@@ -4,7 +4,8 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +16,10 @@
             android:id="@+id/card_holiday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorCardBackground"
             app:cardCornerRadius="@dimen/card_radius"
@@ -55,7 +57,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"

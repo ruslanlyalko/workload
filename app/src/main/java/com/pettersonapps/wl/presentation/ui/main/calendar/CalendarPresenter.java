@@ -30,6 +30,7 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     private String mUser = "-";
     private String mStatus = "-";
     private ArrayList<User> mFilteredUsers = new ArrayList<>();
+    private List<String> mLoadedMonths = new ArrayList<>();
 
     CalendarPresenter() {
     }
@@ -41,11 +42,17 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     }
 
     public void fetchReportsForMonth(final Date from, final Date to) {
+        String month = DateUtils.toString(from, "MMyyyy");
+        if (mLoadedMonths.contains(month)) {
+            showFilteredReports();
+            return;
+        }
+        mLoadedMonths.add(month);
         getView().showReports(getDataManager().getReportsFilter(from, to));
     }
 
     public void setReports(final List<Report> reports) {
-        mReports = reports;
+        mReports.addAll(reports);
         showFilteredReports();
     }
 
