@@ -108,6 +108,10 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         getDataManager().saveReport(report);
     }
 
+    public Date getDate() {
+        return mDate;
+    }
+
     public void fetchReportsForDate(final Date date) {
         mDate = DateUtils.getDate(date, 1, 1);
         getView().showReportOnCalendar(getReportsForCurrentDate(), mDate);

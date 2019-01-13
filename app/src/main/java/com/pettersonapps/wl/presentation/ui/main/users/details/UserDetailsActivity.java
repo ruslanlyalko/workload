@@ -273,14 +273,14 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
                 return super.onOptionsItemSelected(item);
         }
         Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(report.getDate());
+        calendar1.setTime(getPresenter().getDate());
         DatePickerDialog datePickerDialog1 = DatePickerDialog.newInstance((v, year, monthOfYear, dayOfMonth) -> {
             Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
             report.setDate(newDate);
             getPresenter().saveReport(report);
         }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
         datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
-        datePickerDialog1.setMinDate(DateUtils.get1YearAgo());
+//        datePickerDialog1.setMinDate(DateUtils.get1YearAgo());
         datePickerDialog1.setMaxDate(DateUtils.get1MonthForward());
         datePickerDialog1.show(getFragmentManager(), "date");
         return true;
