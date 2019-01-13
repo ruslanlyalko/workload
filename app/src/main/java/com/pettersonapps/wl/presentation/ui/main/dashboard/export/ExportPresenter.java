@@ -59,6 +59,10 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         HSSFCell cell09_t3 = row0.createCell(9);
         HSSFCell cell010_p4 = row0.createCell(10);
         HSSFCell cell011_t4 = row0.createCell(11);
+        HSSFCell cell012_p5 = row0.createCell(12);
+        HSSFCell cell013_t5 = row0.createCell(13);
+        HSSFCell cell014_p6 = row0.createCell(14);
+        HSSFCell cell015_t6 = row0.createCell(15);
         cell00_date.setCellValue("Date");
         cell01_user.setCellValue("User");
         cell02_department.setCellValue("Department");
@@ -71,6 +75,10 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         cell09_t3.setCellValue("Time 3");
         cell010_p4.setCellValue("Project 4");
         cell011_t4.setCellValue("Time 4");
+        cell012_p5.setCellValue("Project 5");
+        cell013_t5.setCellValue("Time 5");
+        cell014_p6.setCellValue("Project 6");
+        cell015_t6.setCellValue("Time 6");
         //export
         for (int i = 0; i < list.size(); i++) {
             Report report = list.get(i);
@@ -87,6 +95,10 @@ public class ExportPresenter extends BasePresenter<ExportView> {
             row.createCell(9).setCellValue(report.getT3());
             row.createCell(10).setCellValue(report.getP4());
             row.createCell(11).setCellValue(report.getT4());
+            row.createCell(12).setCellValue(report.getP5());
+            row.createCell(13).setCellValue(report.getT5());
+            row.createCell(14).setCellValue(report.getP6());
+            row.createCell(15).setCellValue(report.getT6());
         }
         saveToStorage(workbook, fileName);
     }
