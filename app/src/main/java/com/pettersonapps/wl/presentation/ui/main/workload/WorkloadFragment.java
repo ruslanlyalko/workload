@@ -239,7 +239,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.menu_dashboard, menu);
+        menuInflater.inflate(R.menu.menu_workload, menu);
     }
 
     @Override

@@ -64,7 +64,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_skype) TextView mTextSkype;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_common) TextView mTextVacations;
-    @BindView(R.id.text_version) TextView mTextVersion;
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.divider_comments) View mDividerComments;
@@ -149,7 +148,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mTextComments.setVisibility(View.VISIBLE);
             mDividerComments.setVisibility(View.VISIBLE);
         }
-        mTextVersion.setText(String.format(Locale.US, "Theme: %s, Version: %s\nDefault Working Time: %d:00%s", user.getIsNightMode() ? "Night" : "White", user.getVersion(), user.getDefaultWorkingTime(), user.getIsOldStyleCalendar() ? ", Old Style Calendar" : " "));
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         if (user.getProjects().isEmpty()) {

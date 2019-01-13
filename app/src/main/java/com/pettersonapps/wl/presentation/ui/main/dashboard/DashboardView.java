@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.calendar;
+package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
 import android.arch.lifecycle.MutableLiveData;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface CalendarView extends BaseView<CalendarPresenter> {
+public interface DashboardView extends BaseView<DashboardPresenter> {
 
     void showSpinnerProjectsData(MutableLiveData<List<Project>> projects);
 

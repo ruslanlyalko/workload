@@ -34,7 +34,7 @@ import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.multibackstack.BackStackActivity;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
-import com.pettersonapps.wl.presentation.ui.main.calendar.CalendarFragment;
+import com.pettersonapps.wl.presentation.ui.main.dashboard.DashboardFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.MyProjectsFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_vacations.MyVacationsFragment;
@@ -53,7 +53,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private static final int TAB_WORKLOAD = 1;
     private static final int TAB_VACATION = 2;
     private static final int TAB_ALERTS = 3;
-    private static final int TAB_CALENDAR = 4;
+    private static final int TAB_DASHBOARD = 4;
     private static final int TAB_USERS = 5;
     private static final int TAB_PROJECTS = 6;
     private static final int TAB_HOLIDAYS = 7;
@@ -167,8 +167,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 case R.id.action_alerts:
                     onTabSelected(TAB_ALERTS);
                     return true;
-                case R.id.action_calendar:
-                    onTabSelected(TAB_CALENDAR);
+                case R.id.action_dashboard:
+                    onTabSelected(TAB_DASHBOARD);
                     return true;
                 case R.id.action_holidays:
                     onTabSelected(TAB_HOLIDAYS);
@@ -232,8 +232,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return R.id.action_vacations;
             case TAB_ALERTS:
                 return R.id.action_alerts;
-            case TAB_CALENDAR:
-                return R.id.action_calendar;
+            case TAB_DASHBOARD:
+                return R.id.action_dashboard;
             case TAB_USERS:
                 return R.id.action_users;
             case TAB_PROJECTS:
@@ -272,8 +272,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return MyVacationsFragment.newInstance(getPresenter().getUser());
             case TAB_ALERTS:
                 return AlertsFragment.newInstance();
-            case TAB_CALENDAR:
-                return CalendarFragment.newInstance();
+            case TAB_DASHBOARD:
+                return DashboardFragment.newInstance();
             case TAB_USERS:
                 return UsersFragment.newInstance();
             case TAB_PROJECTS:

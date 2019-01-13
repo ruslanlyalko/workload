@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.calendar;
+package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class CalendarPresenter extends BasePresenter<CalendarView> {
+public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public static final String KEY_USER = "User";
     public static final String KEY_PROJECT = "Project";
@@ -32,7 +32,7 @@ public class CalendarPresenter extends BasePresenter<CalendarView> {
     private ArrayList<User> mFilteredUsers = new ArrayList<>();
     private List<String> mLoadedMonths = new ArrayList<>();
 
-    CalendarPresenter() {
+    DashboardPresenter() {
     }
 
     public void onViewReady() {

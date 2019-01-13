@@ -123,7 +123,7 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
 
     @OnLongClick(R.id.title)
     public boolean onLongClick() {
-        mAdapter.setShowVersion(true);
+        mAdapter.setShowAdditionalData(true);
         return false;
     }
 }

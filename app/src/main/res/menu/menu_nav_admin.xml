@@ -20,9 +20,9 @@
             android:title="@string/menu_alerts"
             android:visible="false" />
         <item
-            android:id="@+id/action_calendar"
-            android:icon="@drawable/ic_date"
-            android:title="@string/menu_calendar" />
+            android:id="@+id/action_dashboard"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_dashboard" />
         <item
             android:id="@+id/action_users"
             android:icon="@drawable/ic_group"

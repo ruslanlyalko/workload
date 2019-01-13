@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -40,6 +42,9 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @BindView(R.id.switch_blocked) Switch mSwitchBlocked;
     @BindView(R.id.switch_allow_edit) Switch mSwitchAllowEdit;
     @BindView(R.id.switch_vip) Switch mSwitchVip;
+    @BindView(R.id.scroll_view) NestedScrollView mScrollView;
+
+    @BindDimen(R.dimen.margin_mini) int mElevation;
 
     public static Intent getLaunchIntent(final Context activity, User user) {
         Intent intent = new Intent(activity, UserEditActivity.class);
@@ -65,6 +70,13 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_edit);
+        mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
+            if (mScrollView.getScrollY() == 0) {
+                mToolbar.setElevation(0);
+            } else {
+                mToolbar.setElevation(mElevation);
+            }
+        });
         getPresenter().onViewReady();
     }
 

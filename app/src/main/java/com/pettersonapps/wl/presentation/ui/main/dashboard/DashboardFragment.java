@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.calendar;
+package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
@@ -26,7 +26,7 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.alerts.settings.AlertsSettingsActivity;
-import com.pettersonapps.wl.presentation.ui.main.calendar.export.ExportActivity;
+import com.pettersonapps.wl.presentation.ui.main.dashboard.export.ExportActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
 import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
@@ -42,7 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CalendarFragment extends BaseFragment<CalendarPresenter> implements CalendarView, ReportClickListener {
+public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView, ReportClickListener {
 
     @BindView(R.id.spinner_projects) Spinner mSpinnerProjects;
     @BindView(R.id.spinner_users) Spinner mSpinnerUsers;
@@ -60,16 +60,16 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
-    public static CalendarFragment newInstance() {
+    public static DashboardFragment newInstance() {
         Bundle args = new Bundle();
-        CalendarFragment fragment = new CalendarFragment();
+        DashboardFragment fragment = new DashboardFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_dashboard, menu);
     }
 
     @Override
@@ -88,17 +88,17 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_calendar;
+        return R.layout.fragment_dashboard;
     }
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new CalendarPresenter());
+        setPresenter(new DashboardPresenter());
     }
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_calendar);
+        setToolbarTitle(R.string.title_dashboard);
         hideFab();
         mTextMonth.setText(DateUtils.getMonth(new Date()));
         setupCalendar();
@@ -196,7 +196,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             for (Project project : projects) {
                 list.add(project.getTitle());
             }
-            list.add(0, CalendarPresenter.KEY_PROJECT);
+            list.add(0, DashboardPresenter.KEY_PROJECT);
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, list);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -213,7 +213,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
             for (User user : users) {
                 list.add(user.getName());
             }
-            list.add(0, CalendarPresenter.KEY_USER);
+            list.add(0, DashboardPresenter.KEY_USER);
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, list);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

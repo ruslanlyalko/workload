@@ -20,6 +20,7 @@ import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,14 +39,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private int mLastAnimatedPosition;
     private Animation mAnimation;
     private String mQuery;
-    private boolean mShowVersion;
+    private boolean mShowAdditionalData;
 
     public UsersAdapter(final OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
-    public void setShowVersion(final boolean showVersion) {
-        mShowVersion = showVersion;
+    public void setShowAdditionalData(final boolean showAdditionalData) {
+        mShowAdditionalData = showAdditionalData;
         notifyDataSetChanged();
     }
 
@@ -146,9 +147,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
-            if (mShowVersion && !TextUtils.isEmpty(user.getVersion()))
-                mTextSubtitle.setText(String.format("%s v%s", user.getDepartment(), user.getVersion()));
-            else
+            if (mShowAdditionalData) {
+                String text = String.format(Locale.US, "%s v%s %s",
+                        user.getDepartment(),
+                        user.getVersion(),
+                        user.getIsNightMode() ? "Night" : "");
+                mTextSubtitle.setText(text);
+            } else
                 mTextSubtitle.setText(user.getDepartment());
             if (!user.getIsBlocked()) {
                 mImageLogo.setImageResource(R.drawable.bg_oval_green);
