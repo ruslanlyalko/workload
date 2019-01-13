@@ -5,7 +5,7 @@ import android.util.SparseIntArray;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
-import com.pettersonapps.wl.data.models.UserPush;
+import com.pettersonapps.wl.data.models.Vacation;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -36,21 +36,59 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void setReports(final List<Report> reports) {
         mReports = reports;
-        SparseIntArray mYears = new SparseIntArray();
-        List<Report> vacationReports = new ArrayList<>();
+        List<Report> listVacationReports = new ArrayList<>();
+        SparseIntArray years = new SparseIntArray();
         for (Report report : reports) {
             if (report.getStatus().startsWith("Day")
                     || report.getStatus().startsWith("Vacation")
                     || report.getStatus().startsWith("Sick")) {
-                vacationReports.add(report);
+                listVacationReports.add(0, report);
                 int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
-                int value = mYears.get(yearInd);
+                int value = years.get(yearInd);
                 value = value + 1;
-                mYears.append(yearInd, value);
+                years.append(yearInd, value);
+            }
+            if (report.getStatus().startsWith("Working")) {
+                listVacationReports.add(0, report);
+                int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
+                int value = years.get(yearInd);
+                value = value - 1;
+                years.append(yearInd, value);
             }
         }
-        getView().showVacationsReports(vacationReports);
-        getView().showReportsByYear(mYears);
+        getView().setReportsToAdapter(convert(listVacationReports));
+        getView().showReportsByYear(years);
+    }
+
+    private List<Vacation> convert(final List<Report> reports) {
+        List<Vacation> list = new ArrayList<>();
+        Date firstReportDate = null;
+        Report prevReport = null;
+        for (int i = 0; i < reports.size(); i++) {
+            Report report = reports.get(i);
+            if (prevReport != null) {
+                if (DateUtils.daysBetween(prevReport.getDate(), report.getDate()) == 1
+                        && prevReport.getStatus().equals(report.getStatus())) {
+                    if (firstReportDate == null)
+                        firstReportDate = prevReport.getDate();
+                } else {
+                    if (firstReportDate != null) {
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
+                    } else {
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
+                    }
+                    firstReportDate = null;
+                }
+            }
+            prevReport = report;
+        }
+        if (prevReport != null)
+            if (firstReportDate != null) {
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
+            } else {
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
+            }
+        return list;
     }
 
     public User getUser() {
@@ -97,5 +135,4 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     public void setHolidays(final List<Holiday> holidays) {
         mHolidays = holidays;
     }
-
 }

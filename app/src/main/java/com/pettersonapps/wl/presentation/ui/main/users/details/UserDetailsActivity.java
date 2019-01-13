@@ -29,12 +29,13 @@ import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
+import com.pettersonapps.wl.data.models.Vacation;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_vacations.adapter.VacationsAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.push.UserPushActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
-import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.utils.ViewUtils;
@@ -75,7 +76,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsPagerAdapter mReportsPagerAdapter;
-    private ReportsAdapter mReportsAdapter;
+    private VacationsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
@@ -163,8 +164,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @Override
-    public void showVacationsReports(final List<Report> vacationReports) {
-        mReportsAdapter.setData(vacationReports);
+    public void setReportsToAdapter(final List<Vacation> vacations) {
+        mReportsAdapter.setData(vacations);
     }
 
     @Override
@@ -303,7 +304,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_user_details);
-        mReportsAdapter = new ReportsAdapter(null);
+        mReportsAdapter = new VacationsAdapter();
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerReports.setAdapter(mReportsAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
