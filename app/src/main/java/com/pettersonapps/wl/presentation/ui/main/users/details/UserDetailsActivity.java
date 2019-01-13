@@ -203,7 +203,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
     }
 
-    @OnClick({R.id.text_email, R.id.text_phone})
+    @OnClick({R.id.text_email, R.id.text_phone, R.id.text_skype})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.text_email:
@@ -215,9 +215,18 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
                 }
                 break;
             case R.id.text_phone:
+                String tel = getPresenter().getUser().getPhone();
+                if (TextUtils.isEmpty(tel)) return;
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + getPresenter().getUser().getPhone()));
+                intent.setData(Uri.parse("tel:" + tel));
                 startActivity(intent);
+                break;
+            case R.id.text_skype:
+                String skype = getPresenter().getUser().getSkype();
+                if (TextUtils.isEmpty(skype)) return;
+                Intent intentSkype = new Intent(Intent.ACTION_VIEW);
+                intentSkype.setData(Uri.parse("skype:" + skype + "?chat"));
+                startActivity(intentSkype);
                 break;
         }
     }
