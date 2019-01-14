@@ -88,7 +88,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
     @Override
     public void showHoliday(final Holiday holiday) {
         mInputTitle.setText(holiday.getTitle());
-        mInputDate.setText(DateUtils.toStringDate(holiday.getDate()));
+        mInputDate.setText(DateUtils.toStringStandardDate(holiday.getDate()));
     }
 
     @Override
@@ -132,7 +132,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
             Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
             getPresenter().getHoliday().setDate(newDate);
-            mInputDate.setText(DateUtils.toStringDate(newDate));
+            mInputDate.setText(DateUtils.toStringStandardDate(newDate));
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
         datePickerDialog.show(getFragmentManager(), "date");

@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
@@ -25,7 +26,7 @@ import butterknife.OnLongClick;
  * Created by Ruslan Lyalko
  * on 08.08.2018.
  */
-public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> implements Filterable {
+public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> implements SectionTitleProvider, Filterable {
 
     private final OnItemClickListener mOnItemClickListener;
     private List<Project> mData = new ArrayList<>();
@@ -39,14 +40,14 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         return mData;
     }
 
-    public List<Project> getDataFiltered() {
-        return mDataFiltered;
-    }
-
     public void setData(final List<Project> data) {
         mData = data;
         mDataFiltered = data;
         notifyDataSetChanged();
+    }
+
+    public List<Project> getDataFiltered() {
+        return mDataFiltered;
     }
 
     @NonNull
@@ -101,6 +102,11 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
                 notifyDataSetChanged();
             }
         };
+    }
+
+    @Override
+    public String getSectionTitle(final int position) {
+        return getData().get(position).getTitle().substring(0, 1);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

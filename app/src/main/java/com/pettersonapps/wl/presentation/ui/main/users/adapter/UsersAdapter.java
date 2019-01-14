@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
@@ -31,7 +32,7 @@ import butterknife.OnLongClick;
  * Created by Ruslan Lyalko
  * on 08.08.2018.
  */
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Filterable {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements SectionTitleProvider, Filterable {
 
     private final OnItemClickListener mOnItemClickListener;
     private List<User> mData = new ArrayList<>();
@@ -127,6 +128,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 notifyDataSetChanged();
             }
         };
+    }
+
+    @Override
+    public String getSectionTitle(final int position) {
+        return getData().get(position).getName().substring(0, 1);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

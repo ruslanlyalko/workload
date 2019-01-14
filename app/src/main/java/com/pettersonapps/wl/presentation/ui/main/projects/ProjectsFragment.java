@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
@@ -27,6 +28,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements
 
     @BindView(R.id.recycler_projects) RecyclerView mRecyclerProjects;
     @BindView(R.id.edit_search) SearchView mEditSearch;
+    @BindView(R.id.fast_scroll) FastScroller mFastScroller;
     private ProjectsAdapter mAdapter;
 
     public static ProjectsFragment newInstance() {
@@ -95,6 +97,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsPresenter> implements
         mAdapter = new ProjectsAdapter(this);
         mRecyclerProjects.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerProjects.setAdapter(mAdapter);
+        mFastScroller.setRecyclerView(mRecyclerProjects);
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerProjects, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }

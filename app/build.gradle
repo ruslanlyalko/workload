@@ -11,8 +11,8 @@ android {
         applicationId "com.pettersonapps.wl"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 123
-        versionName "1.1.23"
+        versionCode 125
+        versionName "1.1.25"
     }
 
     signingConfigs {
@@ -122,7 +122,9 @@ dependencies {
     implementation 'com.github.jetradarmobile:android-snowfall:1.2.0'
     //rx
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-    implementation "io.reactivex.rxjava2:rxjava:2.1.16"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
+    // Fast scroll
+    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 
     //    // Glide
 //    implementation 'com.github.bumptech.glide:glide:4.7.1'

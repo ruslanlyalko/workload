@@ -51,7 +51,7 @@ public class DateUtils {
         return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.US).format(date);
     }
 
-    private static String toStringNormalDate(final Date date) {
+    public static String toStringNormalDate(final Date date) {
         if (date == null) return "";
         if (isCurrentYear(date))
             return new SimpleDateFormat(FORMAT_NORMAL_DATE, Locale.US).format(date);

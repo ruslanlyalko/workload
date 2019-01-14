@@ -95,21 +95,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         });
     }
 
-    private void showCalendarsEvents() {
-        mCalendarView.removeAllEvents();
-        List<Report> reports = getPresenter().getReports();
-        for (Report report : reports) {
-            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
-        }
-        List<Holiday> holidays = getPresenter().getHolidays();
-        for (Holiday holiday : holidays) {
-            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.bg_event_holiday),
-                    holiday.getDate().getTime()), true);
-        }
-        mCalendarView.invalidate();
-    }
-
     @Override
     public void showReportsByYear(final SparseIntArray years) {
         String text = "";
@@ -133,12 +118,16 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         mTextEmail.setText(user.getEmail());
         if (TextUtils.isEmpty(user.getPhone())) {
             mTextPhone.setText(R.string.text_not_specified);
+            mTextPhone.setVisibility(View.GONE);
         } else {
+            mTextPhone.setVisibility(View.VISIBLE);
             mTextPhone.setText(user.getPhone());
         }
         if (TextUtils.isEmpty(user.getSkype())) {
+            mTextSkype.setVisibility(View.GONE);
             mTextSkype.setText(R.string.text_not_specified);
         } else {
+            mTextSkype.setVisibility(View.VISIBLE);
             mTextSkype.setText(user.getSkype());
         }
         if (TextUtils.isEmpty(user.getComments())) {
@@ -164,11 +153,6 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @Override
-    public void setReportsToAdapter(final List<Vacation> vacations) {
-        mReportsAdapter.setData(vacations);
-    }
-
-    @Override
     public void showReportOnCalendar(final List<Report> reportsForCurrentDate, final Date date) {
         mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
     }
@@ -181,6 +165,26 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             mReportsPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
         });
+    }
+
+    @Override
+    public void setReportsToAdapter(final List<Vacation> vacations) {
+        mReportsAdapter.setData(vacations);
+    }
+
+    private void showCalendarsEvents() {
+        mCalendarView.removeAllEvents();
+        List<Report> reports = getPresenter().getReports();
+        for (Report report : reports) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+        }
+        List<Holiday> holidays = getPresenter().getHolidays();
+        for (Holiday holiday : holidays) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.bg_event_holiday),
+                    holiday.getDate().getTime()), true);
+        }
+        mCalendarView.invalidate();
     }
 
     private String getDayOfMonthSuffix(final int n) {

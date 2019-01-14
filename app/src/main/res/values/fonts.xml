@@ -7,6 +7,11 @@
 
     <style name="TextAppearance" />
 
+    <style name="TextAppearance.FastScroll" parent="TextAppearance.AppCompat.Body2">
+        <item name="fontPath">@string/google_regular</item>
+        <item name="android:textSize">@dimen/ts_body_2</item>
+    </style>
+
     <style name="TextAppearance.Caption" parent="TextAppearance.AppCompat.Caption">
         <item name="fontPath">@string/google_medium</item>
         <item name="android:textSize">@dimen/ts_caption</item>

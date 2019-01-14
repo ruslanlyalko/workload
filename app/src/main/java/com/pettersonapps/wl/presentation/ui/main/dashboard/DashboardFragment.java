@@ -153,7 +153,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         mCalendarView.displayOtherMonthDays(true);
-        mCalendarView.shouldSelectFirstDayOfMonthOnScroll(true);
         mCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {

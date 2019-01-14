@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
@@ -27,8 +28,9 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class UsersFragment extends BaseFragment<UsersPresenter> implements UsersView, OnItemClickListener {
 
-    @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
     @BindView(R.id.edit_search) SearchView mEditSearch;
+    @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
+    @BindView(R.id.fast_scroll) FastScroller mFastScroller;
     private UsersAdapter mAdapter;
 
     public static UsersFragment newInstance() {
@@ -54,11 +56,6 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onFabClicked() {
-        getPresenter().onAddClicked();
     }
 
     @Override
@@ -97,8 +94,14 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
         mAdapter = new UsersAdapter(this);
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerUsers.setAdapter(mAdapter);
+        mFastScroller.setRecyclerView(mRecyclerUsers);
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerUsers, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
+    }
+
+    @Override
+    public void onFabClicked() {
+        getPresenter().onAddClicked();
     }
 
     @Override
