@@ -313,8 +313,18 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     public void showProjects(final List<Project> list) {
-        mProjectsAdapter.setData(list);
-        mTextPlaceholder.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+        List<Project> projects = new ArrayList<>(list);
+        List<ProjectSelectable> selectedProjects = mProjectSelectAdapter.getData();
+        for (int i = projects.size() - 1; i >= 0; i--) {
+            Project project = projects.get(i);
+            for (ProjectSelectable pr : selectedProjects) {
+                if (project.getTitle().equals(pr.getTitle())) {
+                    projects.remove(i);
+                }
+            }
+        }
+        mProjectsAdapter.setData(projects);
+        mTextPlaceholder.setVisibility(projects.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -393,6 +403,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 //        mEditSearch.setIconified(false);
 //        mEditSearch.clearFocus();
 //        mCloseBtn.setVisibility(View.GONE);
+        getPresenter().updateProjectsInList();
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         getPresenter().setAddProjectMode();
     }
@@ -402,6 +413,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 //        mEditSearch.setIconified(false);
 //        mEditSearch.clearFocus();
 //        mCloseBtn.setVisibility(View.GONE);
+        getPresenter().updateProjectsInList();
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         getPresenter().setChangeProjectMode(position);
     }

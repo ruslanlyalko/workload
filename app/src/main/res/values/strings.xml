@@ -112,7 +112,7 @@
     <string name="placeholder_no_data">Press \'Get Project Info\' to see data on Chart</string>
     <string name="placeholder_no_users">Seems like all users have reports..</string>
     <string name="placeholder_no_vacations">No vacations yet..</string>
-    <string name="placeholder_no_projects_contact_admin">No projects. Please contact Administrator</string>
+    <string name="placeholder_no_projects_contact_admin">No projects. You can add more in \"My projects\" section</string>
     <string name="placeholder_no_projects">No projects are selected</string>
 
     <!--Others-->

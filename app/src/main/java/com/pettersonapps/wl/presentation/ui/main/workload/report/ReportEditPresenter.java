@@ -224,6 +224,10 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     public void setUser(final User user) {
         mUser = user;
+        updateProjectsInList();
+    }
+
+    public void updateProjectsInList() {
         List<Project> onlyNotHiddenProjects = new ArrayList<>();
         for (Project project : mUser.getProjects()) {
             if (!project.getIsHidden()) {
