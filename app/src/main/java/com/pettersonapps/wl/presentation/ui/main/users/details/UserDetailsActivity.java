@@ -211,14 +211,22 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         startActivityForResult(UserProjectsActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
     }
 
-    @OnClick({R.id.text_email, R.id.text_phone, R.id.text_skype})
+    @OnClick({R.id.text_name, R.id.text_email, R.id.text_phone, R.id.text_skype})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.text_email:
+            case R.id.text_name:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getPresenter().getUser().getEmail(), getPresenter().getUser().getEmail());
+                ClipData clip = ClipData.newPlainText(getPresenter().getUser().getName(), getPresenter().getUser().getName());
                 if (clipboard != null) {
                     clipboard.setPrimaryClip(clip);
+                    showMessage(getString(R.string.text_copied));
+                }
+                break;
+            case R.id.text_email:
+                ClipboardManager clipboard1 = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip1 = ClipData.newPlainText(getPresenter().getUser().getEmail(), getPresenter().getUser().getEmail());
+                if (clipboard1 != null) {
+                    clipboard1.setPrimaryClip(clip1);
                     showMessage(getString(R.string.text_copied));
                 }
                 break;

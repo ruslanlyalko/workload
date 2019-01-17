@@ -55,6 +55,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.text_users_header) TextView mTextUsersHeader;
     @BindView(R.id.layout_results) LinearLayout mLayoutResults;
+    @BindView(R.id.layout_filters) LinearLayout mLayoutFilters;
 
     private ReportsAdapter mReportsAdapter;
     private UsersAdapter mUsersAdapter;
@@ -78,6 +79,21 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         switch (item.getItemId()) {
             case R.id.action_export:
                 startActivity(ExportActivity.getLaunchIntent(getBaseActivity()));
+                return true;
+            case R.id.action_filter:
+                if (mLayoutFilters.getVisibility() == View.VISIBLE) {
+                    mSpinnerProjects.setSelection(0);
+                    mSpinnerUsers.setSelection(0);
+                    mSpinnerStatus.setSelection(0);
+                    getPresenter().setFilter(
+                            mSpinnerProjects.getSelectedItem().toString(),
+                            mSpinnerUsers.getSelectedItem().toString(),
+                            mSpinnerStatus.getSelectedItem().toString()
+                    );
+                    mLayoutFilters.setVisibility(View.GONE);
+                } else {
+                    mLayoutFilters.setVisibility(View.VISIBLE);
+                }
                 return true;
             case R.id.action_settings:
                 startActivity(AlertsSettingsActivity.getLaunchIntent(getContext()));

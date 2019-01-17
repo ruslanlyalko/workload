@@ -13,10 +13,10 @@ public class Project extends BaseModel {
 
     private String title;
     private Date createdAt;
-    private boolean hidden;
+    private boolean isHidden;
 
     public boolean getIsHidden() {
-        return hidden;
+        return isHidden;
     }
 
     @Override
@@ -25,18 +25,18 @@ public class Project extends BaseModel {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Project project = (Project) o;
-        return hidden == project.hidden &&
+        return isHidden == project.isHidden &&
                 Objects.equals(title, project.title) &&
                 Objects.equals(createdAt, project.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, createdAt, hidden);
+        return Objects.hash(super.hashCode(), title, createdAt, isHidden);
     }
 
     public void setIsHidden(final boolean hidden) {
-        this.hidden = hidden;
+        this.isHidden = hidden;
     }
 
     public Project() {
@@ -67,7 +67,7 @@ public class Project extends BaseModel {
         super.writeToParcel(dest, flags);
         dest.writeString(this.title);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeByte(this.hidden ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isHidden ? (byte) 1 : (byte) 0);
     }
 
     protected Project(Parcel in) {
@@ -75,7 +75,7 @@ public class Project extends BaseModel {
         this.title = in.readString();
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-        this.hidden = in.readByte() != 0;
+        this.isHidden = in.readByte() != 0;
     }
 
     public static final Creator<Project> CREATOR = new Creator<Project>() {

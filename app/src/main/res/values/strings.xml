@@ -153,6 +153,8 @@
     <string name="btn_update">Update</string>
     <string name="title_add_project">Add project</string>
     <string name="text_you_ve_been_granted_edit_mode_nplease_fill_in_missed_workloads_till_the_end_of_the_day">You\'ve been granted Edit Mode. Please fill in missed workloads till the end of the day.</string>
+    <string name="menu_filter">Filter</string>
+    <string name="text_admin">Is Admin</string>
 
     <!--arrays-->
     <string-array name="departments">

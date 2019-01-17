@@ -26,9 +26,9 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     private List<Report> mReports = new ArrayList<>();
     private List<User> mUsers = new ArrayList<>();
     private Date mDate = new Date();
-    private String mProject = "-";
-    private String mUser = "-";
-    private String mStatus = "-";
+    private String mProject = "Project";
+    private String mUser = "User";
+    private String mStatus = "Status";
     private ArrayList<User> mFilteredUsers = new ArrayList<>();
     private List<String> mLoadedMonths = new ArrayList<>();
 

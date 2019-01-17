@@ -25,7 +25,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         getView().showSettings(getDataManager().getSettings());
     }
 
-    public void onSave(String name, String phone, String skype, String comments, String department, boolean isBlocked, boolean isAllowEdit, final boolean vip) {
+    public void onSave(String name, String phone, String skype, String comments, String department, boolean isBlocked, boolean isAllowEdit, final boolean vip, final boolean isAdmin) {
         getView().showProgress();
         mUser.setName(name);
         mUser.setPhone(phone);
@@ -34,6 +34,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         mUser.setDepartment(department);
         mUser.setIsBlocked(isBlocked);
         mUser.setIsVip(vip);
+        mUser.setIsAdmin(isAdmin);
         boolean sendPush = !mUser.getIsAllowEditPastReports() && isAllowEdit;
         if (sendPush && mSettings != null) {
             mUser.getPushHistory().add(new UserPush(mSettings.getDefaultPushTitle(), mSettings.getDefaultPushBody()));
