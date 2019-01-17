@@ -304,8 +304,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             case R.id.action_menu:
                 //onHomeClicked();
                 return true;
-            case R.id.action_vacations:
-                onTabSelected(TAB_VACATION);
+            case R.id.action_my_projects:
+                onTabSelected(TAB_MY_PROJECTS);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

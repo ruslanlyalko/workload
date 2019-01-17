@@ -15,6 +15,7 @@
     <string name="title_edit">Edit</string>
     <string name="title_vacations">Vacations</string>
     <string name="title_user_details">User Details</string>
+    <string name="title_project_details">Project Details</string>
     <string name="title_user_projects">User Projects</string>
     <string name="title_user_push">User Push History</string>
     <string name="title_project_users">Project Users</string>

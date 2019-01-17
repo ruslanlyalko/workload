@@ -38,7 +38,7 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/image_logo"
-            android:text="@string/title_project"
+            android:text="@string/title_projects"
             android:textAppearance="@style/TextAppearance.Subhead"
             android:textColor="?attr/colorTextDefault"
             android:textSize="17sp"

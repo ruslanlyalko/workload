@@ -3,9 +3,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_vacations"
-        android:icon="@drawable/ic_vacation"
-        android:title="@string/menu_vacations"
+        android:id="@+id/action_my_projects"
+        android:icon="@drawable/ic_projects_white"
+        android:title="@string/menu_my_projects"
         app:showAsAction="ifRoom" />
 
 </menu>

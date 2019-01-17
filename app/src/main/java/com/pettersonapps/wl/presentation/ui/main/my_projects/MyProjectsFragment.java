@@ -16,14 +16,16 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.MyProjectsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.ProjectClickListener;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.add.ProjectAddActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details.ProjectDetailsActivity;
 
 import butterknife.BindView;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implements MyProjectsView {
+public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implements MyProjectsView, ProjectClickListener {
 
     private static final String KEY_PROJECT = "project";
     private static final int RC_ADD = 101;
@@ -94,7 +96,7 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
             mEditSearch.setVisibility(View.GONE);
             return true;
         });
-        mAdapter = new MyProjectsAdapter();
+        mAdapter = new MyProjectsAdapter(this);
         mRecyclerProjects.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerProjects.setAdapter(mAdapter);
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerProjects, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
@@ -112,6 +114,11 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
     @Override
     public void showAddProjectScreen() {
         startActivityForResult(ProjectAddActivity.getLaunchIntent(getContext()), RC_ADD);
+    }
+
+    @Override
+    public void onProjectClicked(final Project project) {
+        startActivity(ProjectDetailsActivity.getLaunchIntent(getContext(), project));
     }
 
     @Override

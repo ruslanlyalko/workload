@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Project;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Ruslan Lyalko
@@ -28,8 +30,10 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
     private List<Project> mData = new ArrayList<>();
     private List<Project> mDataFiltered = new ArrayList<>();
     private String mQuery;
+    private ProjectClickListener mOnProjectClickListener;
 
-    public MyProjectsAdapter() {
+    public MyProjectsAdapter(ProjectClickListener onProjectClickListener) {
+        mOnProjectClickListener = onProjectClickListener;
     }
 
     public List<Project> getData() {
@@ -107,6 +111,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.switch_title) Switch mSwitch;
+        @BindView(R.id.text_title) TextView mTextTitle;
 
         ViewHolder(View view) {
             super(view);
@@ -114,7 +119,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
         }
 
         public void bind(final Project project) {
-            mSwitch.setText(project.getTitle());
+            mTextTitle.setText(project.getTitle());
             mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(!project.getIsHidden());
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -129,6 +134,12 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
                     pr.setIsHidden(project.getIsHidden());
                 }
             }
+        }
+
+        @OnClick(R.id.text_title)
+        void onClick() {
+            if (mOnProjectClickListener != null)
+                mOnProjectClickListener.onProjectClicked(mDataFiltered.get(getAdapterPosition()));
         }
     }
 }
