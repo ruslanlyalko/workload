@@ -19,7 +19,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
     private Project mProject;
     private Date mDate = new Date();
     private List<Report> mReports = new ArrayList<>();
-    private List<Holiday> mHolidays;
+    private List<Holiday> mHolidays = new ArrayList<>();
 
     ProjectDetailsPresenter(Project project) {
         mProject = project;
@@ -28,6 +28,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
     public void onViewReady() {
         getView().showReports(getDataManager().getAllMyReports());
         getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
+        getView().showProjectDetails(mProject);
     }
 
     public void setReports(final List<Report> reports) {
@@ -42,6 +43,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
                 mReports.add(report);
         }
         getView().showReports(mReports);
+        getView().showCalendarsEvents();
         fetchReportsForDate(mDate);
     }
 
@@ -75,5 +77,6 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
 
     public void setHolidays(final List<Holiday> holidays) {
         mHolidays = holidays;
+        getView().showCalendarsEvents();
     }
 }

@@ -21,19 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_reports"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
-
-            <View
-                android:id="@+id/divider_last_10_reports"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?attr/colorDivider" />
 
             <TextSwitcher
                 android:id="@+id/text_month"

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.Animation;
@@ -18,9 +17,7 @@ import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
-import com.pettersonapps.wl.data.models.Vacation;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.main.my_vacations.adapter.VacationsAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -39,16 +36,13 @@ import butterknife.OnClick;
 public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter> implements ProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
-    private static final int RC_USER_EDIT = 100;
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsPagerAdapter mReportsPagerAdapter;
-    private VacationsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
@@ -62,7 +56,6 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
-            showCalendarsEvents();
         });
     }
 
@@ -82,16 +75,11 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
             if (holidays == null) return;
             getPresenter().setHolidays(holidays);
             mReportsPagerAdapter.setHolidays(holidays);
-            showCalendarsEvents();
         });
     }
 
     @Override
-    public void setReportsToAdapter(final List<Vacation> vacations) {
-        mReportsAdapter.setData(vacations);
-    }
-
-    private void showCalendarsEvents() {
+    public void showCalendarsEvents() {
         mCalendarView.removeAllEvents();
         List<Report> reports = getPresenter().getReports();
         for (Report report : reports) {
@@ -104,6 +92,11 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
                     holiday.getDate().getTime()), true);
         }
         mCalendarView.invalidate();
+    }
+
+    @Override
+    public void showProjectDetails(final Project project) {
+        setToolbarTitle(project.getTitle());
     }
 
     @Override
@@ -124,9 +117,6 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_project_details);
-        mReportsAdapter = new VacationsAdapter();
-        mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerReports.setAdapter(mReportsAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
             if (mScrollView.getScrollY() == 0) {
                 mToolbar.setElevation(0);
