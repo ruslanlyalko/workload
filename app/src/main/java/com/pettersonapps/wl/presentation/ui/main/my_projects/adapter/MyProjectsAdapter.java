@@ -59,7 +59,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_project_check, parent, false);
+                .inflate(R.layout.item_my_project, parent, false);
         return new ViewHolder(v);
     }
 

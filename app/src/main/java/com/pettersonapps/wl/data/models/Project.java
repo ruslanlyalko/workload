@@ -2,7 +2,9 @@ package com.pettersonapps.wl.data.models;
 
 import android.os.Parcel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,33 +16,44 @@ public class Project extends BaseModel {
     private String title;
     private Date createdAt;
     private boolean isHidden;
+    private List<Note> notes;
 
-    public boolean getIsHidden() {
-        return isHidden;
+    public Project() {
+        createdAt = new Date();
+        notes = new ArrayList<>();
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(final List<Note> notes) {
+        this.notes = notes;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Project)) return false;
         if (!super.equals(o)) return false;
         Project project = (Project) o;
         return isHidden == project.isHidden &&
-                Objects.equals(title, project.title) &&
-                Objects.equals(createdAt, project.createdAt);
+                Objects.equals(getTitle(), project.getTitle()) &&
+                Objects.equals(getCreatedAt(), project.getCreatedAt()) &&
+                Objects.equals(getNotes(), project.getNotes());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, createdAt, isHidden);
+        return Objects.hash(super.hashCode(), getTitle(), getCreatedAt(), isHidden, getNotes());
+    }
+
+    public boolean getIsHidden() {
+        return isHidden;
     }
 
     public void setIsHidden(final boolean hidden) {
         this.isHidden = hidden;
-    }
-
-    public Project() {
-        createdAt = new Date();
     }
 
     public String getTitle() {
@@ -68,6 +81,7 @@ public class Project extends BaseModel {
         dest.writeString(this.title);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeByte(this.isHidden ? (byte) 1 : (byte) 0);
+        dest.writeTypedList(this.notes);
     }
 
     protected Project(Parcel in) {
@@ -76,6 +90,7 @@ public class Project extends BaseModel {
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         this.isHidden = in.readByte() != 0;
+        this.notes = in.createTypedArrayList(Note.CREATOR);
     }
 
     public static final Creator<Project> CREATOR = new Creator<Project>() {

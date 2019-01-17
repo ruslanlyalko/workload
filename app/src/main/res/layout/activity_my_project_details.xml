@@ -6,29 +6,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    >
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <!--include app bar-->
     <include layout="@layout/app_bar" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:id="@+id/text_add_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:paddingStart="56dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/text_add_note"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/layout_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextSwitcher
                 android:id="@+id/text_month"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginTop="12dp"
                 >
 
                 <TextView
@@ -56,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 app:statusCalendarBackgroundColor="?attr/colorBackground"
                 app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
                 app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"
@@ -75,8 +109,9 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
-
+                android:layout_height="match_parent" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    </RelativeLayout>
+
 </LinearLayout>

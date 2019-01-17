@@ -27,6 +27,7 @@ public class MyProjectsPresenter extends BasePresenter<MyProjectsView> {
 
     public void setUser(final User user) {
         mUser = user;
+        getView().showUser(mUser);
     }
 
     public void saveChanges(final List<Project> projects) {
@@ -37,5 +38,15 @@ public class MyProjectsPresenter extends BasePresenter<MyProjectsView> {
     public void addProject(final Project project) {
         mUser.getProjects().add(project);
         getDataManager().saveUser(mUser);
+    }
+
+    public void updateProject(final Project project) {
+        for (Project pr : mUser.getProjects()) {
+            if (pr.getTitle().equalsIgnoreCase(project.getTitle())) {
+                pr.setNotes(project.getNotes());
+                break;
+            }
+        }
+        getView().showUser(mUser);
     }
 }

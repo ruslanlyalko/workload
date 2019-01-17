@@ -101,6 +101,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_vacations">Vacations</string>
     <string name="menu_date">Select Date</string>
+    <string name="menu_calendar">Show/Hide Calendar</string>
     <string name="menu_email">Select Email</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_edit">Edit</string>
@@ -156,6 +157,9 @@
     <string name="text_you_ve_been_granted_edit_mode_nplease_fill_in_missed_workloads_till_the_end_of_the_day">You\'ve been granted Edit Mode. Please fill in missed workloads till the end of the day.</string>
     <string name="menu_filter">Filter</string>
     <string name="text_admin">Is Admin</string>
+    <string name="text_show_calendar">Show Calendar</string>
+    <string name="text_hide_calendar">Hide Calendar</string>
+    <string name="text_add_note">+ Add note</string>
 
     <!--arrays-->
     <string-array name="departments">

@@ -7,10 +7,15 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 
 import com.pettersonapps.wl.R;
@@ -18,6 +23,7 @@ import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details.adapter.MyNotesAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -37,12 +43,15 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     private static final String KEY_PROJECT = "project";
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.layout_calendar) LinearLayout mLayoutCalendar;
+    @BindView(R.id.recycler_notes) RecyclerView mRecyclerNotes;
+    @BindView(R.id.scroll_view) NestedScrollView mNestedScrollView;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsPagerAdapter mReportsPagerAdapter;
+    private MyNotesAdapter mAdapterNotes;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
@@ -54,9 +63,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
-        vacationReportsData.observe(this, list -> {
-            getPresenter().setReports(list);
-        });
+        vacationReportsData.observe(this, list -> getPresenter().setReports(list));
     }
 
     @Override
@@ -97,11 +104,47 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     @Override
     public void showProjectDetails(final Project project) {
         setToolbarTitle(project.getTitle());
+        mAdapterNotes.setData(project.getNotes());
+    }
+
+    @Override
+    public void addNewNote() {
+        mAdapterNotes.addNote();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_my_project_details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.action_date) {
+            if (mLayoutCalendar.getVisibility() == View.VISIBLE) {
+                mLayoutCalendar.setVisibility(View.GONE);
+                mNestedScrollView.setVisibility(View.VISIBLE);
+            } else {
+                mLayoutCalendar.setVisibility(View.VISIBLE);
+                mNestedScrollView.setVisibility(View.GONE);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected Toolbar getToolbar() {
         return mToolbar;
+    }
+
+    @Override
+    public void onBackPressed() {
+        getPresenter().setNotes(mAdapterNotes.getData());
+        Intent intent = new Intent();
+        intent.putExtra(KEY_PROJECT, getPresenter().getProject());
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 
     @Override
@@ -117,8 +160,8 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_project_details);
-        mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
-            if (mScrollView.getScrollY() == 0) {
+        mNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
+            if (mNestedScrollView.getScrollY() == 0) {
                 mToolbar.setElevation(0);
             } else {
                 mToolbar.setElevation(mElevation);
@@ -137,6 +180,9 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     }
 
     private void setupAdapter() {
+        mAdapterNotes = new MyNotesAdapter();
+        mRecyclerNotes.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerNotes.setAdapter(mAdapterNotes);
         mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
         mViewPager.setAdapter(mReportsPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -196,5 +242,10 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
         mTextMonth.setText(month);
         mPrevDateStr = month;
         mPrevDate = newDate;
+    }
+
+    @OnClick(R.id.text_add_note)
+    public void onAddClick() {
+        addNewNote();
     }
 }

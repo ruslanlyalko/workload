@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface MyProjectsView extends BaseView<MyProjectsPresenter> {
 
+    void showUser(User user);
+
     void showAddProjectScreen();
 
     void showUser(MutableLiveData<User> myUser);

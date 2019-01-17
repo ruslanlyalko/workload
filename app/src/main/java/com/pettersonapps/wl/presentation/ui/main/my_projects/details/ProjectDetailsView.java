@@ -27,4 +27,6 @@ public interface ProjectDetailsView extends BaseView<ProjectDetailsPresenter> {
     void showCalendarsEvents();
 
     void showProjectDetails(Project project);
+
+    void addNewNote();
 }

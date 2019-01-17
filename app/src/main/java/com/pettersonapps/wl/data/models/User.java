@@ -200,12 +200,12 @@ public class User extends BaseModel {
         this.comments = comments;
     }
 
-    public void setIsOldStyleCalendar(final boolean oldStyleCalendar) {
-        isOldStyleCalendar = oldStyleCalendar;
-    }
-
     public boolean getIsOldStyleCalendar() {
         return isOldStyleCalendar;
+    }
+
+    public void setIsOldStyleCalendar(final boolean oldStyleCalendar) {
+        isOldStyleCalendar = oldStyleCalendar;
     }
 
     public boolean getIsVip() {

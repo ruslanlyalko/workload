@@ -29,6 +29,7 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
 
     private static final String KEY_PROJECT = "project";
     private static final int RC_ADD = 101;
+    private static final int RC_PROJECT_DETAILS = 1002;
     @BindView(R.id.recycler_projects) RecyclerView mRecyclerProjects;
     @BindView(R.id.edit_search) SearchView mEditSearch;
     private MyProjectsAdapter mAdapter;
@@ -41,8 +42,46 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
     }
 
     @Override
+    public void showUser(User user) {
+        mAdapter.setData(user.getProjects());
+    }
+
+    @Override
+    public void showAddProjectScreen() {
+        startActivityForResult(ProjectAddActivity.getLaunchIntent(getContext()), RC_ADD);
+    }
+
+    @Override
+    public void showUser(final MutableLiveData<User> myUser) {
+        myUser.observe(this, user -> getPresenter().setUser(user));
+    }
+
+    @Override
+    public void onProjectClicked(final Project project) {
+        startActivityForResult(ProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == RC_ADD && resultCode == RESULT_OK) {
+            Project project = data.getParcelableExtra(KEY_PROJECT);
+            getPresenter().addProject(project);
+        }
+        if (requestCode == RC_PROJECT_DETAILS && resultCode == RESULT_OK) {
+            Project project = data.getParcelableExtra(KEY_PROJECT);
+            getPresenter().updateProject(project);
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_projects, menu);
+    }
+
+    @Override
+    public void onDestroyView() {
+        getPresenter().saveChanges(mAdapter.getData());
+        super.onDestroyView();
     }
 
     @Override
@@ -56,11 +95,6 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onFabClicked() {
-        getPresenter().onAddClicked();
     }
 
     @Override
@@ -104,34 +138,7 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
     }
 
     @Override
-    public void showUser(final MutableLiveData<User> myUser) {
-        myUser.observe(this, user -> {
-            getPresenter().setUser(user);
-            mAdapter.setData(user.getProjects());
-        });
-    }
-
-    @Override
-    public void showAddProjectScreen() {
-        startActivityForResult(ProjectAddActivity.getLaunchIntent(getContext()), RC_ADD);
-    }
-
-    @Override
-    public void onProjectClicked(final Project project) {
-        startActivity(ProjectDetailsActivity.getLaunchIntent(getContext(), project));
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == RC_ADD && resultCode == RESULT_OK) {
-            Project project = data.getParcelableExtra(KEY_PROJECT);
-            getPresenter().addProject(project);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        getPresenter().saveChanges(mAdapter.getData());
-        super.onDestroyView();
+    public void onFabClicked() {
+        getPresenter().onAddClicked();
     }
 }
