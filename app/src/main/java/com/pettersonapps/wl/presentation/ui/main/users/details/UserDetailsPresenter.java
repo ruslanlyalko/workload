@@ -36,6 +36,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void setReports(final List<Report> reports) {
         mReports = reports;
+        fetchReportsForDate(mDate);
         List<Report> listVacationReports = new ArrayList<>();
         SparseIntArray years = new SparseIntArray();
         for (Report report : reports) {

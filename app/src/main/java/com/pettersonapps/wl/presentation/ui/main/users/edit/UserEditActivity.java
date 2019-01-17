@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.users.edit;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.AppSettings;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -166,5 +168,14 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mSwitchAllowEdit.setChecked(user.getIsAllowEditPastReports());
         mSwitchBlocked.setChecked(user.getIsBlocked());
         mSwitchVip.setChecked(user.getIsVip());
+    }
+
+    @Override
+    public void showSettings(final MutableLiveData<AppSettings> settings) {
+        settings.observe(this, appSettings -> {
+            if (appSettings != null) {
+                getPresenter().setSettings(appSettings);
+            }
+        });
     }
 }

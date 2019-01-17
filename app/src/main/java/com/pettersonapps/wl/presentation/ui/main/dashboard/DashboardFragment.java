@@ -29,6 +29,7 @@ import com.pettersonapps.wl.presentation.ui.main.alerts.settings.AlertsSettingsA
 import com.pettersonapps.wl.presentation.ui.main.dashboard.export.ExportActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.adapter.UsersAdapter;
 import com.pettersonapps.wl.presentation.ui.main.users.details.UserDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
@@ -143,6 +144,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
             @Override
             public void onItemLongClicked(final View view, final int position) {
+                startActivity(UserEditActivity.getLaunchIntent(getContext(), mUsersAdapter.getData().get(position)));
             }
         });
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -162,7 +164,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
                 getPresenter().fetchReportsForMonth(firstDayOfNewMonth, DateUtils.getLastDateOfMonth(firstDayOfNewMonth));
-                getPresenter().fetchReports(firstDayOfNewMonth);
                 setNewDate(firstDayOfNewMonth);
             }
         });

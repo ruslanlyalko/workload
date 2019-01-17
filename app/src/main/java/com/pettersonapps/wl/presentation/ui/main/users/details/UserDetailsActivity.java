@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -74,6 +75,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsPagerAdapter mReportsPagerAdapter;
     private VacationsAdapter mReportsAdapter;
@@ -106,6 +108,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             }
             text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count).trim();
         }
+        mProgressBar.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(text))
             mTextVacations.setText(text);
         else
@@ -395,7 +398,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @OnClick(R.id.text_common)
     public void onVacationClick() {
         if (mRecyclerReports.getVisibility() == View.VISIBLE) {
-            ViewUtils.collapse(mRecyclerReports);
+            mRecyclerReports.setVisibility(View.GONE);
         } else {
             ViewUtils.expand(mRecyclerReports);
         }
