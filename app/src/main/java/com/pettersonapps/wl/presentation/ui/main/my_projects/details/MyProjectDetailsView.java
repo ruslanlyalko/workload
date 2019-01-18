@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface ProjectDetailsView extends BaseView<ProjectDetailsPresenter> {
+public interface MyProjectDetailsView extends BaseView<MyProjectDetailsPresenter> {
 
     void showReports(MutableLiveData<List<Report>> vacationReportsData);
 
@@ -29,4 +29,6 @@ public interface ProjectDetailsView extends BaseView<ProjectDetailsPresenter> {
     void showProjectDetails(Project project);
 
     void addNewNote();
+
+    void showSpentHours(int spentHours);
 }

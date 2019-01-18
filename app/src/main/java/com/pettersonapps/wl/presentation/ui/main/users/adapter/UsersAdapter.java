@@ -154,7 +154,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
             if (mShowAdditionalData) {
-                String text = String.format(Locale.US, "%s v%s %s",
+                String text = String.format(Locale.US, "%d %s v%s %s",
+                        getAdapterPosition(),
                         user.getDepartment(),
                         user.getVersion(),
                         user.getIsNightMode() ? "Night" : "");

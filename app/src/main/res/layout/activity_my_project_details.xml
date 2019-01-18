@@ -38,10 +38,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:paddingStart="56dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="0dp"
                     android:paddingBottom="6dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="64dp"
+                    android:paddingTop="6dp"
                     android:text="@string/text_add_note"
                     android:textAppearance="@style/TextAppearance.Body2"
                     android:textColor="?attr/colorTextSecondary"
@@ -54,44 +54,64 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <TextSwitcher
-                android:id="@+id/text_month"
-                android:layout_width="150dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                >
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/text_spent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="24dp"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextSecondary"
+                    android:textColor="?attr/colorTextPrimary"
                     android:textSize="15sp"
-                    tools:text="MARCH" />
+                    tools:text="8d 12h" />
 
-                <TextView
-                    android:layout_width="match_parent"
+                <TextSwitcher
+                    android:id="@+id/text_month"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextSecondary"
-                    android:textSize="15sp"
-                    tools:text="MARCH" />
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    >
 
-            </TextSwitcher>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Body2"
+                        android:textColor="?attr/colorTextSecondary"
+                        android:textSize="15sp"
+                        tools:text="MARCH" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Body2"
+                        android:textColor="?attr/colorTextSecondary"
+                        android:textSize="15sp"
+                        tools:text="MARCH" />
+
+                </TextSwitcher>
+            </LinearLayout>
 
             <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 app:statusCalendarBackgroundColor="?attr/colorBackground"
                 app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
                 app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"

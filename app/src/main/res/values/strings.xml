@@ -159,7 +159,7 @@
     <string name="text_admin">Is Admin</string>
     <string name="text_show_calendar">Show Calendar</string>
     <string name="text_hide_calendar">Hide Calendar</string>
-    <string name="text_add_note">+ Add note</string>
+    <string name="text_add_note">+ List Item</string>
 
     <!--arrays-->
     <string-array name="departments">

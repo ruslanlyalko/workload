@@ -189,7 +189,7 @@
                 android:id="@+id/text_month"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="end"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="12dp"
                 >

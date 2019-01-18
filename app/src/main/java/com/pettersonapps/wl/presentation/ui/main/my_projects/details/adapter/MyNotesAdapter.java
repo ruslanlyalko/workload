@@ -1,14 +1,16 @@
 package com.pettersonapps.wl.presentation.ui.main.my_projects.details.adapter;
 
+import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Note;
@@ -18,6 +20,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 
 /**
  * Created by Ruslan Lyalko
@@ -26,6 +31,7 @@ import butterknife.ButterKnife;
 public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHolder> {
 
     private List<Note> mData = new ArrayList<>();
+    private boolean mShowFocusOnLastItem;
 
     public MyNotesAdapter() {
     }
@@ -70,52 +76,81 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
 
     public void addNote() {
         mData.add(new Note(String.valueOf(mData.size())));
-        notifyDataSetChanged();
+        mShowFocusOnLastItem = true;
+        notifyItemInserted(mData.size() - 1);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.check_box) CheckBox mCheckBox;
         @BindView(R.id.edit_title) EditText mEditTitle;
+        @BindView(R.id.image_remove) ImageView mImageRemove;
+        private Context mContext;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            mContext = view.getContext();
         }
 
         public void bind(final Note note) {
+            mEditTitle.setTag(note);
             mEditTitle.setText(note.getTitle());
             mCheckBox.setOnCheckedChangeListener(null);
             mCheckBox.setChecked(note.getIsChecked());
             mCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                note.setIsChecked(isChecked);
-                change(note);
+                Note aNote = (Note) mEditTitle.getTag();
+                aNote.setIsChecked(isChecked);
+                change(aNote);
+                if (isChecked)
+                    mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                else
+                    mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             });
-            mEditTitle.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+            if (note.getIsChecked())
+                mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            else
+                mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            if (mShowFocusOnLastItem && getAdapterPosition() == mData.size() - 1) {
+                mShowFocusOnLastItem = false;
+                mEditTitle.requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null && !inputMethodManager.isAcceptingText()) {
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
+            }
+        }
 
-                @Override
-                public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                    note.setTitle(s.toString());
-                    change(note);
-                }
+        @OnTextChanged(R.id.edit_title)
+        void onTextChanged(CharSequence s) {
+            Note aNote = (Note) mEditTitle.getTag();
+            if (aNote == null) return;
+            aNote.setTitle(s.toString());
+            change(aNote);
+        }
 
-                @Override
-                public void afterTextChanged(final Editable s) {
-                }
-            });
+        @OnFocusChange(R.id.edit_title)
+        void onFocusChanged(boolean isFocused) {
+            mImageRemove.setVisibility(isFocused ? View.VISIBLE : View.GONE);
+        }
+
+        @OnClick(R.id.image_remove)
+        void onRemoveClicked() {
+            mData.remove(getAdapterPosition());
+            for (int i = getAdapterPosition(); i < mData.size(); i++) {
+                mData.get(i).setKey(String.valueOf(i));
+            }
+            notifyItemRemoved(getAdapterPosition());
         }
 
         private void change(final Note note) {
-            mData.get(getAdapterPosition()).setIsChecked(note.getIsChecked());
-            mData.get(getAdapterPosition()).setTitle(note.getTitle());
-//            for (Note pr : mData) {
-//                if (pr.getKey().equals(note.getKey())) {
-//                    pr.setIsChecked(note.getIsChecked());
-//                }
-//            }
+            for (Note pr : mData) {
+                if (pr.getKey().equals(note.getKey())) {
+                    pr.setIsChecked(note.getIsChecked());
+                    pr.setTitle(note.getTitle());
+                    break;
+                }
+            }
         }
     }
 }

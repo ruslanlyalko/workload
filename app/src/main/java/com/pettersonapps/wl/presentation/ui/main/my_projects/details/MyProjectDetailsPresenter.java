@@ -15,14 +15,14 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
+public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsView> {
 
     private Project mProject;
     private Date mDate = new Date();
     private List<Report> mReports = new ArrayList<>();
     private List<Holiday> mHolidays = new ArrayList<>();
 
-    ProjectDetailsPresenter(Project project) {
+    MyProjectDetailsPresenter(Project project) {
         mProject = project;
     }
 
@@ -58,15 +58,29 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
 
     public void setReports(final List<Report> reports) {
         mReports.clear();
+        int spentHours = 0;
         for (Report report : reports) {
-            if (mProject.getTitle().equals(report.getP1())
-                    || mProject.getTitle().equals(report.getP2())
-                    || mProject.getTitle().equals(report.getP3())
-                    || mProject.getTitle().equals(report.getP4())
-                    || mProject.getTitle().equals(report.getP5())
-                    || mProject.getTitle().equals(report.getP6()))
+            if (mProject.getTitle().equals(report.getP1())) {
+                spentHours += report.getT1();
                 mReports.add(report);
+            } else if (mProject.getTitle().equals(report.getP2())) {
+                spentHours += report.getT2();
+                mReports.add(report);
+            } else if (mProject.getTitle().equals(report.getP3())) {
+                spentHours += report.getT3();
+                mReports.add(report);
+            } else if (mProject.getTitle().equals(report.getP4())) {
+                spentHours += report.getT4();
+                mReports.add(report);
+            } else if (mProject.getTitle().equals(report.getP5())) {
+                spentHours += report.getT5();
+                mReports.add(report);
+            } else if (mProject.getTitle().equals(report.getP6())) {
+                spentHours += report.getT6();
+                mReports.add(report);
+            }
         }
+        getView().showSpentHours(spentHours);
         getView().showReports(mReports);
         getView().showCalendarsEvents();
         fetchReportsForDate(mDate);

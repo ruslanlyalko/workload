@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Holiday;
+import com.pettersonapps.wl.data.models.Note;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
@@ -30,6 +33,7 @@ import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,13 +43,14 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter> implements ProjectDetailsView {
+public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPresenter> implements MyProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.text_spent) TextView mTextSpent;
     @BindView(R.id.layout_calendar) LinearLayout mLayoutCalendar;
     @BindView(R.id.recycler_notes) RecyclerView mRecyclerNotes;
     @BindView(R.id.scroll_view) NestedScrollView mNestedScrollView;
@@ -56,7 +61,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     private String mPrevDateStr = "";
 
     public static Intent getLaunchIntent(final Context context, Project project) {
-        Intent intent = new Intent(context, ProjectDetailsActivity.class);
+        Intent intent = new Intent(context, MyProjectDetailsActivity.class);
         intent.putExtra(KEY_PROJECT, project);
         return intent;
     }
@@ -113,6 +118,13 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
     }
 
     @Override
+    public void showSpentHours(final int spentHours) {
+        int hours = spentHours % 8;
+        int days = (spentHours - hours) / 8;
+        mTextSpent.setText(String.format(Locale.US, "Spent: %dd %dh", days, hours));
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_my_project_details, menu);
         return super.onCreateOptionsMenu(menu);
@@ -127,6 +139,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
             } else {
                 mLayoutCalendar.setVisibility(View.VISIBLE);
                 mNestedScrollView.setVisibility(View.GONE);
+                hideKeyboard();
             }
             return true;
         }
@@ -140,7 +153,19 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public void onBackPressed() {
-        getPresenter().setNotes(mAdapterNotes.getData());
+        List<Note> data = mAdapterNotes.getData();
+        List<Note> dataToSave = new ArrayList<>();
+        for (Note note : data) {
+            note.setTitle(note.getTitle().trim());
+            if (!TextUtils.isEmpty(note.getTitle())) {
+                dataToSave.add(note);
+            }
+        }
+        for (int i = 0; i < dataToSave.size(); i++) {
+            Note n = dataToSave.get(i);
+            n.setKey(String.valueOf(i));
+        }
+        getPresenter().setNotes(dataToSave);
         Intent intent = new Intent();
         intent.putExtra(KEY_PROJECT, getPresenter().getProject());
         setResult(RESULT_OK, intent);
@@ -154,7 +179,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new ProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
+        setPresenter(new MyProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
     }
 
     @Override

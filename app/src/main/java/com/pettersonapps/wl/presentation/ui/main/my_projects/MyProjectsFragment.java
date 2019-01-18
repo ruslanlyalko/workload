@@ -18,7 +18,7 @@ import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.MyProjectsAdapter;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.ProjectClickListener;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.add.ProjectAddActivity;
-import com.pettersonapps.wl.presentation.ui.main.my_projects.details.ProjectDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details.MyProjectDetailsActivity;
 
 import butterknife.BindView;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
@@ -58,7 +58,7 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
 
     @Override
     public void onProjectClicked(final Project project) {
-        startActivityForResult(ProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
+        startActivityForResult(MyProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
     }
 
     @Override
@@ -66,10 +66,12 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
         if (requestCode == RC_ADD && resultCode == RESULT_OK) {
             Project project = data.getParcelableExtra(KEY_PROJECT);
             getPresenter().addProject(project);
+            getPresenter().saveChanges(mAdapter.getData());
         }
         if (requestCode == RC_PROJECT_DETAILS && resultCode == RESULT_OK) {
             Project project = data.getParcelableExtra(KEY_PROJECT);
             getPresenter().updateProject(project);
+            getPresenter().saveChanges(mAdapter.getData());
         }
     }
 
