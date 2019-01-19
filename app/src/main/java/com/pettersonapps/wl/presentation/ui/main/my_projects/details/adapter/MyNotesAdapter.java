@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Note;
@@ -61,7 +62,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mData.get(position));
+        holder.bind(position < mData.size() ? mData.get(position) : null);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.size() + 1;
     }
 
     public void addNote() {
@@ -85,6 +86,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
         @BindView(R.id.check_box) CheckBox mCheckBox;
         @BindView(R.id.edit_title) EditText mEditTitle;
         @BindView(R.id.image_remove) ImageView mImageRemove;
+        @BindView(R.id.text_add_note) TextView mTextAddNote;
         private Context mContext;
 
         ViewHolder(View view) {
@@ -94,6 +96,16 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
         }
 
         public void bind(final Note note) {
+            if (note == null) {
+                mCheckBox.setVisibility(View.GONE);
+                mEditTitle.setVisibility(View.GONE);
+                mImageRemove.setVisibility(View.GONE);
+                mTextAddNote.setVisibility(View.VISIBLE);
+                return;
+            }
+            mTextAddNote.setVisibility(View.GONE);
+            mCheckBox.setVisibility(View.VISIBLE);
+            mEditTitle.setVisibility(View.VISIBLE);
             mEditTitle.setTag(note);
             mEditTitle.setText(note.getTitle());
             mCheckBox.setOnCheckedChangeListener(null);
@@ -132,6 +144,11 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
         @OnFocusChange(R.id.edit_title)
         void onFocusChanged(boolean isFocused) {
             mImageRemove.setVisibility(isFocused ? View.VISIBLE : View.GONE);
+        }
+
+        @OnClick(R.id.text_add_note)
+        void onAddClicked() {
+            addNote();
         }
 
         @OnClick(R.id.image_remove)

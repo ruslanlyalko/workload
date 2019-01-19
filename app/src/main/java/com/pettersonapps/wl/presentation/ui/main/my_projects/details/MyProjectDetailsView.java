@@ -28,7 +28,5 @@ public interface MyProjectDetailsView extends BaseView<MyProjectDetailsPresenter
 
     void showProjectDetails(Project project);
 
-    void addNewNote();
-
     void showSpentHours(int spentHours);
 }

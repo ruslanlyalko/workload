@@ -4,9 +4,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -53,7 +53,6 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     @BindView(R.id.text_spent) TextView mTextSpent;
     @BindView(R.id.layout_calendar) LinearLayout mLayoutCalendar;
     @BindView(R.id.recycler_notes) RecyclerView mRecyclerNotes;
-    @BindView(R.id.scroll_view) NestedScrollView mNestedScrollView;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     private ReportsPagerAdapter mReportsPagerAdapter;
     private MyNotesAdapter mAdapterNotes;
@@ -113,11 +112,6 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     }
 
     @Override
-    public void addNewNote() {
-        mAdapterNotes.addNote();
-    }
-
-    @Override
     public void showSpentHours(final int spentHours) {
         int hours = spentHours % 8;
         int days = (spentHours - hours) / 8;
@@ -135,10 +129,11 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         if (item.getItemId() == R.id.action_date) {
             if (mLayoutCalendar.getVisibility() == View.VISIBLE) {
                 mLayoutCalendar.setVisibility(View.GONE);
-                mNestedScrollView.setVisibility(View.VISIBLE);
+                mRecyclerNotes.setVisibility(View.VISIBLE);
+                toggleElevation();
             } else {
                 mLayoutCalendar.setVisibility(View.VISIBLE);
-                mNestedScrollView.setVisibility(View.GONE);
+                mRecyclerNotes.setVisibility(View.GONE);
                 hideKeyboard();
                 mToolbar.setElevation(0);
             }
@@ -186,16 +181,23 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_project_details);
-        mNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
-            if (mNestedScrollView.getScrollY() == 0) {
-                mToolbar.setElevation(0);
-            } else {
-                mToolbar.setElevation(mElevation);
+        mRecyclerNotes.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
+                toggleElevation();
             }
         });
         setupAdapter();
         setupCalendar();
         getPresenter().onViewReady();
+    }
+
+    private void toggleElevation() {
+        if (mRecyclerNotes.canScrollVertically(-1)) {
+            mToolbar.setElevation(mElevation);
+        } else {
+            mToolbar.setElevation(0);
+        }
     }
 
     @OnClick(R.id.text_month)
@@ -268,10 +270,5 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         mTextMonth.setText(month);
         mPrevDateStr = month;
         mPrevDate = newDate;
-    }
-
-    @OnClick(R.id.text_add_note)
-    public void onAddClick() {
-        addNewNote();
     }
 }

@@ -126,7 +126,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
             if (project.getNotes().size() == 0)
                 mTextSubTitle.setText("");
             else
-                mTextSubTitle.setText(String.format(Locale.US, "(%d/%d)", getUnCheckedCount(project.getNotes()), project.getNotes().size()));
+                mTextSubTitle.setText(String.format(Locale.US, "(%d/%d)", getCheckedCount(project.getNotes()), project.getNotes().size()));
             mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(!project.getIsHidden());
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -135,7 +135,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
             });
         }
 
-        private int getUnCheckedCount(final List<Note> notes) {
+        private int getCheckedCount(final List<Note> notes) {
             int result = 0;
             for (Note note : notes) {
                 if (note.getIsChecked())
