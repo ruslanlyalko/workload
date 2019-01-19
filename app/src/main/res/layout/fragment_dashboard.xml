@@ -109,11 +109,48 @@
 
         </LinearLayout>
 
+        <android.support.design.card.MaterialCardView
+            android:id="@+id/card_holiday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_filters"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/colorCardBackground"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorStroke"
+            app:strokeWidth="1.5dp"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/text_holiday_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:drawableStart="@drawable/ic_holiday"
+                android:gravity="center_vertical"
+                android:minHeight="44dp"
+                android:paddingBottom="4dp"
+                android:paddingEnd="@dimen/padding_mini"
+                android:paddingStart="@dimen/padding_default"
+                android:paddingTop="4dp"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
+                android:textSize="15sp"
+                tools:text="Holiday Name"
+                tools:visibility="visible" />
+
+        </android.support.design.card.MaterialCardView>
+
         <LinearLayout
             android:id="@+id/layout_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_filters"
+            android:layout_below="@id/card_holiday"
             android:layout_marginTop="4dp"
             android:orientation="vertical"
             >

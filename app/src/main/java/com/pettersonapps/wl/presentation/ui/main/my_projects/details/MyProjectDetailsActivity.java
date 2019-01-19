@@ -140,6 +140,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
                 mLayoutCalendar.setVisibility(View.VISIBLE);
                 mNestedScrollView.setVisibility(View.GONE);
                 hideKeyboard();
+                mToolbar.setElevation(0);
             }
             return true;
         }

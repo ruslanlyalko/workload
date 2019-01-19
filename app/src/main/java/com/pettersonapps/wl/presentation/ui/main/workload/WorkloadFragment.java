@@ -276,7 +276,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         getPresenter().onReportDeleteClicked(mReportToDelete);
     }
 
-    @OnClick({R.id.title, R.id.text_month})
+    @OnClick({R.id.title, R.id.image_logo, R.id.text_month})
     public void onClick() {
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());

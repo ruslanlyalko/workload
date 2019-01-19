@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
+import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
@@ -26,11 +27,12 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     private List<Report> mReports = new ArrayList<>();
     private List<User> mUsers = new ArrayList<>();
     private Date mDate = new Date();
-    private String mProject = "Project";
-    private String mUser = "User";
-    private String mStatus = "Status";
+    private String mProject = KEY_PROJECT;
+    private String mUser = KEY_USER;
+    private String mStatus = KEY_STATUS;
     private ArrayList<User> mFilteredUsers = new ArrayList<>();
     private List<String> mLoadedMonths = new ArrayList<>();
+    private List<Holiday> mHolidays = new ArrayList<>();
 
     DashboardPresenter() {
     }
@@ -39,6 +41,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         getView().showSpinnerProjectsData(getDataManager().getAllProjects());
         getView().showSpinnerUsersData(getDataManager().getAllUsers());
         fetchReportsForMonth(DateUtils.getFirstDateOfMonth(new Date()), DateUtils.getLastDateOfMonth(new Date()));
+        getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
     }
 
     public void fetchReportsForMonth(final Date from, final Date to) {
@@ -88,8 +91,8 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
                     @Override
                     public void onNext(final FilterResult result) {
                         if (getView() == null) return;
-                        getView().showReportsOnCalendar(result.allReports);
-                        getView().showReportsOnList(result.todayReports);
+                        getView().showReportsOnCalendar(result.allReports, mHolidays);
+                        getView().showReportsOnList(result.todayReports, getHoliday(mDate));
                         getView().showUsersWithoutReports(result.todayUsers);
                     }
 
@@ -101,6 +104,15 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
                     public void onComplete() {
                     }
                 });
+    }
+
+    private String getHoliday(final Date date) {
+        for (Holiday holiday : mHolidays) {
+            if (DateUtils.dateEquals(holiday.getDate(), date)) {
+                return holiday.getTitle();
+            }
+        }
+        return null;
     }
 
     private FilterResult filterReportsBackground() {
@@ -158,6 +170,10 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
             if (user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
                 mFilteredUsers.add(user);
         }
+    }
+
+    public void setHolidays(final List<Holiday> holidays) {
+        mHolidays = holidays;
     }
 
     class FilterResult {

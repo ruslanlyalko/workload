@@ -72,12 +72,12 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
 
     @Override
     public void showFrom(final Date date) {
-        mInputFrom.setText(DateUtils.toStringDate(date));
+        mInputFrom.setText(DateUtils.toStringStandardDate(date));
     }
 
     @Override
     public void showTo(final Date date) {
-        mInputTo.setText(DateUtils.toStringDate(date));
+        mInputTo.setText(DateUtils.toStringStandardDate(date));
     }
 
     @Override

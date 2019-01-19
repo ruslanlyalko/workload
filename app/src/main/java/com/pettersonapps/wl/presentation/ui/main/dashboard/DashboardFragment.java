@@ -2,6 +2,7 @@ package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
+import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
@@ -56,6 +58,8 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @BindView(R.id.text_users_header) TextView mTextUsersHeader;
     @BindView(R.id.layout_results) LinearLayout mLayoutResults;
     @BindView(R.id.layout_filters) LinearLayout mLayoutFilters;
+    @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
+    @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
 
     private ReportsAdapter mReportsAdapter;
     private UsersAdapter mUsersAdapter;
@@ -246,8 +250,12 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
-    public void showReportsOnCalendar(final List<Report> reports) {
+    public void showReportsOnCalendar(final List<Report> reports, final List<Holiday> holidays) {
         mCalendarView.removeAllEvents();
+        for (Holiday holiday : holidays) {
+            mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(), R.color.bg_event_holiday),
+                    holiday.getDate().getTime()), true);
+        }
         for (Report report : reports) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
                     ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
@@ -256,9 +264,15 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
-    public void showReportsOnList(final List<Report> list) {
+    public void showReportsOnList(final List<Report> list, final String holiday) {
         mReportsAdapter.setData(list);
         mTextReportsHeader.setText(getString(R.string.text_total_filled, list.size()));
+        if (holiday != null) {
+            mCardHoliday.setVisibility(View.VISIBLE);
+            mTextHolidayName.setText(holiday);
+        } else {
+            mCardHoliday.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -273,6 +287,14 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         }
         mTextUsersHeader.setText(getString(R.string.text_users_without_reports, allUsersWithoutReports.size()));
         mUsersAdapter.setData(allUsersWithoutReports);
+    }
+
+    @Override
+    public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> allHolidays) {
+        allHolidays.observe(this, holidays -> {
+            if (holidays == null) return;
+            getPresenter().setHolidays(holidays);
+        });
     }
 
     @OnClick({R.id.title, R.id.text_month})
