@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @BindView(R.id.layout_filters) LinearLayout mLayoutFilters;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
     private ReportsAdapter mReportsAdapter;
     private UsersAdapter mUsersAdapter;
@@ -85,7 +87,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
                 startActivity(ExportActivity.getLaunchIntent(getBaseActivity()));
                 return true;
             case R.id.action_filter:
-                if (mLayoutFilters.getVisibility() == View.VISIBLE) {
+                if(mLayoutFilters.getVisibility() == View.VISIBLE) {
                     mSpinnerProjects.setSelection(0);
                     mSpinnerUsers.setSelection(0);
                     mSpinnerStatus.setSelection(0);
@@ -132,7 +134,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         AdapterView.OnItemSelectedListener tt = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mSpinnerProjects.getSelectedItem() != null
+                if(mSpinnerProjects.getSelectedItem() != null
                         && mSpinnerUsers.getSelectedItem() != null
                         && mSpinnerStatus.getSelectedItem() != null) {
                     getPresenter().setFilter(
@@ -191,8 +193,8 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     private void setNewDate(Date newDate) {
         String month = DateUtils.getMonth(newDate);
-        if (month.equals(mPrevDateStr)) return;
-        if (newDate.before(mPrevDate)) {
+        if(month.equals(mPrevDateStr)) return;
+        if(newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
             mTextMonth.setInAnimation(in);
@@ -211,7 +213,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showSpinnerProjectsData(final MutableLiveData<List<Project>> projectsData) {
         projectsData.observe(this, projects -> {
-            if (projects == null) return;
+            if(projects == null) return;
             List<String> list = new ArrayList<>();
             for (Project project : projects) {
                 list.add(project.getTitle());
@@ -227,7 +229,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showSpinnerUsersData(final MutableLiveData<List<User>> usersData) {
         usersData.observe(this, users -> {
-            if (users == null) return;
+            if(users == null) return;
             getPresenter().setUsers(users);
             List<String> list = new ArrayList<>();
             for (User user : users) {
@@ -244,7 +246,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showReports(final MutableLiveData<List<Report>> reportsData) {
         reportsData.observe(this, reports -> {
-            if (reports == null) return;
+            if(reports == null) return;
             getPresenter().setReports(reports);
         });
     }
@@ -267,7 +269,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     public void showReportsOnList(final List<Report> list, final String holiday) {
         mReportsAdapter.setData(list);
         mTextReportsHeader.setText(getString(R.string.text_total_filled, list.size()));
-        if (holiday != null) {
+        if(holiday != null) {
             mCardHoliday.setVisibility(View.VISIBLE);
             mTextHolidayName.setText(holiday);
         } else {
@@ -282,7 +284,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     @Override
     public void showUsersWithoutReports(final List<User> allUsersWithoutReports) {
-        if (allUsersWithoutReports == null) {
+        if(allUsersWithoutReports == null) {
             return;
         }
         mTextUsersHeader.setText(getString(R.string.text_users_without_reports, allUsersWithoutReports.size()));
@@ -292,9 +294,15 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> allHolidays) {
         allHolidays.observe(this, holidays -> {
-            if (holidays == null) return;
+            if(holidays == null) return;
             getPresenter().setHolidays(holidays);
         });
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+        mLayoutResults.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.title, R.id.text_month})

@@ -42,6 +42,7 @@ import java.util.TimeZone;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPresenter> implements MyProjectDetailsView {
 
@@ -83,7 +84,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     @Override
     public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> holidaysData) {
         holidaysData.observe(this, holidays -> {
-            if (holidays == null) return;
+            if(holidays == null) return;
             getPresenter().setHolidays(holidays);
             mReportsPagerAdapter.setHolidays(holidays);
         });
@@ -126,8 +127,8 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_date) {
-            if (mLayoutCalendar.getVisibility() == View.VISIBLE) {
+        if(item.getItemId() == R.id.action_date) {
+            if(mLayoutCalendar.getVisibility() == View.VISIBLE) {
                 mLayoutCalendar.setVisibility(View.GONE);
                 mRecyclerNotes.setVisibility(View.VISIBLE);
                 toggleElevation();
@@ -153,7 +154,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         List<Note> dataToSave = new ArrayList<>();
         for (Note note : data) {
             note.setTitle(note.getTitle().trim());
-            if (!TextUtils.isEmpty(note.getTitle())) {
+            if(!TextUtils.isEmpty(note.getTitle())) {
                 dataToSave.add(note);
             }
         }
@@ -193,7 +194,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     }
 
     private void toggleElevation() {
-        if (mRecyclerNotes.canScrollVertically(-1)) {
+        if(mRecyclerNotes.canScrollVertically(-1)) {
             mToolbar.setElevation(mElevation);
         } else {
             mToolbar.setElevation(0);
@@ -211,6 +212,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         mAdapterNotes = new MyNotesAdapter();
         mRecyclerNotes.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerNotes.setAdapter(mAdapterNotes);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerNotes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
         mViewPager.setAdapter(mReportsPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -255,8 +257,8 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
 
     private void setNewDate(final Date newDate) {
         String month = DateUtils.getMonth(newDate);
-        if (month.equals(mPrevDateStr)) return;
-        if (newDate.before(mPrevDate)) {
+        if(month.equals(mPrevDateStr)) return;
+        if(newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
             mTextMonth.setInAnimation(in);

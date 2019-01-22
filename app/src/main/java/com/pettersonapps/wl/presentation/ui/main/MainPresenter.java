@@ -40,18 +40,21 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void setUser(final User user, final boolean isNightMode) {
         mUser = user;
-        if (user.getVersion() == null || !user.getVersion().equals(BuildConfig.VERSION_NAME)) {
+        if(mUser.getIsAdmin()) {
+            getDataManager().getAllUsers();
+        }
+        if(user.getVersion() == null || !user.getVersion().equals(BuildConfig.VERSION_NAME)) {
             getDataManager().updateVersion();
         }
-        if (user.getToken() == null || !user.getToken().equals(FirebaseInstanceId.getInstance().getToken())) {
+        if(user.getToken() == null || !user.getToken().equals(FirebaseInstanceId.getInstance().getToken())) {
             getDataManager().updateToken();
         }
-        if (user.getIsNightMode() != isNightMode) {
+        if(user.getIsNightMode() != isNightMode) {
             getDataManager().updateNightMode(isNightMode);
         }
-        if (mUser.getIsBlocked()) {
+        if(mUser.getIsBlocked()) {
             getDataManager().isBlocked().addOnSuccessListener(checkBlocked -> {
-                if (checkBlocked.getIsBlocked()) {
+                if(checkBlocked.getIsBlocked()) {
                     getAuth().signOut();
                     getView().showErrorAndStartLoginScreen();
                 }

@@ -153,6 +153,7 @@
             android:layout_below="@id/card_holiday"
             android:layout_marginTop="4dp"
             android:orientation="vertical"
+            android:visibility="gone"
             >
 
             <TextView
@@ -203,6 +204,12 @@
                 android:nestedScrollingEnabled="false"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_holiday" />
 
         <View
             android:layout_width="match_parent"

@@ -42,7 +42,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
     }
 
     public void setData(final List<Note> data) {
-        if (mData.isEmpty()) {
+        if(mData.isEmpty()) {
             mData = data;
             notifyItemRangeInserted(0, mData.size());
         } else {
@@ -96,7 +96,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
         }
 
         public void bind(final Note note) {
-            if (note == null) {
+            if(note == null) {
                 mCheckBox.setVisibility(View.GONE);
                 mEditTitle.setVisibility(View.GONE);
                 mImageRemove.setVisibility(View.GONE);
@@ -114,20 +114,20 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
                 Note aNote = (Note) mEditTitle.getTag();
                 aNote.setIsChecked(isChecked);
                 change(aNote);
-                if (isChecked)
+                if(isChecked)
                     mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 else
                     mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             });
-            if (note.getIsChecked())
+            if(note.getIsChecked())
                 mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             else
                 mEditTitle.setPaintFlags(mEditTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            if (mShowFocusOnLastItem && getAdapterPosition() == mData.size() - 1) {
+            if(mShowFocusOnLastItem && getAdapterPosition() == mData.size() - 1) {
                 mShowFocusOnLastItem = false;
                 mEditTitle.requestFocus();
                 InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethodManager != null && !inputMethodManager.isAcceptingText()) {
+                if(inputMethodManager != null && !inputMethodManager.isAcceptingText()) {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
             }
@@ -136,7 +136,7 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
         @OnTextChanged(R.id.edit_title)
         void onTextChanged(CharSequence s) {
             Note aNote = (Note) mEditTitle.getTag();
-            if (aNote == null) return;
+            if(aNote == null) return;
             aNote.setTitle(s.toString());
             change(aNote);
         }
@@ -153,16 +153,33 @@ public class MyNotesAdapter extends RecyclerView.Adapter<MyNotesAdapter.ViewHold
 
         @OnClick(R.id.image_remove)
         void onRemoveClicked() {
+            boolean removeLastItem = false;
+            if(getAdapterPosition() == mData.size() - 1) {
+                removeLastItem = true;
+            }
+            if(removeLastItem && mData.size() == 1) {
+                InputMethodManager imm = (InputMethodManager) mEditTitle.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm != null) {
+                    imm.hideSoftInputFromWindow(mEditTitle.getWindowToken(), 0);
+                }
+            }
             mData.remove(getAdapterPosition());
             for (int i = getAdapterPosition(); i < mData.size(); i++) {
                 mData.get(i).setKey(String.valueOf(i));
             }
             notifyItemRemoved(getAdapterPosition());
+            if(removeLastItem) {
+                mShowFocusOnLastItem = true;
+                if(!mData.isEmpty()) {
+                    notifyItemChanged(mData.size() - 1);
+                }
+            }
         }
 
         private void change(final Note note) {
             for (Note pr : mData) {
-                if (pr.getKey().equals(note.getKey())) {
+                if(pr.getKey().equals(note.getKey())) {
                     pr.setIsChecked(note.getIsChecked());
                     pr.setTitle(note.getTitle());
                     break;

@@ -46,7 +46,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void fetchReportsForMonth(final Date from, final Date to) {
         String month = DateUtils.toString(from, "MMyyyy");
-        if (mLoadedMonths.contains(month)) {
+        if(mLoadedMonths.contains(month)) {
             showFilteredReports();
             return;
         }
@@ -57,6 +57,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     public void setReports(final List<Report> reports) {
         mReports.addAll(reports);
         showFilteredReports();
+        getView().hideProgress();
     }
 
     public void fetchReports(final Date date) {
@@ -66,19 +67,19 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void setFilter(final String project, final String user, final String status) {
         boolean needReload = false;
-        if (!mProject.equals(project)) {
+        if(!mProject.equals(project)) {
             mProject = project;
             needReload = true;
         }
-        if (!mUser.equals(user)) {
+        if(!mUser.equals(user)) {
             mUser = user;
             needReload = true;
         }
-        if (!mStatus.equals(status)) {
+        if(!mStatus.equals(status)) {
             mStatus = status;
             needReload = true;
         }
-        if (needReload)
+        if(needReload)
             showFilteredReports();
     }
 
@@ -90,7 +91,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
                     @Override
                     public void onNext(final FilterResult result) {
-                        if (getView() == null) return;
+                        if(getView() == null) return;
                         getView().showReportsOnCalendar(result.allReports, mHolidays);
                         getView().showReportsOnList(result.todayReports, getHoliday(mDate));
                         getView().showUsersWithoutReports(result.todayUsers);
@@ -108,7 +109,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     private String getHoliday(final Date date) {
         for (Holiday holiday : mHolidays) {
-            if (DateUtils.dateEquals(holiday.getDate(), date)) {
+            if(DateUtils.dateEquals(holiday.getDate(), date)) {
                 return holiday.getTitle();
             }
         }
@@ -123,15 +124,15 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         List<Report> todayReports = new ArrayList<>();
         List<User> usersWithoutAnyReports = new ArrayList<>(mFilteredUsers);
         for (Report report : mReports) {
-            if (report.getDate().after(from) && report.getDate().before(to))
+            if(report.getDate().after(from) && report.getDate().before(to))
                 todayReports.add(report);
-            if (!mUser.startsWith(KEY_USER) && !mUser.equalsIgnoreCase(report.getUserName())) {
+            if(!mUser.startsWith(KEY_USER) && !mUser.equalsIgnoreCase(report.getUserName())) {
                 continue;
             }
-            if (!mStatus.startsWith(KEY_STATUS) && !mStatus.equalsIgnoreCase(report.getStatus())) {
+            if(!mStatus.startsWith(KEY_STATUS) && !mStatus.equalsIgnoreCase(report.getStatus())) {
                 continue;
             }
-            if (!mProject.startsWith(KEY_PROJECT)
+            if(!mProject.startsWith(KEY_PROJECT)
                     && !((mProject.equalsIgnoreCase(report.getP1()) && report.getT1() > 0)
                     || ((mProject.equalsIgnoreCase(report.getP2()) && report.getT2() > 0))
                     || ((mProject.equalsIgnoreCase(report.getP3()) && report.getT3() > 0))
@@ -141,12 +142,12 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
                 continue;
             }
             allFilteredReports.add(report);
-            if (report.getDate().after(from) && report.getDate().before(to))
+            if(report.getDate().after(from) && report.getDate().before(to))
                 todayFilteredReports.add(report);
         }
         for (Report report : todayReports) {
             for (int i = 0; i < usersWithoutAnyReports.size(); i++) {
-                if (usersWithoutAnyReports.get(i).getKey().equals(report.getUserId())) {
+                if(usersWithoutAnyReports.get(i).getKey().equals(report.getUserId())) {
                     usersWithoutAnyReports.remove(usersWithoutAnyReports.get(i));
                 }
             }
@@ -156,7 +157,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void onReportClicked(final String userId) {
         for (User user : mUsers) {
-            if (user.getKey().equalsIgnoreCase(userId)) {
+            if(user.getKey().equalsIgnoreCase(userId)) {
                 getView().showUserDetails(user);
                 break;
             }
@@ -167,7 +168,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         mUsers = users;
         mFilteredUsers = new ArrayList<>();
         for (User user : mUsers) {
-            if (user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
+            if(user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
                 mFilteredUsers.add(user);
         }
     }
