@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
@@ -39,8 +38,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.image_logo) ImageView mImageLogo;
 
     boolean isShowedAnimation;
-    @BindView(R.id.input_layout_email) TextInputLayout mInputLayoutEmail;
-    @BindView(R.id.input_layout_password) TextInputLayout mInputLayoutPassword;
+//    @BindView(R.id.input_layout_email) TextInputLayout mInputLayoutEmail;
+//    @BindView(R.id.input_layout_password) TextInputLayout mInputLayoutPassword;
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, LoginActivity.class);
@@ -69,7 +68,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         mInputPassword.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if(actionId == EditorInfo.IME_ACTION_DONE) {
                 onLoginClick();
                 return true;
             }
@@ -81,7 +80,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onStart() {
         super.onStart();
-        if (!isShowedAnimation) {
+        if(!isShowedAnimation) {
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_login);
             mLayoutRoot.startAnimation(animation);
             Animation animationLogo = AnimationUtils.loadAnimation(this, R.anim.anim_login_logo);
@@ -97,9 +96,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void startMainScreen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillManager afm = getSystemService(AutofillManager.class);
-            if (afm != null) {
+            if(afm != null) {
                 afm.commit();
             }
         }
@@ -132,17 +131,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void errorEmptyEmail() {
-        mInputLayoutEmail.setError(getString(R.string.error_cant_be_empty));
+        mInputEmail.setError(getString(R.string.error_cant_be_empty));
     }
 
     @Override
     public void errorEmptyPassword() {
-        mInputLayoutPassword.setError(getString(R.string.error_cant_be_empty));
+        mInputPassword.setError(getString(R.string.error_cant_be_empty));
     }
 
     @Override
     public void errorWrongEmail() {
-        mInputLayoutEmail.setError(getString(R.string.error_email_badly_formatted));
+        mInputEmail.setError(getString(R.string.error_email_badly_formatted));
     }
 
     @OnClick(R.id.button_login)
@@ -152,14 +151,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnTextChanged(R.id.input_email)
     void onEmailChanged(CharSequence text) {
-        if (!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
-            mInputLayoutEmail.setError(null);
+        if(!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
+            mInputEmail.setError(null);
     }
 
     @OnTextChanged(R.id.input_password)
     void onPasswordChanged(CharSequence text) {
-        if (!TextUtils.isEmpty(text))
-            mInputLayoutPassword.setError(null);
+        if(!TextUtils.isEmpty(text))
+            mInputPassword.setError(null);
     }
 
     @OnClick(R.id.text_forgot)
