@@ -31,6 +31,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.service.PushNotificationService;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.OnProjectListListener;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.OnProjectSelectClickListener;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.adapter.ProjectSelectAdapter;
@@ -103,7 +104,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     public void onBackPressed() {
-        if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED)
+        if(mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED)
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         else
             super.onBackPressed();
@@ -145,7 +146,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                 mTouchOutSide.setAlpha(v / 2f);
                 getWindow().setStatusBarColor(adjustAlpha(ContextCompat.getColor(getContext(),
                         R.color.colorBackgroundTouchOutside), v / 2f));
-                if (v > 0.001f)
+                if(v > 0.001f)
                     mTouchOutSide.setVisibility(View.VISIBLE);
                 else
                     mTouchOutSide.setVisibility(View.GONE);
@@ -174,22 +175,22 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         mSpinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mSpinnerStatus.getSelectedItem().toString().startsWith("Day")
+                if(mSpinnerStatus.getSelectedItem().toString().startsWith("Day")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Sick")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("No")
-                        ) {
+                ) {
                     mRecyclerProjectsSelect.setVisibility(View.GONE);
                 } else {
                     mRecyclerProjectsSelect.setVisibility(View.VISIBLE);
                 }
-                if (!(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
+                if(!(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Day"))) {
-                    if (getPresenter().getReport().getDate().after(DateUtils.get1DaysForward().getTime())) {
+                    if(getPresenter().getReport().getDate().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setReportDate(new Date());
                         forceRippleAnimation(mTextFrom);
                     }
-                    if (getPresenter().getDateTo().after(DateUtils.get1DaysForward().getTime())) {
+                    if(getPresenter().getDateTo().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setDateTo(new Date());
                         forceRippleAnimation(mTextTo);
                     }
@@ -201,6 +202,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
             }
         });
         getPresenter().onViewReady();
+        PushNotificationService.removeNotifications(this);
     }
 
     @OnClick(R.id.button_save)
@@ -238,28 +240,28 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     public void showReportData(final Report report) {
         String[] statuses = getResources().getStringArray(R.array.status);
         for (int i = 0; i < statuses.length; i++) {
-            if (statuses[i].equals(report.getStatus())) {
+            if(statuses[i].equals(report.getStatus())) {
                 mSpinnerStatus.setSelection(i);
                 break;
             }
         }
         List<ProjectSelectable> list = new ArrayList<>();
-        if (report.getT1() > 0) {
+        if(report.getT1() > 0) {
             list.add(new ProjectSelectable(report.getP1(), report.getT1()));
         }
-        if (report.getT2() > 0) {
+        if(report.getT2() > 0) {
             list.add(new ProjectSelectable(report.getP2(), report.getT2()));
         }
-        if (report.getT3() > 0) {
+        if(report.getT3() > 0) {
             list.add(new ProjectSelectable(report.getP3(), report.getT3()));
         }
-        if (report.getT4() > 0) {
+        if(report.getT4() > 0) {
             list.add(new ProjectSelectable(report.getP4(), report.getT4()));
         }
-        if (report.getT5() > 0) {
+        if(report.getT5() > 0) {
             list.add(new ProjectSelectable(report.getP5(), report.getT5()));
         }
-        if (report.getT6() > 0) {
+        if(report.getT6() > 0) {
             list.add(new ProjectSelectable(report.getP6(), report.getT6()));
         }
         mProjectSelectAdapter.setData(list);
@@ -267,7 +269,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     public void showHoliday(final String holiday) {
-        if (holiday == null)
+        if(holiday == null)
             mTextHolidayName.setVisibility(View.GONE);
         else {
             mTextHolidayName.setVisibility(View.VISIBLE);
@@ -318,7 +320,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         for (int i = projects.size() - 1; i >= 0; i--) {
             Project project = projects.get(i);
             for (ProjectSelectable pr : selectedProjects) {
-                if (project.getTitle().equals(pr.getTitle())) {
+                if(project.getTitle().equals(pr.getTitle())) {
                     projects.remove(i);
                 }
             }
@@ -357,9 +359,9 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setReportDate(newDate);
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                if (!getPresenter().getUser().getIsAllowEditPastReports()) {
+                if(!getPresenter().getUser().getIsAllowEditPastReports()) {
                     datePickerDialog.setMinDate(DateUtils.get1DaysAgo());
-                    if (mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
+                    if(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                             || mSpinnerStatus.getSelectedItem().toString().startsWith("Day")) {
                         datePickerDialog.setMaxDate(DateUtils.get1MonthForward());
                     } else {
@@ -378,9 +380,9 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                     Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setDateTo(newDate);
                 }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
-                if (!getPresenter().getUser().getIsAllowEditPastReports()) {
+                if(!getPresenter().getUser().getIsAllowEditPastReports()) {
                     datePickerDialog1.setMinDate(DateUtils.get1DaysAgo());
-                    if (mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
+                    if(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                             || mSpinnerStatus.getSelectedItem().toString().startsWith("Day")) {
                         datePickerDialog1.setMaxDate(DateUtils.get1MonthForward());
                     } else {

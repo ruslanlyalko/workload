@@ -112,7 +112,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                     List<User> filteredList = new ArrayList<>();
                     for (User user : mData) {
                         if(user.getName().toLowerCase().contains(charSequence.toString().toLowerCase())
-                                || (mShowAdditionalData && user.getDepartment().toLowerCase().contains(charSequence.toString().toLowerCase()))) {
+                                || (mShowAdditionalData && user.getDepartment().toLowerCase().contains(charSequence.toString().toLowerCase()))
+                                || (mShowAdditionalData && user.getVersion().toLowerCase().contains(charSequence.toString().toLowerCase()))) {
                             filteredList.add(user);
                         }
                     }
