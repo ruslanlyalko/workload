@@ -57,7 +57,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public void setData(final List<User> data) {
         Collections.sort(data, (o1, o2) -> Boolean.compare(o1.getIsBlocked(), o2.getIsBlocked()));
-        if (mData.isEmpty()) {
+        if(mData.isEmpty()) {
             mData = data;
             mDataFiltered = data;
             notifyItemRangeInserted(0, mData.size());
@@ -65,7 +65,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mData = data;
             mDataFiltered = data;
             notifyDataSetChanged();
-            if (!TextUtils.isEmpty(mQuery))
+            if(!TextUtils.isEmpty(mQuery))
                 getFilter().filter(mQuery);
         }
     }
@@ -80,7 +80,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_user, parent, false);
-        if (mAnimation == null)
+        if(mAnimation == null)
             mAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.item_animation_fall_down);
         return new ViewHolder(v);
     }
@@ -106,12 +106,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 mQuery = charSequence.toString();
-                if (mQuery.isEmpty()) {
+                if(mQuery.isEmpty()) {
                     mDataFiltered = mData;
                 } else {
                     List<User> filteredList = new ArrayList<>();
                     for (User user : mData) {
-                        if (user.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        if(user.getName().toLowerCase().contains(charSequence.toString().toLowerCase())
+                                || (mShowAdditionalData && user.getDepartment().toLowerCase().contains(charSequence.toString().toLowerCase()))) {
                             filteredList.add(user);
                         }
                     }
@@ -153,7 +154,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
-            if (mShowAdditionalData) {
+            if(mShowAdditionalData) {
                 String text = String.format(Locale.US, "%d. %s v%s %s",
                         getAdapterPosition() + 1,
                         user.getDepartment(),
@@ -162,7 +163,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 mTextSubtitle.setText(text);
             } else
                 mTextSubtitle.setText(user.getDepartment());
-            if (!user.getIsBlocked()) {
+            if(!user.getIsBlocked()) {
                 mImageLogo.setImageResource(R.drawable.bg_oval_green);
             } else {
                 mImageLogo.setImageResource(R.drawable.bg_oval_yellow);
@@ -176,32 +177,32 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         }
 
         private String getAbbreviation(final String name) {
-            if (TextUtils.isEmpty(name)) return "";
+            if(TextUtils.isEmpty(name)) return "";
             String[] list = name.split(" ");
             String result = list[0].substring(0, 1);
-            if (list.length > 1)
+            if(list.length > 1)
                 result = result + list[1].substring(0, 1);
             return result.toUpperCase();
         }
 
         @OnClick(R.id.layout_root)
         void onClicked(View view) {
-            if (mOnItemClickListener != null)
+            if(mOnItemClickListener != null)
                 mOnItemClickListener.onItemClicked(view, getAdapterPosition());
         }
 
         @OnLongClick(R.id.layout_root)
         boolean onLongClick(View v) {
-            if (mOnItemClickListener != null)
+            if(mOnItemClickListener != null)
                 mOnItemClickListener.onItemLongClicked(v, getAdapterPosition());
             return true;
         }
 
         private void runEnterAnimation(View view, int position) {
-            if (position >= mDataFiltered.size()) {
+            if(position >= mDataFiltered.size()) {
                 return;
             }
-            if (position > mLastAnimatedPosition) {
+            if(position > mLastAnimatedPosition) {
                 mLastAnimatedPosition = position;
                 view.startAnimation(mAnimation);
             }
