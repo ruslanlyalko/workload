@@ -5,6 +5,34 @@ const nodemailer = require('nodemailer');
 
 admin.initializeApp();
 
+exports.projectWatcher = functions.database.ref('/USERS/{userId}/projects/{projectId}')
+    .onCreate((change, context) => {				
+		const project = change.val();
+		const userId = context.params.userId;
+		const usersPromise = admin.database().ref("/USERS").child(userId).once('value');
+		return usersPromise.then((snapshot)=>{
+			var user = snapshot.val();
+			return sendModeratorEmail("Project added", 
+			user.name + " just added new project " + project.title );
+		});
+});
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+exports.version = functions.database.ref('/USERS/{userId}/version')
+    .onWrite((change, context) => {		
+		const versionBefore = change.before.val();
+		const versionAfter = change.after.val();
+		const userId = context.params.userId;
+		const usersPromise = admin.database().ref("/USERS").child(userId).once('value');
+		return usersPromise.then((snapshot)=>{
+			var user = snapshot.val();
+			return sendEmail("ruslan.lyalko@gmail.com", "Version changed", 
+			user.name + " changed version from " + versionBefore + " to "+versionAfter);
+		});
+});
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -133,10 +161,8 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 // ---------------------------------------------------------------------------- 
 exports.reminder = functions.https.onRequest((request, response) => {   
 	const dateStr = moment().format("YYYYMMDD"); 
-	const dateFrom = moment(dateStr, "YYYYMMDD");
-	const hourStr = moment().tz('Europe/Kiev').format("HH");
-	const minuteStr = moment().tz('Europe/Kiev').format("mm");
 	const hourAndTimeStr = moment().tz('Europe/Kiev').format("HH:mm");
+	const hourAndTimeStr_1 = moment().tz('Europe/Kiev').add(-1,'minutes').format("HH:mm");
 	const reportsPromise = admin.database().ref("/REPORTS").orderByKey().limitToLast(300).once('value');
 	const usersPromise = admin.database().ref("/USERS").once('value');
 	const holidaysPromise = admin.database().ref("/HOLIDAYS").once('value');
@@ -153,34 +179,39 @@ exports.reminder = functions.https.onRequest((request, response) => {
 		var sentCount = 0;
 		var missedCount = 0;
 		var logText = "";
+		var logTextHtml = "";
 		usersSnap.forEach(user => {	
 			var userObj = user.val();
-			var aKey = dateStr + "_" + userObj.key;			
+			var aKey = dateStr + "_" + userObj.key;
 			if(reportsSnap.child(aKey).val()){ 
 				count  = count + 1;
-				logText = logText + "FOUND " + userObj.name + " (" + aKey+ ")\n";
+				logText = logText + "+ " + userObj.name + "("+userObj.remindMeAt+")\n";
+				logTextHtml = logTextHtml + "<p>+ " + userObj.name + " ("+userObj.remindMeAt+")</p>";
 			}else{
 				missedCount = missedCount + 1;
-				logText = logText + "MISSEDD "+ userObj.name + " (" + aKey+ ")\n";
-				if(userObj.remindMeAt){
-					if(userObj.remindMeAt === hourAndTimeStr){
-						logText = logText + "USER REMIND ME AT SETTINGS " + userObj.remindMeAt+"\n";
-						if(!userObj.isAdmin && userObj.token){
+				logText = logText + "- "+ userObj.name + "("+userObj.remindMeAt+") ";
+				logTextHtml = logTextHtml + "<p>- "+ userObj.name + " ("+userObj.remindMeAt+") ";
+				if(userObj.isVip){
+					logText = logText +"VIP";
+					logTextHtml = logTextHtml +"VIP";		
+				} else{
+					if(userObj.remindMeAt === hourAndTimeStr || userObj.remindMeAt === hourAndTimeStr_1){		
+						if(userObj.token){
 							sentCount  = sentCount + 1;
 							tokens.push(userObj.token);
+							logTextHtml = logTextHtml + "SENT"
+							logText = logText + "SENT"
 						}else{
-							logText = logText +"USER TOKEN IS EMPTY\n";
+							logText = logText +"USER OFFLINE";
+							logTextHtml = logTextHtml +"USER OFFLINE";
 						}
-					}
-				}else if(userObj.notificationHour === hourStr && minuteStr === "00"){
-					logText = logText +"USER HOUR SETTINGS " + userObj.notificationHour+"\n";
-					if(!userObj.isAdmin && userObj.token){
-						sentCount  = sentCount + 1;
-						tokens.push(userObj.token);
 					}else{
-						logText = logText +"USER TOKEN IS EMPTY\n";
+						logText = logText +"DIFFERENT TIME";
+						logTextHtml = logTextHtml +"DIFFERENT TIME";
 					}
 				}
+				logText = logText + "\n";
+				logTextHtml = logTextHtml + "</p>";
 			}
 		});
 		var payload = {
@@ -193,7 +224,7 @@ exports.reminder = functions.https.onRequest((request, response) => {
 			}			
 		}			
 		console.log("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads: " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);
-		response.send("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads : " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);	
+		response.send("Europe/Kiev = " + hourAndTimeStr + "; Filled Workloads : " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logTextHtml);	
 		return sendMessagesViaFCM(tokens, payload);		
 	});  
  });
@@ -232,8 +263,8 @@ exports.reminder = functions.https.onRequest((request, response) => {
 				logText = logText + "FOUND " + userObj.name + " (" + aKey+ ")\n";
 			}else{
 				missedCount = missedCount + 1;
-				logText = logText + "MISSEDD " + userObj.name + " (" + aKey+ ")\n";		
-				if(!userObj.isAdmin && userObj.token){
+				logText = logText + "MISSED " + userObj.name + " (" + aKey+ ")\n";		
+				if(!userObj.isVip && userObj.token){
 					sentCount  = sentCount + 1;
 					var tokens = [];
 					tokens.push(userObj.token);
@@ -359,6 +390,38 @@ exports.getProjectInfo = functions.https.onCall((data, context) => {
 						if(reportObj.userDepartment === 'Other')
 							OtherCount = OtherCount + reportObj.t4;
 					}
+					if(reportObj.t5 > 0 && reportObj.p5 === project){
+						if(reportObj.userDepartment === 'iOS')
+							iOSCount = iOSCount + reportObj.t5;
+						if(reportObj.userDepartment === 'Android')
+							AndroidCount = AndroidCount + reportObj.t5;
+						if(reportObj.userDepartment === 'Backend,Web')
+							BackendCount = BackendCount + reportObj.t5;
+						if(reportObj.userDepartment === 'Design')
+							DesignCount = DesignCount + reportObj.t5;
+						if(reportObj.userDepartment === 'PM')
+							PMCount = PMCount + reportObj.t5;
+						if(reportObj.userDepartment === 'QA')
+							QACount = QACount + reportObj.t5;
+						if(reportObj.userDepartment === 'Other')
+							OtherCount = OtherCount + reportObj.t5;
+					}
+					if(reportObj.t6 > 0 && reportObj.p6 === project){
+						if(reportObj.userDepartment === 'iOS')
+							iOSCount = iOSCount + reportObj.t6;
+						if(reportObj.userDepartment === 'Android')
+							AndroidCount = AndroidCount + reportObj.t6;
+						if(reportObj.userDepartment === 'Backend,Web')
+							BackendCount = BackendCount + reportObj.t6;
+						if(reportObj.userDepartment === 'Design')
+							DesignCount = DesignCount + reportObj.t6;
+						if(reportObj.userDepartment === 'PM')
+							PMCount = PMCount + reportObj.t6;
+						if(reportObj.userDepartment === 'QA')
+							QACount = QACount + reportObj.t6;
+						if(reportObj.userDepartment === 'Other')
+							OtherCount = OtherCount + reportObj.t6;
+					}
 				}
 			});	
 			return {
@@ -417,6 +480,8 @@ function getReportInfo(report){
 			"Project 2: "+ report.p2 + "; time: "+report.t2 + "\n"+
 			"Project 3: "+ report.p3 + "; time: "+report.t3 + "\n"+
 			"Project 4: "+ report.p4 + "; time: "+report.t4 + "\n"+
+			"Project 5: "+ report.p5 + "; time: "+report.t5 + "\n"+
+			"Project 6: "+ report.p6 + "; time: "+report.t6 + "\n"+
 			"Department: "+ report.userDepartment + "\n"+
 			"User Id: "+ report.userId + "\n";
 }
