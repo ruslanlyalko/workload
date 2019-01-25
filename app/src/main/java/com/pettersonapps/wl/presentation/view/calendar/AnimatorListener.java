@@ -2,7 +2,7 @@ package com.pettersonapps.wl.presentation.view.calendar;
 
 import android.animation.Animator;
 
-public abstract class AnimatorListener implements Animator.AnimatorListener{
+public abstract class AnimatorListener implements Animator.AnimatorListener {
 
     @Override
     public void onAnimationStart(Animator animation) {
@@ -10,7 +10,6 @@ public abstract class AnimatorListener implements Animator.AnimatorListener{
 
     @Override
     public void onAnimationEnd(Animator animation) {
-
     }
 
     @Override
@@ -20,6 +19,5 @@ public abstract class AnimatorListener implements Animator.AnimatorListener{
     @Override
     public void onAnimationRepeat(Animator animation) {
     }
-
 }
 

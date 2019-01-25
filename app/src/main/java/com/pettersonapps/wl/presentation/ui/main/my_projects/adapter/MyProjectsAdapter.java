@@ -43,7 +43,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
     }
 
     public void setData(final List<Project> data) {
-        if (mData.isEmpty()) {
+        if(mData.isEmpty()) {
             mData = data;
             mDataFiltered = data;
             notifyItemRangeInserted(0, mData.size());
@@ -51,7 +51,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
             mData = data;
             mDataFiltered = data;
             notifyDataSetChanged();
-            if (!TextUtils.isEmpty(mQuery))
+            if(!TextUtils.isEmpty(mQuery))
                 getFilter().filter(mQuery);
         }
     }
@@ -86,12 +86,12 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 mQuery = charSequence.toString();
-                if (mQuery.isEmpty()) {
+                if(mQuery.isEmpty()) {
                     mDataFiltered = mData;
                 } else {
                     List<Project> filteredList = new ArrayList<>();
                     for (Project user : mData) {
-                        if (user.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        if(user.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
                             filteredList.add(user);
                         }
                     }
@@ -123,7 +123,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
 
         public void bind(final Project project) {
             mTextTitle.setText(project.getTitle());
-            if (project.getNotes().size() == 0)
+            if(project.getNotes().size() == 0)
                 mTextSubTitle.setText("");
             else
                 mTextSubTitle.setText(String.format(Locale.US, "(%d/%d)", getCheckedCount(project.getNotes()), project.getNotes().size()));
@@ -138,7 +138,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
         private int getCheckedCount(final List<Note> notes) {
             int result = 0;
             for (Note note : notes) {
-                if (note.getIsChecked())
+                if(note.getIsChecked())
                     result += 1;
             }
             return result;
@@ -146,7 +146,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
 
         private void change(final Project project) {
             for (Project pr : mData) {
-                if (pr.getKey().equals(project.getKey())) {
+                if(pr.getKey().equals(project.getKey())) {
                     pr.setIsHidden(project.getIsHidden());
                 }
             }
@@ -154,7 +154,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
 
         @OnClick(R.id.layout_root)
         void onClick() {
-            if (mOnProjectClickListener != null)
+            if(mOnProjectClickListener != null)
                 mOnProjectClickListener.onProjectClicked(mDataFiltered.get(getAdapterPosition()));
         }
     }

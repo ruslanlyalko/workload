@@ -36,12 +36,12 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
         getView().showProgress();
         getDataManager().getProjectInfo(mProject.getTitle(), mFrom, mTo)
                 .addOnSuccessListener(projectInfo -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                     getView().showProjectInfo(projectInfo);
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                 });
     }
@@ -54,7 +54,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
 
     public void setFrom(final Date from) {
         mFrom = from;
-        if (mTo.before(mFrom)) {
+        if(mTo.before(mFrom)) {
             mTo = mFrom;
             getView().showTo(mTo);
         }
@@ -68,7 +68,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
 
     public void setTo(final Date to) {
         mTo = to;
-        if (mTo.before(mFrom)) {
+        if(mTo.before(mFrom)) {
             mFrom = mTo;
             getView().showFrom(mFrom);
         }

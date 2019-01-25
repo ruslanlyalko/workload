@@ -58,7 +58,7 @@ public class AlertsSettingsActivity extends BaseActivity<AlertsSettingsPresenter
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if (appSettings != null) {
+            if(appSettings != null) {
                 getPresenter().setSettings(appSettings);
             }
         });

@@ -19,5 +19,4 @@ public interface ProjectUsersView extends BaseView<ProjectUsersPresenter> {
     void showMyProjects(Project projects);
 
     void afterSuccessSaving();
-
 }

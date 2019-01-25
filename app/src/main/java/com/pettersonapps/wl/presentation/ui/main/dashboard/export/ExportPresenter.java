@@ -109,8 +109,8 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         try {
             String path = Environment.getExternalStorageDirectory().toString() + "/Workload";
             File directory = new File(path);
-            if (!directory.exists()) {
-                if (!directory.mkdir()) {
+            if(!directory.exists()) {
+                if(!directory.mkdir()) {
                     throw new IOException("Can't create directory!");
                 }
             }
@@ -120,7 +120,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (fos != null) {
+            if(fos != null) {
                 try {
                     fos.flush();
                     fos.close();
@@ -141,7 +141,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
 
     public void setFrom(final Date from) {
         mFrom = from;
-        if (mTo.before(mFrom)) {
+        if(mTo.before(mFrom)) {
             mTo = mFrom;
             getView().showTo(mTo);
         }
@@ -155,7 +155,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
 
     public void setTo(final Date to) {
         mTo = to;
-        if (mTo.before(mFrom)) {
+        if(mTo.before(mFrom)) {
             mFrom = mTo;
             getView().showFrom(mFrom);
         }

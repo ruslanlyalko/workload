@@ -51,7 +51,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
     @Override
     public void showUser(final MutableLiveData<User> userData) {
         userData.observe(this, user -> {
-            if (user != null) {
+            if(user != null) {
                 getPresenter().setUser(user);
                 setToolbarTitle(user.getName());
                 mInputPhone.setText(user.getPhone());
@@ -81,28 +81,28 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @OnTextChanged(R.id.input_phone)
     public void onPhoneTextChanged(CharSequence text) {
-        if (!text.toString().isEmpty()) {
+        if(!text.toString().isEmpty()) {
             mInputLayoutPhone.setError(null);
         }
     }
 
     @OnTextChanged(R.id.input_skype)
     public void onSkypeTextChanged(CharSequence text) {
-        if (!text.toString().isEmpty()) {
+        if(!text.toString().isEmpty()) {
             mInputLayoutSkype.setError(null);
         }
     }
 
     @OnTextChanged(R.id.input_password)
     public void onPasswordTextChanged(CharSequence text) {
-        if (text.toString().isEmpty() || text.toString().length() >= 6) {
+        if(text.toString().isEmpty() || text.toString().length() >= 6) {
             mInputLayoutPassword.setError(null);
         }
     }
 
     @OnTextChanged(R.id.input_password_confirm)
     public void onPasswordCTextChanged(CharSequence text) {
-        if (text.toString().isEmpty() || text.toString().equals(mInputPassword.getText().toString())) {
+        if(text.toString().isEmpty() || text.toString().equals(mInputPassword.getText().toString())) {
             mInputLayoutPasswordConfirm.setError(null);
         }
     }
@@ -110,22 +110,22 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
     @OnClick(R.id.button_save)
     public void onSaveClick() {
         boolean isEmpty = false;
-        if (TextUtils.isEmpty(mInputSkype.getText())) {
+        if(TextUtils.isEmpty(mInputSkype.getText())) {
             mInputLayoutSkype.setError(getString(R.string.error_cant_be_empty));
             mInputSkype.requestFocus();
             isEmpty = true;
         }
-        if (TextUtils.isEmpty(mInputPhone.getText())) {
+        if(TextUtils.isEmpty(mInputPhone.getText())) {
             mInputLayoutPhone.setError(getString(R.string.error_cant_be_empty));
             mInputPhone.requestFocus();
             isEmpty = true;
         }
-        if (isEmpty) return;
+        if(isEmpty) return;
         // Password
-        if (!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 6) {
+        if(!TextUtils.isEmpty(mInputPassword.getText()) && mInputPassword.getText().toString().length() < 6) {
             mInputLayoutPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
             mInputPassword.requestFocus();
-        } else if (!TextUtils.isEmpty(mInputPassword.getText()) && !mInputPassword.getText().toString().equals(mInputPasswordConfirm.getText().toString())) {
+        } else if(!TextUtils.isEmpty(mInputPassword.getText()) && !mInputPassword.getText().toString().equals(mInputPasswordConfirm.getText().toString())) {
             mInputLayoutPasswordConfirm.setError(getString(R.string.error_passwords_should_equals));
             mScrollView.postDelayed(() -> {
                 mScrollView.fullScroll(View.FOCUS_DOWN);

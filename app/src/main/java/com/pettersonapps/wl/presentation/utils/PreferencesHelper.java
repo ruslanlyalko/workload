@@ -20,7 +20,7 @@ public class PreferencesHelper {
     }
 
     public static PreferencesHelper getInstance(Context context) {
-        if (ourInstance == null)
+        if(ourInstance == null)
             ourInstance = new PreferencesHelper(context);
         return ourInstance;
     }

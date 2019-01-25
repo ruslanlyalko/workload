@@ -27,10 +27,10 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
 
     public void onViewReady() {
         Calendar lastDay = DateUtils.getYesterday();
-        if (lastDay.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        if(lastDay.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             lastDay.add(Calendar.DAY_OF_MONTH, -2);
         }
-        if (lastDay.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+        if(lastDay.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
             lastDay.add(Calendar.DAY_OF_MONTH, -1);
         }
         getView().showSettings(getDataManager().getSettings());
@@ -56,7 +56,7 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
     }
 
     private void checkReports() {
-        if (mUsers == null || mReports == null) {
+        if(mUsers == null || mReports == null) {
             getView().showUsersWithoutReports(null);
             getView().showWrongReports(null);
             getView().showProgress();
@@ -64,16 +64,16 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
         }
         List<User> listUsers = new ArrayList<>();
         for (User user : mUsers) {
-            if (user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
+            if(user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
                 listUsers.add(user);
         }
         List<Report> wrongReports = new ArrayList<>();
         for (Report report : mReports) {
-            if (!(report.getStatus().startsWith("Work"))) {//todo
+            if(!(report.getStatus().startsWith("Work"))) {//todo
                 wrongReports.add(report);
             }
             for (int i = 0; i < listUsers.size(); i++) {
-                if (listUsers.get(i).getKey().equals(report.getUserId())) {
+                if(listUsers.get(i).getKey().equals(report.getUserId())) {
                     listUsers.remove(i);
                 }
             }
@@ -99,7 +99,7 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
     public void changeEmail(final String newEmail) {
         mSettings.setNotificationEmail(newEmail);
         getDataManager().setSettings(mSettings).addOnSuccessListener(aVoid -> {
-            if (getView() != null)
+            if(getView() != null)
                 getView().showMessage("Saved");
         });
     }
@@ -114,7 +114,7 @@ public class AlertsPresenter extends BasePresenter<AlertsView> {
 
     public void onReportClicked(final String userId) {
         for (User user : mUsers) {
-            if (user.getKey().equalsIgnoreCase(userId)) {
+            if(user.getKey().equalsIgnoreCase(userId)) {
                 getView().showUserDetails(user);
                 break;
             }

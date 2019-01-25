@@ -73,12 +73,12 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-                if (charString.isEmpty()) {
+                if(charString.isEmpty()) {
                     mDataFiltered = mData;
                 } else {
                     List<Project> filteredList = new ArrayList<>();
                     for (Project user : mData) {
-                        if (user.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        if(user.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
                             filteredList.add(user);
                         }
                     }
@@ -112,7 +112,7 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
 
         @OnClick(R.id.layout_root)
         void onClicked(View view) {
-            if (mOnProjectListListener != null)
+            if(mOnProjectListListener != null)
                 mOnProjectListListener.onProjectSelected(mDataFiltered.get(getAdapterPosition()).getTitle());
         }
     }

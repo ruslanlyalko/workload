@@ -59,22 +59,22 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private Holiday getHoliday(final int position) {
-        if (position > getMaxReportsCount()) return null;
-        if (position < 0) return null;
+        if(position > getMaxReportsCount()) return null;
+        if(position < 0) return null;
         Date current = getDateByPos(position);
         for (Holiday holiday : mHolidays) {
-            if (DateUtils.dateEquals(current, holiday.getDate()))
+            if(DateUtils.dateEquals(current, holiday.getDate()))
                 return holiday;
         }
         return null;
     }
 
     public Report getReport(final int position) {
-        if (position > getMaxReportsCount()) return null;
-        if (position < 0) return null;
+        if(position > getMaxReportsCount()) return null;
+        if(position < 0) return null;
         Date current = getDateByPos(position);
         for (Report report : mReports) {
-            if (DateUtils.dateEquals(current, report.getDate()))
+            if(DateUtils.dateEquals(current, report.getDate()))
                 return report;
         }
         return null;

@@ -23,11 +23,11 @@ public class EventsContainer {
         eventsCalendar.setTimeInMillis(event.getTimeInMillis());
         String key = getKeyForCalendarEvent(eventsCalendar);
         List<Events> eventsForMonth = eventsByMonthAndYearMap.get(key);
-        if (eventsForMonth == null) {
+        if(eventsForMonth == null) {
             eventsForMonth = new ArrayList<>();
         }
         Events eventsForTargetDay = getEventDayEvent(event.getTimeInMillis());
-        if (eventsForTargetDay == null) {
+        if(eventsForTargetDay == null) {
             List<Event> events = new ArrayList<>();
             events.add(event);
             eventsForMonth.add(new Events(event.getTimeInMillis(), events));
@@ -50,7 +50,7 @@ public class EventsContainer {
 
     List<Event> getEventsFor(long epochMillis) {
         Events events = getEventDayEvent(epochMillis);
-        if (events == null) {
+        if(events == null) {
             return new ArrayList<>();
         } else {
             return events.getEvents();
@@ -66,9 +66,9 @@ public class EventsContainer {
         String keyForCalendarEvent = getKeyForCalendarEvent(eventsCalendar);
         List<Events> events = eventsByMonthAndYearMap.get(keyForCalendarEvent);
         List<Event> allEventsForMonth = new ArrayList<>();
-        if (events != null) {
+        if(events != null) {
             for (Events eve : events) {
-                if (eve != null) {
+                if(eve != null) {
                     allEventsForMonth.addAll(eve.getEvents());
                 }
             }
@@ -82,11 +82,11 @@ public class EventsContainer {
         int dayInMonth = eventsCalendar.get(Calendar.DAY_OF_MONTH);
         String keyForCalendarEvent = getKeyForCalendarEvent(eventsCalendar);
         List<Events> eventsForMonthsAndYear = eventsByMonthAndYearMap.get(keyForCalendarEvent);
-        if (eventsForMonthsAndYear != null) {
+        if(eventsForMonthsAndYear != null) {
             for (Events events : eventsForMonthsAndYear) {
                 eventsCalendar.setTimeInMillis(events.getTimeInMillis());
                 int dayInMonthFromCache = eventsCalendar.get(Calendar.DAY_OF_MONTH);
-                if (dayInMonthFromCache == dayInMonth) {
+                if(dayInMonthFromCache == dayInMonth) {
                     return events;
                 }
             }
@@ -99,13 +99,13 @@ public class EventsContainer {
         int dayInMonth = eventsCalendar.get(Calendar.DAY_OF_MONTH);
         String key = getKeyForCalendarEvent(eventsCalendar);
         List<Events> eventsForMonthAndYear = eventsByMonthAndYearMap.get(key);
-        if (eventsForMonthAndYear != null) {
+        if(eventsForMonthAndYear != null) {
             Iterator<Events> calendarDayEventIterator = eventsForMonthAndYear.iterator();
             while (calendarDayEventIterator.hasNext()) {
                 Events next = calendarDayEventIterator.next();
                 eventsCalendar.setTimeInMillis(next.getTimeInMillis());
                 int dayInMonthFromCache = eventsCalendar.get(Calendar.DAY_OF_MONTH);
-                if (dayInMonthFromCache == dayInMonth) {
+                if(dayInMonthFromCache == dayInMonth) {
                     calendarDayEventIterator.remove();
                     return;
                 }
@@ -117,10 +117,10 @@ public class EventsContainer {
         eventsCalendar.setTimeInMillis(event.getTimeInMillis());
         String key = getKeyForCalendarEvent(eventsCalendar);
         List<Events> eventsForMonthAndYear = eventsByMonthAndYearMap.get(key);
-        if (eventsForMonthAndYear != null) {
+        if(eventsForMonthAndYear != null) {
             for (Events events : eventsForMonthAndYear) {
                 int indexOfEvent = events.getEvents().indexOf(event);
-                if (indexOfEvent >= 0) {
+                if(indexOfEvent >= 0) {
                     events.getEvents().remove(indexOfEvent);
                     return;
                 }

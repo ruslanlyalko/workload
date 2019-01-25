@@ -24,7 +24,7 @@ public class AlertsSettingsPresenter extends BasePresenter<AlertsSettingsView> {
     }
 
     public void onSave(final String email, final String title, final String body, final String latestVersion, final String latestVersionIos, final boolean isSnowing) {
-        if (mSettings == null) return;
+        if(mSettings == null) return;
         mSettings.setIsSnowig(isSnowing);
         mSettings.setIsSnowing(isSnowing);
         mSettings.setNotificationEmail(email);
@@ -34,11 +34,11 @@ public class AlertsSettingsPresenter extends BasePresenter<AlertsSettingsView> {
         mSettings.setIosLatestVersion(latestVersionIos);
         getView().showProgress();
         getDataManager().setSettings(mSettings).addOnSuccessListener(aVoid -> {
-            if (getView() != null) {
+            if(getView() != null) {
                 getView().afterSaving();
             }
         }).addOnFailureListener(e -> {
-            if (getView() != null) {
+            if(getView() != null) {
                 getView().hideProgress();
                 getView().showError(e.getLocalizedMessage());
             }

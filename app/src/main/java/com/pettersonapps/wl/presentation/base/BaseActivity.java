@@ -38,24 +38,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        if (alwaysNight() || AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if(alwaysNight() || AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.AppTheme_Dark);
         }
         super.onCreate(savedInstanceState);
         int viewId = getContentView();
-        if (viewId != -1) {
+        if(viewId != -1) {
             setContentView(getContentView());
             mUnbinder = ButterKnife.bind(this);
         }
         initPresenter(getIntent());
-        if (mPresenter == null) {
+        if(mPresenter == null) {
             throw new RuntimeException("Please init presenter!");
         }
         getPresenter().attachView(this);
         setSupportActionBar(getToolbar());
-        if (hasHomeButton() && getSupportActionBar() != null) {
+        if(hasHomeButton() && getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            if (getHomeIndicator() > 0)
+            if(getHomeIndicator() > 0)
                 getSupportActionBar().setHomeAsUpIndicator(getHomeIndicator());
         }
         onViewReady(savedInstanceState);
@@ -64,7 +64,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     public void onDestroy() {
         getPresenter().detachView();
-        if (mUnbinder != null)
+        if(mUnbinder != null)
             mUnbinder.unbind();
         super.onDestroy();
     }
@@ -80,7 +80,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        if(item.getItemId() == android.R.id.home) {
             onHomeClicked();
             return true;
         }
@@ -96,13 +96,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected boolean hasHomeButton() {return true;}
 
     protected void setToolbarTitle(@StringRes int titleRes) {
-        if (getSupportActionBar() != null) {
+        if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(titleRes);
         }
     }
 
     public void setToolbarTitle(String title) {
-        if (getSupportActionBar() != null) {
+        if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
     }
@@ -121,8 +121,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected void vibrate() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (v == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(v == null) return;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             v.vibrate(200);
@@ -132,7 +132,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onFabClickedFragment() {
         FragmentManager fm = getSupportFragmentManager();
         BaseFragment frag = (BaseFragment) fm.findFragmentById(R.id.container);
-        if (frag != null) {
+        if(frag != null) {
             frag.onFabClicked();
         }
     }
@@ -140,7 +140,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onDeleteClickedFragment() {
         FragmentManager fm = getSupportFragmentManager();
         BaseFragment frag = (BaseFragment) fm.findFragmentById(R.id.container);
-        if (frag != null) {
+        if(frag != null) {
             frag.onDeleteClicked();
         }
     }
@@ -152,7 +152,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = getCurrentFocus();
-        if (imm != null && view != null)
+        if(imm != null && view != null)
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

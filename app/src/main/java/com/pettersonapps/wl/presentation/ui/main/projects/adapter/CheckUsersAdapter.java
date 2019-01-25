@@ -75,7 +75,7 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
 
     private int getIndex(List<Project> projects) {
         for (int i = 0; i < projects.size(); i++) {
-            if (projects.get(i).getTitle().equals(mCurrentProject.getTitle()))
+            if(projects.get(i).getTitle().equals(mCurrentProject.getTitle()))
                 return i;
         }
         return -1;
@@ -103,15 +103,15 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
             mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(getIndex(user.getProjects()) != -1);
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    if (getIndex(user.getProjects()) == -1) {
+                if(isChecked) {
+                    if(getIndex(user.getProjects()) == -1) {
                         user.getProjects().add(mCurrentProject);
                         Collections.sort(user.getProjects(), (p1, p2) -> p1.getTitle().compareTo(p2.getTitle()));
                         addUserToUserWithChangedProject(user);
                     }
                 } else {
                     int ind = getIndex(user.getProjects());
-                    if (ind != -1) {
+                    if(ind != -1) {
                         user.getProjects().remove(ind);
                     }
                     addUserToUserWithChangedProject(user);
@@ -122,7 +122,7 @@ public class CheckUsersAdapter extends RecyclerView.Adapter<CheckUsersAdapter.Vi
 
     private void addUserToUserWithChangedProject(final User user) {
         for (int i = 0; i < mDataChanged.size(); i++) {
-            if (mDataChanged.get(i).getName().equals(user.getName())) {
+            if(mDataChanged.get(i).getName().equals(user.getName())) {
                 mDataChanged.remove(i);
                 break;
             }

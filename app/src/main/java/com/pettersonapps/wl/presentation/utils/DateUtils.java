@@ -47,13 +47,13 @@ public class DateUtils {
 //    }
 
     public static String toStringStandardDate(final Date date) {
-        if (date == null) return "";
+        if(date == null) return "";
         return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.US).format(date);
     }
 
     public static String toStringNormalDate(final Date date) {
-        if (date == null) return "";
-        if (isCurrentYear(date))
+        if(date == null) return "";
+        if(isCurrentYear(date))
             return new SimpleDateFormat(FORMAT_NORMAL_DATE, Locale.US).format(date);
         return new SimpleDateFormat(FORMAT_NORMAL_DATE_YEAR, Locale.US).format(date);
     }
@@ -80,11 +80,11 @@ public class DateUtils {
 
     public static String toStringDateTime(Context context, final Date date) {
         String day;
-        if (isToday(date))
+        if(isToday(date))
             day = context.getString(R.string.text_today);
-        else if (isYesterday(date))
+        else if(isYesterday(date))
             day = context.getString(R.string.text_yesterday);
-        else if (isTomorrow(date))
+        else if(isTomorrow(date))
             day = context.getString(R.string.text_tomorrow);
         else day = new SimpleDateFormat(FORMAT_DATE_FULL, Locale.US).format(date);
         return String.format(Locale.US, "%s\n%s", day, toStringTime(date));
@@ -136,7 +136,7 @@ public class DateUtils {
     }
 
     public static String getMonth(final Date date) {
-        if (isCurrentYear(date))
+        if(isCurrentYear(date))
             return new SimpleDateFormat(FORMAT_MONTH, Locale.US).format(date);
         return new SimpleDateFormat(FORMAT_MONTH, Locale.US).format(date)
                 + "'" + new SimpleDateFormat(FORMAT_YEAR, Locale.US).format(date);
@@ -183,10 +183,10 @@ public class DateUtils {
     public static Calendar get1DaysAgo() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, -2);
         }
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+        if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, -1);
         }
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -233,7 +233,7 @@ public class DateUtils {
         Calendar fwd = Calendar.getInstance();
         fwd.setTime(firstWorkingDay);
         int yearInd = today.get(Calendar.YEAR) - fwd.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < fwd.get(Calendar.DAY_OF_YEAR)) {
+        if(today.get(Calendar.DAY_OF_YEAR) < fwd.get(Calendar.DAY_OF_YEAR)) {
             yearInd--;
         }
         return yearInd;
@@ -270,10 +270,10 @@ public class DateUtils {
     public static int daysBetween(Calendar day1, Calendar day2) {
         Calendar dayOne = (Calendar) day1.clone(),
                 dayTwo = (Calendar) day2.clone();
-        if (dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
+        if(dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
             return Math.abs(dayOne.get(Calendar.DAY_OF_YEAR) - dayTwo.get(Calendar.DAY_OF_YEAR));
         } else {
-            if (dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
+            if(dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
                 //swap them
                 Calendar temp = dayOne;
                 dayOne = dayTwo;
@@ -305,10 +305,10 @@ public class DateUtils {
     }
 
     public static String toStringDates(final Date from, final Date to) {
-        if (dateEquals(from, to)) {
+        if(dateEquals(from, to)) {
             return toStringNormalDate(from);
         }
-        if (isSameMonth(from, to)) {
+        if(isSameMonth(from, to)) {
             return String.format(Locale.US, "%s - %s", toString(from, "d"), toStringNormalDate(to));
         } else
             return String.format(Locale.US, "%s - %s", toString(from, "d MMM"), toStringNormalDate(to));

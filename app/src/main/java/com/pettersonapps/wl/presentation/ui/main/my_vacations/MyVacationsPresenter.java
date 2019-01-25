@@ -32,7 +32,7 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
         List<Report> listVacationReports = new ArrayList<>();
         SparseIntArray years = new SparseIntArray();
         for (Report report : reports) {
-            if (report.getStatus().startsWith("Day")
+            if(report.getStatus().startsWith("Day")
                     || report.getStatus().startsWith("Vacation")
                     || report.getStatus().startsWith("Sick")) {
                 listVacationReports.add(0, report);
@@ -41,7 +41,7 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
                 value = value + 1;
                 years.append(yearInd, value);
             }
-            if (report.getStatus().startsWith("Working")) {
+            if(report.getStatus().startsWith("Working")) {
                 listVacationReports.add(0, report);
                 int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
                 int value = years.get(yearInd);
@@ -59,13 +59,13 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
         Report prevReport = null;
         for (int i = 0; i < reports.size(); i++) {
             Report report = reports.get(i);
-            if (prevReport != null) {
-                if (DateUtils.daysBetween(prevReport.getDate(), report.getDate()) == 1
+            if(prevReport != null) {
+                if(DateUtils.daysBetween(prevReport.getDate(), report.getDate()) == 1
                         && prevReport.getStatus().equals(report.getStatus())) {
-                    if (firstReportDate == null)
+                    if(firstReportDate == null)
                         firstReportDate = prevReport.getDate();
                 } else {
-                    if (firstReportDate != null) {
+                    if(firstReportDate != null) {
                         list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
                     } else {
                         list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
@@ -75,8 +75,8 @@ public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
             }
             prevReport = report;
         }
-        if (prevReport != null)
-            if (firstReportDate != null) {
+        if(prevReport != null)
+            if(firstReportDate != null) {
                 list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
             } else {
                 list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));

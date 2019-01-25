@@ -74,7 +74,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_edit);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
-            if (mScrollView.getScrollY() == 0) {
+            if(mScrollView.getScrollY() == 0) {
                 mToolbar.setElevation(0);
             } else {
                 mToolbar.setElevation(mElevation);
@@ -85,7 +85,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-        if (TextUtils.isEmpty(mInputName.getText())) {
+        if(TextUtils.isEmpty(mInputName.getText())) {
             mInputName.setError(getString(R.string.error_cant_be_empty));
             mInputName.requestFocus();
             return;
@@ -159,7 +159,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mInputComments.setText(user.getComments());
         String[] departments = getResources().getStringArray(R.array.departments);
         for (int i = 0; i < departments.length; i++) {
-            if (departments[i].equals(user.getDepartment())) {
+            if(departments[i].equals(user.getDepartment())) {
                 mSpinnerDepartment.setSelection(i);
                 break;
             }
@@ -175,7 +175,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if (appSettings != null) {
+            if(appSettings != null) {
                 getPresenter().setSettings(appSettings);
             }
         });

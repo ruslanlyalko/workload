@@ -82,7 +82,7 @@ public class ProjectInfo implements Parcelable {
     }
 
     public ProjectInfo(Object object) {
-        if (object instanceof HashMap) {
+        if(object instanceof HashMap) {
             HashMap<String, Object> hashMap = (HashMap<String, Object>) object;
             iOS = (Integer) hashMap.get("iOS");
             Android = (Integer) hashMap.get("Android");

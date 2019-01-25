@@ -77,8 +77,8 @@ public class AppSettings implements Parcelable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
         AppSettings that = (AppSettings) o;
         return isSnowing == that.isSnowing &&
                 Objects.equals(notificationEmail, that.notificationEmail);

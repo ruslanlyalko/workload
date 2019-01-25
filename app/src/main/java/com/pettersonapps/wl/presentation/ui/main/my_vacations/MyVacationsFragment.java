@@ -89,7 +89,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     }
 
     private String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) {
+        if(n >= 11 && n <= 13) {
             return "th";
         }
         switch (n % 10) {

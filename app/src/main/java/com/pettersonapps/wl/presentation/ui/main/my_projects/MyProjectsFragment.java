@@ -63,12 +63,12 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == RC_ADD && resultCode == RESULT_OK) {
+        if(requestCode == RC_ADD && resultCode == RESULT_OK) {
             Project project = data.getParcelableExtra(KEY_PROJECT);
             getPresenter().addProject(project);
             getPresenter().saveChanges(mAdapter.getData());
         }
-        if (requestCode == RC_PROJECT_DETAILS && resultCode == RESULT_OK) {
+        if(requestCode == RC_PROJECT_DETAILS && resultCode == RESULT_OK) {
             Project project = data.getParcelableExtra(KEY_PROJECT);
             getPresenter().updateProject(project);
             getPresenter().saveChanges(mAdapter.getData());

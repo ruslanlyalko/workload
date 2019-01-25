@@ -68,22 +68,22 @@ public class UserAddActivity extends BaseActivity<UserAddPresenter> implements U
 
     @OnClick(R.id.button_register)
     public void onSaveClick() {
-        if (TextUtils.isEmpty(mInputName.getText())) {
+        if(TextUtils.isEmpty(mInputName.getText())) {
             mInputName.setError(getString(R.string.error_cant_be_empty));
             mInputName.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(mInputEmail.getText())) {
+        if(TextUtils.isEmpty(mInputEmail.getText())) {
             mInputEmail.setError(getString(R.string.error_cant_be_empty));
             mInputEmail.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(mInputPassword.getText())) {
+        if(TextUtils.isEmpty(mInputPassword.getText())) {
             mInputPassword.setError(getString(R.string.error_cant_be_empty));
             mInputPassword.requestFocus();
             return;
         }
-        if (mInputPassword.getText().toString().length() < 6) {
+        if(mInputPassword.getText().toString().length() < 6) {
             mInputPassword.setError(getString(R.string.error_passwords_should_be_at_least_6_symbols));
             mInputPassword.requestFocus();
             return;

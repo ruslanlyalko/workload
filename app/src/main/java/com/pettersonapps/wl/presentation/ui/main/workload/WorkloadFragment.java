@@ -91,8 +91,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     private void setNewDate(Date newDate) {
         String month = DateUtils.getMonth(newDate);
-        if (month.equals(mPrevDateStr)) return;
-        if (newDate.before(mPrevDate)) {
+        if(month.equals(mPrevDateStr)) return;
+        if(newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
             mTextMonth.setInAnimation(in);
@@ -111,12 +111,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showUser(final MutableLiveData<User> userData) {
         userData.observe(this, user -> {
-            if (user == null) return;
+            if(user == null) return;
             getPresenter().setUser(user);
             Date date = new Date(PreferencesHelper.getInstance(getContext()).getHideEditModeMessageDate());
             mCardEditMode.setVisibility(user.getIsAllowEditPastReports() && !DateUtils.dateEquals(date, new Date()) ? View.VISIBLE : View.GONE);
             mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
-            if (user.getIsOldStyleCalendar()) {
+            if(user.getIsOldStyleCalendar()) {
                 mCalendarView.setEventIndicatorStyle(StatusCalendarView.SMALL_INDICATOR);
 //                mCalendarView.setTargetHeight(mTargetHeight);
             } else mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
@@ -126,7 +126,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showReportsOnCalendar(final MutableLiveData<List<Report>> reportsData) {
         reportsData.observe(this, reports -> {
-            if (reports == null) return;
+            if(reports == null) return;
             getPresenter().setReports(reports);
             mReportsPagerAdapter.setReports(reports);
             showCalendarsEvents();
@@ -136,7 +136,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> holidaysData) {
         holidaysData.observe(this, holidays -> {
-            if (holidays == null) return;
+            if(holidays == null) return;
             getPresenter().setHolidays(holidays);
             mReportsPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
@@ -145,7 +145,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     public void showReports(List<Report> reports, final Date date) {
-        if ((reports == null || reports.isEmpty())
+        if((reports == null || reports.isEmpty())
                 && ((getPresenter().getIsAllowEditPastReports() && date.after(DateUtils.get1YearAgo().getTime())) ||
                 (getPresenter().getDate().after(DateUtils.get1DaysAgo().getTime())
                         && getPresenter().getDate().before(DateUtils.get1MonthForward().getTime()))))
@@ -189,7 +189,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if (appSettings != null)
+            if(appSettings != null)
                 mSnowfall.setVisibility(appSettings.getIsSnowing() ? View.VISIBLE : View.INVISIBLE);
         });
     }
@@ -256,7 +256,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             mImageLogo.setImageResource(R.drawable.ic_logo_night);
         } else {
             mImageLogo.setImageResource(R.drawable.ic_logo_white);
@@ -291,19 +291,19 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     public void onReportClicked(final Report report) {
-        if (report != null)
+        if(report != null)
             getPresenter().onReportClicked(report);
     }
 
     @Override
     public void onReportCopyClicked(final Report report) {
-        if (report != null)
+        if(report != null)
             getPresenter().onReportCopyClicked(report);
     }
 
     @Override
     public void onReportRemoveClicked(final Report report) {
-        if (report != null) {
+        if(report != null) {
             ((MainActivity) getBaseActivity()).onShowDeleteMenu();
             mReportToDelete = report;
         }

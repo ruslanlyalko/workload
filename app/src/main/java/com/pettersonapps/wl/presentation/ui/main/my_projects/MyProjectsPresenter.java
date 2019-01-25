@@ -42,7 +42,7 @@ public class MyProjectsPresenter extends BasePresenter<MyProjectsView> {
 
     public void updateProject(final Project project) {
         for (Project pr : mUser.getProjects()) {
-            if (pr.getTitle().equalsIgnoreCase(project.getTitle())) {
+            if(pr.getTitle().equalsIgnoreCase(project.getTitle())) {
                 pr.setNotes(project.getNotes());
                 break;
             }

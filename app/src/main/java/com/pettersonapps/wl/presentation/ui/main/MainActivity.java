@@ -97,7 +97,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 //                    if (deltaY > MIN_DISTANCE) {
 //                        // top2bottom
 //                    } else
-                    if (deltaY < (0 - MIN_DISTANCE)) {
+                    if(deltaY < (0 - MIN_DISTANCE)) {
                         onHomeClicked();
                     }
 //                    else {
@@ -138,7 +138,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     public void showUser(final MutableLiveData<User> myUserData) {
         myUserData.observe(this, user -> {
             getPresenter().setUser(user, AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
-            if (user == null) return;
+            if(user == null) return;
             mTextTitle.setText(user.getName());
             mTextSubtitle.setText(user.getEmail());
             mTextLetters.setText(getAbbreviation(user.getName()));
@@ -250,12 +250,12 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     public void onTabSelected(int tabId) {
-        if (mCurFragment != null) {
+        if(mCurFragment != null) {
             pushFragmentToBackStack(mCurTabId, mCurFragment);
         }
         mCurTabId = tabId;
         Fragment fragment = popFragmentFromBackStack(mCurTabId);
-        if (fragment == null) {
+        if(fragment == null) {
             fragment = rootTabFragment(mCurTabId);
         }
         replaceFragment(fragment);
@@ -290,10 +290,10 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     private String getAbbreviation(final String name) {
-        if (TextUtils.isEmpty(name)) return "";
+        if(TextUtils.isEmpty(name)) return "";
         String[] list = name.split(" ");
         String result = list[0].substring(0, 1);
-        if (list.length > 1)
+        if(list.length > 1)
             result = result + list[1].substring(0, 1);
         return result.toUpperCase();
     }
@@ -319,11 +319,11 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     public void onBackPressed() {
-        if (mSheetBehaviorLogout.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        if(mSheetBehaviorLogout.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        } else if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        } else if(mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        } else if (mSheetBehaviorDelete.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+        } else if(mSheetBehaviorDelete.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
             mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
 //            Pair<Integer, Fragment> pair = popFragmentFromBackStack();
@@ -332,7 +332,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 //                assert pair.second != null;
 //                backTo(pair.first, pair.second);
 //            } else
-            if (mCurTabId != TAB_WORKLOAD) {
+            if(mCurTabId != TAB_WORKLOAD) {
                 onTabSelected(TAB_WORKLOAD);
             } else
                 super.onBackPressed();
@@ -373,7 +373,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 mTouchOutSide.setAlpha(v / 2f);
                 getWindow().setStatusBarColor(adjustAlpha(ContextCompat.getColor(getContext(),
                         R.color.colorBackgroundTouchOutside), v / 2f));
-                if (v > 0.001f)
+                if(v > 0.001f)
                     mTouchOutSide.setVisibility(View.VISIBLE);
                 else
                     mTouchOutSide.setVisibility(View.GONE);
@@ -383,7 +383,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
         mSheetBehaviorLogout.setBottomSheetCallback(bottomSheetCallback);
         getPresenter().onViewReady();
-        if (state == null) {
+        if(state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
             showFragment(rootTabFragment(mCurTabId));
         }
@@ -406,14 +406,14 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     public void showFragment(@NonNull Fragment fragment, boolean addToBackStack) {
-        if (mCurFragment != null && addToBackStack) {
+        if(mCurFragment != null && addToBackStack) {
             pushFragmentToBackStack(mCurTabId, mCurFragment);
         }
         replaceFragment(fragment);
     }
 
     private void backTo(int tabId, @NonNull Fragment fragment) {
-        if (tabId != mCurTabId) {
+        if(tabId != mCurTabId) {
             mCurTabId = tabId;
             //select tab
         }
@@ -422,7 +422,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     private void backToRoot() {
-        if (isRootTabFragment(mCurFragment, mCurTabId)) {
+        if(isRootTabFragment(mCurFragment, mCurTabId)) {
             return;
         }
         resetBackStackToRoot(mCurTabId);

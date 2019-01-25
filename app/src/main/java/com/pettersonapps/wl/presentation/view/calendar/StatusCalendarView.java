@@ -70,8 +70,8 @@ public class StatusCalendarView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (shouldScroll) {
-                if (Math.abs(distanceX) > 0) {
+            if(shouldScroll) {
+                if(Math.abs(distanceX) > 0) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                     compactCalendarController.onScroll(e1, e2, distanceX, distanceY);
                     invalidate();
@@ -219,7 +219,7 @@ public class StatusCalendarView extends View {
      */
     public void addEvent(Event event, boolean shouldInvalidate) {
         compactCalendarController.addEvent(event);
-        if (shouldInvalidate) {
+        if(shouldInvalidate) {
             invalidate();
         }
     }
@@ -305,7 +305,7 @@ public class StatusCalendarView extends View {
      */
     public void removeEvent(Event event, boolean shouldInvalidate) {
         compactCalendarController.removeEvent(event);
-        if (shouldInvalidate) {
+        if(shouldInvalidate) {
             invalidate();
         }
     }
@@ -346,7 +346,7 @@ public class StatusCalendarView extends View {
     }
 
     private void checkTargetHeight() {
-        if (compactCalendarController.getTargetHeight() <= 0) {
+        if(compactCalendarController.getTargetHeight() <= 0) {
             throw new IllegalStateException("Target height must be set in xml properties in order to expand/collapse StatusCalendar.");
         }
     }
@@ -409,7 +409,7 @@ public class StatusCalendarView extends View {
         super.onMeasure(parentWidth, parentHeight);
         int width = MeasureSpec.getSize(parentWidth);
         int height = MeasureSpec.getSize(parentHeight);
-        if (width > 0 && height > 0) {
+        if(width > 0 && height > 0) {
             compactCalendarController.onMeasure(width, width, getPaddingRight(), getPaddingLeft());
         }
         setMeasuredDimension(width, width);
@@ -423,7 +423,7 @@ public class StatusCalendarView extends View {
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (compactCalendarController.computeScroll()) {
+        if(compactCalendarController.computeScroll()) {
             invalidate();
         }
     }
@@ -433,12 +433,12 @@ public class StatusCalendarView extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if (shouldScroll) {
+        if(shouldScroll) {
             compactCalendarController.onTouch(event);
             invalidate();
         }
         // on touch action finished (CANCEL or UP), we re-allow the parent container to intercept touch events (scroll inside ViewPager + RecyclerView issue #82)
-        if ((event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) && shouldScroll) {
+        if((event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) && shouldScroll) {
             getParent().requestDisallowInterceptTouchEvent(false);
         }
         // always allow gestureDetector to detect onSingleTap and scroll events

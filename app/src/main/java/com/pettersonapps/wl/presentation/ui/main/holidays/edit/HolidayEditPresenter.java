@@ -12,7 +12,7 @@ public class HolidayEditPresenter extends BasePresenter<HolidayEditView> {
     private final Holiday mHoliday;
 
     HolidayEditPresenter(Holiday holiday) {
-        if (holiday == null)
+        if(holiday == null)
             holiday = new Holiday();
         mHoliday = holiday;
     }
@@ -26,11 +26,11 @@ public class HolidayEditPresenter extends BasePresenter<HolidayEditView> {
         getView().showProgress();
         getDataManager().saveHoliday(mHoliday)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving();
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                 });
     }
@@ -42,7 +42,7 @@ public class HolidayEditPresenter extends BasePresenter<HolidayEditView> {
     public void removeHoliday() {
         getDataManager().deleteHoliday(mHoliday)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving();
                 });
     }

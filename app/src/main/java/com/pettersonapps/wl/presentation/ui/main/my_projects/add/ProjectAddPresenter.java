@@ -33,12 +33,12 @@ public class ProjectAddPresenter extends BasePresenter<ProjectAddView> {
     }
 
     public void onSave(final String title) {
-        if (getProjectByName(title, mUser.getProjects()) != null) {
+        if(getProjectByName(title, mUser.getProjects()) != null) {
             getView().showError("You have already added this project");
             return;
         }
         Project project = getProjectByName(title, mProjects);
-        if (project == null) {
+        if(project == null) {
             getView().showError("Project not found!");
         } else {
             getView().afterSuccessfullySaving(project);
@@ -47,7 +47,7 @@ public class ProjectAddPresenter extends BasePresenter<ProjectAddView> {
 
     private Project getProjectByName(final String title, List<Project> projects) {
         for (Project project : projects) {
-            if (project.getTitle().replaceAll(" ", "").equalsIgnoreCase(title.replaceAll(" ", ""))) {
+            if(project.getTitle().replaceAll(" ", "").equalsIgnoreCase(title.replaceAll(" ", ""))) {
                 return project;
             }
         }

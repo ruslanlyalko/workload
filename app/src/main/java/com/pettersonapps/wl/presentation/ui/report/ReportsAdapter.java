@@ -123,10 +123,10 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         }
 
         private Spanned getFormattedText(final String name, final float time) {
-            if (TextUtils.isEmpty(name)) return SpannableString.valueOf("");
+            if(TextUtils.isEmpty(name)) return SpannableString.valueOf("");
             String timeStr = String.format(Locale.US, "%.0fh", time);
             float ex = time % 1;
-            if (ex != 0) {
+            if(ex != 0) {
                 timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
             }
             return Html.fromHtml("<b>" + name + "</b> " + timeStr);
@@ -134,7 +134,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
 
         @OnClick(R.id.layout_root)
         void onClick() {
-            if (mReportClickListener != null) {
+            if(mReportClickListener != null) {
                 mReportClickListener.onReportClicked(getData().get(getAdapterPosition()));
             }
         }

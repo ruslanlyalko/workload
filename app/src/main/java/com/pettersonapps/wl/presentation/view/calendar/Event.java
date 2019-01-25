@@ -34,15 +34,12 @@ public class Event {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-
-        if (color != event.color) return false;
-        if (timeInMillis != event.timeInMillis) return false;
-        if (data != null ? !data.equals(event.data) : event.data != null) return false;
-
+        if(color != event.color) return false;
+        if(timeInMillis != event.timeInMillis) return false;
+        if(data != null ? !data.equals(event.data) : event.data != null) return false;
         return true;
     }
 

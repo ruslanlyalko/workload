@@ -103,13 +103,13 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         for (int i = 0; i < years.size(); i++) {
             String day = (years.keyAt(i) + 1) + getDayOfMonthSuffix(years.keyAt(i) + 1);
             int count = years.get(years.keyAt(i));
-            if (!text.isEmpty()) {
+            if(!text.isEmpty()) {
                 text = text + "\n";
             }
             text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count).trim();
         }
         mProgressBar.setVisibility(View.GONE);
-        if (!TextUtils.isEmpty(text))
+        if(!TextUtils.isEmpty(text))
             mTextVacations.setText(text);
         else
             mTextVacations.setText(R.string.text_no_vacations);
@@ -119,21 +119,21 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showUserDetails(final User user) {
         mTextName.setText(String.format("%s / %s %s", user.getName(), user.getDepartment(), user.getIsBlocked() ? " (Blocked)" : ""));
         mTextEmail.setText(user.getEmail());
-        if (TextUtils.isEmpty(user.getPhone())) {
+        if(TextUtils.isEmpty(user.getPhone())) {
             mTextPhone.setText(R.string.text_not_specified);
             mTextPhone.setVisibility(View.GONE);
         } else {
             mTextPhone.setVisibility(View.VISIBLE);
             mTextPhone.setText(user.getPhone());
         }
-        if (TextUtils.isEmpty(user.getSkype())) {
+        if(TextUtils.isEmpty(user.getSkype())) {
             mTextSkype.setVisibility(View.GONE);
             mTextSkype.setText(R.string.text_not_specified);
         } else {
             mTextSkype.setVisibility(View.VISIBLE);
             mTextSkype.setText(user.getSkype());
         }
-        if (TextUtils.isEmpty(user.getComments())) {
+        if(TextUtils.isEmpty(user.getComments())) {
             mTextComments.setVisibility(View.GONE);
             mDividerComments.setVisibility(View.GONE);
         } else {
@@ -143,12 +143,12 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         }
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
-        if (user.getProjects().isEmpty()) {
+        if(user.getProjects().isEmpty()) {
             mTextProjects.setText(R.string.placeholder_no_projects);
         } else {
             String projects = "";
             for (Project p : user.getProjects()) {
-                if (!projects.isEmpty()) projects = projects.concat(", ");
+                if(!projects.isEmpty()) projects = projects.concat(", ");
                 projects = projects.concat(p.getTitle());
             }
             mTextProjects.setText(projects);
@@ -163,7 +163,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     public void showHolidaysOnCalendar(final MutableLiveData<List<Holiday>> holidaysData) {
         holidaysData.observe(this, holidays -> {
-            if (holidays == null) return;
+            if(holidays == null) return;
             getPresenter().setHolidays(holidays);
             mReportsPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
@@ -191,7 +191,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     private String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) {
+        if(n >= 11 && n <= 13) {
             return "th";
         }
         switch (n % 10) {
@@ -217,7 +217,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             case R.id.text_name:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(getPresenter().getUser().getName(), getPresenter().getUser().getName());
-                if (clipboard != null) {
+                if(clipboard != null) {
                     clipboard.setPrimaryClip(clip);
                     showMessage(getString(R.string.text_copied));
                 }
@@ -225,21 +225,21 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
             case R.id.text_email:
                 ClipboardManager clipboard1 = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip1 = ClipData.newPlainText(getPresenter().getUser().getEmail(), getPresenter().getUser().getEmail());
-                if (clipboard1 != null) {
+                if(clipboard1 != null) {
                     clipboard1.setPrimaryClip(clip1);
                     showMessage(getString(R.string.text_copied));
                 }
                 break;
             case R.id.text_phone:
                 String tel = getPresenter().getUser().getPhone();
-                if (TextUtils.isEmpty(tel)) return;
+                if(TextUtils.isEmpty(tel)) return;
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + tel));
                 startActivity(intent);
                 break;
             case R.id.text_skype:
                 String skype = getPresenter().getUser().getSkype();
-                if (TextUtils.isEmpty(skype)) return;
+                if(TextUtils.isEmpty(skype)) return;
                 Intent intentSkype = new Intent(Intent.ACTION_VIEW);
                 intentSkype.setData(Uri.parse("skype:" + skype + "?chat"));
                 startActivity(intentSkype);
@@ -249,8 +249,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        if (requestCode == RC_USER_EDIT && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra(KEY_USER))
+        if(requestCode == RC_USER_EDIT && resultCode == RESULT_OK) {
+            if(data != null && data.hasExtra(KEY_USER))
                 getPresenter().setUser(data.getParcelableExtra(KEY_USER));
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -264,15 +264,15 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_user_projects) {
+        if(item.getItemId() == R.id.action_user_projects) {
             onProjectsClicked();
             return true;
         }
-        if (item.getItemId() == R.id.action_edit) {
+        if(item.getItemId() == R.id.action_edit) {
             startActivityForResult(UserEditActivity.getLaunchIntent(this, getPresenter().getUser()), RC_USER_EDIT);
             return true;
         }
-        if (item.getItemId() == R.id.action_user_push) {
+        if(item.getItemId() == R.id.action_user_push) {
             startActivity(UserPushActivity.getLaunchIntent(this, getPresenter().getUser()));
             return true;
         }
@@ -323,7 +323,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerReports.setAdapter(mReportsAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
-            if (mScrollView.getScrollY() == 0) {
+            if(mScrollView.getScrollY() == 0) {
                 mToolbar.setElevation(0);
             } else {
                 mToolbar.setElevation(mElevation);
@@ -386,8 +386,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     private void setNewDate(final Date newDate) {
         String month = DateUtils.getMonth(newDate);
-        if (month.equals(mPrevDateStr)) return;
-        if (newDate.before(mPrevDate)) {
+        if(month.equals(mPrevDateStr)) return;
+        if(newDate.before(mPrevDate)) {
             Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
             mTextMonth.setInAnimation(in);
@@ -405,7 +405,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @OnClick(R.id.text_common)
     public void onVacationClick() {
-        if (mRecyclerReports.getVisibility() == View.VISIBLE) {
+        if(mRecyclerReports.getVisibility() == View.VISIBLE) {
             mRecyclerReports.setVisibility(View.GONE);
         } else {
             ViewUtils.expand(mRecyclerReports);

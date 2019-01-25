@@ -15,7 +15,7 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
     private AppSettings mSettings;
 
     UserEditPresenter(User user) {
-        if (user == null)
+        if(user == null)
             throw new RuntimeException("User can't be empty");
         mUser = user;
     }
@@ -36,17 +36,17 @@ public class UserEditPresenter extends BasePresenter<UserEditView> {
         mUser.setIsVip(vip);
         mUser.setIsAdmin(isAdmin);
         boolean sendPush = !mUser.getIsAllowEditPastReports() && isAllowEdit;
-        if (sendPush && mSettings != null) {
+        if(sendPush && mSettings != null) {
             mUser.getPushHistory().add(new UserPush(mSettings.getDefaultPushTitle(), mSettings.getDefaultPushBody()));
         }
         mUser.setIsAllowEditPastReports(isAllowEdit);
         getDataManager().saveUser(mUser)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving(mUser);
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                 });
     }

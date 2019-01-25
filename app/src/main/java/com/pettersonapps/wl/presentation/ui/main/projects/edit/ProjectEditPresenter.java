@@ -12,7 +12,7 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
     private final Project mProject;
 
     ProjectEditPresenter(Project project) {
-        if (project == null)
+        if(project == null)
             project = new Project();
         mProject = project;
     }
@@ -26,11 +26,11 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
         getView().showProgress();
         getDataManager().saveProject(mProject)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving(mProject);
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                 });
     }
@@ -42,7 +42,7 @@ public class ProjectEditPresenter extends BasePresenter<ProjectEditView> {
     public void removeProject() {
         getDataManager().deleteProject(mProject)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullyDeleting();
                 });
     }

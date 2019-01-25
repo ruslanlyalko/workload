@@ -61,7 +61,7 @@ public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> im
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_save) {
+        if(item.getItemId() == R.id.action_save) {
             getPresenter().onSave(mCheckProjectsAdapter.getChangedUsers());
             return true;
         }
@@ -93,7 +93,7 @@ public class ProjectUsersActivity extends BaseActivity<ProjectUsersPresenter> im
         mRecyclerUsers.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
-                if (mRecyclerUsers.canScrollVertically(-1)) {
+                if(mRecyclerUsers.canScrollVertically(-1)) {
                     mToolbar.setElevation(mElevation);
                 } else {
                     mToolbar.setElevation(0);

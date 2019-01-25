@@ -41,7 +41,7 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
     public List<Project> getDataChecked() {
         List<Project> projects = new ArrayList<>();
         for (Project pr : mDataChecked) {
-            if (getDataIndex(pr.getTitle()) != -1)
+            if(getDataIndex(pr.getTitle()) != -1)
                 projects.add(pr);
         }
         Collections.sort(projects, (o1, o2) -> o1.getTitle().compareTo(o2.getTitle()));
@@ -79,7 +79,7 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
 
     private int getIndex(String title) {
         for (int i = 0; i < mDataChecked.size(); i++) {
-            if (mDataChecked.get(i).getTitle().equals(title))
+            if(mDataChecked.get(i).getTitle().equals(title))
                 return i;
         }
         return -1;
@@ -87,7 +87,7 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
 
     private int getDataIndex(String title) {
         for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).getTitle().equals(title))
+            if(mData.get(i).getTitle().equals(title))
                 return i;
         }
         return -1;
@@ -107,13 +107,13 @@ public class CheckProjectsAdapter extends RecyclerView.Adapter<CheckProjectsAdap
             mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(getIndex(project.getTitle()) != -1);
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    if (getIndex(project.getTitle()) == -1) {
+                if(isChecked) {
+                    if(getIndex(project.getTitle()) == -1) {
                         mDataChecked.add(project);
                     }
                 } else {
                     int ind = getIndex(project.getTitle());
-                    if (ind != -1) {
+                    if(ind != -1) {
                         mDataChecked.remove(ind);
                     }
                 }

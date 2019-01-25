@@ -27,7 +27,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void saveUserNotificationSettings(final String remindMeAt) {
-        if (mUser == null || TextUtils.isEmpty(remindMeAt)) return;
+        if(mUser == null || TextUtils.isEmpty(remindMeAt)) return;
         getDataManager().updateRemindMeAt(remindMeAt);
     }
 
@@ -37,12 +37,12 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void saveUserDefaultWorkingTime(final int defaultWorkingTime) {
-        if (mUser == null || mUser.getDefaultWorkingTime() == defaultWorkingTime) return;
+        if(mUser == null || mUser.getDefaultWorkingTime() == defaultWorkingTime) return;
         getDataManager().updateDefaultWorkingTime(defaultWorkingTime);
     }
 
     public void saveOldStyleCalendar(final boolean isChecked) {
-        if (mUser == null || mUser.getIsOldStyleCalendar() == isChecked) return;
+        if(mUser == null || mUser.getIsOldStyleCalendar() == isChecked) return;
         getDataManager().updateOldStyleCalendar(isChecked);
     }
 }

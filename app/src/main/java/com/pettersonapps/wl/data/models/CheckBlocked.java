@@ -13,7 +13,7 @@ public class CheckBlocked implements Parcelable {
     }
 
     public CheckBlocked(Object object) {
-        if (object instanceof HashMap) {
+        if(object instanceof HashMap) {
             HashMap<String, Object> hashMap = (HashMap<String, Object>) object;
             isBlocked = (Boolean) hashMap.get("isBlocked");
         }

@@ -64,9 +64,9 @@ public class ReportFragment extends Fragment {
 
     public static ReportFragment newInstance(@Nullable Report report, @Nullable Holiday holiday, final boolean isAllowEditPastReports, final boolean showButtons) {
         Bundle args = new Bundle();
-        if (report != null)
+        if(report != null)
             args.putParcelable(KEY_REPORT, report);
-        if (holiday != null)
+        if(holiday != null)
             args.putParcelable(KEY_HOLIDAY, holiday);
         args.putBoolean(KEY_ALLOW_EDIT, isAllowEditPastReports);
         args.putBoolean(KEY_SHOW_ACTIONS, showButtons);
@@ -78,7 +78,7 @@ public class ReportFragment extends Fragment {
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if(getArguments() != null) {
             mReport = getArguments().getParcelable(KEY_REPORT);
             mHoliday = getArguments().getParcelable(KEY_HOLIDAY);
             mAllowEdit = getArguments().getBoolean(KEY_ALLOW_EDIT, false);
@@ -94,7 +94,7 @@ public class ReportFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_reports, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         bind(mReport);
-        if (mHoliday == null)
+        if(mHoliday == null)
             mCardHoliday.setVisibility(View.GONE);
         else {
             mCardHoliday.setVisibility(View.VISIBLE);
@@ -110,7 +110,7 @@ public class ReportFragment extends Fragment {
     }
 
     void bind(final Report report) {
-        if (report == null) {
+        if(report == null) {
             mCardRoot.setVisibility(GONE);
             return;
         }
@@ -133,13 +133,13 @@ public class ReportFragment extends Fragment {
         mTextProject5.setText(getFormattedText(report.getP5(), report.getT5()));
         mTextProject6.setText(getFormattedText(report.getP6(), report.getT6()));
         mTextDate.setText(DateUtils.toStringDate(report.getDate()));
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             mImageCopy.setImageResource(R.drawable.ic_copy_bl);
         } else {
             mImageCopy.setImageResource(R.drawable.ic_copy_wh);
         }
         mTextDate.setVisibility(GONE);
-        if (mShowButtons && (report.getDate().before(DateUtils.getStart(new Date())))) {
+        if(mShowButtons && (report.getDate().before(DateUtils.getStart(new Date())))) {
             mImageCopy.setVisibility(VISIBLE);
         } else {
             mImageCopy.setVisibility(GONE);
@@ -150,27 +150,27 @@ public class ReportFragment extends Fragment {
 
     @OnClick(R.id.layout_root)
     void onItemClick() {
-        if (getParentFragment() instanceof OnReportClickListener)
+        if(getParentFragment() instanceof OnReportClickListener)
             ((OnReportClickListener) getParentFragment()).onReportClicked(mReport);
     }
 
     @OnClick(R.id.image_delete)
     void onClicked() {
-        if (getParentFragment() instanceof OnReportClickListener)
+        if(getParentFragment() instanceof OnReportClickListener)
             ((OnReportClickListener) getParentFragment()).onReportRemoveClicked(mReport);
     }
 
     @OnClick(R.id.image_copy)
     void onCopyClicked() {
-        if (getParentFragment() instanceof OnReportClickListener)
+        if(getParentFragment() instanceof OnReportClickListener)
             ((OnReportClickListener) getParentFragment()).onReportCopyClicked(mReport);
     }
 
     private Spanned getFormattedText(final String name, final float time) {
-        if (TextUtils.isEmpty(name)) return SpannableString.valueOf("");
+        if(TextUtils.isEmpty(name)) return SpannableString.valueOf("");
         String timeStr = String.format(Locale.US, "%.0fh", time);
         float ex = time % 1;
-        if (ex != 0) {
+        if(ex != 0) {
             timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
         }
         return Html.fromHtml("<b>" + name + "</b> " + timeStr);

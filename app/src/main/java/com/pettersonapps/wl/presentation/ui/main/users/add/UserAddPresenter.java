@@ -36,7 +36,7 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
         mUser.setPhone(phone);
         mUser.setSkype(skype);
         mUser.setDepartment(department);
-        if (registerAndLogin) {
+        if(registerAndLogin) {
             getAuth().createUserWithEmailAndPassword(email, password)
                     .addOnFailureListener(e -> getView().hideProgress())
                     .addOnSuccessListener(aVoid -> {
@@ -44,12 +44,12 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         mUser.setIsAllowEditPastReports(true);
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getDataManager().clearCache();
                                     getView().afterSuccessfullySaving();
                                 })
                                 .addOnFailureListener(e -> {
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getView().hideProgress();
                                     getView().showError(e.getMessage());
                                 });
@@ -66,10 +66,10 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
         } catch (IllegalStateException e) {
             mAuth2 = FirebaseAuth.getInstance(FirebaseApp.getInstance(APP_NAME));
         }
-        if (mAuth2 != null) {
+        if(mAuth2 != null) {
             mAuth2.createUserWithEmailAndPassword(email, password)
                     .addOnFailureListener(e -> {
-                        if (getView() == null) return;
+                        if(getView() == null) return;
                         getView().hideProgress();
                         getView().showError(e.getMessage());
                     })
@@ -78,11 +78,11 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
                                     mAuth2.signOut();
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getView().close();
                                 })
                                 .addOnFailureListener(e -> {
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getView().hideProgress();
                                     getView().showError(e.getMessage());
                                 });
@@ -94,12 +94,12 @@ public class UserAddPresenter extends BasePresenter<UserAddView> {
                         mUser.setKey(getAuth().getUid());
                         getDataManager().saveUser(mUser)
                                 .addOnSuccessListener(aVoid1 -> {
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getDataManager().clearCache();
                                     getView().afterSuccessfullySaving();
                                 })
                                 .addOnFailureListener(e -> {
-                                    if (getView() == null) return;
+                                    if(getView() == null) return;
                                     getView().hideProgress();
                                     getView().showError(e.getMessage());
                                 });

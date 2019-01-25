@@ -51,8 +51,8 @@ public class SquareButton extends AppCompatTextView {
     @Override
     protected void onDraw(final Canvas canvas) {
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        if (width == 0) width = getWidth();
-        if (minRadius == 0) {
+        if(width == 0) width = getWidth();
+        if(minRadius == 0) {
             minRadius = (int) getResources().getDimension(R.dimen.card_radius);
             radius = minRadius;
         }
@@ -66,13 +66,13 @@ public class SquareButton extends AppCompatTextView {
     }
 
     public void showProgress(boolean show) {
-        if (isProgressShown == show) return;
-        if (animator != null) {
+        if(isProgressShown == show) return;
+        if(animator != null) {
             animator.cancel();
             animator = null;
         }
         isProgressShown = show;
-        if (show) {
+        if(show) {
             setEnabled(false);
             setText("");
         } else {

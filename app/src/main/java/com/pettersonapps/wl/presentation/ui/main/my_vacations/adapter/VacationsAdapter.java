@@ -84,7 +84,7 @@ public class VacationsAdapter extends RecyclerView.Adapter<VacationsAdapter.View
             mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), vacation.getStatus())));
             mTextTitle.setText(vacation.getStatus());
             int days = Math.abs(DateUtils.daysBetween(vacation.getTo(), vacation.getFrom())) + 1;
-            if (vacation.getStatus().startsWith("Working")) {
+            if(vacation.getStatus().startsWith("Working")) {
                 mTextSubtitle.setText(String.format(Locale.US, "Days back: %d", days));
             } else {
                 mTextSubtitle.setText(String.format(Locale.US, "Days taken: %d", days));

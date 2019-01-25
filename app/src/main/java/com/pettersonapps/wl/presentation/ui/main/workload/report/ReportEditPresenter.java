@@ -31,14 +31,14 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     ReportEditPresenter(Report report, Date date, ArrayList<Holiday> holidays) {
         mHolidays = holidays;
-        if (report == null) {
+        if(report == null) {
             report = new Report();
             report.setDate(date);
             report.setStatus("");
         }
         mReport = report;
         mDateTo = report.getDate();
-        if (mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+        if(mReport.getDate().after(DateUtils.get1DaysForward().getTime())
                 && !(mReport.getStatus().startsWith("Day") || mReport.getStatus().startsWith("Vacation"))) {
             mReport.setStatus("Vacations");
         }
@@ -54,7 +54,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     private String getHoliday(final Date date) {
         for (Holiday holiday : mHolidays) {
-            if (DateUtils.dateEquals(holiday.getDate(), date)) {
+            if(DateUtils.dateEquals(holiday.getDate(), date)) {
                 return holiday.getTitle();
             }
         }
@@ -66,42 +66,42 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
                 || status.startsWith("Vacation")
                 || status.startsWith("No")
                 || status.startsWith("Sick"));
-        if (data.size() > 0 && allowSaveData) {
+        if(data.size() > 0 && allowSaveData) {
             mReport.setP1(data.get(0).getTitle());
             mReport.setT1(data.get(0).getSpent());
         } else {
             mReport.setP1("");
             mReport.setT1(0);
         }
-        if (data.size() > 1 && allowSaveData) {
+        if(data.size() > 1 && allowSaveData) {
             mReport.setP2(data.get(1).getTitle());
             mReport.setT2(data.get(1).getSpent());
         } else {
             mReport.setP2("");
             mReport.setT2(0);
         }
-        if (data.size() > 2 && allowSaveData) {
+        if(data.size() > 2 && allowSaveData) {
             mReport.setP3(data.get(2).getTitle());
             mReport.setT3(data.get(2).getSpent());
         } else {
             mReport.setP3("");
             mReport.setT3(0);
         }
-        if (data.size() > 3 && allowSaveData) {
+        if(data.size() > 3 && allowSaveData) {
             mReport.setP4(data.get(3).getTitle());
             mReport.setT4(data.get(3).getSpent());
         } else {
             mReport.setP4("");
             mReport.setT4(0);
         }
-        if (data.size() > 4 && allowSaveData) {
+        if(data.size() > 4 && allowSaveData) {
             mReport.setP5(data.get(4).getTitle());
             mReport.setT5(data.get(4).getSpent());
         } else {
             mReport.setP5("");
             mReport.setT5(0);
         }
-        if (data.size() > 5 && allowSaveData) {
+        if(data.size() > 5 && allowSaveData) {
             mReport.setP6(data.get(5).getTitle());
             mReport.setT6(data.get(5).getSpent());
         } else {
@@ -109,34 +109,34 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             mReport.setT6(0);
         }
         //
-        if (hasTwoSameProjects()) {
+        if(hasTwoSameProjects()) {
             getView().errorCantHasTwoEqualsProjects();
             return;
         }
-        if (status.startsWith("Work") && getTotalHoursSpent(mReport) == 0) {
+        if(status.startsWith("Work") && getTotalHoursSpent(mReport) == 0) {
             getView().errorCantBeZero();
             return;
         }
-        if (status.startsWith("Work") && getTotalHoursSpent(mReport) > 16) {
+        if(status.startsWith("Work") && getTotalHoursSpent(mReport) > 16) {
             getView().errorCantBeMoreThan16();
             return;
         }
         boolean weekendDisallowStatus = (status.startsWith("Day")
                 || status.startsWith("Vacation")
                 || status.startsWith("Sick"));
-        if (weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())) {
+        if(weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())) {
             getView().errorCantSaveNotWorkingStatusOnWeekends();
             return;
         }
-        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().before(DateUtils.get1DaysAgo().getTime())) {
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().before(DateUtils.get1DaysAgo().getTime())) {
             getView().showWrongDateOnMobileError();
             return;
         }
-        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1MonthForward().getTime())) {
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1MonthForward().getTime())) {
             getView().showWrongDateOnMobileError();
             return;
         }
-        if (!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1DaysForward().getTime())
                 && !(status.startsWith("Day") || status.startsWith("Vacation"))) {
             getView().showWrongDateOnMobileError();
             return;
@@ -147,18 +147,18 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         mReport.setUserDepartment(mUser.getDepartment());
         mReport.setUpdatedAt(new Date());
         mReport.setStatus(status);
-        if (!mDateStateOneDay) {
+        if(!mDateStateOneDay) {
             saveFewReports();
             return;
         }
         mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
         getDataManager().saveReport(mReport)
                 .addOnSuccessListener(aVoid -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving();
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().showWrongDateOnMobileError();
                     getView().hideProgress();
                 });
@@ -175,7 +175,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             Calendar c = Calendar.getInstance();
             c.setTime(date);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-            if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY && getHoliday(date) == null) {
+            if(dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY && getHoliday(date) == null) {
                 mReport.setDate(date);
                 mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
                 getDataManager().saveReport(mReport);
@@ -187,27 +187,27 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     private boolean hasTwoSameProjects() {
         List<String> names = new ArrayList<>();
-        if (!TextUtils.isEmpty(mReport.getP1())) {
+        if(!TextUtils.isEmpty(mReport.getP1())) {
             names.add(mReport.getP1());
         }
-        if (!TextUtils.isEmpty(mReport.getP2())) {
+        if(!TextUtils.isEmpty(mReport.getP2())) {
             names.add(mReport.getP2());
         }
-        if (!TextUtils.isEmpty(mReport.getP3())) {
+        if(!TextUtils.isEmpty(mReport.getP3())) {
             names.add(mReport.getP3());
         }
-        if (!TextUtils.isEmpty(mReport.getP4())) {
+        if(!TextUtils.isEmpty(mReport.getP4())) {
             names.add(mReport.getP4());
         }
-        if (!TextUtils.isEmpty(mReport.getP5())) {
+        if(!TextUtils.isEmpty(mReport.getP5())) {
             names.add(mReport.getP5());
         }
-        if (!TextUtils.isEmpty(mReport.getP6())) {
+        if(!TextUtils.isEmpty(mReport.getP6())) {
             names.add(mReport.getP6());
         }
         for (int i = 0; i < names.size() - 1; i++) {
             for (int j = i + 1; j < names.size(); j++) {
-                if (i != j && names.get(i).equals(names.get(j)))
+                if(i != j && names.get(i).equals(names.get(j)))
                     return true;
             }
         }
@@ -230,7 +230,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     public void updateProjectsInList() {
         List<Project> onlyNotHiddenProjects = new ArrayList<>();
         for (Project project : mUser.getProjects()) {
-            if (!project.getIsHidden()) {
+            if(!project.getIsHidden()) {
                 onlyNotHiddenProjects.add(project);
             }
         }
@@ -245,7 +245,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         mReport.setDate(date);
         getView().showHoliday(getHoliday(mReport.getDate()));
         getView().showDateFrom(date);
-        if (date.after(mDateTo)) {
+        if(date.after(mDateTo)) {
             setDateTo(date);
         }
     }
@@ -257,13 +257,13 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     public void setDateTo(final Date dateTo) {
         mDateTo = dateTo;
         getView().showDateTo(dateTo);
-        if (dateTo.before(mReport.getDate())) {
+        if(dateTo.before(mReport.getDate())) {
             setReportDate(mDateTo);
         }
     }
 
     public void toggleDateState() {
-        if (mDateStateOneDay) {
+        if(mDateStateOneDay) {
             mDateStateOneDay = false;
         } else {
             mDateStateOneDay = true;
@@ -281,7 +281,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     }
 
     public void changeProject(final String title) {
-        if (mAddProjectMode) {
+        if(mAddProjectMode) {
             getView().addProject(title, mUser.getDefaultWorkingTime());
         } else {
             getView().changeProject(title, mPosition);

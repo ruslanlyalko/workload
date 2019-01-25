@@ -13,7 +13,7 @@ public class CheckDate implements Parcelable {
     }
 
     public CheckDate(Object object) {
-        if (object instanceof HashMap) {
+        if(object instanceof HashMap) {
             HashMap<String, Object> hashMap = (HashMap<String, Object>) object;
             isRight = (Boolean) hashMap.get("isRight");
         }

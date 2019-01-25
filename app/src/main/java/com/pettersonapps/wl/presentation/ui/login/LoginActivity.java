@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         mInputPassword.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if(actionId == EditorInfo.IME_ACTION_DONE) {
                 onLoginClick();
                 return true;
             }
@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onStart() {
         super.onStart();
-        if (!isShowedAnimation) {
+        if(!isShowedAnimation) {
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_login);
             mLayoutRoot.startAnimation(animation);
             Animation animationLogo = AnimationUtils.loadAnimation(this, R.anim.anim_login_logo);
@@ -97,9 +97,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void startMainScreen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillManager afm = getSystemService(AutofillManager.class);
-            if (afm != null) {
+            if(afm != null) {
                 afm.commit();
             }
         }
@@ -152,13 +152,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnTextChanged(R.id.input_email)
     void onEmailChanged(CharSequence text) {
-        if (!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
+        if(!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
             mInputLayoutEmail.setError(null);
     }
 
     @OnTextChanged(R.id.input_password)
     void onPasswordChanged(CharSequence text) {
-        if (!TextUtils.isEmpty(text))
+        if(!TextUtils.isEmpty(text))
             mInputLayoutPassword.setError(null);
     }
 

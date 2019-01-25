@@ -172,7 +172,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
 
     @Override
     public void showUsersWithoutReports(final List<User> allUsersWithoutReports) {
-        if (allUsersWithoutReports == null) {
+        if(allUsersWithoutReports == null) {
             return;
         }
         mTextUsersPlaceholder.setVisibility(allUsersWithoutReports.isEmpty() ? View.VISIBLE : View.GONE);
@@ -182,7 +182,7 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
 
     @Override
     public void showWrongReports(final List<Report> allWrongReports) {
-        if (allWrongReports == null) {
+        if(allWrongReports == null) {
             return;
         }
         mTextReportsPlaceholder.setVisibility(allWrongReports.isEmpty() ? View.VISIBLE : View.GONE);
@@ -212,9 +212,9 @@ public class AlertsFragment extends BaseFragment<AlertsPresenter> implements Ale
 
     @Override
     public void showDate(final Date newDate) {
-        if (mPrevDate != null) {
-            if (DateUtils.dateEquals(newDate, mPrevDate)) return;
-            if (newDate.before(mPrevDate)) {
+        if(mPrevDate != null) {
+            if(DateUtils.dateEquals(newDate, mPrevDate)) return;
+            if(newDate.before(mPrevDate)) {
                 mTextDate.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
                 mTextDate.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
             } else {

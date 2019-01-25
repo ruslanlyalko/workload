@@ -58,7 +58,7 @@ public class UserPushActivity extends BaseActivity<UserPushPresenter> implements
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if (appSettings != null) {
+            if(appSettings != null) {
                 getPresenter().setSettings(appSettings);
             }
         });
@@ -83,12 +83,12 @@ public class UserPushActivity extends BaseActivity<UserPushPresenter> implements
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_send) {
-            if (TextUtils.isEmpty(mInputTitle.getText())) {
+        if(item.getItemId() == R.id.action_send) {
+            if(TextUtils.isEmpty(mInputTitle.getText())) {
                 showError("Title can't be empty!");
                 return false;
             }
-            if (TextUtils.isEmpty(mInputBody.getText())) {
+            if(TextUtils.isEmpty(mInputBody.getText())) {
                 showError("Body can't be empty!");
                 return false;
             }
@@ -123,7 +123,7 @@ public class UserPushActivity extends BaseActivity<UserPushPresenter> implements
         mRecyclerPush.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
-                if (mRecyclerPush.canScrollVertically(-1)) {
+                if(mRecyclerPush.canScrollVertically(-1)) {
                     mToolbar.setElevation(mElevation);
                 } else {
                     mToolbar.setElevation(0);

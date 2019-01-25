@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Holiday;
-import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +83,13 @@ public class HolidaysAdapter extends RecyclerView.Adapter<HolidaysAdapter.ViewHo
 
         @OnClick(R.id.layout_root)
         void onClicked(View view) {
-            if (mOnItemClickListener != null)
+            if(mOnItemClickListener != null)
                 mOnItemClickListener.onItemClicked(view, getAdapterPosition());
         }
 
         @OnLongClick(R.id.layout_root)
         boolean onLongClick(View v) {
-            if (mOnItemClickListener != null)
+            if(mOnItemClickListener != null)
                 mOnItemClickListener.onItemLongClicked(v, getAdapterPosition());
             return true;
         }

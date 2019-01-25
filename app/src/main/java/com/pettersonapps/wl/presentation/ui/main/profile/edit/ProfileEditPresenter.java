@@ -22,10 +22,10 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
 
     public void onSave(final String skype, String phone, final String newPassword) {
         getView().showProgress();
-        if (!TextUtils.isEmpty(newPassword)) {
+        if(!TextUtils.isEmpty(newPassword)) {
             getDataManager().changePassword(newPassword)
                     .addOnFailureListener(e -> {
-                        if (getView() == null) return;
+                        if(getView() == null) return;
                         getView().showError(e.getLocalizedMessage());
                         getView().hideProgress();
                     })
@@ -42,11 +42,11 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         mUser.setPhone(phone);
         getDataManager().saveUser(mUser)
                 .addOnSuccessListener(aVoid1 -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().afterSuccessfullySaving();
                 })
                 .addOnFailureListener(e -> {
-                    if (getView() == null) return;
+                    if(getView() == null) return;
                     getView().hideProgress();
                 });
     }

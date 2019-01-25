@@ -2,7 +2,6 @@ package com.pettersonapps.wl.data.models;
 
 import android.os.Parcel;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -113,5 +112,4 @@ public class Vacation extends BaseModel {
         @Override
         public Vacation[] newArray(int size) {return new Vacation[size];}
     };
-
 }

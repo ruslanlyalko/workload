@@ -26,8 +26,7 @@ import butterknife.Unbinder;
  * on 20.09.2018.
  */
 
-public class ChooserDialog extends BottomSheetDialogFragment implements DialogInterface.OnShowListener
-{
+public class ChooserDialog extends BottomSheetDialogFragment implements DialogInterface.OnShowListener {
 
     private static final String KEY_RESOURCE = "res";
     private static final String KEY_TITLE = "title";
@@ -63,7 +62,7 @@ public class ChooserDialog extends BottomSheetDialogFragment implements DialogIn
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) parseArguments(getArguments());
+        if(getArguments() != null) parseArguments(getArguments());
     }
 
     protected void parseArguments(Bundle args) {
@@ -92,11 +91,11 @@ public class ChooserDialog extends BottomSheetDialogFragment implements DialogIn
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         nvDcList.inflateMenu(menuRes);
         nvDcList.setNavigationItemSelectedListener(this::onItemSelected);
-        if (title == null || title.equals(""))
+        if(title == null || title.equals(""))
             tvDcTitle.setVisibility(View.GONE);
         else
             tvDcTitle.setText(title);
-        if (subtitle == null || subtitle.equals(""))
+        if(subtitle == null || subtitle.equals(""))
             tvDcSubTitle.setVisibility(View.GONE);
         else
             tvDcSubTitle.setText(subtitle);
@@ -104,7 +103,7 @@ public class ChooserDialog extends BottomSheetDialogFragment implements DialogIn
 
     @Override
     public void onDestroyView() {
-        if (unbinder != null) unbinder.unbind();
+        if(unbinder != null) unbinder.unbind();
         super.onDestroyView();
     }
 

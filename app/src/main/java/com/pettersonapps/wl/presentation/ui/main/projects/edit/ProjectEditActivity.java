@@ -40,11 +40,11 @@ public class ProjectEditActivity extends BaseActivity<ProjectEditPresenter> impl
 
     @OnClick(R.id.button_save)
     public void onClick() {
-        if (TextUtils.isEmpty(mInputTitle.getText())) {
+        if(TextUtils.isEmpty(mInputTitle.getText())) {
             showError(getString(R.string.error_cant_be_empty));
             return;
         }
-        if (mInputTitle.getText().toString().startsWith("-")) {
+        if(mInputTitle.getText().toString().startsWith("-")) {
             showError(getString(R.string.error_cant_start_with_dash));
             return;
         }
@@ -97,7 +97,7 @@ public class ProjectEditActivity extends BaseActivity<ProjectEditPresenter> impl
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_delete) {
+        if(item.getItemId() == R.id.action_delete) {
             AlertDialog.Builder build = new AlertDialog.Builder(getContext());
             build.setMessage(R.string.text_delete);
             build.setPositiveButton(R.string.action_delete, (dialog, which) -> {

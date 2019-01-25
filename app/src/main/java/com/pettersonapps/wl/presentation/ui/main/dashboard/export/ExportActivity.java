@@ -49,7 +49,7 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
         rxPermissions
                 .request(Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(granted -> {
-                    if (granted) {
+                    if(granted) {
                         getPresenter().onExportClicked();
                     } else {
                         showError(getString(R.string.error_denied));
@@ -87,7 +87,7 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
 
     @Override
     public void showFile(final File file) {
-        if (file != null && file.exists()) {
+        if(file != null && file.exists()) {
             try {
                 Uri uriForFile = FileProvider.getUriForFile(this,
                         getApplicationContext().getPackageName() + ".wl.provider", file);

@@ -15,5 +15,4 @@ public interface UserAddView extends BaseView<UserAddPresenter> {
     void afterSuccessfullySaving();
 
     void close();
-
 }

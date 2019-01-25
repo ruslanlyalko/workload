@@ -33,9 +33,9 @@ public class Project extends BaseModel {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Project)) return false;
-        if (!super.equals(o)) return false;
+        if(this == o) return true;
+        if(!(o instanceof Project)) return false;
+        if(!super.equals(o)) return false;
         Project project = (Project) o;
         return isHidden == project.isHidden &&
                 Objects.equals(getTitle(), project.getTitle()) &&

@@ -67,7 +67,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
 
     @OnClick(R.id.button_save)
     public void onClick() {
-        if (TextUtils.isEmpty(mInputTitle.getText()))
+        if(TextUtils.isEmpty(mInputTitle.getText()))
             return;
         getPresenter().onSave(mInputTitle.getText().toString());
     }
@@ -105,7 +105,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_delete) {
+        if(item.getItemId() == R.id.action_delete) {
             AlertDialog.Builder build = new AlertDialog.Builder(getContext());
             build.setMessage(R.string.text_delete);
             build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
@@ -120,6 +120,7 @@ public class HolidayEditActivity extends BaseActivity<HolidayEditPresenter> impl
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void afterSuccessfullySaving() {
         onBackPressed();

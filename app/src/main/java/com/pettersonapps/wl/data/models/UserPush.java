@@ -27,9 +27,9 @@ public class UserPush extends BaseModel {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        if(!super.equals(o)) return false;
         UserPush userPush = (UserPush) o;
         return Objects.equals(title, userPush.title) &&
                 Objects.equals(body, userPush.body) &&

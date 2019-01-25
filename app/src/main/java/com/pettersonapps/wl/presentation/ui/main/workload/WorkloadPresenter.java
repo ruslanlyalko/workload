@@ -33,7 +33,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     private String getHoliday(final Date date) {
         for (Holiday holiday : mHolidays) {
-            if (DateUtils.dateEquals(holiday.getDate(), date)) {
+            if(DateUtils.dateEquals(holiday.getDate(), date)) {
                 return holiday.getTitle();
             }
         }
@@ -43,7 +43,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     private List<Report> getReportsForCurrentDate() {
         List<Report> result = new ArrayList<>();
         for (Report r : mReports) {
-            if (r.getDate().after(DateUtils.getStart(mDate))
+            if(r.getDate().after(DateUtils.getStart(mDate))
                     && r.getDate().before(DateUtils.getEnd(mDate))) {
                 result.add(r);
             }
@@ -58,21 +58,21 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void onReportDeleteClicked(final Report report) {
         getDataManager().isRightDate().addOnSuccessListener(checkDate -> {
-            if (checkDate == null) {
+            if(checkDate == null) {
                 getView().showInternetError();
-            } else if (checkDate.getIsRight()) {
+            } else if(checkDate.getIsRight()) {
                 getDataManager().removeReport(report);
-                if (getView() == null) return;
+                if(getView() == null) return;
                 getView().showReports(getReportsForCurrentDate(), mDate);
             } else {
-                if (getView() == null) return;
+                if(getView() == null) return;
                 getView().showWrongDateOnMobileError();
             }
         }).addOnFailureListener(e -> getView().showError(e.getLocalizedMessage()));
     }
 
     public void onReportClicked(final Report report) {
-        if (!getIsAllowEditPastReports() && report.getDate().before(DateUtils.get1DaysAgo().getTime()))
+        if(!getIsAllowEditPastReports() && report.getDate().before(DateUtils.get1DaysAgo().getTime()))
             return;
         getView().editReport(mUser, report, mHolidays);
     }

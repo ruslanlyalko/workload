@@ -56,12 +56,12 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     public void populateUser(final User user) {
         mTextName.setText(user.getName());
         mTextEmail.setText(user.getEmail());
-        if (TextUtils.isEmpty(user.getPhone())) {
+        if(TextUtils.isEmpty(user.getPhone())) {
             mTextPhone.setText(R.string.text_not_specified);
         } else {
             mTextPhone.setText(user.getPhone());
         }
-        if (TextUtils.isEmpty(user.getSkype())) {
+        if(TextUtils.isEmpty(user.getSkype())) {
             mTextSkype.setText(R.string.text_not_specified);
         } else {
             mTextSkype.setText(user.getSkype());

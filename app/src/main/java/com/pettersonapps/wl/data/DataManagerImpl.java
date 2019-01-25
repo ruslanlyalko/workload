@@ -74,14 +74,14 @@ public class DataManagerImpl implements DataManager {
     }
 
     public static DataManager newInstance() {
-        if (mInstance == null)
+        if(mInstance == null)
             mInstance = new DataManagerImpl();
         return mInstance;
     }
 
     @Override
     public Task<Void> saveUser(final User user) {
-        if (user.getKey() == null) {
+        if(user.getKey() == null) {
             throw new RuntimeException("user can't be empty");
         }
         return mDatabase.getReference(DB_USERS)
@@ -91,9 +91,9 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<User> getMyUser() {
-        if (mCurrentUserLiveData != null) return mCurrentUserLiveData;
+        if(mCurrentUserLiveData != null) return mCurrentUserLiveData;
         String key = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (TextUtils.isEmpty(key)) {
+        if(TextUtils.isEmpty(key)) {
             Log.w(TAG, "getMyUser: user is not logged in");
             return mCurrentUserLiveData;
         }
@@ -104,7 +104,7 @@ public class DataManagerImpl implements DataManager {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
-                        if (mCurrentUserLiveData != null)
+                        if(mCurrentUserLiveData != null)
                             mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
                     }
 
@@ -118,7 +118,7 @@ public class DataManagerImpl implements DataManager {
     @Override
     public MutableLiveData<User> getUser(final String key) {
         final MutableLiveData<User> userLiveData = new MutableLiveData<>();
-        if (TextUtils.isEmpty(key)) {
+        if(TextUtils.isEmpty(key)) {
             Log.w(TAG, "getUser has wrong argument");
             return userLiveData;
         }
@@ -140,7 +140,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<List<User>> getAllUsers() {
-        if (mAllUsersListLiveData != null) return mAllUsersListLiveData;
+        if(mAllUsersListLiveData != null) return mAllUsersListLiveData;
         mAllUsersListLiveData = new MutableLiveData<>();
         mDatabase.getReference(DB_USERS)
                 .orderByChild(FIELD_NAME)
@@ -165,10 +165,10 @@ public class DataManagerImpl implements DataManager {
     @Override
     public MutableLiveData<List<User>> getAllUsersWithoutReports(List<User> users, final Date date) {
         final MutableLiveData<List<User>> result = new MutableLiveData<>();
-        if (users.isEmpty()) return result;
+        if(users.isEmpty()) return result;
         List<User> listUsers = new ArrayList<>();
         for (User user : users) {
-            if (user != null && !user.getIsAdmin() && !user.getIsBlocked())
+            if(user != null && !user.getIsAdmin() && !user.getIsBlocked())
                 listUsers.add(user);
         }
         mDatabase.getReference(DB_REPORTS)
@@ -181,9 +181,9 @@ public class DataManagerImpl implements DataManager {
                         Log.d(TAG, "getAllUsersWithoutReports:onDataChange Reports");
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
-                            if (report == null) return;
+                            if(report == null) return;
                             for (int i = 0; i < listUsers.size(); i++) {
-                                if (listUsers.get(i).getKey().equals(report.getUserId())) {
+                                if(listUsers.get(i).getKey().equals(report.getUserId())) {
                                     listUsers.remove(i);
                                     break;
                                 }
@@ -201,13 +201,13 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public Task<Void> changePassword(final String newPassword) {
-        if (mAuth.getCurrentUser() == null) return null;
+        if(mAuth.getCurrentUser() == null) return null;
         return mAuth.getCurrentUser().updatePassword(newPassword);
     }
 
     @Override
     public void updateToken() {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_TOKEN)
@@ -216,7 +216,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void updateRemindMeAt(final String remindMeAt) {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_REMIND_ME_AT)
@@ -225,7 +225,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void updateDefaultWorkingTime(final int defaultWorkingTime) {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_DEFAULT_WORKING_TIME)
@@ -234,7 +234,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void updateOldStyleCalendar(final boolean isEnabled) {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_IS_OLD_STYLE_CALENDAR)
@@ -243,7 +243,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void updateVersion() {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_VERSION)
@@ -252,7 +252,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void updateNightMode(final boolean isNightMode) {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_IS_NIGHT_MODE)
@@ -261,7 +261,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void logout() {
-        if (mAuth.getCurrentUser() == null) return;
+        if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
                 .child(mAuth.getCurrentUser().getUid())
                 .child(FIELD_TOKEN)
@@ -283,7 +283,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<List<Holiday>> getAllHolidays() {
-        if (mHolidaysListMutableLiveData != null) return mHolidaysListMutableLiveData;
+        if(mHolidaysListMutableLiveData != null) return mHolidaysListMutableLiveData;
         mHolidaysListMutableLiveData = new MutableLiveData<>();
         mDatabase.getReference(DB_HOLIDAYS)
                 .orderByChild(FIELD_DATE_TIME)
@@ -307,7 +307,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public Task<Void> saveHoliday(final Holiday holiday) {
-        if (!TextUtils.isEmpty(holiday.getKey())) {
+        if(!TextUtils.isEmpty(holiday.getKey())) {
             mDatabase.getReference(DB_HOLIDAYS)
                     .child(holiday.getKey())
                     .removeValue();
@@ -335,7 +335,7 @@ public class DataManagerImpl implements DataManager {
                 .getHttpsCallable("getProjectInfo")
                 .call(data)
                 .continueWith((Task<HttpsCallableResult> task) -> {
-                    if (task.isSuccessful()) {
+                    if(task.isSuccessful()) {
                         try {
                             return new ProjectInfo(task.getResult().getData());
                         } catch (Exception e) {
@@ -353,7 +353,7 @@ public class DataManagerImpl implements DataManager {
                 .getHttpsCallable("isBlocked")
                 .call(data)
                 .continueWith((Task<HttpsCallableResult> task) -> {
-                    if (task.isSuccessful()) {
+                    if(task.isSuccessful()) {
                         try {
                             return new CheckBlocked(task.getResult().getData());
                         } catch (Exception e) {
@@ -372,7 +372,7 @@ public class DataManagerImpl implements DataManager {
                 .getHttpsCallable("isRightDate")
                 .call(data)
                 .continueWith((Task<HttpsCallableResult> task) -> {
-                    if (task.isSuccessful()) {
+                    if(task.isSuccessful()) {
                         try {
                             return new CheckDate(task.getResult().getData());
                         } catch (Exception e) {
@@ -385,7 +385,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public Task<Void> saveProject(final Project project) {
-        if (project.getKey() == null) {
+        if(project.getKey() == null) {
             project.setKey(mDatabase.getReference(DB_PROJECTS).push().getKey());
         }
         return mDatabase.getReference(DB_PROJECTS)
@@ -402,7 +402,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<List<Project>> getAllProjects() {
-        if (mAllProjectsListMutableLiveData != null) return mAllProjectsListMutableLiveData;
+        if(mAllProjectsListMutableLiveData != null) return mAllProjectsListMutableLiveData;
         mAllProjectsListMutableLiveData = new MutableLiveData<>();
         mDatabase.getReference(DB_PROJECTS)
                 .orderByChild(FIELD_TITLE)
@@ -440,10 +440,10 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<List<Report>> getAllMyReports() {
-        if (mAllMyReportsListMutableLiveData != null) return mAllMyReportsListMutableLiveData;
+        if(mAllMyReportsListMutableLiveData != null) return mAllMyReportsListMutableLiveData;
         String userId = mAuth.getUid();
         mAllMyReportsListMutableLiveData = new MutableLiveData<>();
-        if (TextUtils.isEmpty(userId)) {
+        if(TextUtils.isEmpty(userId)) {
             Log.w(TAG, "getAllMyReports user is not logged in");
             return mAllMyReportsListMutableLiveData;
         }
@@ -457,10 +457,10 @@ public class DataManagerImpl implements DataManager {
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             Report report = snap.getValue(Report.class);
-                            if (report != null)
+                            if(report != null)
                                 list.add(report);
                         }
-                        if (mAllMyReportsListMutableLiveData != null)
+                        if(mAllMyReportsListMutableLiveData != null)
                             mAllMyReportsListMutableLiveData.postValue(list);
                     }
 
@@ -485,7 +485,7 @@ public class DataManagerImpl implements DataManager {
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
-                            if (report == null) return;
+                            if(report == null) return;
                             list.add(report);
                         }
                         result.postValue(list);
@@ -512,8 +512,8 @@ public class DataManagerImpl implements DataManager {
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
-                            if (report == null) return;
-                            if (report.getStatus().startsWith("Worked") && getTotalHoursSpent(report) == 8) {
+                            if(report == null) return;
+                            if(report.getStatus().startsWith("Worked") && getTotalHoursSpent(report) == 8) {
                                 continue;
                             }
                             list.add(report);
@@ -541,7 +541,7 @@ public class DataManagerImpl implements DataManager {
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
-                            if (report == null) continue;
+                            if(report == null) continue;
                             list.add(report);
                         }
                         Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
@@ -557,7 +557,7 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public MutableLiveData<AppSettings> getSettings() {
-        if (mSettingsLiveData != null) return mSettingsLiveData;
+        if(mSettingsLiveData != null) return mSettingsLiveData;
         mSettingsLiveData = new MutableLiveData<>();
         mDatabase.getReference(DB_SETTINGS)
                 .addValueEventListener(new ValueEventListener() {
@@ -565,9 +565,9 @@ public class DataManagerImpl implements DataManager {
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getSettings:onDataChange");
                         AppSettings value = dataSnapshot.getValue(AppSettings.class);
-                        if (value == null)
+                        if(value == null)
                             value = new AppSettings();
-                        if (mSettingsLiveData != null)
+                        if(mSettingsLiveData != null)
                             mSettingsLiveData.postValue(value);
                     }
 

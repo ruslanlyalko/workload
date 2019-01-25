@@ -19,20 +19,20 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void onLogin(final String email, final String password) {
-        if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+        if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
             getView().errorEmptyEmail();
             getView().errorEmptyPassword();
             return;
         }
-        if (TextUtils.isEmpty(email)) {
+        if(TextUtils.isEmpty(email)) {
             getView().errorEmptyEmail();
             return;
         }
-        if (TextUtils.isEmpty(password)) {
+        if(TextUtils.isEmpty(password)) {
             getView().errorEmptyPassword();
             return;
         }
-        if (!email.matches(mEmailPattern)) {
+        if(!email.matches(mEmailPattern)) {
             getView().errorWrongEmail();
             return;
         }
@@ -40,7 +40,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         getAuth().signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     getDataManager().isBlocked().addOnSuccessListener(checkBlocked -> {
-                        if (checkBlocked.getIsBlocked()) {
+                        if(checkBlocked.getIsBlocked()) {
                             getView().hideProgress();
                             getAuth().signOut();
                             getView().showBlockedError();
@@ -62,11 +62,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void onForgot(final String email) {
-        if (TextUtils.isEmpty(email)) {
+        if(TextUtils.isEmpty(email)) {
             getView().errorEmptyEmail();
             return;
         }
-        if (!email.matches(mEmailPattern)) {
+        if(!email.matches(mEmailPattern)) {
             getView().errorWrongEmail();
             return;
         }

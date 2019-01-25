@@ -25,8 +25,8 @@ public class BaseModel implements Parcelable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BaseModel)) return false;
+        if(this == o) return true;
+        if(!(o instanceof BaseModel)) return false;
         BaseModel baseModel = (BaseModel) o;
         return Objects.equals(getKey(), baseModel.getKey());
     }

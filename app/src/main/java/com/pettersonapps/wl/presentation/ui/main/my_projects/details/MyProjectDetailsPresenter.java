@@ -44,7 +44,7 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
     private List<Report> getReportsForCurrentDate() {
         List<Report> result = new ArrayList<>();
         for (Report r : mReports) {
-            if (r.getDate().after(DateUtils.getStart(mDate))
+            if(r.getDate().after(DateUtils.getStart(mDate))
                     && r.getDate().before(DateUtils.getEnd(mDate))) {
                 result.add(r);
             }
@@ -60,22 +60,22 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
         mReports.clear();
         int spentHours = 0;
         for (Report report : reports) {
-            if (mProject.getTitle().equals(report.getP1())) {
+            if(mProject.getTitle().equals(report.getP1())) {
                 spentHours += report.getT1();
                 mReports.add(report);
-            } else if (mProject.getTitle().equals(report.getP2())) {
+            } else if(mProject.getTitle().equals(report.getP2())) {
                 spentHours += report.getT2();
                 mReports.add(report);
-            } else if (mProject.getTitle().equals(report.getP3())) {
+            } else if(mProject.getTitle().equals(report.getP3())) {
                 spentHours += report.getT3();
                 mReports.add(report);
-            } else if (mProject.getTitle().equals(report.getP4())) {
+            } else if(mProject.getTitle().equals(report.getP4())) {
                 spentHours += report.getT4();
                 mReports.add(report);
-            } else if (mProject.getTitle().equals(report.getP5())) {
+            } else if(mProject.getTitle().equals(report.getP5())) {
                 spentHours += report.getT5();
                 mReports.add(report);
-            } else if (mProject.getTitle().equals(report.getP6())) {
+            } else if(mProject.getTitle().equals(report.getP6())) {
                 spentHours += report.getT6();
                 mReports.add(report);
             }

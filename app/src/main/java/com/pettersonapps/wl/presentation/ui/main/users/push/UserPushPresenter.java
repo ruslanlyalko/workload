@@ -36,16 +36,16 @@ public class UserPushPresenter extends BasePresenter<UserPushView> {
     }
 
     public void onSend(final String title, final String body) {
-        if (TextUtils.isEmpty(mUser.getToken())) {
+        if(TextUtils.isEmpty(mUser.getToken())) {
             getView().showError("User is offline!");
             return;
         }
         mUser.getPushHistory().add(new UserPush(title, body));
         getDataManager().saveUser(mUser).addOnSuccessListener(aVoid -> {
-            if (getView() != null)
+            if(getView() != null)
                 getView().afterSending();
         }).addOnFailureListener(e -> {
-            if (getView() != null)
+            if(getView() != null)
                 getView().showError(e.getLocalizedMessage());
         });
         getView().showUserPushHistory(mUser.getPushHistory());

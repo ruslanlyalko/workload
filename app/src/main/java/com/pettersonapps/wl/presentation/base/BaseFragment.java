@@ -34,7 +34,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initPresenter(getArguments());
-        if (mPresenter == null) {
+        if(mPresenter == null) {
             throw new RuntimeException("Please init presenter!");
         }
     }
@@ -64,13 +64,13 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onDestroyView() {
         super.onDestroyView();
         getPresenter().detachView();
-        if (mUnbinder != null)
+        if(mUnbinder != null)
             mUnbinder.unbind();
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        if(item.getItemId() == android.R.id.home) {
             onHomeClicked();
             return true;
         }
@@ -106,14 +106,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     protected void setToolbarTitle(String title) {
-        if (mTitle != null)
+        if(mTitle != null)
             mTitle.setText(title);
         else
             getBaseActivity().setToolbarTitle(title);
     }
 
     protected void setToolbarTitle(@StringRes int titleRes) {
-        if (mTitle != null)
+        if(mTitle != null)
             mTitle.setText(titleRes);
         else
             getBaseActivity().setToolbarTitle(titleRes);

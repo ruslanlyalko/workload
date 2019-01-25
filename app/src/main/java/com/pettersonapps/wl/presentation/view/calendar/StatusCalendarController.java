@@ -141,7 +141,7 @@ public class StatusCalendarController {
     }
 
     private void loadAttributes(AttributeSet attrs, Context context) {
-        if (attrs != null && context != null) {
+        if(attrs != null && context != null) {
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.StatusCalendarView, 0, 0);
             try {
                 currentDayBackgroundColor = typedArray.getColor(R.styleable.StatusCalendarView_statusCalendarCurrentDayBackgroundColor, currentDayBackgroundColor);
@@ -211,7 +211,7 @@ public class StatusCalendarController {
     }
 
     private void initScreenDensityRelatedValues(Context context) {
-        if (context != null) {
+        if(context != null) {
             screenDensity = context.getResources().getDisplayMetrics().density;
             final ViewConfiguration configuration = ViewConfiguration
                     .get(context);
@@ -309,7 +309,7 @@ public class StatusCalendarController {
     }
 
     void setFirstDayOfWeek(int day) {
-        if (day < 1 || day > 7) {
+        if(day < 1 || day > 7) {
             throw new IllegalArgumentException("Day must be an int between 1 and 7 or DAY_OF_WEEK from Java Calendar class. For more information please see Calendar.DAY_OF_WEEK.");
         }
         this.firstDayOfWeekToDraw = day;
@@ -348,7 +348,7 @@ public class StatusCalendarController {
     void showNextMonth() {
         monthsScrolledSoFar = monthsScrolledSoFar - 1;
         accumulatedScrollOffset.x = monthsScrolledSoFar * width;
-        if (shouldSelectFirstDayOfMonthOnScroll) {
+        if(shouldSelectFirstDayOfMonthOnScroll) {
             setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, 1);
             setCurrentDate(calendarWithFirstDayOfMonth.getTime());
         }
@@ -358,7 +358,7 @@ public class StatusCalendarController {
     void showPreviousMonth() {
         monthsScrolledSoFar = monthsScrolledSoFar + 1;
         accumulatedScrollOffset.x = monthsScrolledSoFar * width;
-        if (shouldSelectFirstDayOfMonthOnScroll) {
+        if(shouldSelectFirstDayOfMonthOnScroll) {
             setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, -1);
             setCurrentDate(calendarWithFirstDayOfMonth.getTime());
         }
@@ -366,10 +366,10 @@ public class StatusCalendarController {
     }
 
     void setLocale(TimeZone timeZone, Locale locale) {
-        if (locale == null) {
+        if(locale == null) {
             throw new IllegalArgumentException("Locale cannot be null.");
         }
-        if (timeZone == null) {
+        if(timeZone == null) {
             throw new IllegalArgumentException("TimeZone cannot be null.");
         }
         this.locale = locale;
@@ -385,7 +385,7 @@ public class StatusCalendarController {
     }
 
     void setDayColumnNames(String[] dayColumnNames) {
-        if (dayColumnNames == null || dayColumnNames.length != 7) {
+        if(dayColumnNames == null || dayColumnNames.length != 7) {
             throw new IllegalArgumentException("Column names cannot be null and must contain a value for each day of the week");
         }
         this.dayColumnNames = dayColumnNames;
@@ -425,9 +425,9 @@ public class StatusCalendarController {
         paddingWidth = widthPerDay / 2;
         paddingHeight = heightPerDay / 2;
         calculateXPositionOffset();
-        if (animationStatus == EXPOSE_CALENDAR_ANIMATION) {
+        if(animationStatus == EXPOSE_CALENDAR_ANIMATION) {
             drawCalendarWhileAnimating(canvas);
-        } else if (animationStatus == ANIMATE_INDICATORS) {
+        } else if(animationStatus == ANIMATE_INDICATORS) {
             drawCalendarWhileAnimatingIndicators(canvas);
         } else {
             drawCalenderBackground(canvas);
@@ -455,7 +455,7 @@ public class StatusCalendarController {
 
     void onSingleTapUp(MotionEvent e) {
         // Don't handle single tap when calendar is scrolling and is not stationary
-        if (isScrolling()) {
+        if(isScrolling()) {
             return;
         }
         int dayColumn = Math.round((paddingLeft + e.getX() - paddingWidth - paddingRight) / widthPerDay);
@@ -463,7 +463,7 @@ public class StatusCalendarController {
         setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, -monthsScrolledSoFar, 0);
         int firstDayOfMonth = getDayOfWeek(calendarWithFirstDayOfMonth);
         int dayOfMonth = ((dayRow - 1) * 7 + dayColumn) - firstDayOfMonth;
-        if (dayOfMonth < calendarWithFirstDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH)
+        if(dayOfMonth < calendarWithFirstDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH)
                 && dayOfMonth >= 0) {
             calendarWithFirstDayOfMonth.add(Calendar.DATE, dayOfMonth);
             currentCalender.setTimeInMillis(calendarWithFirstDayOfMonth.getTimeInMillis());
@@ -480,18 +480,18 @@ public class StatusCalendarController {
     }
 
     private void performOnDayClickCallback(Date date) {
-        if (listener != null) {
+        if(listener != null) {
             listener.onDayClick(date);
         }
     }
 
     boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         //ignore scrolling callback if already smooth scrolling
-        if (isSmoothScrolling) {
+        if(isSmoothScrolling) {
             return true;
         }
-        if (currentDirection == StatusCalendarController.Direction.NONE) {
-            if (Math.abs(distanceX) > Math.abs(distanceY)) {
+        if(currentDirection == StatusCalendarController.Direction.NONE) {
+            if(Math.abs(distanceX) > Math.abs(distanceY)) {
                 currentDirection = StatusCalendarController.Direction.HORIZONTAL;
             } else {
                 currentDirection = StatusCalendarController.Direction.VERTICAL;
@@ -503,19 +503,19 @@ public class StatusCalendarController {
     }
 
     boolean onTouch(MotionEvent event) {
-        if (velocityTracker == null) {
+        if(velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
         velocityTracker.addMovement(event);
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (!scroller.isFinished()) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(!scroller.isFinished()) {
                 scroller.abortAnimation();
             }
             isSmoothScrolling = false;
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
             velocityTracker.addMovement(event);
             velocityTracker.computeCurrentVelocity(500);
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+        } else if(event.getAction() == MotionEvent.ACTION_UP) {
             handleHorizontalScrolling();
             velocityTracker.recycle();
             velocityTracker.clear();
@@ -535,7 +535,7 @@ public class StatusCalendarController {
         handleSmoothScrolling(velocityX);
         currentDirection = StatusCalendarController.Direction.NONE;
         setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, -monthsScrolledSoFar, 0);
-        if (calendarWithFirstDayOfMonth.get(Calendar.MONTH) != currentCalender.get(Calendar.MONTH) && shouldSelectFirstDayOfMonthOnScroll) {
+        if(calendarWithFirstDayOfMonth.get(Calendar.MONTH) != currentCalender.get(Calendar.MONTH) && shouldSelectFirstDayOfMonthOnScroll) {
             setCalenderToFirstDayOfMonth(currentCalender, currentDate, -monthsScrolledSoFar, 0);
         }
     }
@@ -548,13 +548,13 @@ public class StatusCalendarController {
     private void handleSmoothScrolling(int velocityX) {
         int distanceScrolled = (int) (accumulatedScrollOffset.x - (width * monthsScrolledSoFar));
         boolean isEnoughTimeElapsedSinceLastSmoothScroll = System.currentTimeMillis() - lastAutoScrollFromFling > LAST_FLING_THRESHOLD_MILLIS;
-        if (velocityX > densityAdjustedSnapVelocity && isEnoughTimeElapsedSinceLastSmoothScroll) {
+        if(velocityX > densityAdjustedSnapVelocity && isEnoughTimeElapsedSinceLastSmoothScroll) {
             scrollPreviousMonth();
-        } else if (velocityX < -densityAdjustedSnapVelocity && isEnoughTimeElapsedSinceLastSmoothScroll) {
+        } else if(velocityX < -densityAdjustedSnapVelocity && isEnoughTimeElapsedSinceLastSmoothScroll) {
             scrollNextMonth();
-        } else if (isScrolling && distanceScrolled > distanceThresholdForAutoScroll) {
+        } else if(isScrolling && distanceScrolled > distanceThresholdForAutoScroll) {
             scrollPreviousMonth();
-        } else if (isScrolling && distanceScrolled < -distanceThresholdForAutoScroll) {
+        } else if(isScrolling && distanceScrolled < -distanceThresholdForAutoScroll) {
             scrollNextMonth();
         } else {
             isSmoothScrolling = false;
@@ -579,7 +579,7 @@ public class StatusCalendarController {
     }
 
     private void performMonthScrollCallback() {
-        if (listener != null) {
+        if(listener != null) {
             listener.onMonthScroll(getFirstDayOfCurrentMonth());
         }
     }
@@ -684,7 +684,7 @@ public class StatusCalendarController {
     }
 
     boolean computeScroll() {
-        if (scroller.computeScrollOffset()) {
+        if(scroller.computeScrollOffset()) {
             accumulatedScrollOffset.x = scroller.getCurrX();
             return true;
         }
@@ -713,7 +713,7 @@ public class StatusCalendarController {
     }
 
     private void calculateXPositionOffset() {
-        if (currentDirection == StatusCalendarController.Direction.HORIZONTAL) {
+        if(currentDirection == StatusCalendarController.Direction.HORIZONTAL) {
             accumulatedScrollOffset.x -= distanceX;
         }
     }
@@ -736,7 +736,7 @@ public class StatusCalendarController {
         int currentYear = todayCalender.get(Calendar.YEAR);
         int selectedDayOfMonth = currentCalender.get(Calendar.DAY_OF_MONTH);
         int lastSelectedDayOfMonth = lastCalender.get(Calendar.DAY_OF_MONTH);
-        if (uniqEvents != null) {
+        if(uniqEvents != null) {
             for (int i = 0; i < uniqEvents.size(); i++) {
                 Events events = uniqEvents.get(i);
                 long timeMillis = events.getTimeInMillis();
@@ -745,13 +745,13 @@ public class StatusCalendarController {
                 int weekNumberForMonth = eventsCalendar.get(Calendar.WEEK_OF_MONTH);
                 float xPosition = widthPerDay * dayOfWeek + paddingWidth + paddingLeft + accumulatedScrollOffset.x + offset - paddingRight;
                 float yPosition = weekNumberForMonth * heightPerDay + (paddingHeight * 0.8f);
-                if (((animationStatus == EXPOSE_CALENDAR_ANIMATION || animationStatus == ANIMATE_INDICATORS) && xPosition >= growFactor) || yPosition >= growFactor) {
+                if(((animationStatus == EXPOSE_CALENDAR_ANIMATION || animationStatus == ANIMATE_INDICATORS) && xPosition >= growFactor) || yPosition >= growFactor) {
                     // only draw small event indicators if enough of the calendar is exposed
                     continue;
-                } else if (animationStatus == EXPAND_COLLAPSE_CALENDAR && yPosition >= growFactor) {
+                } else if(animationStatus == EXPAND_COLLAPSE_CALENDAR && yPosition >= growFactor) {
                     // expanding animation, just draw event indicators if enough of the calendar is visible
                     continue;
-                } else if (animationStatus == EXPOSE_CALENDAR_ANIMATION && (eventIndicatorStyle == FILL_LARGE_INDICATOR || eventIndicatorStyle == NO_FILL_LARGE_INDICATOR)) {
+                } else if(animationStatus == EXPOSE_CALENDAR_ANIMATION && (eventIndicatorStyle == FILL_LARGE_INDICATOR || eventIndicatorStyle == NO_FILL_LARGE_INDICATOR)) {
                     // Don't draw large indicators during expose animation, until animation is done
                     continue;
                 }
@@ -761,11 +761,11 @@ public class StatusCalendarController {
                 boolean isSameDayAsCurrentDay = shouldDrawCurrentDayCircle && (todayDayOfMonth == dayOfMonth) && (eventYear == currentYear);
                 boolean isCurrentSelectedDay = shouldDrawSelectedDayCircle && (selectedDayOfMonth == dayOfMonth);
                 boolean isLastSelectedDay = shouldDrawLastSelectedDayCircle && (lastSelectedDayOfMonth == dayOfMonth);
-                if (shouldDrawIndicatorsBelowSelectedDays || (!shouldDrawIndicatorsBelowSelectedDays && !isSameDayAsCurrentDay && !isCurrentSelectedDay) || animationStatus == EXPOSE_CALENDAR_ANIMATION) {
-                    if (eventIndicatorStyle == SMALL_INDICATOR) {
+                if(shouldDrawIndicatorsBelowSelectedDays || (!shouldDrawIndicatorsBelowSelectedDays && !isSameDayAsCurrentDay && !isCurrentSelectedDay) || animationStatus == EXPOSE_CALENDAR_ANIMATION) {
+                    if(eventIndicatorStyle == SMALL_INDICATOR) {
                         Event event = eventsList.get(0);
                         yPosition = yPosition + bigCircleIndicatorRadius;
-                        if (shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay)) {
+                        if(shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay)) {
                             yPosition += (2 * smallIndicatorRadius);
                         }
                         drawEventIndicatorCircle(canvas, xPosition, yPosition, event.getColor());
@@ -801,24 +801,24 @@ public class StatusCalendarController {
         tempPreviousMonthCalendar.add(Calendar.MONTH, -1);
         int maximumPreviousMonthDay = tempPreviousMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int dayColumn = 0, dayRow = 0; dayColumn <= 6; dayRow++) {
-            if (dayRow == 7) {
+            if(dayRow == 7) {
                 dayRow = 0;
-                if (dayColumn <= 6) {
+                if(dayColumn <= 6) {
                     dayColumn++;
                 }
             }
-            if (dayColumn == dayColumnNames.length) {
+            if(dayColumn == dayColumnNames.length) {
                 break;
             }
             float xPosition = widthPerDay * dayColumn + paddingWidth + paddingLeft + accumulatedScrollOffset.x + offset - paddingRight;
             float yPosition = dayRow * heightPerDay + paddingHeight;
-            if (xPosition >= growFactor && (isAnimatingWithExpose || animationStatus == ANIMATE_INDICATORS) || yPosition >= growFactor) {
+            if(xPosition >= growFactor && (isAnimatingWithExpose || animationStatus == ANIMATE_INDICATORS) || yPosition >= growFactor) {
                 // don't draw days if animating expose or indicators
                 continue;
             }
-            if (dayRow == 0) {
+            if(dayRow == 0) {
                 // first row, so draw the first letter of the day
-                if (shouldDrawDaysHeader) {
+                if(shouldDrawDaysHeader) {
                     dayPaint.setColor(headerDayTextColor);
                     dayPaint.setTypeface(Typeface.DEFAULT_BOLD);
                     dayPaint.setStyle(Paint.Style.FILL);
@@ -829,13 +829,13 @@ public class StatusCalendarController {
             } else {
                 int day = ((dayRow - 1) * 7 + dayColumn + 1) - firstDayOfMonth;
                 int defaultCalenderTextColorToUse = calenderTextColor;
-                if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
+                if(currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
                     dayPaint.setColor(currentSelectedDayBackgroundColor);
-                    if (!DateUtils.dateEquals(currentCalender.getTime(), lastCalender.getTime()))
+                    if(!DateUtils.dateEquals(currentCalender.getTime(), lastCalender.getTime()))
                         dayPaint.setAlpha((int) (255f * ((float) coefficient / MAX_COEFFICIENT)));
 //                        drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
-                    if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
-                        if (noEventsForDay(currentCalender)) {
+                    if(eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                        if(noEventsForDay(currentCalender)) {
                             drawRect(canvas, xPosition, yPosition - (textHeight / 6));
                         }
                     } else {
@@ -843,11 +843,11 @@ public class StatusCalendarController {
                     }
                     dayPaint.setAlpha(255);
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
-                } else if (isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {
+                } else if(isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {
 //                        drawDayCircleIndicator(currentDayIndicatorStyle, canvas, xPosition, yPosition, currentDayBackgroundColor);
                     dayPaint.setColor(currentDayBackgroundColor);
-                    if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
-                        if (noEventsForDay(todayCalender)) {
+                    if(eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+                        if(noEventsForDay(todayCalender)) {
                             drawRect(canvas, xPosition, yPosition - (textHeight / 6));
                         }
                     } else {
@@ -855,15 +855,15 @@ public class StatusCalendarController {
                     }
                     defaultCalenderTextColorToUse = currentDayTextColor;
                 }
-                if (day <= 0) {
-                    if (displayOtherMonthDays) {
+                if(day <= 0) {
+                    if(displayOtherMonthDays) {
                         // Display day month before
                         dayPaint.setStyle(Paint.Style.FILL);
                         dayPaint.setColor(otherMonthDaysTextColor);
                         canvas.drawText(String.valueOf(maximumPreviousMonthDay + day), xPosition, yPosition, dayPaint);
                     }
-                } else if (day > maximumMonthDay) {
-                    if (displayOtherMonthDays) {
+                } else if(day > maximumMonthDay) {
+                    if(displayOtherMonthDays) {
                         // Display day month after
                         dayPaint.setStyle(Paint.Style.FILL);
                         dayPaint.setColor(otherMonthDaysTextColor);
@@ -881,13 +881,13 @@ public class StatusCalendarController {
     private boolean sameAsPrev(final List<Events> uniqEvents, final Event event) {
         Calendar prevCalendar = Calendar.getInstance();
         prevCalendar.setTimeInMillis(event.getTimeInMillis());
-        if (prevCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+        if(prevCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
             return false;
         prevCalendar.add(Calendar.DAY_OF_MONTH, -1);
         Calendar itemCalendar = Calendar.getInstance();
         for (Events events : uniqEvents) {
             itemCalendar.setTimeInMillis(events.getTimeInMillis());
-            if (itemCalendar.get(Calendar.DAY_OF_YEAR) == prevCalendar.get(Calendar.DAY_OF_YEAR)
+            if(itemCalendar.get(Calendar.DAY_OF_YEAR) == prevCalendar.get(Calendar.DAY_OF_YEAR)
                     && itemCalendar.get(Calendar.YEAR) == prevCalendar.get(Calendar.YEAR)
                     && event.getColor() == events.getEvents().get(0).getColor())
                 return true;
@@ -900,10 +900,10 @@ public class StatusCalendarController {
         int currentYear = currentCalender.get(Calendar.YEAR);
         List<Events> uniqEvents = eventsContainer.getEventsForMonthAndYear(currentMonth, currentYear);
         Calendar itemCalendar = Calendar.getInstance();
-        if (uniqEvents != null)
+        if(uniqEvents != null)
             for (Events events : uniqEvents) {
                 itemCalendar.setTimeInMillis(events.getTimeInMillis());
-                if (itemCalendar.get(Calendar.DAY_OF_YEAR) == currentCalender.get(Calendar.DAY_OF_YEAR)
+                if(itemCalendar.get(Calendar.DAY_OF_YEAR) == currentCalender.get(Calendar.DAY_OF_YEAR)
                         && itemCalendar.get(Calendar.YEAR) == currentCalender.get(Calendar.YEAR))
                     return false;
             }
@@ -916,7 +916,7 @@ public class StatusCalendarController {
 
     private void drawDayCircleIndicator(int indicatorStyle, Canvas canvas, float x, float y, int color, float circleScale) {
         float strokeWidth = dayPaint.getStrokeWidth();
-        if (indicatorStyle == NO_FILL_LARGE_INDICATOR) {
+        if(indicatorStyle == NO_FILL_LARGE_INDICATOR) {
             dayPaint.setStrokeWidth(2 * screenDensity);
             dayPaint.setStyle(Paint.Style.STROKE);
         } else {
@@ -930,7 +930,7 @@ public class StatusCalendarController {
     // Draw Circle on certain days to highlight them
     private void drawCircle(Canvas canvas, float x, float y, int color, float circleScale) {
         dayPaint.setColor(color);
-        if (animationStatus == ANIMATE_INDICATORS) {
+        if(animationStatus == ANIMATE_INDICATORS) {
             float maxRadius = circleScale * bigCircleIndicatorRadius * 1.4f;
             drawCircle(canvas, growfactorIndicator > maxRadius ? maxRadius : growfactorIndicator, x, y - (textHeight / 6));
         } else {
@@ -940,13 +940,13 @@ public class StatusCalendarController {
 
     private void drawEventIndicatorCircle(Canvas canvas, float x, float y, int color) {
         dayPaint.setColor(color);
-        if (eventIndicatorStyle == SMALL_INDICATOR) {
+        if(eventIndicatorStyle == SMALL_INDICATOR) {
             dayPaint.setStyle(Paint.Style.FILL);
             drawCircle(canvas, smallIndicatorRadius, x, y);
-        } else if (eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
+        } else if(eventIndicatorStyle == NO_FILL_LARGE_INDICATOR) {
             dayPaint.setStyle(Paint.Style.STROKE);
             drawDayCircleIndicator(NO_FILL_LARGE_INDICATOR, canvas, x, y, color);
-        } else if (eventIndicatorStyle == FILL_LARGE_INDICATOR) {
+        } else if(eventIndicatorStyle == FILL_LARGE_INDICATOR) {
             drawDayCircleIndicator(FILL_LARGE_INDICATOR, canvas, x, y, color);
         }
     }
@@ -971,9 +971,9 @@ public class StatusCalendarController {
         float topMax = y + (heightPerDay / 2f) - dayPadding - (2 * lineIndicatorRadius);
         float diff = topMax - topMin;
         float top;
-        if (isCurrentSelectedDay)
+        if(isCurrentSelectedDay)
             top = topMax - (diff * (coefficient) / MAX_COEFFICIENT);
-        else if (isLastCurrentSelectedDay)
+        else if(isLastCurrentSelectedDay)
             top = topMin + (diff * (coefficient) / MAX_COEFFICIENT);
         else
             top = topMax;
@@ -981,7 +981,7 @@ public class StatusCalendarController {
         float right = x + (widthPerDay / 2f) - dayPadding;
         float bottom = y + (heightPerDay / 2f) - dayPadding;
         canvas.drawRoundRect(left, top, right, bottom, lineIndicatorRadius, lineIndicatorRadius, dayPaint);
-        if (isSameAsPrev) {//&& !isCurrentSelectedDay && !isLastCurrentSelectedDay) {
+        if(isSameAsPrev) {//&& !isCurrentSelectedDay && !isLastCurrentSelectedDay) {
             canvas.drawRoundRect(left - (3 * dayPadding), topMax, left + dayPadding, bottom, lineIndicatorRadius, lineIndicatorRadius, dayPaint);
         }
     }

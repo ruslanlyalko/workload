@@ -21,12 +21,12 @@ class AnimationHandler {
         this.mStatusCalendarViewView = statusCalendarViewView;
     }
 
-    void setStatusCalendarAnimationListener(StatusCalendarView.StatusCalendarAnimationListener compactCalendarAnimationListener){
+    void setStatusCalendarAnimationListener(StatusCalendarView.StatusCalendarAnimationListener compactCalendarAnimationListener) {
         this.statusCalendarAnimationListener = compactCalendarAnimationListener;
     }
 
     void openCalendar() {
-        if (isAnimating) {
+        if(isAnimating) {
             return;
         }
         isAnimating = true;
@@ -41,7 +41,7 @@ class AnimationHandler {
     }
 
     void closeCalendar() {
-        if (isAnimating) {
+        if(isAnimating) {
             return;
         }
         isAnimating = true;
@@ -56,7 +56,7 @@ class AnimationHandler {
     }
 
     void openCalendarWithAnimation() {
-        if (isAnimating) {
+        if(isAnimating) {
             return;
         }
         isAnimating = true;
@@ -69,7 +69,7 @@ class AnimationHandler {
     }
 
     void closeCalendarWithAnimation() {
-        if (isAnimating) {
+        if(isAnimating) {
             return;
         }
         isAnimating = true;
@@ -170,13 +170,13 @@ class AnimationHandler {
     }
 
     private void onOpen() {
-        if (statusCalendarAnimationListener != null) {
+        if(statusCalendarAnimationListener != null) {
             statusCalendarAnimationListener.onOpened();
         }
     }
 
     private void onClose() {
-        if (statusCalendarAnimationListener != null) {
+        if(statusCalendarAnimationListener != null) {
             statusCalendarAnimationListener.onClosed();
         }
     }

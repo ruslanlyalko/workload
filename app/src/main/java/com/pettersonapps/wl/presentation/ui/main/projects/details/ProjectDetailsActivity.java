@@ -109,7 +109,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public void showProjectInfo(final ProjectInfo projectInfo) {
-        if (projectInfo == null) return;
+        if(projectInfo == null) return;
         mTextResult.setText(projectInfo.toString());
         ArrayList<BarEntry> values = new ArrayList<>();
         values.add(new BarEntry(0, projectInfo.getiOS(), projectInfo.getiOS()));
@@ -122,7 +122,7 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
         //
         int[] colors = getResources().getIntArray(R.array.bar_colors);
         BarDataSet set1;
-        if (mBarChart.getData() != null && mBarChart.getData().getDataSetCount() == 1) {
+        if(mBarChart.getData() != null && mBarChart.getData().getDataSetCount() == 1) {
             set1 = (BarDataSet) mBarChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
         } else {
@@ -187,12 +187,12 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        if (requestCode == RC_PROJECT_EDIT && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra(KEY_PROJECT))
+        if(requestCode == RC_PROJECT_EDIT && resultCode == RESULT_OK) {
+            if(data != null && data.hasExtra(KEY_PROJECT))
                 getPresenter().setProject(data.getParcelableExtra(KEY_PROJECT));
             setToolbarTitle(getPresenter().getProject().getTitle());
         }
-        if (requestCode == RC_PROJECT_EDIT && resultCode == RESULT_FIRST_USER) {
+        if(requestCode == RC_PROJECT_EDIT && resultCode == RESULT_FIRST_USER) {
             onBackPressed();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -206,11 +206,11 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {
+        if(item.getItemId() == R.id.action_edit) {
             startActivityForResult(ProjectEditActivity.getLaunchIntent(this, getPresenter().getProject()), RC_PROJECT_EDIT);
             return true;
         }
-        if (item.getItemId() == R.id.action_user_projects) {
+        if(item.getItemId() == R.id.action_user_projects) {
             startActivity(ProjectUsersActivity.getLaunchIntent(this, getPresenter().getProject()));
             return true;
         }

@@ -90,7 +90,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
             }
         });
         mSwitchNightMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked)
+            if(isChecked)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             else
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -129,7 +129,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     public void populateUserSettings(User user) {
         String[] list = getResources().getStringArray(R.array.notification_hours);
         for (int i = 0; i < list.length; i++) {
-            if (list[i].startsWith(user.getRemindMeAt())) {
+            if(list[i].startsWith(user.getRemindMeAt())) {
                 mSpinnerNotification.setSelection(i);
                 break;
             }
@@ -165,8 +165,8 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if (appSettings != null) {
-                if (getVersion(BuildConfig.VERSION_NAME) < getVersion(appSettings.getAndroidLatestVersion())) {
+            if(appSettings != null) {
+                if(getVersion(BuildConfig.VERSION_NAME) < getVersion(appSettings.getAndroidLatestVersion())) {
                     mButtonUpdate.setVisibility(View.VISIBLE);
                     mTextVersion.setText(getString(R.string.version_name_available, BuildConfig.VERSION_NAME, appSettings.getAndroidLatestVersion()));
                 } else {

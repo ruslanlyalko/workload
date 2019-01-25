@@ -46,7 +46,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
     }
 
     public void addItem(ProjectSelectable projectSelectable, int defaultWorkingTime) {
-        if (mData.size() > 0) {
+        if(mData.size() > 0) {
             int totalHour = 0;
             for (ProjectSelectable p : mData) {
                 totalHour += p.getSpent();
@@ -56,7 +56,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
             projectSelectable.setSpent(defaultWorkingTime);
         }
         mData.add(projectSelectable);
-        if (mData.size() == 6)
+        if(mData.size() == 6)
             notifyItemChanged(mData.size() - 1);
         else
             notifyItemInserted(mData.size() - 1);
@@ -78,7 +78,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position < mData.size())
+        if(position < mData.size())
             holder.bind(mData.get(position));
         else
             holder.bind(null);
@@ -110,7 +110,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
         }
 
         void bind(@Nullable final ProjectSelectable project) {
-            if (project != null) {
+            if(project != null) {
                 mLayoutRoot.setVisibility(View.VISIBLE);
                 mTextTitle.setText(project.getTitle());
                 SpinnerAdapter adapter = new ArrayAdapter<>(mTextMinus.getContext(), R.layout.spinner_item, mHours);
@@ -136,7 +136,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
         private void selectHour(final String hour) {
             for (int i = 0; i < mHours.length; i++) {
-                if (mHours[i].equals(hour)) {
+                if(mHours[i].equals(hour)) {
                     mSpinnerHours.setSelection(i);
                     break;
                 }
@@ -145,10 +145,10 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
         @OnClick(R.id.image_remove)
         void onRemoveClicked() {
-            if (getAdapterPosition() >= mData.size()) return;
+            if(getAdapterPosition() >= mData.size()) return;
             mData.remove(getAdapterPosition());
             notifyItemRemoved(getAdapterPosition());
-            if (mData.size() == 5) {
+            if(mData.size() == 5) {
                 notifyItemInserted(5);
             }
         }
@@ -158,13 +158,13 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
             float spent = mData.get(getAdapterPosition()).getSpent();
             switch (view.getId()) {
                 case R.id.text_plus:
-                    if (spent < 12) {
+                    if(spent < 12) {
                         mData.get(getAdapterPosition()).setSpent(spent + 1);
                         selectHour(String.format(Locale.US, "%.0fh", spent + 1));
                     }
                     break;
                 case R.id.text_minus:
-                    if (spent > 1) {
+                    if(spent > 1) {
                         mData.get(getAdapterPosition()).setSpent(spent - 1);
                         selectHour(String.format(Locale.US, "%.0fh", spent - 1));
                     }
@@ -174,13 +174,13 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
 
         @OnClick(R.id.text_title)
         void onClicked(View view) {
-            if (mOnProjectSelectClickListener != null)
+            if(mOnProjectSelectClickListener != null)
                 mOnProjectSelectClickListener.onProjectChangeClicked(view, getAdapterPosition());
         }
 
         @OnClick(R.id.text_add_project)
         void onAddClicked(View view) {
-            if (mOnProjectSelectClickListener != null)
+            if(mOnProjectSelectClickListener != null)
                 mOnProjectSelectClickListener.onProjectAddClicked(view, getAdapterPosition());
         }
     }

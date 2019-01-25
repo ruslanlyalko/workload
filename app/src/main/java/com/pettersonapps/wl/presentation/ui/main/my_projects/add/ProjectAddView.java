@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseView;
-import com.pettersonapps.wl.presentation.ui.main.projects.edit.ProjectEditPresenter;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ public interface ProjectAddView extends BaseView<ProjectAddPresenter> {
     void hideProgress();
 
     void afterSuccessfullySaving(final Project project);
-
 
     void showProjects(MutableLiveData<List<Project>> allProjects);
 

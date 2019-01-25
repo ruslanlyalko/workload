@@ -206,9 +206,9 @@ public class Report extends BaseModel implements Parcelable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        if(!super.equals(o)) return false;
         Report report = (Report) o;
         return t1 == report.t1 &&
                 t2 == report.t2 &&

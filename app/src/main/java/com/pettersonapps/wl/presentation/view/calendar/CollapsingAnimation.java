@@ -23,7 +23,7 @@ class CollapsingAnimation extends Animation {
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         float grow = 0;
         int newHeight;
-        if (down) {
+        if(down) {
             newHeight = (int) (targetHeight * interpolatedTime);
             grow = (interpolatedTime * (targetGrowRadius * 2));
         } else {

@@ -22,7 +22,7 @@ public class WorkloadApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!DEBUG)
+        if(!DEBUG)
             Fabric.with(this, new Crashlytics());
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
