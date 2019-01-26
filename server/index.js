@@ -82,23 +82,29 @@ exports.userPushWatcher = functions.database.ref('/USERS/{userId}/pushHistory/{p
 	const pushDetails = change.val();
 	const usersPromise = admin.database().ref("/USERS").child(context.params.userId).once('value');
 	return usersPromise.then((snapshot)=>{
+		var userObj = snapshot.val();
 		var tokens = [];		
-			if(snapshot.val().token) {
-				tokens.push(snapshot.val().token);
-				var payload = {
-					notification:{
-						title: pushDetails.title,
-						body: pushDetails.body,
-						type: "direct_reminder",
-						"content_available" : "1",
-						badge: "1"
-					}
-				}	
-				console.log("Sending direct push");	
-				return sendMessagesViaFCM(tokens, payload);
-			} else {
-				return console.log("Direct push not sent. Maybe there is no token!");		
-			}
+		if(userObj.tokens) {						
+			var uTokens = Object.keys(userObj.tokens);
+			Array.prototype.push.apply(tokens, uTokens);						
+		} else if(userObj.token) {										
+			tokens.push(userObj.token);											
+		}
+		if(tokens.length > 0){							
+			var payload = {
+				notification:{
+					title: pushDetails.title,
+					body: pushDetails.body,
+					type: "direct_reminder",
+					"content_available" : "1",
+					badge: "1"
+				}
+			}	
+			console.log("Sending direct push");	
+			return sendMessagesViaFCM(tokens, payload);
+		} else {
+			return console.log("Direct push not sent. Maybe there is no token!");		
+		}
 		
 	});
 
@@ -135,8 +141,13 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 		return userPromise.then(userSnap => {
 			var userObj = userSnap.val();
 			var tokens = [];
-			if(userObj.token) {
-				tokens.push(userObj.token);
+			if(userObj.tokens) {						
+				var uTokens = Object.keys(userObj.tokens);
+				Array.prototype.push.apply(tokens, uTokens);						
+			} else if(userObj.token) {										
+				tokens.push(userObj.token);											
+			}
+			if(tokens.length > 0){				
 				var payload = {
 					notification:{
 						title: title,
@@ -148,7 +159,7 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 				}
 				sendMessagesViaFCM(tokens, payload);
 				console.log("Push Sent");
-				return response.send("Push Sent to the user with id = " + userId + ". And token = " + userObj.token);		
+				return response.send("Push Sent to the user with id = " + userId + ". And token = " + tokens);		
 			} else {
 				console.log("Push Not Sent");
 				return response.send("Push Not Send to the user with id = " + userId + ". Maybe there is no token!");		
@@ -159,7 +170,7 @@ exports.pushTest = functions.https.onRequest((request, response) => {
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ---------------------------------------------------------------------------- 
-exports.reminder = functions.https.onRequest((request, response) => {   
+exports.reminder = functions.https.onRequest((request, response) => { 	  
 	const dateStr = moment().format("YYYYMMDD"); 
 	const hourAndTimeStr = moment().tz('Europe/Kiev').format("HH:mm");
 	const hourAndTimeStr_1 = moment().tz('Europe/Kiev').add(-1,'minutes').format("HH:mm");
@@ -195,12 +206,18 @@ exports.reminder = functions.https.onRequest((request, response) => {
 					logText = logText +"VIP";
 					logTextHtml = logTextHtml +"VIP";		
 				} else{
-					if(userObj.remindMeAt === hourAndTimeStr || userObj.remindMeAt === hourAndTimeStr_1){		
-						if(userObj.token){
+					if(userObj.remindMeAt === hourAndTimeStr || userObj.remindMeAt === hourAndTimeStr_1){	
+						if(userObj.tokens){
+							var uTokens = Object.keys(userObj.tokens);
+							Array.prototype.push.apply(tokens, uTokens);
 							sentCount  = sentCount + 1;
+							logTextHtml = logTextHtml + "SENT " + uTokens.length;
+							logText = logText + "SENT " + uTokens.length;
+						} else if(userObj.token){
 							tokens.push(userObj.token);
-							logTextHtml = logTextHtml + "SENT"
-							logText = logText + "SENT"
+							sentCount  = sentCount + 1;							
+							logTextHtml = logTextHtml + "SENT";
+							logText = logText + "SENT";
 						}else{
 							logText = logText +"USER OFFLINE";
 							logTextHtml = logTextHtml +"USER OFFLINE";
@@ -234,9 +251,14 @@ exports.reminder = functions.https.onRequest((request, response) => {
  exports.yesterdayReminder = functions.https.onRequest((request, response) => {   
 	const days = request.query.days;	
 	const type = request.query.type;
-	var message = "fill in the workload for yesterday!"
+	var message = "fill in the workload for "
 	if(type === "last"){
-		message = "last chance to fill in the workload for yesterday!"
+		message = "last chance to fill in the workload for "
+	}
+	if(days > 1){
+		message = message+"friday!";
+	} else {
+		message = message + "yesterday!";
 	}
 	const dateStr = moment().subtract(days, 'day').format("YYYYMMDD"); 
 	const reportsPromise = admin.database().ref("/REPORTS").orderByKey().limitToLast(300).once('value');
@@ -252,6 +274,7 @@ exports.reminder = functions.https.onRequest((request, response) => {
 			return response.send("Today is Holiday!");
 		}
 		var logText = "";
+		var logTextHtml = "";
 		var count = 0;
 		var sentCount = 0;
 		var missedCount = 0;
@@ -260,32 +283,48 @@ exports.reminder = functions.https.onRequest((request, response) => {
 			var aKey = dateStr + "_" + userObj.key;			
 			if(reportsSnap.child(aKey).val()){ 
 				count  = count + 1;
-				logText = logText + "FOUND " + userObj.name + " (" + aKey+ ")\n";
+				logText = logText + "+ " + userObj.name + " (" + aKey+ ")\n";
+				logTextHtml = logTextHtml + "<p> + " + userObj.name + " (" + aKey+ ")</p>";
 			}else{
 				missedCount = missedCount + 1;
-				logText = logText + "MISSED " + userObj.name + " (" + aKey+ ")\n";		
-				if(!userObj.isVip && userObj.token){
-					sentCount  = sentCount + 1;
+				logText = logText + "- " + userObj.name + " (" + aKey+ ")\n";		
+				logTextHtml = logTextHtml + "<p> - " + userObj.name + " (" + aKey+ ")</p>";		
+				if(!userObj.isVip || type === "test"){
 					var tokens = [];
-					tokens.push(userObj.token);
-					var payload = {
-						notification:{
-							title: userObj.name + ", " + message,
-							body: "It won't take more than one minute",
-							type: "yesterday_reminder",
-							"content_available" : "1",
-							badge: "1"
-						}
+					if(userObj.tokens) {						
+						var uTokens = Object.keys(userObj.tokens);
+						Array.prototype.push.apply(tokens, uTokens);						
+					} else if(userObj.token) {										
+						tokens.push(userObj.token);											
 					}
-					if(type === "first" || type === "last" || userObj.name==="Ruslan Lyalko") 
-						sendMessagesViaFCM(tokens, payload);					
-				}else{
-					logText = logText + "USER TOKEN IS EMPTY\n";
+					if(tokens.length > 0){
+						sentCount  = sentCount + 1;		
+						var payload = {
+							notification:{
+								title: userObj.name + ", " + message,
+								body: "It won't take more than one minute",
+								type: "yesterday_reminder",
+								"content_available" : "1",
+								badge: "1"
+							}
+						}
+						if(type === "first" || type === "last" || userObj.name==="Test User"){
+							sendMessagesViaFCM(tokens, payload);
+							logText = logText + "SENT " + tokens.length + "\n";
+							logTextHtml = logTextHtml + "<p>SENT " + tokens.length + "</p>";
+						}
+					} else {
+						logText = logText + "USER IS OFFLINE\n";		
+						logTextHtml = logTextHtml + "<p>USER IS OFFLINE</p>";		
+					}	
+				} else {
+					logText = logText + "USER IS VIP\n";
+					logTextHtml = logTextHtml + "<p>USER IS VIP</p>";
 				}
 			}
 		});
 		console.log("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);
-		return response.send("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logText);			
+		return response.send("Check Date " + dateStr + "; Filled Workloads " + count + "; Missed " + missedCount + "; Push Sent " + sentCount + "\n" + logTextHtml);			
 	});  
  });
 // ----------------------------------------------------------------------------
