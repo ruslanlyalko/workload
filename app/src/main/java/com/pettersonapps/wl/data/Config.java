@@ -17,6 +17,7 @@ public interface Config {
     String FIELD_DATE_TIME = "date/time";
     String FIELD_USER_ID = "userId";
     String FIELD_TOKEN = "token";
+    String FIELD_TOKENS = "tokens";
     String FIELD_REMIND_ME_AT = "remindMeAt";
     String FIELD_DEFAULT_WORKING_TIME = "defaultWorkingTime";
     String FIELD_IS_OLD_STYLE_CALENDAR = "isOldStyleCalendar";

@@ -67,6 +67,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @BindView(R.id.bottom_sheet) LinearLayout mLayoutBottomSheet;
     @BindView(R.id.bottom_sheet_delete) LinearLayout mLayoutBottomSheetDelete;
     @BindView(R.id.bottom_sheet_logout) LinearLayout mLayoutBottomSheetLogout;
+    @BindView(R.id.bottom_sheet_time) LinearLayout mLayoutBottomSheetTime;
     @BindView(R.id.image_logo) ImageView mImageLogo;
     @BindView(R.id.text_title) TextView mTextTitle;
     @BindView(R.id.text_subtitle) TextView mTextSubtitle;
@@ -77,6 +78,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private BottomSheetBehavior mSheetBehavior;
     private BottomSheetBehavior mSheetBehaviorDelete;
     private BottomSheetBehavior mSheetBehaviorLogout;
+    private BottomSheetBehavior mSheetBehaviorTime;
     private float mOldY;
     private Fragment mCurFragment;
     private int mCurTabId = TAB_WORKLOAD;
@@ -137,7 +139,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @Override
     public void showUser(final MutableLiveData<User> myUserData) {
         myUserData.observe(this, user -> {
-            getPresenter().setUser(user, AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+            getPresenter().setUser(user);
             if(user == null) return;
             mTextTitle.setText(user.getName());
             mTextSubtitle.setText(user.getEmail());
@@ -191,6 +193,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         });
         mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorTime.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
@@ -210,15 +213,29 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         startActivity(LoginActivity.getLaunchIntent(getContext()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
+    @Override
+    public boolean isNightMode() {
+        return AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
+    }
+
     public void onShowDeleteMenu() {
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_EXPANDED);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorTime.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     public void onShowLogoutMenu() {
         mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_EXPANDED);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorTime.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    public void onShowTimeMenu() {
+        mSheetBehaviorTime.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
@@ -363,6 +380,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
         mSheetBehaviorDelete = BottomSheetBehavior.from(mLayoutBottomSheetDelete);
         mSheetBehaviorLogout = BottomSheetBehavior.from(mLayoutBottomSheetLogout);
+        mSheetBehaviorTime = BottomSheetBehavior.from(mLayoutBottomSheetTime);
         BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull final View view, final int i) {
@@ -382,6 +400,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
         mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
         mSheetBehaviorLogout.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorTime.setBottomSheetCallback(bottomSheetCallback);
         getPresenter().onViewReady();
         if(state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
@@ -485,5 +504,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorDelete.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mSheetBehaviorLogout.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mSheetBehaviorTime.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 }

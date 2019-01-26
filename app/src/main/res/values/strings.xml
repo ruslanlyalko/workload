@@ -160,6 +160,8 @@
     <string name="text_show_calendar">Show Calendar</string>
     <string name="text_hide_calendar">Hide Calendar</string>
     <string name="text_add_note">+ List Item</string>
+    <string name="text_time">Time</string>
+    <string name="text_specify">Specify your working hours</string>
 
     <!--arrays-->
     <string-array name="departments">

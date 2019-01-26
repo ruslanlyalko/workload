@@ -34,8 +34,6 @@ public interface DataManager {
 
     Task<Void> changePassword(String newPassword);
 
-    void updateToken();
-
     void updateRemindMeAt(final String remindMeAt);
 
     void updateDefaultWorkingTime(final int defaultWorkingTime);
@@ -45,6 +43,8 @@ public interface DataManager {
     void updateVersion();
 
     void updateNightMode(final boolean isNightMode);
+
+    void updateToken();
 
     void logout();
 

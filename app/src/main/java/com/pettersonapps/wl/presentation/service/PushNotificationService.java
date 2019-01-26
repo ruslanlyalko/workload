@@ -35,12 +35,12 @@ public class PushNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
-        if(remoteMessage.getNotification() != null && remoteMessage.getNotification().getTitle() != null && remoteMessage.getNotification().getBody() != null) {
-            Log.d(TAG, remoteMessage.getNotification().getBody());
-            showNotification(this, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
-        } else if(remoteMessage.getData() != null && remoteMessage.getData().containsKey(KEY_TITLE) && remoteMessage.getData().containsKey(KEY_BODY)) {
+        if(remoteMessage.getData() != null && remoteMessage.getData().containsKey(KEY_TITLE) && remoteMessage.getData().containsKey(KEY_BODY)) {
             Log.d(TAG, remoteMessage.getData().toString());
             showNotification(this, remoteMessage.getData().get(KEY_TITLE), remoteMessage.getData().get(KEY_BODY));
+        } else if(remoteMessage.getNotification() != null && remoteMessage.getNotification().getTitle() != null && remoteMessage.getNotification().getBody() != null) {
+            Log.d(TAG, remoteMessage.getNotification().getBody());
+            showNotification(this, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
     }
 
@@ -88,6 +88,6 @@ public class PushNotificationService extends FirebaseMessagingService {
         final NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if(notificationManager != null)
-            notificationManager.cancel(NOTIFICATION_ID);
+            notificationManager.cancelAll();
     }
 }

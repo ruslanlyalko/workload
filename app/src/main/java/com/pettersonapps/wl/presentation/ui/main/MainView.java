@@ -20,4 +20,6 @@ public interface MainView extends BaseView<MainPresenter> {
     void showErrorAndStartLoginScreen();
 
     void showLoginScreen();
+
+    boolean isNightMode();
 }

@@ -37,7 +37,6 @@ import static com.pettersonapps.wl.data.Config.DB_PROJECTS;
 import static com.pettersonapps.wl.data.Config.DB_REPORTS;
 import static com.pettersonapps.wl.data.Config.DB_SETTINGS;
 import static com.pettersonapps.wl.data.Config.DB_USERS;
-import static com.pettersonapps.wl.data.Config.FIELD_ALLOW_TO_EDIT;
 import static com.pettersonapps.wl.data.Config.FIELD_DATE_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_DEFAULT_WORKING_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_IS_NIGHT_MODE;
@@ -45,7 +44,7 @@ import static com.pettersonapps.wl.data.Config.FIELD_IS_OLD_STYLE_CALENDAR;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
 import static com.pettersonapps.wl.data.Config.FIELD_REMIND_ME_AT;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
-import static com.pettersonapps.wl.data.Config.FIELD_TOKEN;
+import static com.pettersonapps.wl.data.Config.FIELD_TOKENS;
 import static com.pettersonapps.wl.data.Config.FIELD_USER_ID;
 import static com.pettersonapps.wl.data.Config.FIELD_VERSION;
 
@@ -206,15 +205,6 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public void updateToken() {
-        if(mAuth.getCurrentUser() == null) return;
-        mDatabase.getReference(DB_USERS)
-                .child(mAuth.getCurrentUser().getUid())
-                .child(FIELD_TOKEN)
-                .setValue(FirebaseInstanceId.getInstance().getToken());
-    }
-
-    @Override
     public void updateRemindMeAt(final String remindMeAt) {
         if(mAuth.getCurrentUser() == null) return;
         mDatabase.getReference(DB_USERS)
@@ -260,16 +250,27 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public void updateToken() {
+        if(mAuth.getCurrentUser() == null) return;
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if(token != null && !TextUtils.isEmpty(token))
+            mDatabase.getReference(DB_USERS)
+                    .child(mAuth.getCurrentUser().getUid())
+                    .child(FIELD_TOKENS)
+                    .child(token)
+                    .setValue(true);
+    }
+
+    @Override
     public void logout() {
         if(mAuth.getCurrentUser() == null) return;
-        mDatabase.getReference(DB_USERS)
-                .child(mAuth.getCurrentUser().getUid())
-                .child(FIELD_TOKEN)
-                .removeValue();
-        mDatabase.getReference(DB_USERS)
-                .child(mAuth.getCurrentUser().getUid())
-                .child(FIELD_ALLOW_TO_EDIT)
-                .setValue(false);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if(token != null && !TextUtils.isEmpty(token))
+            mDatabase.getReference(DB_USERS)
+                    .child(mAuth.getCurrentUser().getUid())
+                    .child(FIELD_TOKENS)
+                    .child(token)
+                    .removeValue();
         mCurrentUserLiveData = null;
         mAllMyReportsListMutableLiveData = null;
         mAuth.signOut();

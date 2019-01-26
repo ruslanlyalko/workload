@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.my_projects.details;
 
+import android.animation.Animator;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import com.pettersonapps.wl.presentation.ui.main.my_projects.details.adapter.MyN
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.view.calendar.AnimatorListener;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
@@ -47,6 +50,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPresenter> implements MyProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
+    private static final long ANIMATION_DURATION = 400;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
@@ -128,19 +132,41 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == R.id.action_date) {
-            if(mLayoutCalendar.getVisibility() == View.VISIBLE) {
-                mLayoutCalendar.setVisibility(View.GONE);
-                mRecyclerNotes.setVisibility(View.VISIBLE);
-                toggleElevation();
-            } else {
-                mLayoutCalendar.setVisibility(View.VISIBLE);
-                mRecyclerNotes.setVisibility(View.GONE);
-                hideKeyboard();
-                mToolbar.setElevation(0);
-            }
+            toggleView();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleView() {
+        if(mLayoutCalendar.getVisibility() == View.VISIBLE) {
+            int x = mLayoutCalendar.getRight();
+            int y = mLayoutCalendar.getTop();
+            int startRadius = (int) Math.hypot(mLayoutCalendar.getWidth(), mLayoutCalendar.getHeight());
+            int endRadius = 0;
+            Animator anim = ViewAnimationUtils.createCircularReveal(mLayoutCalendar, x, y, startRadius, endRadius);
+            anim.setDuration(ANIMATION_DURATION);
+            anim.addListener(new AnimatorListener() {
+                @Override
+                public void onAnimationEnd(final Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLayoutCalendar.setVisibility(View.GONE);
+                }
+            });
+            anim.start();
+            toggleElevation();
+        } else {
+            int x = mLayoutCalendar.getRight();
+            int y = mLayoutCalendar.getTop();
+            int startRadius = 0;
+            int endRadius = (int) Math.hypot(mLayoutCalendar.getWidth(), mLayoutCalendar.getHeight());
+            Animator anim = ViewAnimationUtils.createCircularReveal(mLayoutCalendar, x, y, startRadius, endRadius);
+            anim.setDuration(ANIMATION_DURATION);
+            mLayoutCalendar.setVisibility(View.VISIBLE);
+            anim.start();
+            hideKeyboard();
+            mToolbar.setElevation(0);
+        }
     }
 
     @Override
