@@ -25,6 +25,12 @@ public class ProjectInfo implements Parcelable {
                 "\nPM = " + PM + "h;   QA = " + QA + "h;   Other = " + Other + "h";
     }
 
+    public String toLargeString() {
+        return "iOS = " + iOS + "h;   \n\nAndroid = " + Android + "h" +
+                "\n\nBackend = " + Backend + "h;   \n\nDesign = " + Design + "h" +
+                "\n\nPM = " + PM + "h;   \n\nQA = " + QA + "h;   \n\nOther = " + Other + "h";
+    }
+
     public int getiOS() {
         return iOS;
     }

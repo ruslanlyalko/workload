@@ -168,7 +168,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         mUsers = users;
         mFilteredUsers = new ArrayList<>();
         for (User user : mUsers) {
-            if(user != null && !user.getIsAdmin() && !user.getIsBlocked() && !user.getIsVip())
+            if(user != null && !user.getIsBlocked() && !user.getIsVip())
                 mFilteredUsers.add(user);
         }
     }

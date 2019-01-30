@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
@@ -156,11 +157,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
             if(mShowAdditionalData) {
-                String text = String.format(Locale.US, "%d. %s v%s %s",
+                String text = String.format(Locale.US, "%d. %s v%s %s %s %s",
                         getAdapterPosition() + 1,
                         user.getDepartment(),
                         user.getVersion(),
-                        user.getIsNightMode() ? "Night" : "");
+                        user.getIsNightMode() ? "Night" : "",
+                        user.getDefaultWorkingTime() != 8 ? "[4]" : "",
+                        hasNotes(user.getProjects())
+                );
                 mTextSubtitle.setText(text);
             } else
                 mTextSubtitle.setText(user.getDepartment());
@@ -175,6 +179,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mImageVip.setVisibility(user.getIsVip() ? View.VISIBLE : View.GONE);
             mImageOffline.setVisibility(TextUtils.isEmpty(user.getToken()) && !user.getIsVip() ? View.VISIBLE : View.GONE);
 //            runEnterAnimation(itemView, getAdapterPosition());
+        }
+
+        private String hasNotes(final List<Project> projects) {
+            int count = 0;
+            for (Project pro : projects) {
+                count += pro.getNotes().size();
+            }
+            if(count > 0)
+                return String.format(Locale.US, "{%d}", count);
+            return "";
         }
 
         private String getAbbreviation(final String name) {

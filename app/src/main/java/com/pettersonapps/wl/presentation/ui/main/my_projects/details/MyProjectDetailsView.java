@@ -4,7 +4,9 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
+import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.data.models.Report;
+import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseView;
 
 import java.util.Date;
@@ -29,4 +31,8 @@ public interface MyProjectDetailsView extends BaseView<MyProjectDetailsPresenter
     void showProjectDetails(Project project);
 
     void showSpentHours(int spentHours);
+
+    void showUser(MutableLiveData<User> myUser);
+
+    void invalidateMenu();
 }

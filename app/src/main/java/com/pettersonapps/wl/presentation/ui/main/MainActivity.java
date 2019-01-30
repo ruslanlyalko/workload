@@ -36,6 +36,7 @@ import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.alerts.AlertsFragment;
 import com.pettersonapps.wl.presentation.ui.main.dashboard.DashboardFragment;
 import com.pettersonapps.wl.presentation.ui.main.holidays.HolidaysFragment;
+import com.pettersonapps.wl.presentation.ui.main.my_notes.MyNotesFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.MyProjectsFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_vacations.MyVacationsFragment;
 import com.pettersonapps.wl.presentation.ui.main.profile.ProfileFragment;
@@ -59,6 +60,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     private static final int TAB_HOLIDAYS = 7;
     private static final int TAB_SETTINGS = 8;
     private static final int TAB_MY_PROJECTS = 9;
+    private static final int TAB_NOTES = 10;
     private static final String STATE_CURRENT_TAB_ID = "current_tab_id";
     private static final String KEY_SETTINGS = "settings";
     @BindView(R.id.bottom_app_bar) BottomAppBar mBottomAppBar;
@@ -187,6 +189,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 case R.id.action_my_projects:
                     onTabSelected(TAB_MY_PROJECTS);
                     return true;
+                case R.id.action_my_notes:
+                    onTabSelected(TAB_NOTES);
+                    return true;
                 default:
                     return false;
             }
@@ -261,6 +266,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return R.id.action_settings;
             case TAB_MY_PROJECTS:
                 return R.id.action_my_projects;
+            case TAB_NOTES:
+                return R.id.action_my_notes;
             default:
                 throw new IllegalArgumentException();
         }
@@ -301,6 +308,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
                 return SettingsFragment.newInstance();
             case TAB_MY_PROJECTS:
                 return MyProjectsFragment.newInstance();
+            case TAB_NOTES:
+                return MyNotesFragment.newInstance();
             default:
                 throw new IllegalArgumentException();
         }

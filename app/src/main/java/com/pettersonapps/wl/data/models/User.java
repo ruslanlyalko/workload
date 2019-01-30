@@ -20,20 +20,20 @@ public class User extends BaseModel {
     private String skype;
     private Date birthday;
     private Date firstWorkingDate;
-    private boolean isBlocked;
-    private boolean isAdmin;
     private List<Project> projects;
     private List<UserPush> pushHistory;
     private String comments;
-    private boolean isAllowEditPastReports;
-    //
     private String remindMeAt;
     private String token;
     private String version;
+    private int defaultWorkingTime;
     private boolean isNightMode;
     private boolean isVip;
-    private int defaultWorkingTime;
+    private boolean isManager;
     private boolean isOldStyleCalendar;
+    private boolean isAllowEditPastReports;
+    private boolean isBlocked;
+    private boolean isAdmin;
 
     public User() {
         firstWorkingDate = new Date();
@@ -46,6 +46,14 @@ public class User extends BaseModel {
         comments = "";
         defaultWorkingTime = 8;
         projects = new ArrayList<>();
+    }
+
+    public boolean getIsManager() {
+        return isManager;
+    }
+
+    public void setIsManager(final boolean manager) {
+        isManager = manager;
     }
 
     public List<UserPush> getPushHistory() {

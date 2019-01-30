@@ -1,6 +1,5 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics;
 
-import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
@@ -15,43 +14,36 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsView> {
+public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatisticsView> {
 
     private User mUser;
     private Project mProject;
     private Date mDate = new Date();
     private List<Report> mReports = new ArrayList<>();
-    private List<Holiday> mHolidays = new ArrayList<>();
+    private boolean mDateStateOneDay = true;
+    private Date mDateFrom = new Date();
+    private Date mDateTo = new Date();
 
-    MyProjectDetailsPresenter(Project project) {
+    MyProjectStatisticsPresenter(Project project) {
         mProject = project;
     }
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
         getView().showReports(getDataManager().getAllMyReports());
-        getView().showHolidaysOnCalendar(getDataManager().getAllHolidays());
         getView().showProjectDetails(mProject);
+        mDateFrom = DateUtils.getFirstDateOfMonth(new Date());
+        getView().showDateFrom(mDateFrom);
+        getView().showDateTo(mDateTo);
+    }
+
+    void toggleDateState() {
+        mDateStateOneDay = !mDateStateOneDay;
+        getView().showDateState(mDateStateOneDay);
     }
 
     public Date getDate() {
         return mDate;
-    }
-
-    public void fetchReportsForDate(final Date date) {
-        mDate = DateUtils.getDate(date, 1, 1);
-        getView().showReportOnCalendar(getReportsForCurrentDate(), mDate);
-    }
-
-    private List<Report> getReportsForCurrentDate() {
-        List<Report> result = new ArrayList<>();
-        for (Report r : mReports) {
-            if(r.getDate().after(DateUtils.getStart(mDate))
-                    && r.getDate().before(DateUtils.getEnd(mDate))) {
-                result.add(r);
-            }
-        }
-        return result;
     }
 
     public List<Report> getReports() {
@@ -82,19 +74,7 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
                 mReports.add(report);
             }
         }
-        getView().showSpentHours(spentHours);
-        getView().showReports(mReports);
-        getView().showCalendarsEvents();
-        fetchReportsForDate(mDate);
-    }
-
-    public List<Holiday> getHolidays() {
-        return mHolidays;
-    }
-
-    public void setHolidays(final List<Holiday> holidays) {
-        mHolidays = holidays;
-        getView().showCalendarsEvents();
+//        getView().showSpentHours(spentHours);
     }
 
     public Project getProject() {
@@ -103,12 +83,43 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
 
     public void setUser(final User user) {
         mUser = user;
-        getView().invalidateMenu();
     }
 
-    boolean isManager() {
-        if(mUser != null)
-            return mUser.getIsManager();
-        return false;
+    Date getDateFrom() {
+        return mDateFrom;
+    }
+
+    void setDateFrom(final Date newDate) {
+        mDateFrom = newDate;
+        getView().showDateFrom(mDateFrom);
+        if(mDateFrom.after(mDateTo)) {
+            setDateTo(mDateFrom);
+        }
+    }
+
+    Date getDateTo() {
+        return mDateTo;
+    }
+
+    void setDateTo(final Date newDate) {
+        mDateTo = newDate;
+        getView().showDateTo(mDateTo);
+        if(mDateTo.before(mDateFrom)) {
+            setDateFrom(mDateTo);
+        }
+    }
+
+    void onUpdateClicked() {
+        getView().showProgress();
+        getDataManager().getProjectInfo(mProject.getTitle(), mDateFrom, mDate)
+                .addOnSuccessListener(projectInfo -> {
+                    if(getView() == null) return;
+                    getView().hideProgress();
+                    getView().showProjectInfo(projectInfo);
+                })
+                .addOnFailureListener(e -> {
+                    if(getView() == null) return;
+                    getView().hideProgress();
+                });
     }
 }

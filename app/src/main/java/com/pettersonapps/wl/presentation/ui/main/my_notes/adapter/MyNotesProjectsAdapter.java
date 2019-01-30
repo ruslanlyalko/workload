@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.adapter;
+package com.pettersonapps.wl.presentation.ui.main.my_notes.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Note;
 import com.pettersonapps.wl.data.models.Project;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.ProjectClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,14 +27,14 @@ import butterknife.OnClick;
  * Created by Ruslan Lyalko
  * on 08.08.2018.
  */
-public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.ViewHolder> implements Filterable {
+public class MyNotesProjectsAdapter extends RecyclerView.Adapter<MyNotesProjectsAdapter.ViewHolder> implements Filterable {
 
     private List<Project> mData = new ArrayList<>();
     private List<Project> mDataFiltered = new ArrayList<>();
     private String mQuery;
     private ProjectClickListener mOnProjectClickListener;
 
-    public MyProjectsAdapter(ProjectClickListener onProjectClickListener) {
+    public MyNotesProjectsAdapter(ProjectClickListener onProjectClickListener) {
         mOnProjectClickListener = onProjectClickListener;
     }
 
@@ -60,7 +61,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_my_project, parent, false);
+                .inflate(R.layout.item_my_notes_project, parent, false);
         return new ViewHolder(v);
     }
 
@@ -111,7 +112,6 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.switch_title) Switch mSwitch;
         @BindView(R.id.text_title) TextView mTextTitle;
         @BindView(R.id.text_subtitle) TextView mTextSubTitle;
 
@@ -122,13 +122,10 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
 
         public void bind(final Project project) {
             mTextTitle.setText(project.getTitle());
-            mTextSubTitle.setText("");
-            mSwitch.setOnCheckedChangeListener(null);
-            mSwitch.setChecked(!project.getIsHidden());
-            mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                project.setIsHidden(!isChecked);
-                change(project);
-            });
+            if(project.getNotes().size() == 0)
+                mTextSubTitle.setText("");
+            else
+                mTextSubTitle.setText(String.format(Locale.US, "(%d/%d)", getCheckedCount(project.getNotes()), project.getNotes().size()));
         }
 
         private int getCheckedCount(final List<Note> notes) {

@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_projects"
             android:title="@string/menu_my_projects" />
         <item
+            android:id="@+id/action_my_notes"
+            android:icon="@drawable/ic_notes"
+            android:title="@string/menu_my_notes" />
+        <item
             android:id="@+id/action_vacations"
             android:icon="@drawable/ic_vacation"
             android:title="@string/menu_vacations" />

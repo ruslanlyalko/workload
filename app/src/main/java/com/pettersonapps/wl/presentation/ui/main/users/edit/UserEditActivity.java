@@ -44,6 +44,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
     @BindView(R.id.switch_blocked) Switch mSwitchBlocked;
     @BindView(R.id.switch_allow_edit) Switch mSwitchAllowEdit;
     @BindView(R.id.switch_vip) Switch mSwitchVip;
+    @BindView(R.id.switch_manager) Switch mSwitchManager;
     @BindView(R.id.switch_admin) Switch mSwitchAdmin;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
 
@@ -95,7 +96,11 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
                 mInputSkype.getText().toString(),
                 mInputComments.getText().toString(),
                 String.valueOf(mSpinnerDepartment.getSelectedItem()),
-                mSwitchBlocked.isChecked(), mSwitchAllowEdit.isChecked(), mSwitchVip.isChecked(), mSwitchAdmin.isChecked());
+                mSwitchBlocked.isChecked(),
+                mSwitchAllowEdit.isChecked(),
+                mSwitchVip.isChecked(),
+                mSwitchAdmin.isChecked(),
+                mSwitchManager.isChecked());
     }
 
     @OnClick({R.id.input_birthday, R.id.input_first_working_day})
@@ -169,6 +174,7 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mSwitchAllowEdit.setChecked(user.getIsAllowEditPastReports());
         mSwitchBlocked.setChecked(user.getIsBlocked());
         mSwitchVip.setChecked(user.getIsVip());
+        mSwitchManager.setChecked(user.getIsManager());
         mSwitchAdmin.setChecked(user.getIsAdmin());
     }
 

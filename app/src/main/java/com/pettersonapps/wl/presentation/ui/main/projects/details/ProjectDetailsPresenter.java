@@ -32,7 +32,7 @@ public class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsView> {
         return mProject;
     }
 
-    public void onUpdateClicked() {
+    void onUpdateClicked() {
         getView().showProgress();
         getDataManager().getProjectInfo(mProject.getTitle(), mFrom, mTo)
                 .addOnSuccessListener(projectInfo -> {

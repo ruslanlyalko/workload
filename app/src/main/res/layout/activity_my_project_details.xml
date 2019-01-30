@@ -12,100 +12,86 @@
     <!--include app bar-->
     <include layout="@layout/app_bar" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_calendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_notes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="false" />
+        android:layout_height="match_parent"
+        android:background="?attr/colorBackground"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/layout_calendar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/colorBackground"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_spent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:gravity="start"
+                android:paddingStart="36dp"
+                android:paddingEnd="0dp"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary"
+                android:textSize="15sp"
+                tools:text="8d 12h" />
+
+            <TextSwitcher
+                android:id="@+id/text_month"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                >
 
                 <TextView
-                    android:id="@+id/text_spent"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:paddingStart="36dp"
-                    android:paddingEnd="0dp"
+                    android:gravity="center_horizontal"
                     android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextPrimary"
+                    android:textColor="?attr/colorTextSecondary"
                     android:textSize="15sp"
-                    tools:text="8d 12h" />
+                    tools:text="MARCH" />
 
-                <TextSwitcher
-                    android:id="@+id/text_month"
-                    android:layout_width="150dp"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    >
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="15sp"
+                    tools:text="MARCH" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textAppearance="@style/TextAppearance.Body2"
-                        android:textColor="?attr/colorTextSecondary"
-                        android:textSize="15sp"
-                        tools:text="MARCH" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textAppearance="@style/TextAppearance.Body2"
-                        android:textColor="?attr/colorTextSecondary"
-                        android:textSize="15sp"
-                        tools:text="MARCH" />
-
-                </TextSwitcher>
-            </LinearLayout>
-
-            <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
-                android:id="@+id/calendar_view"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                app:statusCalendarBackgroundColor="?attr/colorBackground"
-                app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
-                app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"
-                app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
-                app:statusCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
-                app:statusCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
-                app:statusCalendarDayPadding="3dp"
-                app:statusCalendarHeaderDaysTextColor="?attr/colorTextProject"
-                app:statusCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
-                app:statusCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
-                app:statusCalendarShouldSelectFirstDayOfMonthOnScroll="false"
-                app:statusCalendarTextColor="?attr/colorTextPrimary"
-                app:statusCalendarTextSize="13sp" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            </TextSwitcher>
         </LinearLayout>
 
-    </RelativeLayout>
+        <com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:statusCalendarBackgroundColor="?attr/colorBackground"
+            app:statusCalendarCurrentDayBackgroundColor="?attr/colorPanelBackground"
+            app:statusCalendarCurrentDayTextColor="?attr/colorTextProject"
+            app:statusCalendarCurrentSelectedDayBackgroundColor="?attr/colorTextDefault"
+            app:statusCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
+            app:statusCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
+            app:statusCalendarDayPadding="3dp"
+            app:statusCalendarHeaderDaysTextColor="?attr/colorTextProject"
+            app:statusCalendarMultiEventIndicatorColor="?attr/colorTextSecondary"
+            app:statusCalendarOtherMonthDaysTextColor="?attr/colorTextGray"
+            app:statusCalendarShouldSelectFirstDayOfMonthOnScroll="false"
+            app:statusCalendarTextColor="?attr/colorTextPrimary"
+            app:statusCalendarTextSize="13sp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>

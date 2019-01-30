@@ -20,10 +20,10 @@ public class SquareButton extends AppCompatTextView {
     private int maxRadius;
     private int minRadius;
     private boolean isProgressShown;
-    private CharSequence text;
     private int width;
     private int radius;
     private ValueAnimator animator;
+    private CharSequence text;
 
     public SquareButton(final Context context) {
         super(context);

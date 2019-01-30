@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <!--include app bar-->
+    <include layout="@layout/app_bar" />
+
+    <LinearLayout
+        android:id="@+id/layout_date"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@id/spinner_status"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_from"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_black_rounded_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingEnd="@dimen/padding_mini"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="15sp"
+            tools:text="Mon, 17 Sep" />
+
+        <TextView
+            android:id="@+id/text_to"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_black_rounded_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingEnd="@dimen/padding_mini"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="15sp"
+            android:visibility="gone"
+            tools:text="Mon, 18 Sep"
+            tools:visibility="visible" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/image_change_date"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_black_rounded_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_day" />
+    </LinearLayout>
+
+    <com.pettersonapps.wl.presentation.view.ProgressButton
+        android:id="@+id/button_update"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:pb_buttonColor="@color/colorAccent"
+        app:pb_buttonRadius="@dimen/card_radius"
+        app:pb_buttonText="@string/text_get_project_info"
+        app:pb_progressColor="@color/colorWhite"
+        app:pb_textAppearance="@style/TextAppearance.Body2"
+        app:pb_textColor="@color/colorWhite"
+        app:pb_textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_spent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="start"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextPrimary"
+        android:textSize="15sp"
+        tools:text="8d 12h" />
+
+</LinearLayout>

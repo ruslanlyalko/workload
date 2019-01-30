@@ -14,14 +14,13 @@ import android.view.autofill.AutofillManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.MainActivity;
-import com.pettersonapps.wl.presentation.view.SquareButton;
+import com.pettersonapps.wl.presentation.view.ProgressButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,8 +31,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private String mEmailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     @BindView(R.id.input_email) TextInputEditText mInputEmail;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
-    @BindView(R.id.button_login) SquareButton mButtonLogin;
-    @BindView(R.id.progress) ProgressBar mProgress;
+    @BindView(R.id.button_login) ProgressButton mButtonLogin;
     @BindView(R.id.text_forgot) TextView mTextForgot;
     @BindView(R.id.layout_root) LinearLayout mLayoutRoot;
     @BindView(R.id.image_logo) ImageView mImageLogo;
@@ -110,14 +108,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void showProgress() {
         hideKeyboard();
-        mProgress.setVisibility(View.VISIBLE);
         mButtonLogin.showProgress(true);
     }
 
     @Override
     public void hideProgress() {
         mButtonLogin.showProgress(false);
-        mProgress.setVisibility(View.GONE);
     }
 
     @Override

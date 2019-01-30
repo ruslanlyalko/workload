@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details.adapter;
+package com.pettersonapps.wl.presentation.ui.main.my_notes.details.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;

@@ -74,6 +74,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".presentation.ui.main.my_projects.details.statistics.MyProjectStatisticsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".presentation.ui.main.my_notes.details.MyNotesProjectDetailsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".presentation.ui.main.projects.details.ProjectDetailsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

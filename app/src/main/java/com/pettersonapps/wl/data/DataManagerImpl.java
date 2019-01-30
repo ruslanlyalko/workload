@@ -44,6 +44,7 @@ import static com.pettersonapps.wl.data.Config.FIELD_IS_OLD_STYLE_CALENDAR;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
 import static com.pettersonapps.wl.data.Config.FIELD_REMIND_ME_AT;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
+import static com.pettersonapps.wl.data.Config.FIELD_TOKEN;
 import static com.pettersonapps.wl.data.Config.FIELD_TOKENS;
 import static com.pettersonapps.wl.data.Config.FIELD_USER_ID;
 import static com.pettersonapps.wl.data.Config.FIELD_VERSION;
@@ -149,7 +150,12 @@ public class DataManagerImpl implements DataManager {
                         Log.d(TAG, "getAllUsers:onDataChange");
                         List<User> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            list.add(snap.getValue(User.class));
+                            try {
+                                list.add(snap.getValue(User.class));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.d("DB ERROR USER ", snap.getKey());
+                            }
                         }
                         mAllUsersListLiveData.postValue(list);
                     }
@@ -271,6 +277,10 @@ public class DataManagerImpl implements DataManager {
                     .child(FIELD_TOKENS)
                     .child(token)
                     .removeValue();
+        mDatabase.getReference(DB_USERS)
+                .child(mAuth.getCurrentUser().getUid())
+                .child(FIELD_TOKEN)
+                .removeValue();
         mCurrentUserLiveData = null;
         mAllMyReportsListMutableLiveData = null;
         mAuth.signOut();
