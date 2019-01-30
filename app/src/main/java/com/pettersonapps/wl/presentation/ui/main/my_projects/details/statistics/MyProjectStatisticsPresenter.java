@@ -18,7 +18,6 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
 
     private User mUser;
     private Project mProject;
-    private Date mDate = new Date();
     private List<Report> mReports = new ArrayList<>();
     private boolean mDateStateOneDay = true;
     private Date mDateFrom = new Date();
@@ -40,10 +39,6 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
     void toggleDateState() {
         mDateStateOneDay = !mDateStateOneDay;
         getView().showDateState(mDateStateOneDay);
-    }
-
-    public Date getDate() {
-        return mDate;
     }
 
     public List<Report> getReports() {
@@ -111,7 +106,7 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
 
     void onUpdateClicked() {
         getView().showProgress();
-        getDataManager().getProjectInfo(mProject.getTitle(), mDateFrom, mDate)
+        getDataManager().getProjectInfo(mProject.getTitle(), mDateFrom, mDateTo)
                 .addOnSuccessListener(projectInfo -> {
                     if(getView() == null) return;
                     getView().hideProgress();
