@@ -174,8 +174,8 @@ public class UserEditActivity extends BaseActivity<UserEditPresenter> implements
         mSwitchAllowEdit.setChecked(user.getIsAllowEditPastReports());
         mSwitchBlocked.setChecked(user.getIsBlocked());
         mSwitchVip.setChecked(user.getIsVip());
-        mSwitchManager.setChecked(user.getIsManager());
         mSwitchAdmin.setChecked(user.getIsAdmin());
+        mSwitchManager.setChecked(user.getIsManager());
     }
 
     @Override

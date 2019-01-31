@@ -148,6 +148,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         @BindView(R.id.image_offline) ImageView mImageOffline;
         @BindView(R.id.image_admin) ImageView mImageAdmin;
         @BindView(R.id.image_vip) ImageView mImageVip;
+        @BindView(R.id.image_manager) ImageView mImageManager;
 
         ViewHolder(View view) {
             super(view);
@@ -177,7 +178,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             mImageAdmin.setVisibility(user.getIsAdmin() ? View.VISIBLE : View.GONE);
             mImageEdit.setVisibility(user.getIsAllowEditPastReports() ? View.VISIBLE : View.GONE);
             mImageVip.setVisibility(user.getIsVip() ? View.VISIBLE : View.GONE);
-            mImageOffline.setVisibility(TextUtils.isEmpty(user.getToken()) && !user.getIsVip() ? View.VISIBLE : View.GONE);
+            mImageOffline.setVisibility(TextUtils.isEmpty(user.getToken()) ? View.VISIBLE : View.GONE);
+            mImageManager.setVisibility(user.getIsManager() ? View.VISIBLE : View.GONE);
 //            runEnterAnimation(itemView, getAdapterPosition());
         }
 

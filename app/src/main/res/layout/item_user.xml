@@ -84,6 +84,16 @@
         android:src="@drawable/ic_vip"
         tools:ignore="ContentDescription" />
 
+    <ImageView
+        android:id="@+id/image_manager"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@id/image_vip"
+        android:src="@drawable/ic_manager"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/text_subtitle"
         android:layout_width="match_parent"

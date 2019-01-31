@@ -238,19 +238,20 @@ public class User extends BaseModel {
         dest.writeString(this.skype);
         dest.writeLong(this.birthday != null ? this.birthday.getTime() : -1);
         dest.writeLong(this.firstWorkingDate != null ? this.firstWorkingDate.getTime() : -1);
-        dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.projects);
         dest.writeTypedList(this.pushHistory);
         dest.writeString(this.comments);
-        dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
         dest.writeString(this.remindMeAt);
         dest.writeString(this.token);
         dest.writeString(this.version);
+        dest.writeInt(this.defaultWorkingTime);
         dest.writeByte(this.isNightMode ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isVip ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.defaultWorkingTime);
+        dest.writeByte(this.isManager ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isOldStyleCalendar ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isAllowEditPastReports ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isBlocked ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
     }
 
     protected User(Parcel in) {
@@ -265,19 +266,20 @@ public class User extends BaseModel {
         this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
         long tmpFirstWorkingDate = in.readLong();
         this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
-        this.isBlocked = in.readByte() != 0;
-        this.isAdmin = in.readByte() != 0;
         this.projects = in.createTypedArrayList(Project.CREATOR);
         this.pushHistory = in.createTypedArrayList(UserPush.CREATOR);
         this.comments = in.readString();
-        this.isAllowEditPastReports = in.readByte() != 0;
         this.remindMeAt = in.readString();
         this.token = in.readString();
         this.version = in.readString();
+        this.defaultWorkingTime = in.readInt();
         this.isNightMode = in.readByte() != 0;
         this.isVip = in.readByte() != 0;
-        this.defaultWorkingTime = in.readInt();
+        this.isManager = in.readByte() != 0;
         this.isOldStyleCalendar = in.readByte() != 0;
+        this.isAllowEditPastReports = in.readByte() != 0;
+        this.isBlocked = in.readByte() != 0;
+        this.isAdmin = in.readByte() != 0;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
