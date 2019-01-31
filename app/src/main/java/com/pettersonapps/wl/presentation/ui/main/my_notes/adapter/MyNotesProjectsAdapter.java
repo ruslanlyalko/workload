@@ -125,7 +125,7 @@ public class MyNotesProjectsAdapter extends RecyclerView.Adapter<MyNotesProjects
             if(project.getNotes().size() == 0)
                 mTextSubTitle.setText("");
             else
-                mTextSubTitle.setText(String.format(Locale.US, "(%d/%d)", getCheckedCount(project.getNotes()), project.getNotes().size()));
+                mTextSubTitle.setText(String.format(Locale.US, "%d/%d", getCheckedCount(project.getNotes()), project.getNotes().size()));
         }
 
         private int getCheckedCount(final List<Note> notes) {

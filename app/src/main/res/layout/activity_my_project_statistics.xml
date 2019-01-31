@@ -69,20 +69,118 @@
             app:srcCompat="@drawable/ic_day" />
     </LinearLayout>
 
-    <com.pettersonapps.wl.presentation.view.ProgressButton
-        android:id="@+id/button_update"
+    <com.wefika.flowlayout.FlowLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:pb_buttonColor="@color/colorAccent"
-        app:pb_buttonRadius="@dimen/card_radius"
-        app:pb_buttonText="@string/text_get_project_info"
-        app:pb_progressColor="@color/colorWhite"
-        app:pb_textAppearance="@style/TextAppearance.Body2"
-        app:pb_textColor="@color/colorWhite"
-        app:pb_textSize="16sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp">
+
+        <TextView
+            android:id="@+id/text_department_1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_5"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_6"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+
+        <TextView
+            android:id="@+id/text_department_7"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_project_rounded"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:textAppearance="@style/TextAppearance.Body1"
+            android:textColor="?attr/colorTextDefault"
+            android:textSize="13sp"
+            tools:text="Department 2h 30m" />
+    </com.wefika.flowlayout.FlowLayout>
 
     <TextView
         android:id="@+id/text_spent"

@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +42,13 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @BindView(R.id.image_change_date) AppCompatImageView mImageChangeDate;
     @BindDimen(R.dimen.margin_mini) int mElevation;
     @BindView(R.id.button_update) ProgressButton mButtonUpdate;
+    @BindView(R.id.text_department_1) TextView mTextDepartment1;
+    @BindView(R.id.text_department_2) TextView mTextDepartment2;
+    @BindView(R.id.text_department_3) TextView mTextDepartment3;
+    @BindView(R.id.text_department_4) TextView mTextDepartment4;
+    @BindView(R.id.text_department_5) TextView mTextDepartment5;
+    @BindView(R.id.text_department_6) TextView mTextDepartment6;
+    @BindView(R.id.text_department_7) TextView mTextDepartment7;
 
     public static Intent getLaunchIntent(final Context context, Project project) {
         Intent intent = new Intent(context, MyProjectStatisticsActivity.class);
@@ -114,7 +125,23 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
 
     @Override
     public void showProjectInfo(final ProjectInfo projectInfo) {
-        mTextSpent.setText(projectInfo.toLargeString());
+        mTextDepartment1.setText(getFormattedText(getString(R.string.department_ios), projectInfo.getiOS()));
+        mTextDepartment2.setText(getFormattedText(getString(R.string.department_android), projectInfo.getAndroid()));
+        mTextDepartment3.setText(getFormattedText(getString(R.string.department_backend), projectInfo.getBackend()));
+        mTextDepartment4.setText(getFormattedText(getString(R.string.department_design), projectInfo.getDesign()));
+        mTextDepartment5.setText(getFormattedText(getString(R.string.department_pm), projectInfo.getPM()));
+        mTextDepartment6.setText(getFormattedText(getString(R.string.department_qa), projectInfo.getQA()));
+        mTextDepartment7.setText(getFormattedText(getString(R.string.department_other), projectInfo.getOther()));
+    }
+
+    private Spanned getFormattedText(final String name, final float time) {
+        if(TextUtils.isEmpty(name)) return SpannableString.valueOf("");
+        String timeStr = String.format(Locale.US, "%.0fh", time);
+        float ex = time % 1;
+        if(ex != 0) {
+            timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
+        }
+        return Html.fromHtml("<b>" + name + "</b> " + timeStr);
     }
 
     @Override

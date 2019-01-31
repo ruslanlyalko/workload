@@ -86,7 +86,7 @@ public class DataManagerImpl implements DataManager {
         }
         return mDatabase.getReference(DB_USERS)
                 .child(user.getKey())
-                .setValue(user);
+                .updateChildren(user.toMap());
     }
 
     @Override
@@ -102,10 +102,17 @@ public class DataManagerImpl implements DataManager {
                 .child(key)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull final DataSnapshot snap) {
                         Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
-                        if(mCurrentUserLiveData != null)
-                            mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
+                        if(mCurrentUserLiveData != null) {
+                            User user = snap.getValue(User.class);
+                            if(user != null) {
+                                long tokensCount = snap.child(FIELD_TOKENS).getChildrenCount();
+                                if(tokensCount > 0)
+                                    user.setToken(String.valueOf(tokensCount));
+                                mCurrentUserLiveData.postValue(user);
+                            }
+                        }
                     }
 
                     @Override
@@ -126,9 +133,15 @@ public class DataManagerImpl implements DataManager {
                 .child(key)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull final DataSnapshot snap) {
                         Log.d(TAG, "getUser:onDataChange, Key:" + key);
-                        userLiveData.postValue(dataSnapshot.getValue(User.class));
+                        User user = snap.getValue(User.class);
+                        if(user != null) {
+                            long tokensCount = snap.child(FIELD_TOKENS).getChildrenCount();
+                            if(tokensCount > 0)
+                                user.setToken(String.valueOf(tokensCount));
+                            userLiveData.postValue(user);
+                        }
                     }
 
                     @Override
@@ -151,7 +164,13 @@ public class DataManagerImpl implements DataManager {
                         List<User> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
                             try {
-                                list.add(snap.getValue(User.class));
+                                User user = snap.getValue(User.class);
+                                if(user != null) {
+                                    long tokensCount = snap.child(FIELD_TOKENS).getChildrenCount();
+                                    if(tokensCount > 0)
+                                        user.setToken(String.valueOf(tokensCount));
+                                    list.add(user);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Log.d("DB ERROR USER ", snap.getKey());

@@ -9,12 +9,13 @@
 
     <TextView
         android:id="@+id/text_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/text_subtitle"
         android:gravity="center_vertical"
-        android:paddingEnd="0dp"
         android:paddingStart="24dp"
+        android:paddingEnd="0dp"
         android:textAppearance="@style/TextAppearance.Body2"
         android:textColor="?attr/colorTextDefault"
         android:textSize="16sp"
@@ -26,14 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignBaseline="@id/text_title"
-        android:layout_toEndOf="@id/text_title"
+        android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
-        android:paddingEnd="0dp"
-        android:paddingStart="12dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp"
         android:textAppearance="@style/TextAppearance.Body2"
         android:textColor="?attr/colorTextPrimary"
-        android:textSize="12sp"
-        tools:text="(9/15)"
+        android:textSize="16sp"
+        tools:text="9/15"
         />
 
 </RelativeLayout>

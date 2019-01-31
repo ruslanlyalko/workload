@@ -167,6 +167,13 @@
     <string name="text_specify">Specify your working hours</string>
     <string name="menu_my_notes">Notes</string>
     <string name="title_statistics">%s statistics</string>
+    <string name="department_ios">iOS</string>
+    <string name="department_android">Android</string>
+    <string name="department_backend">Backend,Web</string>
+    <string name="department_design">Design</string>
+    <string name="department_pm">PM</string>
+    <string name="department_qa">QA</string>
+    <string name="department_other">Other</string>
 
     <!--arrays-->
     <string-array name="departments">

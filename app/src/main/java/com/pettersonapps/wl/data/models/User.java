@@ -2,9 +2,13 @@ package com.pettersonapps.wl.data.models;
 
 import android.os.Parcel;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ruslan Lyalko
@@ -34,6 +38,35 @@ public class User extends BaseModel {
     private boolean isAllowEditPastReports;
     private boolean isBlocked;
     private boolean isAdmin;
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("key", key);
+        result.put("name", name);
+        result.put("email", email);
+        result.put("phone", phone);
+        result.put("avatar", avatar);
+        result.put("department", department);
+        result.put("skype", skype);
+        result.put("birthday", birthday);
+        result.put("firstWorkingDate", firstWorkingDate);
+        result.put("projects", projects);
+        result.put("pushHistory", pushHistory);
+        result.put("comments", comments);
+        result.put("remindMeAt", remindMeAt);
+        result.put("token", token);
+        result.put("version", version);
+        result.put("defaultWorkingTime", defaultWorkingTime);
+        result.put("isNightMode", isNightMode);
+        result.put("isVip", isVip);
+        result.put("isManager", isManager);
+        result.put("isOldStyleCalendar", isOldStyleCalendar);
+        result.put("isAllowEditPastReports", isAllowEditPastReports);
+        result.put("isBlocked", isBlocked);
+        result.put("isAdmin", isAdmin);
+        return result;
+    }
 
     public User() {
         firstWorkingDate = new Date();
