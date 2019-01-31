@@ -113,6 +113,7 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
                 .addOnSuccessListener(projectInfo -> {
                     if(getView() == null) return;
                     getView().hideProgress();
+                    if(projectInfo == null) return;
                     getView().showProjectInfo(projectInfo);
                 })
                 .addOnFailureListener(e -> {
