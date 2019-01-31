@@ -1,10 +1,10 @@
 package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics;
 
 import com.pettersonapps.wl.data.models.Project;
+import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
-import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,14 +31,17 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
         getView().showUser(getDataManager().getMyUser());
         getView().showReports(getDataManager().getAllMyReports());
         getView().showProjectDetails(mProject);
-        mDateFrom = DateUtils.getFirstDateOfMonth(new Date());
+        mDateFrom = mProject.getCreatedAt();
         getView().showDateFrom(mDateFrom);
         getView().showDateTo(mDateTo);
+        getView().showProjectInfo(new ProjectInfo());
+        onUpdateClicked();
     }
 
     void toggleDateState() {
         mDateStateOneDay = !mDateStateOneDay;
         getView().showDateState(mDateStateOneDay);
+        onUpdateClicked();
     }
 
     public List<Report> getReports() {
@@ -106,7 +109,7 @@ public class MyProjectStatisticsPresenter extends BasePresenter<MyProjectStatist
 
     void onUpdateClicked() {
         getView().showProgress();
-        getDataManager().getProjectInfo(mProject.getTitle(), mDateFrom, mDateTo)
+        getDataManager().getProjectInfo(mProject.getTitle(), mDateFrom, mDateStateOneDay ? new Date() : mDateTo)
                 .addOnSuccessListener(projectInfo -> {
                     if(getView() == null) return;
                     getView().hideProgress();

@@ -11,6 +11,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pettersonapps.wl.R;
@@ -20,7 +21,6 @@ import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
-import com.pettersonapps.wl.presentation.view.ProgressButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -41,7 +41,6 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @BindView(R.id.text_to) TextView mTextTo;
     @BindView(R.id.image_change_date) AppCompatImageView mImageChangeDate;
     @BindDimen(R.dimen.margin_mini) int mElevation;
-    @BindView(R.id.button_update) ProgressButton mButtonUpdate;
     @BindView(R.id.text_department_1) TextView mTextDepartment1;
     @BindView(R.id.text_department_2) TextView mTextDepartment2;
     @BindView(R.id.text_department_3) TextView mTextDepartment3;
@@ -49,6 +48,7 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @BindView(R.id.text_department_5) TextView mTextDepartment5;
     @BindView(R.id.text_department_6) TextView mTextDepartment6;
     @BindView(R.id.text_department_7) TextView mTextDepartment7;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
     public static Intent getLaunchIntent(final Context context, Project project) {
         Intent intent = new Intent(context, MyProjectStatisticsActivity.class);
@@ -115,20 +115,20 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
 
     @Override
     public void showProgress() {
-        mButtonUpdate.showProgress(true);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        mButtonUpdate.showProgress(false);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showProjectInfo(final ProjectInfo projectInfo) {
         mTextDepartment1.setText(getFormattedText(getString(R.string.department_ios), projectInfo.getiOS()));
         mTextDepartment2.setText(getFormattedText(getString(R.string.department_android), projectInfo.getAndroid()));
-        mTextDepartment3.setText(getFormattedText(getString(R.string.department_backend), projectInfo.getBackend()));
-        mTextDepartment4.setText(getFormattedText(getString(R.string.department_design), projectInfo.getDesign()));
+        mTextDepartment3.setText(getFormattedText(getString(R.string.department_design), projectInfo.getDesign()));
+        mTextDepartment4.setText(getFormattedText(getString(R.string.department_backend), projectInfo.getBackend()));
         mTextDepartment5.setText(getFormattedText(getString(R.string.department_pm), projectInfo.getPM()));
         mTextDepartment6.setText(getFormattedText(getString(R.string.department_qa), projectInfo.getQA()));
         mTextDepartment7.setText(getFormattedText(getString(R.string.department_other), projectInfo.getOther()));
@@ -159,6 +159,7 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setDateFrom(newDate);
+                    getPresenter().onUpdateClicked();
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setMaxDate(DateUtils.get1MonthForward());
                 datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
@@ -170,6 +171,7 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
                 DatePickerDialog datePickerDialog1 = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setDateTo(newDate);
+                    getPresenter().onUpdateClicked();
                 }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog1.setMaxDate(DateUtils.get1MonthForward());
                 datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
@@ -179,10 +181,5 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
                 getPresenter().toggleDateState();
                 break;
         }
-    }
-
-    @OnClick(R.id.button_update)
-    public void onClick() {
-        getPresenter().onUpdateClicked();
     }
 }
