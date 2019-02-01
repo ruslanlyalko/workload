@@ -106,15 +106,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                mQuery = charSequence.toString();
+                mQuery = charSequence.toString().toLowerCase();
                 if(mQuery.isEmpty()) {
                     mDataFiltered = mData;
                 } else {
                     List<User> filteredList = new ArrayList<>();
                     for (User user : mData) {
-                        if(user.getName().toLowerCase().contains(charSequence.toString().toLowerCase())
-                                || (user.getDepartment().toLowerCase().contains(charSequence.toString().toLowerCase()))
-                                || (mShowAdditionalData && user.getVersion().toLowerCase().contains(charSequence.toString().toLowerCase()))) {
+                        if(user.getName().toLowerCase().contains(mQuery)
+                                || (user.getDepartment().toLowerCase().contains(mQuery))
+                                || (mShowAdditionalData && user.getVersion().toLowerCase().contains(mQuery))
+                                || (mShowAdditionalData && user.getRemindMeAt().toLowerCase().contains(mQuery))) {
                             filteredList.add(user);
                         }
                     }
@@ -158,11 +159,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         void bind(final User user) {
             mTextTitle.setText(user.getName());
             if(mShowAdditionalData) {
-                String text = String.format(Locale.US, "%d. %s v%s %s %s %s",
+                String text = String.format(Locale.US, "%d. %s v%s %s %s %s %s",
                         getAdapterPosition() + 1,
                         user.getDepartment(),
                         user.getVersion(),
                         user.getIsNightMode() ? "Night" : "",
+                        user.getRemindMeAt(),
                         user.getDefaultWorkingTime() != 8 ? "[4]" : "",
                         hasNotes(user.getProjects())
                 );
