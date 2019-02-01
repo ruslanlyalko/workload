@@ -40,6 +40,7 @@ import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -267,6 +268,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     @Override
     public void showReportsOnList(final List<Report> list, final String holiday) {
+        Collections.sort(list, (o1, o2) -> o1.getUserName().compareTo(o2.getUserName()));
         mReportsAdapter.setData(list);
         mTextReportsHeader.setText(getString(R.string.text_total_filled, list.size()));
         if(holiday != null) {
