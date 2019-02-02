@@ -33,4 +33,6 @@ public interface DashboardView extends BaseView<DashboardPresenter> {
     void showHolidaysOnCalendar(MutableLiveData<List<Holiday>> allHolidays);
 
     void hideProgress();
+
+    void showProgress();
 }

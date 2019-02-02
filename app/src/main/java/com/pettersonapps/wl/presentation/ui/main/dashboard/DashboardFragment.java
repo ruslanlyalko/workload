@@ -2,7 +2,6 @@ package com.pettersonapps.wl.presentation.ui.main.dashboard;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
-import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +36,7 @@ import com.pettersonapps.wl.presentation.ui.report.ReportClickListener;
 import com.pettersonapps.wl.presentation.ui.report.ReportsAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.utils.ViewUtils;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -61,7 +61,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @BindView(R.id.layout_results) LinearLayout mLayoutResults;
     @BindView(R.id.layout_filters) LinearLayout mLayoutFilters;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
-    @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
     private ReportsAdapter mReportsAdapter;
@@ -272,10 +271,12 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         mReportsAdapter.setData(list);
         mTextReportsHeader.setText(getString(R.string.text_total_filled, list.size()));
         if(holiday != null) {
-            mCardHoliday.setVisibility(View.VISIBLE);
             mTextHolidayName.setText(holiday);
+            if(mTextHolidayName.getVisibility() != View.VISIBLE)
+                ViewUtils.expand(mTextHolidayName);
         } else {
-            mCardHoliday.setVisibility(View.GONE);
+            if(mTextHolidayName.getVisibility() != View.GONE)
+                ViewUtils.collapse(mTextHolidayName);
         }
     }
 
@@ -303,8 +304,13 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     @Override
     public void hideProgress() {
-        mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.INVISIBLE);
         mLayoutResults.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.title, R.id.text_month})

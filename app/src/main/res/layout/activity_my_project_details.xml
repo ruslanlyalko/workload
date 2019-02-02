@@ -33,7 +33,7 @@
                 android:paddingStart="36dp"
                 android:paddingEnd="0dp"
                 android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="?attr/colorTextPrimary"
+                android:textColor="?attr/colorTextSecondary"
                 android:textSize="15sp"
                 tools:text="8d 12h" />
 

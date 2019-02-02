@@ -59,6 +59,11 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_my_project_details;
+    }
+
+    @Override
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
         vacationReportsData.observe(this, list -> getPresenter().setReports(list));
     }
@@ -107,7 +112,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     public void showSpentHours(final int spentHours) {
         int hours = spentHours % 8;
         int days = (spentHours - hours) / 8;
-        mTextSpent.setText(String.format(Locale.US, "Spent: %dd %dh", days, hours));
+        mTextSpent.setText(String.format(Locale.US, "Time spent: %dh", spentHours));
     }
 
     @Override
@@ -151,11 +156,6 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         intent.putExtra(KEY_PROJECT, getPresenter().getProject());
         setResult(RESULT_OK, intent);
         super.onBackPressed();
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_my_project_details;
     }
 
     @Override

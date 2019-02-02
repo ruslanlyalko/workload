@@ -50,6 +50,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
             showFilteredReports();
             return;
         }
+        getView().showProgress();
         mLoadedMonths.add(month);
         getView().showReports(getDataManager().getReportsFilter(from, to));
     }

@@ -187,43 +187,6 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<User>> getAllUsersWithoutReports(List<User> users, final Date date) {
-        final MutableLiveData<List<User>> result = new MutableLiveData<>();
-        if(users.isEmpty()) return result;
-        List<User> listUsers = new ArrayList<>();
-        for (User user : users) {
-            if(user != null && !user.getIsAdmin() && !user.getIsBlocked())
-                listUsers.add(user);
-        }
-        mDatabase.getReference(DB_REPORTS)
-                .orderByChild(FIELD_DATE_TIME)
-                .startAt(DateUtils.getStart(date).getTime())
-                .endAt(DateUtils.getEnd(date).getTime())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllUsersWithoutReports:onDataChange Reports");
-                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
-                            Report report = snapReport.getValue(Report.class);
-                            if(report == null) return;
-                            for (int i = 0; i < listUsers.size(); i++) {
-                                if(listUsers.get(i).getKey().equals(report.getUserId())) {
-                                    listUsers.remove(i);
-                                    break;
-                                }
-                            }
-                        }
-                        result.postValue(listUsers);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
-        return result;
-    }
-
-    @Override
     public Task<Void> changePassword(final String newPassword) {
         if(mAuth.getCurrentUser() == null) return null;
         return mAuth.getCurrentUser().updatePassword(newPassword);
@@ -516,36 +479,6 @@ public class DataManagerImpl implements DataManager {
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if(report == null) return;
-                            list.add(report);
-                        }
-                        result.postValue(list);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
-        return result;
-    }
-
-    @Override
-    public MutableLiveData<List<Report>> getAllWrongReports(final Date date) {
-        final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        mDatabase.getReference(DB_REPORTS)
-                .orderByChild(FIELD_DATE_TIME)
-                .startAt(DateUtils.getStart(date).getTime())
-                .endAt(DateUtils.getEnd(date).getTime())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllWrongReports:onDataChange");
-                        List<Report> list = new ArrayList<>();
-                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
-                            Report report = snapReport.getValue(Report.class);
-                            if(report == null) return;
-                            if(report.getStatus().startsWith("Worked") && getTotalHoursSpent(report) == 8) {
-                                continue;
-                            }
                             list.add(report);
                         }
                         result.postValue(list);

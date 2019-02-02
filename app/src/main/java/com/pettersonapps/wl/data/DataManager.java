@@ -30,8 +30,6 @@ public interface DataManager {
 
     MutableLiveData<List<User>> getAllUsers();
 
-    MutableLiveData<List<User>> getAllUsersWithoutReports(List<User> users, Date date);
-
     Task<Void> changePassword(String newPassword);
 
     void updateRemindMeAt(final String remindMeAt);
@@ -49,15 +47,15 @@ public interface DataManager {
     void logout();
 
     void clearCache();
-    // Holidays
 
+    // Holidays
     MutableLiveData<List<Holiday>> getAllHolidays();
 
     Task<Void> saveHoliday(Holiday holiday);
 
     Task<Void> deleteHoliday(Holiday holiday);
-    //projects
 
+    // Projects
     Task<ProjectInfo> getProjectInfo(String project, Date from, Date to);
 
     Task<CheckBlocked> isBlocked();
@@ -69,8 +67,8 @@ public interface DataManager {
     Task<Void> deleteProject(Project project);
 
     MutableLiveData<List<Project>> getAllProjects();
-    //reports
 
+    // Reports
     Task<Void> saveReport(Report newReport);
 
     Task<Void> removeReport(Report report);
@@ -78,8 +76,6 @@ public interface DataManager {
     MutableLiveData<List<Report>> getAllMyReports();
 
     MutableLiveData<List<Report>> getReportsFilter(Date from, Date to);
-
-    MutableLiveData<List<Report>> getAllWrongReports(Date date);
 
     MutableLiveData<List<Report>> getUserReports(final User user);
 
