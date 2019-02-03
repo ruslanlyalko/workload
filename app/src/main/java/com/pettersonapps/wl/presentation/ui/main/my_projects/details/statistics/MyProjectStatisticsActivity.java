@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
@@ -20,7 +22,9 @@ import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics.adapter.StatisticsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -32,7 +36,7 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatisticsPresenter> implements MyProjectStatisticsView {
+public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatisticsPresenter> implements MyProjectStatisticsView, OnItemClickListener {
 
     private static final String KEY_PROJECT = "project";
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -40,7 +44,6 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @BindView(R.id.text_from) TextView mTextFrom;
     @BindView(R.id.text_to) TextView mTextTo;
     @BindView(R.id.image_change_date) AppCompatImageView mImageChangeDate;
-    @BindDimen(R.dimen.margin_mini) int mElevation;
     @BindView(R.id.text_department_1) TextView mTextDepartment1;
     @BindView(R.id.text_department_2) TextView mTextDepartment2;
     @BindView(R.id.text_department_3) TextView mTextDepartment3;
@@ -49,6 +52,9 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @BindView(R.id.text_department_6) TextView mTextDepartment6;
     @BindView(R.id.text_department_7) TextView mTextDepartment7;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.recycler_statistics) RecyclerView mRecyclerStatistics;
+    @BindDimen(R.dimen.margin_mini) int mElevation;
+    private StatisticsAdapter mAdapter = new StatisticsAdapter(this);
 
     public static Intent getLaunchIntent(final Context context, Project project) {
         Intent intent = new Intent(context, MyProjectStatisticsActivity.class);
@@ -69,13 +75,6 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @Override
     public void showProjectDetails(final Project project) {
         setToolbarTitle(getString(R.string.title_statistics, project.getTitle()));
-    }
-
-    @Override
-    public void showSpentHours(final int spentHours) {
-        int hours = spentHours % 8;
-        int days = (spentHours - hours) / 8;
-        mTextSpent.setText(String.format(Locale.US, "Spent: %dd %dh", days, hours));
     }
 
     @Override
@@ -125,13 +124,22 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
 
     @Override
     public void showProjectInfo(final ProjectInfo projectInfo) {
+        mAdapter.setData(projectInfo);
         mTextDepartment1.setText(getFormattedText(getString(R.string.department_ios), projectInfo.getiOS()));
+        mTextDepartment1.setVisibility(projectInfo.getiOS() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment2.setText(getFormattedText(getString(R.string.department_android), projectInfo.getAndroid()));
+        mTextDepartment2.setVisibility(projectInfo.getAndroid() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment3.setText(getFormattedText(getString(R.string.department_design), projectInfo.getDesign()));
+        mTextDepartment3.setVisibility(projectInfo.getDesign() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment4.setText(getFormattedText(getString(R.string.department_backend), projectInfo.getBackend()));
+        mTextDepartment4.setVisibility(projectInfo.getBackend() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment5.setText(getFormattedText(getString(R.string.department_pm), projectInfo.getPM()));
+        mTextDepartment5.setVisibility(projectInfo.getPM() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment6.setText(getFormattedText(getString(R.string.department_qa), projectInfo.getQA()));
+        mTextDepartment6.setVisibility(projectInfo.getQA() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment7.setText(getFormattedText(getString(R.string.department_other), projectInfo.getOther()));
+        mTextDepartment7.setVisibility(projectInfo.getOther() > 0 ? View.VISIBLE : View.GONE);
+        mTextSpent.setText(getFormattedText(getString(R.string.text_spent), projectInfo.getTotalCount()));
     }
 
     private Spanned getFormattedText(final String name, final float time) {
@@ -147,6 +155,8 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_project_details);
+        mRecyclerStatistics.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerStatistics.setAdapter(mAdapter);
         getPresenter().onViewReady();
     }
 
@@ -181,5 +191,13 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
                 getPresenter().toggleDateState();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClicked(final View view, final int position) {
+    }
+
+    @Override
+    public void onItemLongClicked(final View view, final int position) {
     }
 }
