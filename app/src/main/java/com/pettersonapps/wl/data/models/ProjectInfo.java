@@ -3,17 +3,22 @@ package com.pettersonapps.wl.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProjectInfo implements Parcelable {
 
-    private int iOS;
-    private int Android;
-    private int Backend;
-    private int Design;
-    private int PM;
-    private int QA;
-    private int Other;
+    private float iOS;
+    private float Android;
+    private float Backend;
+    private float Design;
+    private float PM;
+    private float QA;
+    private float Other;
+    private List<UserStatistic> users = new ArrayList<>();
 
     public ProjectInfo() {
     }
@@ -31,73 +36,129 @@ public class ProjectInfo implements Parcelable {
                 "\n\nPM = " + PM + "h;   \n\nQA = " + QA + "h;   \n\nOther = " + Other + "h";
     }
 
-    public int getiOS() {
+    @Exclude
+    public float getTotalCount() {
+        return iOS + Android + Backend + Design + PM + QA + Other;
+    }
+
+    public List<UserStatistic> getUsers() {
+        return users;
+    }
+
+    public void setUsers(final List<UserStatistic> users) {
+        this.users = users;
+    }
+
+    public float getiOS() {
         return iOS;
     }
 
-    public void setiOS(final int iOS) {
+    public void setiOS(final float iOS) {
         this.iOS = iOS;
     }
 
-    public int getAndroid() {
+    public float getAndroid() {
         return Android;
     }
 
-    public void setAndroid(final int android) {
+    public void setAndroid(final float android) {
         Android = android;
     }
 
-    public int getBackend() {
+    public float getBackend() {
         return Backend;
     }
 
-    public void setBackend(final int backend) {
+    public void setBackend(final float backend) {
         Backend = backend;
     }
 
-    public int getDesign() {
+    public float getDesign() {
         return Design;
     }
 
-    public void setDesign(final int design) {
+    public void setDesign(final float design) {
         Design = design;
     }
 
-    public int getPM() {
+    public float getPM() {
         return PM;
     }
 
-    public void setPM(final int PM) {
+    public void setPM(final float PM) {
         this.PM = PM;
     }
 
-    public int getQA() {
+    public float getQA() {
         return QA;
     }
 
-    public void setQA(final int QA) {
+    public void setQA(final float QA) {
         this.QA = QA;
     }
 
-    public int getOther() {
+    public float getOther() {
         return Other;
     }
 
-    public void setOther(final int other) {
+    public void setOther(final float other) {
         Other = other;
     }
 
     public ProjectInfo(Object object) {
         if(object instanceof HashMap) {
             HashMap<String, Object> hashMap = (HashMap<String, Object>) object;
-            iOS = (Integer) hashMap.get("iOS");
-            Android = (Integer) hashMap.get("Android");
-            Backend = (Integer) hashMap.get("Backend");
-            Design = (Integer) hashMap.get("Design");
-            PM = (Integer) hashMap.get("PM");
-            QA = (Integer) hashMap.get("QA");
-            Other = (Integer) hashMap.get("Other");
+            try {
+                iOS = (Float) hashMap.get("iOS");
+            } catch (Exception e) {
+                iOS = (Integer) hashMap.get("iOS");
+            }
+            try {
+                Android = (Float) hashMap.get("Android");
+            } catch (Exception e) {
+                Android = (Integer) hashMap.get("Android");
+            }
+            try {
+                Backend = (Float) hashMap.get("Backend");
+            } catch (Exception e) {
+                Backend = (Integer) hashMap.get("Backend");
+            }
+            try {
+                Design = (Float) hashMap.get("Design");
+            } catch (Exception e) {
+                Design = (Integer) hashMap.get("Design");
+            }
+            try {
+                PM = (Float) hashMap.get("PM");
+            } catch (Exception e) {
+                PM = (Integer) hashMap.get("PM");
+            }
+            try {
+                QA = (Float) hashMap.get("QA");
+            } catch (Exception e) {
+                QA = (Integer) hashMap.get("QA");
+            }
+            try {
+                Other = (Float) hashMap.get("Other");
+            } catch (Exception e) {
+                Other = (Integer) hashMap.get("Other");
+            }
+            users = getUsersList((List<HashMap<String, Object>>) hashMap.get("Users"));
         }
+    }
+
+    private List<UserStatistic> getUsersList(final List<HashMap<String, Object>> users) {
+        List<UserStatistic> list = new ArrayList<>();
+        for (HashMap<String, Object> item : users) {
+            float time;
+            try {
+                time = (Float) item.get("time");
+            } catch (Exception e) {
+                time = (Integer) item.get("time");
+            }
+            list.add(new UserStatistic((String) item.get("id"), (String) item.get("name"), (String) item.get("department"), time));
+        }
+        return list;
     }
 
     @Override
@@ -105,23 +166,25 @@ public class ProjectInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.iOS);
-        dest.writeInt(this.Android);
-        dest.writeInt(this.Backend);
-        dest.writeInt(this.Design);
-        dest.writeInt(this.PM);
-        dest.writeInt(this.QA);
-        dest.writeInt(this.Other);
+        dest.writeFloat(this.iOS);
+        dest.writeFloat(this.Android);
+        dest.writeFloat(this.Backend);
+        dest.writeFloat(this.Design);
+        dest.writeFloat(this.PM);
+        dest.writeFloat(this.QA);
+        dest.writeFloat(this.Other);
+        dest.writeTypedList(this.users);
     }
 
     protected ProjectInfo(Parcel in) {
-        this.iOS = in.readInt();
-        this.Android = in.readInt();
-        this.Backend = in.readInt();
-        this.Design = in.readInt();
-        this.PM = in.readInt();
-        this.QA = in.readInt();
-        this.Other = in.readInt();
+        this.iOS = in.readFloat();
+        this.Android = in.readFloat();
+        this.Backend = in.readFloat();
+        this.Design = in.readFloat();
+        this.PM = in.readFloat();
+        this.QA = in.readFloat();
+        this.Other = in.readFloat();
+        this.users = in.createTypedArrayList(UserStatistic.CREATOR);
     }
 
     public static final Creator<ProjectInfo> CREATOR = new Creator<ProjectInfo>() {

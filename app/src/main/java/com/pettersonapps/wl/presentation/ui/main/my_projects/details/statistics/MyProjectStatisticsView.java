@@ -21,8 +21,6 @@ public interface MyProjectStatisticsView extends BaseView<MyProjectStatisticsPre
 
     void showProjectDetails(Project project);
 
-    void showSpentHours(int spentHours);
-
     void showUser(MutableLiveData<User> myUser);
 
     void showDateFrom(Date date);

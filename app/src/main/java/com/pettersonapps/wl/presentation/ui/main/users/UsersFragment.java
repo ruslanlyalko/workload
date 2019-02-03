@@ -29,8 +29,8 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 public class UsersFragment extends BaseFragment<UsersPresenter> implements UsersView, OnItemClickListener {
 
     @BindView(R.id.edit_search) SearchView mEditSearch;
-    @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
     @BindView(R.id.fast_scroll) FastScroller mFastScroller;
+    @BindView(R.id.recycler_users) RecyclerView mRecyclerUsers;
     private UsersAdapter mAdapter;
 
     public static UsersFragment newInstance() {
