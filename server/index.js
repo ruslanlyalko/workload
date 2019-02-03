@@ -43,25 +43,34 @@ exports.reportWatcher = functions.database.ref('/REPORTS/{reportId}')
 		const reportAfter = change.after.val();
 		var subject = "";		
 		var text = "";
-		var userId = "";		
+		var userId = "";	
+		var reportId = context.params.reportId;	
+		var reportDate = 0;	
 		
 		if(!change.before.exists() && change.after.exists()) { // create			
 			subject = "Report changed by "+ reportAfter.userName;			
 			text = "  REPORT CREATED\n"+ getReportInfo(reportAfter);
-			userId = reportAfter.userId;			
+			userId = reportAfter.userId;
+			reportDate = reportAfter.date.time;		
+
 		}
 		else if (change.before.exists() && change.after.exists()) { // update
 			subject = "Report changed by "+ reportAfter.userName;
 			text = "  REPORT UPDATED\n"+ getReportInfo(reportAfter) + "\n  OLD REPORT\n" + getReportInfo(reportBefore);
-			userId = reportAfter.userId;			
+			userId = reportAfter.userId;		
+			reportDate = reportAfter.date.time;	
 		}
 		else if (!change.after.exists()) { // delete
 			subject = "Report changed by "+ reportBefore.userName;	
 			text = "  REPORT REMOVED\n"+ getReportInfo(reportBefore);
-			userId = reportBefore.userId;			
-			}
+			userId = reportBefore.userId;					
+		}
+		if(reportDate !== 0 && reportId.substring(0, 8) !== moment(reportDate).format("YYYYMMDD")){
+			sendModeratorEmail("Wrong Report", text);	
+			console.log("Wrong Report", text);
+		}
 		if(!userId) return null;
-		console.log(subject, text);
+		console.log(subject, text);		
 		const usersPromise = admin.database().ref("/USERS").child(userId).child("isAllowEditPastReports").once('value');
 		return usersPromise.then((snapshot)=>{
 			if(snapshot.val()){
@@ -84,11 +93,13 @@ exports.userPushWatcher = functions.database.ref('/USERS/{userId}/pushHistory/{p
 	return usersPromise.then((snapshot)=>{
 		var userObj = snapshot.val();
 		var tokens = [];		
-		if(userObj.tokens) {						
+		if(userObj.tokens) {										
 			var uTokens = Object.keys(userObj.tokens);
 			Array.prototype.push.apply(tokens, uTokens);						
+			console.log("Tokens found " + uTokens.length);
 		} else if(userObj.token) {										
-			tokens.push(userObj.token);											
+			tokens.push(userObj.token);					
+			console.log("Token found " + token);						
 		}
 		if(tokens.length > 0){							
 			var payload = {
@@ -353,127 +364,76 @@ exports.getProjectInfo = functions.https.onCall((data, context) => {
 		  'three arguments, third "to" should containing the to date.');
 	}
 	// results data
-	var iOSCount = 0;
-	var AndroidCount = 0;	
-	var BackendCount = 0;
-	var DesignCount = 0;
-	var PMCount = 0;
-	var QACount = 0;
-	var OtherCount = 0;
-	const reportsPromise = admin.database().ref("/REPORTS").once('value');
+	var iOS = 0;
+	var Android = 0;	
+	var Backend = 0;
+	var Design = 0;
+	var PM = 0;
+	var QA = 0;
+	var Other = 0;
+	var Users = [];
+	const reportsPromise = admin.database().ref("/REPORTS").orderByChild('date/time').startAt(from).endAt(to).once('value');
 	return reportsPromise.then(reportsSnap => {
 			reportsSnap.forEach(report => {	
-				var reportObj = report.val();			
-				if(reportObj.date.time >from && reportObj.date.time < to){
-					if(reportObj.t1 > 0 && reportObj.p1 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t1;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t1;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t1;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t1;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t1;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t1;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t1;
-					}
-					if(reportObj.t2 > 0 && reportObj.p2 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t2;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t2;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t2;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t2;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t2;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t2;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t2;
-					}
-					if(reportObj.t3 > 0 && reportObj.p3 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t3;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t3;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t3;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t3;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t3;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t3;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t3;
-					}
-					if(reportObj.t4 > 0 && reportObj.p4 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t4;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t4;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t4;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t4;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t4;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t4;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t4;
-					}
-					if(reportObj.t5 > 0 && reportObj.p5 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t5;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t5;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t5;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t5;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t5;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t5;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t5;
-					}
-					if(reportObj.t6 > 0 && reportObj.p6 === project){
-						if(reportObj.userDepartment === 'iOS')
-							iOSCount = iOSCount + reportObj.t6;
-						if(reportObj.userDepartment === 'Android')
-							AndroidCount = AndroidCount + reportObj.t6;
-						if(reportObj.userDepartment === 'Backend,Web')
-							BackendCount = BackendCount + reportObj.t6;
-						if(reportObj.userDepartment === 'Design')
-							DesignCount = DesignCount + reportObj.t6;
-						if(reportObj.userDepartment === 'PM')
-							PMCount = PMCount + reportObj.t6;
-						if(reportObj.userDepartment === 'QA')
-							QACount = QACount + reportObj.t6;
-						if(reportObj.userDepartment === 'Other')
-							OtherCount = OtherCount + reportObj.t6;
-					}
+				var reportObj = report.val();											
+				var iOS_ = getCount(reportObj, project, "iOS");
+				var Android_ =  getCount(reportObj, project, "Android");
+				var Backend_ =  getCount(reportObj, project, "Backend,Web");
+				var Design_ =  getCount(reportObj, project, "Design");
+				var PM_ =  getCount(reportObj, project, "PM");
+				var QA_ =  getCount(reportObj, project, "QA");
+				var Other_ =  getCount(reportObj, project, "Other");			
+				// create users list
+				var time = iOS_ + Android_ + Backend_ + Design_ + PM_ + QA_ + Other_;
+				if(time > 0){
+					let user = Users.find( user => user['id'] === reportObj.userId );
+					if(user){
+						user.time = user.time + time;							
+					} else {
+						Users.push({id: reportObj.userId, name: reportObj.userName, time: time});							
+					}					
+					// create departments count
+					iOS = iOS + iOS_;
+					Android = Android + Android_;
+					Backend = Backend + Backend_;
+					Design = Design + Design_;
+					PM = PM + PM_;
+					QA = QA + QA_;
+					Other = Other + Other_;
 				}
 			});	
+			console.log("user list", Users);
 			return {
-				iOS: iOSCount,
-				Android: AndroidCount,
-				Backend: BackendCount,
-				Design: DesignCount,
-				PM: PMCount,
-				QA: QACount,
-				Other: OtherCount	
+				iOS: iOS,
+				Android: Android,
+				Backend: Backend,
+				Design: Design,
+				PM: PM,
+				QA: QA,
+				Other: Other,
+				Users : Users
 			}	
 		});	
 });
+function getCount(reportObj, project, department){
+	var time = 0;
+	if(reportObj.t1 > 0 && reportObj.p1 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t1;
+	} else if(reportObj.t2 > 0 && reportObj.p2 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t2;
+	} else if(reportObj.t3 > 0 && reportObj.p3 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t3;
+	} else if(reportObj.t4 > 0 && reportObj.p4 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t4;
+	} else if(reportObj.t5 > 0 && reportObj.p5 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t5;
+	} else if(reportObj.t6 > 0 && reportObj.p6 === project && reportObj.userDepartment === department){
+		time = time + reportObj.t6;
+	}
+	return time;
+}
+
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -514,7 +474,7 @@ exports.isRightDate = functions.https.onCall((data, context) => {
 // ----------------------------------------------------------------------------
 function getReportInfo(report){
 	return "Status: "+ report.status + "\n"+
-			"Date: "+ moment(report.date.time).format("DD.MM.YYYY") + "\n"+
+			"Date: "+ moment(report.date.time).format("DD.MM.YYYY  HH:mm:ss") + "\n"+
 			"Project 1: "+ report.p1 + "; time: "+report.t1 + "\n"+
 			"Project 2: "+ report.p2 + "; time: "+report.t2 + "\n"+
 			"Project 3: "+ report.p3 + "; time: "+report.t3 + "\n"+
@@ -522,7 +482,11 @@ function getReportInfo(report){
 			"Project 5: "+ report.p5 + "; time: "+report.t5 + "\n"+
 			"Project 6: "+ report.p6 + "; time: "+report.t6 + "\n"+
 			"Department: "+ report.userDepartment + "\n"+
-			"User Id: "+ report.userId + "\n";
+			"User Id: "+ report.userId + "\n"+
+			"User Name: "+ report.userName + "\n"+
+			"Updated At : "+ moment(report.updatedAt.time).format("DD.MM.YYYY HH:mm:ss") + "\n"+
+			"Updated At (Kiev): "+ moment(report.updatedAt.time).tz('Europe/Kiev').format("DD.MM.YYYY HH:mm:ss") + "\n"+
+			"Key: "+ report.key + "\n";
 }
 // ----------------------------------------------------------------------------
 function sendMessagesViaFCM(tokens, payload){
