@@ -112,13 +112,13 @@ public class ProjectDetailsActivity extends BaseActivity<ProjectDetailsPresenter
         if(projectInfo == null) return;
         mTextResult.setText(projectInfo.toString());
         ArrayList<BarEntry> values = new ArrayList<>();
-        values.add(new BarEntry(0, projectInfo.getiOS(), projectInfo.getiOS()));
-        values.add(new BarEntry(1, projectInfo.getAndroid(), projectInfo.getAndroid()));
-        values.add(new BarEntry(2, projectInfo.getBackend(), projectInfo.getAndroid()));
-        values.add(new BarEntry(3, projectInfo.getDesign(), projectInfo.getDesign()));
-        values.add(new BarEntry(4, projectInfo.getPM(), projectInfo.getPM()));
-        values.add(new BarEntry(5, projectInfo.getQA(), projectInfo.getQA()));
-        values.add(new BarEntry(6, projectInfo.getOther(), projectInfo.getOther()));
+        values.add(new BarEntry(0, (float)projectInfo.getiOS(), projectInfo.getiOS()));
+        values.add(new BarEntry(1, (float)projectInfo.getAndroid(), projectInfo.getAndroid()));
+        values.add(new BarEntry(2, (float)projectInfo.getBackend(), projectInfo.getAndroid()));
+        values.add(new BarEntry(3, (float)projectInfo.getDesign(), projectInfo.getDesign()));
+        values.add(new BarEntry(4, (float)projectInfo.getPM(), projectInfo.getPM()));
+        values.add(new BarEntry(5, (float)projectInfo.getQA(), projectInfo.getQA()));
+        values.add(new BarEntry(6, (float)projectInfo.getOther(), projectInfo.getOther()));
         //
         int[] colors = getResources().getIntArray(R.array.bar_colors);
         BarDataSet set1;

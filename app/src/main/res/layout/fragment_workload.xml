@@ -10,8 +10,7 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/layout_title"
-        android:visibility="invisible" />
+        layout="@layout/layout_title"/>
 
     <ImageView
         android:id="@+id/image_logo"

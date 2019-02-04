@@ -189,8 +189,13 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void showSettings(final MutableLiveData<AppSettings> settings) {
         settings.observe(this, appSettings -> {
-            if(appSettings != null)
+            if(appSettings != null) {
                 mSnowfall.setVisibility(appSettings.getIsSnowing() ? View.VISIBLE : View.INVISIBLE);
+                mImageLogo.setVisibility(appSettings.getIsSnowing() ? View.VISIBLE : View.INVISIBLE);
+                if(mTitle != null)
+                    mTitle.setVisibility(appSettings.getIsSnowing() ? View.INVISIBLE : View.VISIBLE);
+                PreferencesHelper.getInstance(getContext()).setSnow(appSettings.getIsSnowing());
+            }
         });
     }
 
@@ -256,6 +261,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
+        boolean snow = PreferencesHelper.getInstance(getContext()).getSnow();
+        if(mTitle != null)
+            mTitle.setVisibility(snow ? View.INVISIBLE : View.VISIBLE);
+        mImageLogo.setVisibility(snow ? View.VISIBLE : View.INVISIBLE);
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             mImageLogo.setImageResource(R.drawable.ic_logo_night);
         } else {

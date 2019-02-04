@@ -13,6 +13,7 @@ import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,7 +30,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
 
     private final OnItemClickListener mOnItemClickListener;
     private ProjectInfo mProjectInfo = new ProjectInfo();
-    private List<Pair<String, Float>> mDepartments = new ArrayList<>();
+    private List<Pair<String, Double>> mDepartments = new ArrayList<>();
     private boolean mIsUsersMode = true;
 
     public StatisticsAdapter(final OnItemClickListener onItemClickListener) {
@@ -42,12 +43,13 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
 
     public void setData(final ProjectInfo data) {
         mProjectInfo = data;
+        Collections.sort(mProjectInfo.getUsers(), (o1, o2) -> o1.getDepartment().compareTo(o2.getDepartment()));
         mDepartments = getDepartmentsData();
         notifyDataSetChanged();
     }
 
-    private List<Pair<String, Float>> getDepartmentsData() {
-        List<Pair<String, Float>> list = new ArrayList<>();
+    private List<Pair<String, Double>> getDepartmentsData() {
+        List<Pair<String, Double>> list = new ArrayList<>();
         if(mProjectInfo.getiOS() > 0)
             list.add(Pair.create("iOS", mProjectInfo.getiOS()));
         if(mProjectInfo.getAndroid() > 0)
@@ -88,7 +90,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
         if(mIsUsersMode) {
             holder.bind(mProjectInfo.getUsers().get(position).getName(), mProjectInfo.getUsers().get(position).getDepartment(), mProjectInfo.getUsers().get(position).getTime());
         } else {
-            Pair<String, Float> p = mDepartments.get(position);
+            Pair<String, Double> p = mDepartments.get(position);
             holder.bind(p.first, p.second);
         }
     }
@@ -114,22 +116,22 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
             ButterKnife.bind(this, view);
         }
 
-        public void bind(final String title, float count) {
+        public void bind(final String title, double count) {
             mTextTitle.setText(title);
             mTextSubTitle.setVisibility(View.GONE);
             mTextCount.setText(getFormattedText(count));
         }
 
-        public void bind(final String title, final String subtitle, float count) {
+        public void bind(final String title, final String subtitle, double count) {
             mTextTitle.setText(title);
             mTextSubTitle.setVisibility(View.VISIBLE);
             mTextSubTitle.setText(subtitle);
             mTextCount.setText(getFormattedText(count));
         }
 
-        private String getFormattedText(final float time) {
+        private String getFormattedText(final double time) {
             String timeStr = String.format(Locale.US, "%.0fh", time);
-            float ex = time % 1;
+            double ex = time % 1;
             if(ex != 0) {
                 timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
             }

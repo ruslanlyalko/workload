@@ -12,6 +12,7 @@ public class PreferencesHelper {
 
     private static final String KEY_NIGHT_MODE = "night";
     private static final String KEY_HIDE_EDIT_MODE = "hide_edit_mode";
+    private static final String KEY_SNOW = "snow";
     private static PreferencesHelper ourInstance;
     private final SharedPreferences mPrefs;
 
@@ -28,10 +29,19 @@ public class PreferencesHelper {
     public boolean getNightMode() {
         return mPrefs.getBoolean(KEY_NIGHT_MODE, false);
     }
+    public boolean getSnow() {
+        return mPrefs.getBoolean(KEY_SNOW, false);
+    }
 
     public void setNightMode(boolean isNightModeEnabled) {
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(KEY_NIGHT_MODE, isNightModeEnabled);
+        editor.apply();
+        editor.commit();
+    }
+    public void setSnow(boolean snow) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean(KEY_SNOW, snow);
         editor.apply();
         editor.commit();
     }

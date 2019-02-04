@@ -11,13 +11,13 @@ import java.util.List;
 
 public class ProjectInfo implements Parcelable {
 
-    private float iOS;
-    private float Android;
-    private float Backend;
-    private float Design;
-    private float PM;
-    private float QA;
-    private float Other;
+    private double iOS;
+    private double Android;
+    private double Backend;
+    private double Design;
+    private double PM;
+    private double QA;
+    private double Other;
     private List<UserStatistic> users = new ArrayList<>();
 
     public ProjectInfo() {
@@ -37,7 +37,7 @@ public class ProjectInfo implements Parcelable {
     }
 
     @Exclude
-    public float getTotalCount() {
+    public double getTotalCount() {
         return iOS + Android + Backend + Design + PM + QA + Other;
     }
 
@@ -49,59 +49,59 @@ public class ProjectInfo implements Parcelable {
         this.users = users;
     }
 
-    public float getiOS() {
+    public double getiOS() {
         return iOS;
     }
 
-    public void setiOS(final float iOS) {
+    public void setiOS(final double iOS) {
         this.iOS = iOS;
     }
 
-    public float getAndroid() {
+    public double getAndroid() {
         return Android;
     }
 
-    public void setAndroid(final float android) {
+    public void setAndroid(final double android) {
         Android = android;
     }
 
-    public float getBackend() {
+    public double getBackend() {
         return Backend;
     }
 
-    public void setBackend(final float backend) {
+    public void setBackend(final double backend) {
         Backend = backend;
     }
 
-    public float getDesign() {
+    public double getDesign() {
         return Design;
     }
 
-    public void setDesign(final float design) {
+    public void setDesign(final double design) {
         Design = design;
     }
 
-    public float getPM() {
+    public double getPM() {
         return PM;
     }
 
-    public void setPM(final float PM) {
+    public void setPM(final double PM) {
         this.PM = PM;
     }
 
-    public float getQA() {
+    public double getQA() {
         return QA;
     }
 
-    public void setQA(final float QA) {
+    public void setQA(final double QA) {
         this.QA = QA;
     }
 
-    public float getOther() {
+    public double getOther() {
         return Other;
     }
 
-    public void setOther(final float other) {
+    public void setOther(final double other) {
         Other = other;
     }
 
@@ -109,37 +109,37 @@ public class ProjectInfo implements Parcelable {
         if(object instanceof HashMap) {
             HashMap<String, Object> hashMap = (HashMap<String, Object>) object;
             try {
-                iOS = (Float) hashMap.get("iOS");
+                iOS = (Double) hashMap.get("iOS");
             } catch (Exception e) {
                 iOS = (Integer) hashMap.get("iOS");
             }
             try {
-                Android = (Float) hashMap.get("Android");
+                Android = (Double) hashMap.get("Android");
             } catch (Exception e) {
                 Android = (Integer) hashMap.get("Android");
             }
             try {
-                Backend = (Float) hashMap.get("Backend");
+                Backend = (Double) hashMap.get("Backend");
             } catch (Exception e) {
                 Backend = (Integer) hashMap.get("Backend");
             }
             try {
-                Design = (Float) hashMap.get("Design");
+                Design = (Double) hashMap.get("Design");
             } catch (Exception e) {
                 Design = (Integer) hashMap.get("Design");
             }
             try {
-                PM = (Float) hashMap.get("PM");
+                PM = (Double) hashMap.get("PM");
             } catch (Exception e) {
                 PM = (Integer) hashMap.get("PM");
             }
             try {
-                QA = (Float) hashMap.get("QA");
+                QA = (Double) hashMap.get("QA");
             } catch (Exception e) {
                 QA = (Integer) hashMap.get("QA");
             }
             try {
-                Other = (Float) hashMap.get("Other");
+                Other = (Double) hashMap.get("Other");
             } catch (Exception e) {
                 Other = (Integer) hashMap.get("Other");
             }
@@ -150,9 +150,9 @@ public class ProjectInfo implements Parcelable {
     private List<UserStatistic> getUsersList(final List<HashMap<String, Object>> users) {
         List<UserStatistic> list = new ArrayList<>();
         for (HashMap<String, Object> item : users) {
-            float time;
+            double time;
             try {
-                time = (Float) item.get("time");
+                time = (Double) item.get("time");
             } catch (Exception e) {
                 time = (Integer) item.get("time");
             }
@@ -166,24 +166,24 @@ public class ProjectInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(this.iOS);
-        dest.writeFloat(this.Android);
-        dest.writeFloat(this.Backend);
-        dest.writeFloat(this.Design);
-        dest.writeFloat(this.PM);
-        dest.writeFloat(this.QA);
-        dest.writeFloat(this.Other);
+        dest.writeDouble(this.iOS);
+        dest.writeDouble(this.Android);
+        dest.writeDouble(this.Backend);
+        dest.writeDouble(this.Design);
+        dest.writeDouble(this.PM);
+        dest.writeDouble(this.QA);
+        dest.writeDouble(this.Other);
         dest.writeTypedList(this.users);
     }
 
     protected ProjectInfo(Parcel in) {
-        this.iOS = in.readFloat();
-        this.Android = in.readFloat();
-        this.Backend = in.readFloat();
-        this.Design = in.readFloat();
-        this.PM = in.readFloat();
-        this.QA = in.readFloat();
-        this.Other = in.readFloat();
+        this.iOS = in.readDouble();
+        this.Android = in.readDouble();
+        this.Backend = in.readDouble();
+        this.Design = in.readDouble();
+        this.PM = in.readDouble();
+        this.QA = in.readDouble();
+        this.Other = in.readDouble();
         this.users = in.createTypedArrayList(UserStatistic.CREATOR);
     }
 

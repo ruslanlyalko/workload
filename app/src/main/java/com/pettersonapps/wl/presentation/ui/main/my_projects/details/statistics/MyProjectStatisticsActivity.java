@@ -125,7 +125,7 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
     @Override
     public void showProjectInfo(final ProjectInfo projectInfo) {
         mAdapter.setData(projectInfo);
-        mTextDepartment1.setText(getFormattedText(getString(R.string.department_ios), projectInfo.getiOS()));
+        mTextDepartment1.setText(getFormattedText(getString(R.string.department_ios), (float) projectInfo.getiOS()));
         mTextDepartment1.setVisibility(projectInfo.getiOS() > 0 ? View.VISIBLE : View.GONE);
         mTextDepartment2.setText(getFormattedText(getString(R.string.department_android), projectInfo.getAndroid()));
         mTextDepartment2.setVisibility(projectInfo.getAndroid() > 0 ? View.VISIBLE : View.GONE);
@@ -142,10 +142,10 @@ public class MyProjectStatisticsActivity extends BaseActivity<MyProjectStatistic
         mTextSpent.setText(getFormattedText(getString(R.string.text_spent), projectInfo.getTotalCount()));
     }
 
-    private Spanned getFormattedText(final String name, final float time) {
+    private Spanned getFormattedText(final String name, final double time) {
         if(TextUtils.isEmpty(name)) return SpannableString.valueOf("");
         String timeStr = String.format(Locale.US, "%.0fh", time);
-        float ex = time % 1;
+        double ex = time % 1;
         if(ex != 0) {
             timeStr = String.format(Locale.US, "%.0fh %dm", time - ex, (int) (ex * 60));
         }

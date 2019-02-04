@@ -25,7 +25,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Nullable
     @BindView(R.id.title)
-    TextView mTitle;
+    protected TextView mTitle;
 
     private Unbinder mUnbinder;
     private P mPresenter;

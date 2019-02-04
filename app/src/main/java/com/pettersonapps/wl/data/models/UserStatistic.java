@@ -11,12 +11,12 @@ public class UserStatistic extends BaseModel {
     private String id;
     private String name;
     private String department;
-    private float time;
+    private double time;
 
     public UserStatistic() {
     }
 
-    public UserStatistic(final String id, final String name, final String department, final float time) {
+    public UserStatistic(final String id, final String name, final String department, final double time) {
         this.id = id;
         this.name = name;
         this.department = department;
@@ -47,11 +47,11 @@ public class UserStatistic extends BaseModel {
         this.name = name;
     }
 
-    public float getTime() {
+    public double getTime() {
         return time;
     }
 
-    public void setTime(final float time) {
+    public void setTime(final double time) {
         this.time = time;
     }
 
@@ -64,7 +64,7 @@ public class UserStatistic extends BaseModel {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.department);
-        dest.writeFloat(this.time);
+        dest.writeDouble(this.time);
     }
 
     protected UserStatistic(Parcel in) {
@@ -72,7 +72,7 @@ public class UserStatistic extends BaseModel {
         this.id = in.readString();
         this.name = in.readString();
         this.department = in.readString();
-        this.time = in.readFloat();
+        this.time = in.readDouble();
     }
 
     public static final Creator<UserStatistic> CREATOR = new Creator<UserStatistic>() {
