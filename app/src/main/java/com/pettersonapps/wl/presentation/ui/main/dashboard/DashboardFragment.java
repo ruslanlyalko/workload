@@ -76,6 +76,11 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.fragment_dashboard;
+    }
+
+    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_dashboard, menu);
     }
@@ -107,11 +112,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.fragment_dashboard;
     }
 
     @Override
@@ -260,7 +260,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         }
         for (Report report : reports) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDateConverted().getTime()), true);
         }
         mCalendarView.invalidate();
     }

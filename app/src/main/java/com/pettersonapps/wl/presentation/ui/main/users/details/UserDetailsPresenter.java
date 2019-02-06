@@ -44,14 +44,14 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                     || report.getStatus().startsWith("Vacation")
                     || report.getStatus().startsWith("Sick")) {
                 listVacationReports.add(0, report);
-                int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
+                int yearInd = DateUtils.getYearIndex(report.getDateConverted(), mUser.getFirstWorkingDate());
                 int value = years.get(yearInd);
                 value = value + 1;
                 years.append(yearInd, value);
             }
             if(report.getStatus().startsWith("Working")) {
                 listVacationReports.add(0, report);
-                int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
+                int yearInd = DateUtils.getYearIndex(report.getDateConverted(), mUser.getFirstWorkingDate());
                 int value = years.get(yearInd);
                 value = value - 1;
                 years.append(yearInd, value);
@@ -68,15 +68,15 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         for (int i = 0; i < reports.size(); i++) {
             Report report = reports.get(i);
             if(prevReport != null) {
-                if(DateUtils.daysBetween(prevReport.getDate(), report.getDate()) == 1
+                if(DateUtils.daysBetween(prevReport.getDateConverted(), report.getDateConverted()) == 1
                         && prevReport.getStatus().equals(report.getStatus())) {
                     if(firstReportDate == null)
-                        firstReportDate = prevReport.getDate();
+                        firstReportDate = prevReport.getDateConverted();
                 } else {
                     if(firstReportDate != null) {
-                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDateConverted(), firstReportDate));
                     } else {
-                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
+                        list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDateConverted(), prevReport.getDateConverted()));
                     }
                     firstReportDate = null;
                 }
@@ -85,9 +85,9 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         }
         if(prevReport != null)
             if(firstReportDate != null) {
-                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), firstReportDate));
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDateConverted(), firstReportDate));
             } else {
-                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDate(), prevReport.getDate()));
+                list.add(new Vacation(prevReport.getUserDepartment(), prevReport.getUserName(), prevReport.getUserId(), prevReport.getStatus(), prevReport.getDateConverted(), prevReport.getDateConverted()));
             }
         return list;
     }
@@ -105,7 +105,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         report.setUserDepartment(mUser.getDepartment());
         report.setUserId(mUser.getKey());
         report.setUserName(mUser.getName());
-        report.setKey(DateUtils.toString(report.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
+        report.setKey(DateUtils.toString(report.getDateConverted(), "yyyyMMdd_'" + mUser.getKey() + "'"));
         getDataManager().saveReport(report);
     }
 
@@ -121,8 +121,8 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     private List<Report> getReportsForCurrentDate() {
         List<Report> result = new ArrayList<>();
         for (Report r : mReports) {
-            if(r.getDate().after(DateUtils.getStart(mDate))
-                    && r.getDate().before(DateUtils.getEnd(mDate))) {
+            if(r.getDateConverted().after(DateUtils.getStart(mDate))
+                    && r.getDateConverted().before(DateUtils.getEnd(mDate))) {
                 result.add(r);
             }
         }

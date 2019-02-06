@@ -100,6 +100,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
         });
         mSwitchOldStyleCalendar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             getPresenter().saveOldStyleCalendar(isChecked);
+            PreferencesHelper.getInstance(getContext()).setOld(isChecked);
         });
         getPresenter().onViewReady();
     }

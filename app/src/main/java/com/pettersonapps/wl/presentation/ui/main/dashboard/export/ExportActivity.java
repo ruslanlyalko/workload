@@ -13,6 +13,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Report;
@@ -38,19 +39,41 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     @BindView(R.id.progress) ProgressBar mProgress;
     @BindView(R.id.input_from) TextInputEditText mInputFrom;
     @BindView(R.id.input_to) TextInputEditText mInputTo;
+    @BindView(R.id.switch_open_after_saving) Switch mSwitchOpenAfterSaving;
 
     public static Intent getLaunchIntent(final Context activity) {
         return new Intent(activity, ExportActivity.class);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_export;
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new ExportPresenter());
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        setToolbarTitle(R.string.title_export);
+        getPresenter().onViewReady();
     }
 
     @SuppressLint("CheckResult")
     @OnClick(R.id.button_export)
     public void onExportClick() {
         rxPermissions
-                .request(Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(granted -> {
                     if(granted) {
-                        getPresenter().onExportClicked();
+                        getPresenter().onExportClicked(mSwitchOpenAfterSaving.isChecked());
                     } else {
                         showError(getString(R.string.error_denied));
                     }
@@ -127,26 +150,5 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
                 datePickerDialogTo.show(getFragmentManager(), "to");
                 break;
         }
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_export;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new ExportPresenter());
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_export);
-        getPresenter().onViewReady();
     }
 }

@@ -507,7 +507,7 @@ public class DataManagerImpl implements DataManager {
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(list);
                     }
 

@@ -125,7 +125,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         List<Report> todayReports = new ArrayList<>();
         List<User> usersWithoutAnyReports = new ArrayList<>(mFilteredUsers);
         for (Report report : mReports) {
-            if(report.getDate().after(from) && report.getDate().before(to))
+            if(report.getDateConverted().after(from) && report.getDateConverted().before(to))
                 todayReports.add(report);
             if(!mUser.startsWith(KEY_USER) && !mUser.equalsIgnoreCase(report.getUserName())) {
                 continue;
@@ -143,7 +143,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
                 continue;
             }
             allFilteredReports.add(report);
-            if(report.getDate().after(from) && report.getDate().before(to))
+            if(report.getDateConverted().after(from) && report.getDateConverted().before(to))
                 todayFilteredReports.add(report);
         }
         for (Report report : todayReports) {

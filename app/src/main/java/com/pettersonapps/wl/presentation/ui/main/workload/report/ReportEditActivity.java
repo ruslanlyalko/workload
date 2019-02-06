@@ -186,7 +186,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                 }
                 if(!(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Day"))) {
-                    if(getPresenter().getReport().getDate().after(DateUtils.get1DaysForward().getTime())) {
+                    if(getPresenter().getReport().getDateConverted().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setReportDate(new Date());
                         forceRippleAnimation(mTextFrom);
                     }
@@ -354,7 +354,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         switch (v.getId()) {
             case R.id.text_from:
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(getPresenter().getReport().getDate());
+                calendar.setTime(getPresenter().getReport().getDateConverted());
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setReportDate(newDate);

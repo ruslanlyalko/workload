@@ -87,6 +87,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
                 setNewDate(firstDayOfNewMonth);
             }
         });
+        boolean oldStyleCalendar = PreferencesHelper.getInstance(getContext()).getOld();
+        mCalendarView.setEventIndicatorStyle(oldStyleCalendar ? StatusCalendarView.SMALL_INDICATOR : StatusCalendarView.FILL_LARGE_INDICATOR);
     }
 
     private void setNewDate(Date newDate) {
@@ -113,13 +115,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         userData.observe(this, user -> {
             if(user == null) return;
             getPresenter().setUser(user);
+            PreferencesHelper.getInstance(getContext()).setOld(user.getIsOldStyleCalendar());
             Date date = new Date(PreferencesHelper.getInstance(getContext()).getHideEditModeMessageDate());
             mCardEditMode.setVisibility(user.getIsAllowEditPastReports() && !DateUtils.dateEquals(date, new Date()) ? View.VISIBLE : View.GONE);
             mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
-            if(user.getIsOldStyleCalendar()) {
-                mCalendarView.setEventIndicatorStyle(StatusCalendarView.SMALL_INDICATOR);
-//                mCalendarView.setTargetHeight(mTargetHeight);
-            } else mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
+            boolean oldStyleCalendar = user.getIsOldStyleCalendar();
+            mCalendarView.setEventIndicatorStyle(oldStyleCalendar ? StatusCalendarView.SMALL_INDICATOR : StatusCalendarView.FILL_LARGE_INDICATOR);
         });
     }
 
@@ -204,7 +205,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         List<Report> reports = getPresenter().getReports();
         for (Report report : reports) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDateConverted().getTime()), true);
         }
         List<Holiday> holidays = getPresenter().getHolidays();
         for (Holiday holiday : holidays) {

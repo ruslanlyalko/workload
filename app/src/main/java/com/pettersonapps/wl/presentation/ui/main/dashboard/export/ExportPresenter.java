@@ -2,6 +2,8 @@ package com.pettersonapps.wl.presentation.ui.main.dashboard.export;
 
 import android.os.Environment;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -26,6 +28,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
 
     private Date mFrom;
     private Date mTo;
+    private boolean mOpen;
 
     ExportPresenter() {
     }
@@ -37,7 +40,8 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         getView().showTo(mTo);
     }
 
-    public void onExportClicked() {
+    public void onExportClicked(final boolean open) {
+        mOpen = open;
         getView().showProgress();
         getView().showExportedData(getDataManager().getReportsFilter(mFrom, mTo));
     }
@@ -83,7 +87,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         for (int i = 0; i < list.size(); i++) {
             Report report = list.get(i);
             HSSFRow row = sheet.createRow(i + 1);
-            row.createCell(0).setCellValue(DateUtils.toString(report.getDate(), "dd.MM.yyyy"));
+            row.createCell(0).setCellValue(DateUtils.toString(report.getDateConverted(), "dd.MM.yyyy"));
             row.createCell(1).setCellValue(report.getUserName());
             row.createCell(2).setCellValue(report.getUserDepartment());
             row.createCell(3).setCellValue(report.getStatus());
@@ -100,12 +104,27 @@ public class ExportPresenter extends BasePresenter<ExportView> {
             row.createCell(14).setCellValue(report.getP6());
             row.createCell(15).setCellValue(report.getT6());
         }
-        saveToStorage(workbook, fileName);
+        saveToStorage(workbook, fileName, getJson(list));
     }
 
-    private void saveToStorage(final HSSFWorkbook workbook, String fileName) {
+    private String getJson(final List<Report> list) {
+        StringBuilder result = new StringBuilder();
+        result.append("{");
+        Gson gson = new GsonBuilder().create();
+        for (Report r : list) {
+            String item = "\"" + r.getKey() + "\" : " + gson.toJson(r) + ",\n";
+            result.append(item);
+        }
+        return result + "}";
+    }
+
+    private void saveToStorage(final HSSFWorkbook workbook, String fileName, final String data) {
+        String fullFileNameXls = fileName + ".xls";
+        String fullFileNameJson = fileName + ".json";
         FileOutputStream fos = null;
+        FileOutputStream fosJson = null;
         File file = null;
+        File fileJson = null;
         try {
             String path = Environment.getExternalStorageDirectory().toString() + "/Workload";
             File directory = new File(path);
@@ -114,9 +133,13 @@ public class ExportPresenter extends BasePresenter<ExportView> {
                     throw new IOException("Can't create directory!");
                 }
             }
-            file = new File(path, fileName + ".xls");
+            file = new File(path, fullFileNameXls);
             fos = new FileOutputStream(file);
             workbook.write(fos);
+            //write json data
+            fileJson = new File(path, fullFileNameJson);
+            fosJson = new FileOutputStream(fileJson);
+            fosJson.write(data.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -128,8 +151,18 @@ public class ExportPresenter extends BasePresenter<ExportView> {
                     e.printStackTrace();
                 }
             }
+            if(fosJson != null) {
+                try {
+                    fosJson.flush();
+                    fosJson.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             getView().hideProgress();
-            getView().showFile(file);
+            getView().showMessage("Exported to " + "/Workload/" + fullFileNameXls);
+            if(mOpen)
+                getView().showFile(file);
         }
     }
 

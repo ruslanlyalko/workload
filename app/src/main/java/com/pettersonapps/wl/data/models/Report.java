@@ -3,6 +3,8 @@ package com.pettersonapps.wl.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -16,7 +18,7 @@ public class Report extends BaseModel implements Parcelable {
     private String userId;
     private String userName;
     private String userDepartment;
-    private Date date;
+    private ADate date;
     private String status;
     private String p1;
     private float t1;
@@ -30,11 +32,11 @@ public class Report extends BaseModel implements Parcelable {
     private float t5;
     private String p6;
     private float t6;
-    private Date updatedAt;
+    private ADate updatedAt;
 
     public Report(Report reportToCopy) {
-        date = new Date();
-        updatedAt = new Date();
+        date = new ADate();
+        updatedAt = new ADate();
         userId = reportToCopy.userId;
         userName = reportToCopy.userName;
         userDepartment = reportToCopy.userDepartment;
@@ -54,7 +56,47 @@ public class Report extends BaseModel implements Parcelable {
     }
 
     public Report() {
-        date = new Date();
+        date = new ADate();
+        updatedAt = new ADate();
+    }
+
+    public ADate getDate() {
+        return date;
+    }
+
+    public void setDate(final ADate date) {
+        this.date = date;
+    }
+
+    @Exclude
+    public Date getDateConverted() {
+        return new Date(date.getTime());
+    }
+
+    @Exclude
+    public void setDateConverted(final Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, 8);
+        this.date.setTime(c.getTime().getTime());
+    }
+
+    public ADate getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final ADate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Exclude
+    public Date getUpdatedAtConverted() {
+        return new Date(updatedAt.getTime());
+    }
+
+    @Exclude
+    public void setUpdatedAtConverted(final Date updatedAt) {
+        this.updatedAt.setTime(updatedAt.getTime());
     }
 
     public String getUserDepartment() {
@@ -79,17 +121,6 @@ public class Report extends BaseModel implements Parcelable {
 
     public void setUserName(final String userName) {
         this.userName = userName;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(final Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.set(Calendar.HOUR_OF_DAY, 8);
-        this.date = c.getTime();
     }
 
     public String getStatus() {
@@ -196,14 +227,6 @@ public class Report extends BaseModel implements Parcelable {
         this.t6 = t6;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if(this == o) return true;
@@ -244,7 +267,7 @@ public class Report extends BaseModel implements Parcelable {
         dest.writeString(this.userId);
         dest.writeString(this.userName);
         dest.writeString(this.userDepartment);
-        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeParcelable(this.date, flags);
         dest.writeString(this.status);
         dest.writeString(this.p1);
         dest.writeFloat(this.t1);
@@ -258,7 +281,7 @@ public class Report extends BaseModel implements Parcelable {
         dest.writeFloat(this.t5);
         dest.writeString(this.p6);
         dest.writeFloat(this.t6);
-        dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
+        dest.writeParcelable(this.updatedAt, flags);
     }
 
     protected Report(Parcel in) {
@@ -266,8 +289,7 @@ public class Report extends BaseModel implements Parcelable {
         this.userId = in.readString();
         this.userName = in.readString();
         this.userDepartment = in.readString();
-        long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.date = in.readParcelable(ADate.class.getClassLoader());
         this.status = in.readString();
         this.p1 = in.readString();
         this.t1 = in.readFloat();
@@ -281,8 +303,7 @@ public class Report extends BaseModel implements Parcelable {
         this.t5 = in.readFloat();
         this.p6 = in.readString();
         this.t6 = in.readFloat();
-        long tmpUpdatedAt = in.readLong();
-        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+        this.updatedAt = in.readParcelable(ADate.class.getClassLoader());
     }
 
     public static final Creator<Report> CREATOR = new Creator<Report>() {

@@ -33,12 +33,12 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         mHolidays = holidays;
         if(report == null) {
             report = new Report();
-            report.setDate(date);
+            report.setDateConverted(date);
             report.setStatus("");
         }
         mReport = report;
-        mDateTo = report.getDate();
-        if(mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+        mDateTo = report.getDateConverted();
+        if(mReport.getDateConverted().after(DateUtils.get1DaysForward().getTime())
                 && !(mReport.getStatus().startsWith("Day") || mReport.getStatus().startsWith("Vacation"))) {
             mReport.setStatus("Vacations");
         }
@@ -46,8 +46,8 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
-        getView().showHoliday(getHoliday(mReport.getDate()));
-        getView().showDateFrom(mReport.getDate());
+        getView().showHoliday(getHoliday(mReport.getDateConverted()));
+        getView().showDateFrom(mReport.getDateConverted());
         getView().showDateTo(mDateTo);
         getView().showReportData(mReport);
     }
@@ -124,19 +124,19 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         boolean weekendDisallowStatus = (status.startsWith("Day")
                 || status.startsWith("Vacation")
                 || status.startsWith("Sick"));
-        if(weekendDisallowStatus && DateUtils.isWeekends(mReport.getDate())) {
+        if(weekendDisallowStatus && DateUtils.isWeekends(mReport.getDateConverted())) {
             getView().errorCantSaveNotWorkingStatusOnWeekends();
             return;
         }
-        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().before(DateUtils.get1DaysAgo().getTime())) {
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDateConverted().before(DateUtils.get1DaysAgo().getTime())) {
             getView().showWrongDateOnMobileError();
             return;
         }
-        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1MonthForward().getTime())) {
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDateConverted().after(DateUtils.get1MonthForward().getTime())) {
             getView().showWrongDateOnMobileError();
             return;
         }
-        if(!mUser.getIsAllowEditPastReports() && mReport.getDate().after(DateUtils.get1DaysForward().getTime())
+        if(!mUser.getIsAllowEditPastReports() && mReport.getDateConverted().after(DateUtils.get1DaysForward().getTime())
                 && !(status.startsWith("Day") || status.startsWith("Vacation"))) {
             getView().showWrongDateOnMobileError();
             return;
@@ -145,13 +145,13 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
         mReport.setUserId(mUser.getKey());
         mReport.setUserName(mUser.getName());
         mReport.setUserDepartment(mUser.getDepartment());
-        mReport.setUpdatedAt(new Date());
+        mReport.setUpdatedAtConverted(new Date());
         mReport.setStatus(status);
         if(!mDateStateOneDay) {
             saveFewReports();
             return;
         }
-        mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
+        mReport.setKey(DateUtils.toString(mReport.getDateConverted(), "yyyyMMdd_'" + mUser.getKey() + "'"));
         getDataManager().saveReport(mReport)
                 .addOnSuccessListener(aVoid -> {
                     if(getView() == null) return;
@@ -166,7 +166,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
 
     private void saveFewReports() {
         Calendar start = Calendar.getInstance();
-        start.setTime(mReport.getDate());
+        start.setTime(mReport.getDateConverted());
         Calendar end = Calendar.getInstance();
         end.setTime(mDateTo);
         end.add(Calendar.DAY_OF_MONTH, 1);
@@ -176,8 +176,8 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             c.setTime(date);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
             if(dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY && getHoliday(date) == null) {
-                mReport.setDate(date);
-                mReport.setKey(DateUtils.toString(mReport.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
+                mReport.setDateConverted(date);
+                mReport.setKey(DateUtils.toString(mReport.getDateConverted(), "yyyyMMdd_'" + mUser.getKey() + "'"));
                 getDataManager().saveReport(mReport);
                 count++;
             }
@@ -242,8 +242,8 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     }
 
     public void setReportDate(final Date date) {
-        mReport.setDate(date);
-        getView().showHoliday(getHoliday(mReport.getDate()));
+        mReport.setDateConverted(date);
+        getView().showHoliday(getHoliday(mReport.getDateConverted()));
         getView().showDateFrom(date);
         if(date.after(mDateTo)) {
             setDateTo(date);
@@ -257,7 +257,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     public void setDateTo(final Date dateTo) {
         mDateTo = dateTo;
         getView().showDateTo(dateTo);
-        if(dateTo.before(mReport.getDate())) {
+        if(dateTo.before(mReport.getDateConverted())) {
             setReportDate(mDateTo);
         }
     }

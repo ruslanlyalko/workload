@@ -93,7 +93,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
         List<Report> reports = getPresenter().getReports();
         for (Report report : reports) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDateConverted().getTime()), true);
         }
         List<Holiday> holidays = getPresenter().getHolidays();
         for (Holiday holiday : holidays) {

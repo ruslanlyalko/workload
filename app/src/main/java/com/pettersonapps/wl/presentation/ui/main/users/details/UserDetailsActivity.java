@@ -180,7 +180,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         List<Report> reports = getPresenter().getReports();
         for (Report report : reports) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDateConverted().getTime()), true);
         }
         List<Holiday> holidays = getPresenter().getHolidays();
         for (Holiday holiday : holidays) {
@@ -291,7 +291,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         calendar1.setTime(getPresenter().getDate());
         DatePickerDialog datePickerDialog1 = DatePickerDialog.newInstance((v, year, monthOfYear, dayOfMonth) -> {
             Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
-            report.setDate(newDate);
+            report.setDateConverted(newDate);
             getPresenter().saveReport(report);
         }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
         datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);

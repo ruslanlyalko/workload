@@ -175,6 +175,7 @@
     <string name="department_qa">QA</string>
     <string name="department_other">Other</string>
     <string name="text_spent">Time spent:</string>
+    <string name="text_open_after_saving">Open after saving</string>
 
     <!--arrays-->
     <string-array name="departments">

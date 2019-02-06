@@ -119,7 +119,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
             mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
             mTextProject5.setText(getFormattedText(report.getP5(), report.getT5()));
             mTextProject6.setText(getFormattedText(report.getP6(), report.getT6()));
-            mTextDate.setText(DateUtils.toStringDate(report.getDate()));
+            mTextDate.setText(DateUtils.toStringDate(report.getDateConverted()));
         }
 
         private Spanned getFormattedText(final String name, final float time) {

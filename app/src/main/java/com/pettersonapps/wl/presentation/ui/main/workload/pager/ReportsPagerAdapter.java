@@ -74,7 +74,7 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
         if(position < 0) return null;
         Date current = getDateByPos(position);
         for (Report report : mReports) {
-            if(DateUtils.dateEquals(current, report.getDate()))
+            if(DateUtils.dateEquals(current, report.getDateConverted()))
                 return report;
         }
         return null;

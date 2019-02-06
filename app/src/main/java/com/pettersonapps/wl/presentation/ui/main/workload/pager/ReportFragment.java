@@ -132,19 +132,19 @@ public class ReportFragment extends Fragment {
         mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
         mTextProject5.setText(getFormattedText(report.getP5(), report.getT5()));
         mTextProject6.setText(getFormattedText(report.getP6(), report.getT6()));
-        mTextDate.setText(DateUtils.toStringDate(report.getDate()));
+        mTextDate.setText(DateUtils.toStringDate(report.getDateConverted()));
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             mImageCopy.setImageResource(R.drawable.ic_copy_bl);
         } else {
             mImageCopy.setImageResource(R.drawable.ic_copy_wh);
         }
         mTextDate.setVisibility(GONE);
-        if(mShowButtons && (report.getDate().before(DateUtils.getStart(new Date())))) {
+        if(mShowButtons && (report.getDateConverted().before(DateUtils.getStart(new Date())))) {
             mImageCopy.setVisibility(VISIBLE);
         } else {
             mImageCopy.setVisibility(GONE);
         }
-        mImageDelete.setVisibility(mShowButtons && (mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
+        mImageDelete.setVisibility(mShowButtons && (mAllowEdit || report.getDateConverted().after(DateUtils.get1DaysAgo().getTime()))
                 ? VISIBLE : GONE);
     }
 

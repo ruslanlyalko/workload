@@ -127,6 +127,9 @@ dependencies {
     implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     // Time Wheel
     implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+    // Gson for exporting
+    implementation 'com.google.code.gson:gson:2.8.5'
+
     //    // Glide
 //    implementation 'com.github.bumptech.glide:glide:4.7.1'
 //    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'

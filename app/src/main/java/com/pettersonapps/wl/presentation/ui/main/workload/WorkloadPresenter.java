@@ -43,8 +43,8 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     private List<Report> getReportsForCurrentDate() {
         List<Report> result = new ArrayList<>();
         for (Report r : mReports) {
-            if(r.getDate().after(DateUtils.getStart(mDate))
-                    && r.getDate().before(DateUtils.getEnd(mDate))) {
+            if(r.getDateConverted().after(DateUtils.getStart(mDate))
+                    && r.getDateConverted().before(DateUtils.getEnd(mDate))) {
                 result.add(r);
             }
         }
@@ -72,7 +72,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
     }
 
     public void onReportClicked(final Report report) {
-        if(!getIsAllowEditPastReports() && report.getDate().before(DateUtils.get1DaysAgo().getTime()))
+        if(!getIsAllowEditPastReports() && report.getDateConverted().before(DateUtils.get1DaysAgo().getTime()))
             return;
         getView().editReport(mUser, report, mHolidays);
     }
