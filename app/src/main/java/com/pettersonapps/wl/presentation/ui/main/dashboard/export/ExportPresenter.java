@@ -111,8 +111,14 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         StringBuilder result = new StringBuilder();
         result.append("{");
         Gson gson = new GsonBuilder().create();
+        boolean addComma = false;
+        String item;
         for (Report r : list) {
-            String item = "\"" + r.getKey() + "\" : " + gson.toJson(r) + ",\n";
+            if(addComma) {
+                result.append(",\n");
+            }
+            addComma = true;
+            item = "\"" + r.getKey() + "\" : " + gson.toJson(r);
             result.append(item);
         }
         return result + "}";
