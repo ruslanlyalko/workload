@@ -10,11 +10,11 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class MyNotesProjectDetailsPresenter extends BasePresenter<MyNotesProjectDetailsView> {
+public class MyNotesListPresenter extends BasePresenter<MyNotesListView> {
 
     private Project mProject;
 
-    MyNotesProjectDetailsPresenter(Project project) {
+    MyNotesListPresenter(Project project) {
         mProject = project;
     }
 
@@ -26,7 +26,16 @@ public class MyNotesProjectDetailsPresenter extends BasePresenter<MyNotesProject
         return mProject;
     }
 
-    public void setNotes(final List<Note> data) {
+    void setNotes(final List<Note> data) {
         mProject.setNotes(data);
+    }
+
+    void onShareClicked(final List<Note> data, final boolean withCheckMarks) {
+        StringBuilder result = new StringBuilder();
+        for (Note note : data) {
+            String item = (withCheckMarks ? note.getIsChecked() ? "[x] " : "[ ] " : "") + note.getTitle() + "\n";
+            result.append(item);
+        }
+        getView().showShareDialog(result.toString());
     }
 }

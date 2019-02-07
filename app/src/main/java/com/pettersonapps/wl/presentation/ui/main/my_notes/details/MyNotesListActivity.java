@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +27,7 @@ import java.util.List;
 import butterknife.BindDimen;
 import butterknife.BindView;
 
-public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDetailsPresenter> implements MyNotesProjectDetailsView {
+public class MyNotesListActivity extends BaseActivity<MyNotesListPresenter> implements MyNotesListView {
 
     private static final String KEY_PROJECT = "project";
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -34,24 +36,23 @@ public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDe
     private NotesDragAdapter mAdapterNotes = new NotesDragAdapter();
 
     public static Intent getLaunchIntent(final Context context, Project project) {
-        Intent intent = new Intent(context, MyNotesProjectDetailsActivity.class);
+        Intent intent = new Intent(context, MyNotesListActivity.class);
         intent.putExtra(KEY_PROJECT, project);
         return intent;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_my_notes_project_details;
+        return R.layout.activity_my_notes_list;
     }
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new MyNotesProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
+        setPresenter(new MyNotesListPresenter(intent.getParcelableExtra(KEY_PROJECT)));
     }
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_project_details);
         setupAdapter();
         getPresenter().onViewReady();
     }
@@ -79,9 +80,37 @@ public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_my_notes_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if(item.getItemId() == R.id.action_share) {
+            getPresenter().onShareClicked(mAdapterNotes.getData(), true);
+            return true;
+        }
+        if(item.getItemId() == R.id.action_share_text) {
+            getPresenter().onShareClicked(mAdapterNotes.getData(), false);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void showProjectDetails(final Project project) {
         setToolbarTitle(project.getTitle());
         mAdapterNotes.setNewData(project.getNotes());
+    }
+
+    @Override
+    public void showShareDialog(final String data) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, data);
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
     }
 
     @Override

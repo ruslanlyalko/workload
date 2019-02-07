@@ -179,6 +179,9 @@
     <string name="text_open_after_saving">Open after saving</string>
     <string name="text_save_changes">Save changes before exit?</string>
     <string name="action_save">Save</string>
+    <string name="menu_share">Share</string>
+    <string name="send_to">Send to</string>
+    <string name="menu_share_text">Share only text</string>
 
     <!--arrays-->
     <string-array name="departments">

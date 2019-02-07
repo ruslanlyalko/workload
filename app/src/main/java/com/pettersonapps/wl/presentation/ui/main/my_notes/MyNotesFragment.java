@@ -16,7 +16,7 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.main.my_notes.adapter.MyNotesProjectsAdapter;
-import com.pettersonapps.wl.presentation.ui.main.my_notes.details.MyNotesProjectDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_notes.details.MyNotesListActivity;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.ProjectClickListener;
 
 import butterknife.BindView;
@@ -124,6 +124,6 @@ public class MyNotesFragment extends BaseFragment<MyNotesPresenter> implements M
 
     @Override
     public void onProjectClicked(final Project project) {
-        startActivityForResult(MyNotesProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
+        startActivityForResult(MyNotesListActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
     }
 }

@@ -79,7 +79,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".presentation.ui.main.my_notes.details.MyNotesProjectDetailsActivity"
+            android:name=".presentation.ui.main.my_notes.details.MyNotesListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
