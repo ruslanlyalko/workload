@@ -7,20 +7,23 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Note;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.main.my_notes.details.adapter.MyNotesAdapter;
+import com.pettersonapps.wl.presentation.ui.main.my_notes.details.adapter.NotesDragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDetailsPresenter> implements MyNotesProjectDetailsView {
 
@@ -28,7 +31,7 @@ public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDe
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.recycler_notes) RecyclerView mRecyclerNotes;
     @BindDimen(R.dimen.margin_mini) int mElevation;
-    private MyNotesAdapter mAdapterNotes;
+    private NotesDragAdapter mAdapterNotes = new NotesDragAdapter();
 
     public static Intent getLaunchIntent(final Context context, Project project) {
         Intent intent = new Intent(context, MyNotesProjectDetailsActivity.class);
@@ -37,9 +40,48 @@ public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDe
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_my_notes_project_details;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new MyNotesProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        setToolbarTitle(R.string.title_project_details);
+        setupAdapter();
+        getPresenter().onViewReady();
+    }
+
+    private void setupAdapter() {
+        mRecyclerNotes.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
+                toggleElevation();
+            }
+        });
+        mRecyclerNotes.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerNotes.setAdapter(mAdapterNotes);
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(mAdapterNotes);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerNotes);
+        mAdapterNotes.enableDragItem(itemTouchHelper, R.id.view_drag, false);
+        View view = getFooterView();
+        view.setOnClickListener(v -> mAdapterNotes.addNote());
+        mAdapterNotes.addFooterView(view);
+    }
+
+    private View getFooterView() {
+        return getLayoutInflater().inflate(R.layout.item_note_footer, (ViewGroup) mRecyclerNotes.getParent(), false);
+    }
+
+    @Override
     public void showProjectDetails(final Project project) {
         setToolbarTitle(project.getTitle());
-        mAdapterNotes.setData(project.getNotes());
+        mAdapterNotes.setNewData(project.getNotes());
     }
 
     @Override
@@ -68,41 +110,11 @@ public class MyNotesProjectDetailsActivity extends BaseActivity<MyNotesProjectDe
         super.onBackPressed();
     }
 
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_my_notes_project_details;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new MyNotesProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_project_details);
-        mRecyclerNotes.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
-                toggleElevation();
-            }
-        });
-        setupAdapter();
-        getPresenter().onViewReady();
-    }
-
     private void toggleElevation() {
         if(mRecyclerNotes.canScrollVertically(-1)) {
             mToolbar.setElevation(mElevation);
         } else {
             mToolbar.setElevation(0);
         }
-    }
-
-    private void setupAdapter() {
-        mAdapterNotes = new MyNotesAdapter();
-        mRecyclerNotes.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerNotes.setAdapter(mAdapterNotes);
-        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerNotes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
     }
 }

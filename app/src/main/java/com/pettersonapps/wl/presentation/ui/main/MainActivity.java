@@ -117,6 +117,53 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         return new Intent(context, MainActivity.class);
     }
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new MainPresenter(intent.getBooleanExtra(KEY_SETTINGS, false)));
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    protected void onViewReady(final Bundle state) {
+        mImageMenu.setOnTouchListener(mOnTouchListener);
+        mBottomAppBar.setOnTouchListener(mOnTouchListener);
+        mBottomAppBar.setNavigationIcon(null);
+        mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
+        mSheetBehaviorDelete = BottomSheetBehavior.from(mLayoutBottomSheetDelete);
+        mSheetBehaviorLogout = BottomSheetBehavior.from(mLayoutBottomSheetLogout);
+        mSheetBehaviorTime = BottomSheetBehavior.from(mLayoutBottomSheetTime);
+        BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull final View view, final int i) {
+            }
+
+            @Override
+            public void onSlide(@NonNull final View view, final float v) {
+                mTouchOutSide.setAlpha(v / 2f);
+                getWindow().setStatusBarColor(adjustAlpha(ContextCompat.getColor(getContext(),
+                        R.color.colorBackgroundTouchOutside), v / 2f));
+                if(v > 0.001f)
+                    mTouchOutSide.setVisibility(View.VISIBLE);
+                else
+                    mTouchOutSide.setVisibility(View.GONE);
+            }
+        };
+        mSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorLogout.setBottomSheetCallback(bottomSheetCallback);
+        mSheetBehaviorTime.setBottomSheetCallback(bottomSheetCallback);
+        getPresenter().onViewReady();
+        if(state == null) {
+            mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
+            showFragment(rootTabFragment(mCurTabId));
+        }
+    }
+
     public static Intent getLaunchIntent(Context context, boolean startWithSettings) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(KEY_SETTINGS, startWithSettings);
@@ -327,11 +374,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_menu:
-                //onHomeClicked();
-                return true;
-            case R.id.action_my_projects:
-                onTabSelected(TAB_MY_PROJECTS);
+            case R.id.action_my_notes:
+                onTabSelected(TAB_NOTES);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -366,55 +410,8 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
     }
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_main;
-    }
-
-    @Override
     protected void onHomeClicked() {
         showMenu(getPresenter().getUser());
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new MainPresenter(intent.getBooleanExtra(KEY_SETTINGS, false)));
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    protected void onViewReady(final Bundle state) {
-        mImageMenu.setOnTouchListener(mOnTouchListener);
-        mBottomAppBar.setOnTouchListener(mOnTouchListener);
-        mBottomAppBar.setNavigationIcon(null);
-        mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
-        mSheetBehaviorDelete = BottomSheetBehavior.from(mLayoutBottomSheetDelete);
-        mSheetBehaviorLogout = BottomSheetBehavior.from(mLayoutBottomSheetLogout);
-        mSheetBehaviorTime = BottomSheetBehavior.from(mLayoutBottomSheetTime);
-        BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull final View view, final int i) {
-            }
-
-            @Override
-            public void onSlide(@NonNull final View view, final float v) {
-                mTouchOutSide.setAlpha(v / 2f);
-                getWindow().setStatusBarColor(adjustAlpha(ContextCompat.getColor(getContext(),
-                        R.color.colorBackgroundTouchOutside), v / 2f));
-                if(v > 0.001f)
-                    mTouchOutSide.setVisibility(View.VISIBLE);
-                else
-                    mTouchOutSide.setVisibility(View.GONE);
-            }
-        };
-        mSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
-        mSheetBehaviorDelete.setBottomSheetCallback(bottomSheetCallback);
-        mSheetBehaviorLogout.setBottomSheetCallback(bottomSheetCallback);
-        mSheetBehaviorTime.setBottomSheetCallback(bottomSheetCallback);
-        getPresenter().onViewReady();
-        if(state == null) {
-            mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_WORKLOAD;
-            showFragment(rootTabFragment(mCurTabId));
-        }
     }
 
     @Override
