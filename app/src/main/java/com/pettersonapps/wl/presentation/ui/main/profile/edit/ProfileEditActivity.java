@@ -1,5 +1,6 @@
 package com.pettersonapps.wl.presentation.ui.main.profile.edit;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
@@ -43,9 +44,32 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @BindView(R.id.button_save) SquareButton mButtonSave;
     @BindView(R.id.progress) ProgressBar mProgress;
+    private boolean mIsChanged;
+    private Date mBirthDay = new Date();
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, ProfileEditActivity.class);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_profile_edit;
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new ProfileEditPresenter());
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        setToolbarTitle(R.string.title_profile);
+        getPresenter().onViewReady();
     }
 
     @Override
@@ -56,7 +80,9 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
                 setToolbarTitle(user.getName());
                 mInputPhone.setText(user.getPhone());
                 mInputSkype.setText(user.getSkype());
-                mInputBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
+                mBirthDay = user.getBirthday();
+                mInputBirthday.setText(DateUtils.toStringStandardDate(mBirthDay));
+                mIsChanged = false;
             }
         });
     }
@@ -84,6 +110,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
         if(!text.toString().isEmpty()) {
             mInputLayoutPhone.setError(null);
         }
+        mIsChanged = true;
     }
 
     @OnTextChanged(R.id.input_skype)
@@ -91,6 +118,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
         if(!text.toString().isEmpty()) {
             mInputLayoutSkype.setError(null);
         }
+        mIsChanged = true;
     }
 
     @OnTextChanged(R.id.input_password)
@@ -133,17 +161,18 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
             }, 50);
             mInputPasswordConfirm.requestFocus();
         } else
-            getPresenter().onSave(mInputSkype.getText().toString(), mInputPhone.getText().toString(), mInputPassword.getText().toString());
+            getPresenter().onSave(mBirthDay, mInputSkype.getText().toString(), mInputPhone.getText().toString(), mInputPassword.getText().toString());
     }
 
     @OnClick(R.id.input_birthday)
     public void onClick(View v) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(getPresenter().getUser().getBirthday());
+        calendar.setTime(mBirthDay);
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
             Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
-            getPresenter().getUser().setBirthday(newDate);
+            mBirthDay = newDate;
             mInputBirthday.setText(DateUtils.toStringStandardDate(newDate));
+            mIsChanged = true;
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setMaxDate(DateUtils.getYesterday());
         datePickerDialog.showYearPickerFirst(true);
@@ -152,23 +181,21 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_profile_edit;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new ProfileEditPresenter());
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(R.string.title_profile);
-        getPresenter().onViewReady();
+    public void onBackPressed() {
+        if(mIsChanged) {
+            AlertDialog.Builder build = new AlertDialog.Builder(getContext());
+            build.setMessage(R.string.text_save_changes);
+            build.setPositiveButton(R.string.action_save, (dialog, which) -> {
+                dialog.dismiss();
+                onSaveClick();
+            });
+            build.setNegativeButton(R.string.action_discard, (dialog, which) -> {
+                dialog.dismiss();
+                super.onBackPressed();
+            });
+            build.show();
+            return;
+        }
+        super.onBackPressed();
     }
 }

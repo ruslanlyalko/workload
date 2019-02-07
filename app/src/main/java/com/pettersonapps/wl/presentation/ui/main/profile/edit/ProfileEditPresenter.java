@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
 
+import java.util.Date;
+
 /**
  * Created by Ruslan Lyalko
  * on 05.09.2018.
@@ -20,7 +22,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         getView().showUser(getDataManager().getMyUser());
     }
 
-    public void onSave(final String skype, String phone, final String newPassword) {
+    public void onSave(final Date birthDay, final String skype, String phone, final String newPassword) {
         getView().showProgress();
         if(!TextUtils.isEmpty(newPassword)) {
             getDataManager().changePassword(newPassword)
@@ -30,14 +32,15 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
                         getView().hideProgress();
                     })
                     .addOnSuccessListener(aVoid -> {
-                        saveUserData(skype, phone);
+                        saveUserData(birthDay, skype, phone);
                     });
             return;
         }
-        saveUserData(skype, phone);
+        saveUserData(birthDay, skype, phone);
     }
 
-    private void saveUserData(final String skype, String phone) {
+    private void saveUserData(Date birthDay, final String skype, String phone) {
+        mUser.setBirthday(birthDay);
         mUser.setSkype(skype);
         mUser.setPhone(phone);
         getDataManager().saveUser(mUser)

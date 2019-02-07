@@ -123,6 +123,7 @@
     <string name="action_copy">Copy</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_discard">Discard</string>
     <string name="department_prompt">Choose Department</string>
     <string name="text_add">Add</string>
     <string name="text_search">Search</string>
@@ -176,6 +177,8 @@
     <string name="department_other">Other</string>
     <string name="text_spent">Time spent:</string>
     <string name="text_open_after_saving">Open after saving</string>
+    <string name="text_save_changes">Save changes before exit?</string>
+    <string name="action_save">Save</string>
 
     <!--arrays-->
     <string-array name="departments">
