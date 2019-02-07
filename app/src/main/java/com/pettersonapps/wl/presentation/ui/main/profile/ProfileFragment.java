@@ -21,7 +21,6 @@ import butterknife.BindView;
 
 public class ProfileFragment extends BaseFragment<ProfilePresenter> implements ProfileView {
 
-    private static final String KEY_USER = "user";
     @BindView(R.id.text_name) TextView mTextName;
     @BindView(R.id.text_email) TextView mTextEmail;
     @BindView(R.id.text_phone) TextView mTextPhone;
@@ -29,6 +28,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     @BindView(R.id.text_department) TextView mTextDepartment;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_first) TextView mTextFirst;
+    private boolean isShowedAnimation;
 
     public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -41,6 +41,34 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_profile, menu);
     }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if(!isShowedAnimation) {
+//            Animation animation1 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            mTextName.startAnimation(animation1);
+//            Animation animation2 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation2.setStartOffset(50);
+//            mTextDepartment.startAnimation(animation2);
+//            Animation animation3 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation3.setStartOffset(100);
+//            mTextEmail.startAnimation(animation3);
+//            Animation animation4 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation4.setStartOffset(150);
+//            mTextFirst.startAnimation(animation4);
+//            Animation animation5 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation5.setStartOffset(200);
+//            mTextPhone.startAnimation(animation5);
+//            Animation animation6 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation6.setStartOffset(250);
+//            mTextSkype.startAnimation(animation6);
+//            Animation animation7 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_profile);
+//            animation7.setStartOffset(300);
+//            mTextBirthday.startAnimation(animation7);
+//            isShowedAnimation = true;
+//        }
+//    }
 
     @Override
     public void startProfileEditScreen() {
