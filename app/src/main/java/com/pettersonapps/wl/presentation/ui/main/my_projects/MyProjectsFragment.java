@@ -19,6 +19,7 @@ import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.MyProjectsA
 import com.pettersonapps.wl.presentation.ui.main.my_projects.adapter.ProjectClickListener;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.add.ProjectAddActivity;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.details.MyProjectDetailsActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details_manager.ManagerMyProjectDetailsActivity;
 
 import butterknife.BindView;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
@@ -58,7 +59,10 @@ public class MyProjectsFragment extends BaseFragment<MyProjectsPresenter> implem
 
     @Override
     public void onProjectClicked(final Project project) {
-        startActivityForResult(MyProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
+        if(getPresenter().isManager())
+            startActivityForResult(ManagerMyProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
+        else
+            startActivityForResult(MyProjectDetailsActivity.getLaunchIntent(getContext(), project), RC_PROJECT_DETAILS);
     }
 
     @Override

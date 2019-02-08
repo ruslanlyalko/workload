@@ -1,10 +1,11 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.details_manager;
 
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BasePresenter;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details.MyProjectDetailsView;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsView> {
+public class ManagerMyProjectDetailsPresenter extends BasePresenter<ManagerMyProjectDetailsView> {
 
     private User mUser;
     private Project mProject;
@@ -23,7 +24,7 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
     private List<Report> mReports = new ArrayList<>();
     private List<Holiday> mHolidays = new ArrayList<>();
 
-    MyProjectDetailsPresenter(Project project) {
+    ManagerMyProjectDetailsPresenter(Project project) {
         mProject = project;
     }
 
@@ -103,6 +104,7 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
 
     public void setUser(final User user) {
         mUser = user;
+        getView().invalidateMenu();
     }
 
     boolean isManager() {

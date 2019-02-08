@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.details_manager;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.pettersonapps.wl.R;
 import com.pettersonapps.wl.data.models.Holiday;
 import com.pettersonapps.wl.data.models.Project;
@@ -25,8 +27,6 @@ import com.pettersonapps.wl.presentation.ui.main.my_projects.statistics.MyProjec
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
-import com.pettersonapps.wl.presentation.view.calendar.Event;
-import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
 import java.util.Date;
 import java.util.List;
@@ -37,12 +37,12 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPresenter> implements MyProjectDetailsView {
+public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProjectDetailsPresenter> implements ManagerMyProjectDetailsView {
 
     private static final String KEY_PROJECT = "project";
     private static final long ANIMATION_DURATION = 400;
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.calendar_view) StatusCalendarView mCalendarView;
+    @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.text_spent) TextView mTextSpent;
@@ -53,14 +53,14 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     private String mPrevDateStr = "";
 
     public static Intent getLaunchIntent(final Context context, Project project) {
-        Intent intent = new Intent(context, MyProjectDetailsActivity.class);
+        Intent intent = new Intent(context, ManagerMyProjectDetailsActivity.class);
         intent.putExtra(KEY_PROJECT, project);
         return intent;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_my_project_details;
+        return R.layout.activity_manager_my_project_details;
     }
 
     @Override
@@ -125,6 +125,26 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     }
 
     @Override
+    public void invalidateMenu() {
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_my_project_details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if(item.getItemId() == R.id.action_statistics) {
+            startActivity(MyProjectStatisticsActivity.getLaunchIntent(getContext(), getPresenter().getProject()));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected Toolbar getToolbar() {
         return mToolbar;
     }
@@ -139,7 +159,7 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new MyProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
+        setPresenter(new ManagerMyProjectDetailsPresenter(intent.getParcelableExtra(KEY_PROJECT)));
     }
 
     @Override
@@ -180,14 +200,14 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
     }
 
     private void setupCalendar() {
-        mCalendarView.setEventIndicatorStyle(StatusCalendarView.FILL_LARGE_INDICATOR);
+        mCalendarView.setEventIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
         mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         mCalendarView.displayOtherMonthDays(true);
         mTextMonth.setText(DateUtils.getMonth(new Date()));
         mPrevDateStr = DateUtils.getMonth(new Date());
-        mCalendarView.setListener(new StatusCalendarView.StatusCalendarViewListener() {
+        mCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {
                 getPresenter().fetchReportsForDate(dateClicked);

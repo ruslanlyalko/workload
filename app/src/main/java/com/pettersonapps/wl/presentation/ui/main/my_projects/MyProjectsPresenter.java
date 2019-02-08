@@ -49,4 +49,10 @@ public class MyProjectsPresenter extends BasePresenter<MyProjectsView> {
         }
         getView().showUser(mUser);
     }
+
+    boolean isManager() {
+        if(mUser != null && mUser.getIsManager())
+            return true;
+        return false;
+    }
 }

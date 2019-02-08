@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics.adapter;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.statistics.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

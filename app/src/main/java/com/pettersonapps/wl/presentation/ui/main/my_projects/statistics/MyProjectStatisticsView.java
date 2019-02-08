@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.statistics;
 
 import android.arch.lifecycle.MutableLiveData;
 

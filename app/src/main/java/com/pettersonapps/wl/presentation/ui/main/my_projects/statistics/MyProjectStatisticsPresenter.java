@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.statistics;
 
 import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.ProjectInfo;

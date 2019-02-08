@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.statistics;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -22,7 +22,7 @@ import com.pettersonapps.wl.data.models.ProjectInfo;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
-import com.pettersonapps.wl.presentation.ui.main.my_projects.details.statistics.adapter.StatisticsAdapter;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.statistics.adapter.StatisticsAdapter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.OnItemClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
