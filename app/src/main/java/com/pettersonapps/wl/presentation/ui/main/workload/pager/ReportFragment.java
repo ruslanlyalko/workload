@@ -91,7 +91,7 @@ public class ReportFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_reports, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_report, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         bind(mReport);
         if(mHoliday == null)

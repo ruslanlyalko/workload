@@ -1,4 +1,4 @@
-package com.pettersonapps.wl.presentation.ui.main.workload.pager;
+package com.pettersonapps.wl.presentation.ui.main.my_projects.details_manager.pager;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -44,7 +44,7 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        return ReportFragment.newInstance(getReport(position), getHoliday(position), mIsAllowEditPastReports, mShowButtons);
+        return ReportsFragment.newInstance(getReports(position), getHoliday(position), mIsAllowEditPastReports, mShowButtons);
     }
 
     @NonNull
@@ -69,15 +69,16 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
         return null;
     }
 
-    public Report getReport(final int position) {
+    public List<Report> getReports(final int position) {
         if(position > getMaxReportsCount()) return null;
         if(position < 0) return null;
+        List<Report> result = new ArrayList<>();
         Date current = getDateByPos(position);
         for (Report report : mReports) {
             if(DateUtils.dateEquals(current, report.getDateConverted()))
-                return report;
+                result.add(report);
         }
-        return null;
+        return result;
     }
 
     @Override

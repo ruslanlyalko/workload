@@ -36,7 +36,7 @@ import com.pettersonapps.wl.presentation.ui.main.my_vacations.adapter.VacationsA
 import com.pettersonapps.wl.presentation.ui.main.users.edit.UserEditActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.push.UserPushActivity;
 import com.pettersonapps.wl.presentation.ui.main.users.user_projects.UserProjectsActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.utils.ViewUtils;
@@ -77,7 +77,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindDimen(R.dimen.margin_mini) int mElevation;
-    private ReportsPagerAdapter mReportsPagerAdapter;
+    private ReportPagerAdapter mReportPagerAdapter;
     private VacationsAdapter mReportsAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
@@ -92,7 +92,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
-            mReportsPagerAdapter.setReports(list);
+            mReportPagerAdapter.setReports(list);
             showCalendarsEvents();
         });
     }
@@ -157,7 +157,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
     @Override
     public void showReportOnCalendar(final List<Report> reportsForCurrentDate, final Date date) {
-        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
+        mViewPager.setCurrentItem(mReportPagerAdapter.getPosByDate(date), false);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
         holidaysData.observe(this, holidays -> {
             if(holidays == null) return;
             getPresenter().setHolidays(holidays);
-            mReportsPagerAdapter.setHolidays(holidays);
+            mReportPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
         });
     }
@@ -342,8 +342,8 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     private void setupAdapter() {
-        mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
-        mViewPager.setAdapter(mReportsPagerAdapter);
+        mReportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), false);
+        mViewPager.setAdapter(mReportPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int i, final float v, final int i1) {
@@ -351,7 +351,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
 
             @Override
             public void onPageSelected(final int pos) {
-                Date date = mReportsPagerAdapter.getDateByPos(pos);
+                Date date = mReportPagerAdapter.getDateByPos(pos);
                 mCalendarView.setCurrentDate(date);
                 getPresenter().fetchReportsForDate(date);
                 setNewDate(DateUtils.getFirstDateOfMonth(date));

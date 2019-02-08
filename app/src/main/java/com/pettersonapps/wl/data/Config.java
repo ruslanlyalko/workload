@@ -16,6 +16,12 @@ public interface Config {
     String FIELD_NAME = "name";
     String FIELD_DATE_TIME = "date/time";
     String FIELD_USER_ID = "userId";
+    String FIELD_P1 = "p1";
+    String FIELD_P2 = "p2";
+    String FIELD_P3 = "p3";
+    String FIELD_P4 = "p4";
+    String FIELD_P5 = "p5";
+    String FIELD_P6 = "p6";
     String FIELD_TOKEN = "token";
     String FIELD_TOKENS = "tokens";
     String FIELD_REMIND_ME_AT = "remindMeAt";

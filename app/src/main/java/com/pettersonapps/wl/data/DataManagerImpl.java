@@ -42,6 +42,12 @@ import static com.pettersonapps.wl.data.Config.FIELD_DEFAULT_WORKING_TIME;
 import static com.pettersonapps.wl.data.Config.FIELD_IS_NIGHT_MODE;
 import static com.pettersonapps.wl.data.Config.FIELD_IS_OLD_STYLE_CALENDAR;
 import static com.pettersonapps.wl.data.Config.FIELD_NAME;
+import static com.pettersonapps.wl.data.Config.FIELD_P1;
+import static com.pettersonapps.wl.data.Config.FIELD_P2;
+import static com.pettersonapps.wl.data.Config.FIELD_P3;
+import static com.pettersonapps.wl.data.Config.FIELD_P4;
+import static com.pettersonapps.wl.data.Config.FIELD_P5;
+import static com.pettersonapps.wl.data.Config.FIELD_P6;
 import static com.pettersonapps.wl.data.Config.FIELD_REMIND_ME_AT;
 import static com.pettersonapps.wl.data.Config.FIELD_TITLE;
 import static com.pettersonapps.wl.data.Config.FIELD_TOKEN;
@@ -462,6 +468,145 @@ public class DataManagerImpl implements DataManager {
                     }
                 });
         return mAllMyReportsListMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<List<Report>> getAllReports(final String report) {
+        final MutableLiveData<List<Report>> result = new MutableLiveData<>();
+        final List<Report> resultList = new ArrayList<>();
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P1)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p1:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P2)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p2:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P3)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p1:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P4)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p2:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P5)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p1:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        mDatabase.getReference(DB_REPORTS)
+                .orderByChild(FIELD_P6)
+                .equalTo(report)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "getAllReports:p2:onDataChange");
+                        List<Report> list = new ArrayList<>();
+                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
+                            Report report = snapReport.getValue(Report.class);
+                            if(report == null) continue;
+                            list.add(report);
+                        }
+                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
+                        resultList.addAll(list);
+                        result.postValue(resultList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                    }
+                });
+        return result;
     }
 
     @Override

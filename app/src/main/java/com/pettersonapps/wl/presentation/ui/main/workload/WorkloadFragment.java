@@ -27,7 +27,7 @@ import com.pettersonapps.wl.presentation.base.BaseFragment;
 import com.pettersonapps.wl.presentation.ui.login.LoginActivity;
 import com.pettersonapps.wl.presentation.ui.main.MainActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.OnReportClickListener;
-import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.main.workload.report.ReportEditActivity;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
@@ -58,7 +58,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
-    private ReportsPagerAdapter mReportsPagerAdapter;
+    private ReportPagerAdapter mReportPagerAdapter;
     private Report mReportToDelete;
 
     public static WorkloadFragment newInstance() {
@@ -118,7 +118,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             PreferencesHelper.getInstance(getContext()).setOld(user.getIsOldStyleCalendar());
             Date date = new Date(PreferencesHelper.getInstance(getContext()).getHideEditModeMessageDate());
             mCardEditMode.setVisibility(user.getIsAllowEditPastReports() && !DateUtils.dateEquals(date, new Date()) ? View.VISIBLE : View.GONE);
-            mReportsPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
+            mReportPagerAdapter.setAllowEditPastReports(user.getIsAllowEditPastReports());
             boolean oldStyleCalendar = user.getIsOldStyleCalendar();
             mCalendarView.setEventIndicatorStyle(oldStyleCalendar ? StatusCalendarView.SMALL_INDICATOR : StatusCalendarView.FILL_LARGE_INDICATOR);
         });
@@ -129,7 +129,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         reportsData.observe(this, reports -> {
             if(reports == null) return;
             getPresenter().setReports(reports);
-            mReportsPagerAdapter.setReports(reports);
+            mReportPagerAdapter.setReports(reports);
             showCalendarsEvents();
         });
     }
@@ -139,7 +139,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
         holidaysData.observe(this, holidays -> {
             if(holidays == null) return;
             getPresenter().setHolidays(holidays);
-            mReportsPagerAdapter.setHolidays(holidays);
+            mReportPagerAdapter.setHolidays(holidays);
             showCalendarsEvents();
         });
     }
@@ -153,7 +153,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
             showFab();
         else
             hideFab();
-        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
+        mViewPager.setCurrentItem(mReportPagerAdapter.getPosByDate(date), false);
     }
 
     @Override
@@ -216,8 +216,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     private void setupAdapters() {
-        mReportsPagerAdapter = new ReportsPagerAdapter(getChildFragmentManager(), true);
-        mViewPager.setAdapter(mReportsPagerAdapter);
+        mReportPagerAdapter = new ReportPagerAdapter(getChildFragmentManager(), true);
+        mViewPager.setAdapter(mReportPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int i, final float v, final int i1) {
@@ -225,7 +225,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
             @Override
             public void onPageSelected(final int pos) {
-                Date date = mReportsPagerAdapter.getDateByPos(pos);
+                Date date = mReportPagerAdapter.getDateByPos(pos);
                 mCalendarView.setCurrentDate(date);
                 getPresenter().fetchReportsForDate(date);
                 setNewDate(DateUtils.getFirstDateOfMonth(date));
@@ -240,7 +240,7 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     @Override
     public void onResume() {
         super.onResume();
-        mReportsPagerAdapter.notifyDataSetChanged();
+        mReportPagerAdapter.notifyDataSetChanged();
     }
 
     @Override

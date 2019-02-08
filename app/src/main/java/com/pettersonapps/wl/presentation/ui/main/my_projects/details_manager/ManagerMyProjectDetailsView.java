@@ -26,6 +26,10 @@ public interface ManagerMyProjectDetailsView extends BaseView<ManagerMyProjectDe
 
     void showHolidaysOnCalendar(MutableLiveData<List<Holiday>> allHolidays);
 
+    void showProgress();
+
+    void hideProgress();
+
     void showCalendarsEvents();
 
     void showProjectDetails(Project project);

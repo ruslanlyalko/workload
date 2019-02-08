@@ -9,9 +9,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -23,8 +25,9 @@ import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
 import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.my_projects.details_manager.pager.ReportsPagerAdapter;
 import com.pettersonapps.wl.presentation.ui.main.my_projects.statistics.MyProjectStatisticsActivity;
-import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportsPagerAdapter;
+import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 
@@ -47,8 +50,9 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.text_spent) TextView mTextSpent;
     @BindView(R.id.layout_calendar) LinearLayout mLayoutCalendar;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindDimen(R.dimen.margin_mini) int mElevation;
-    private ReportsPagerAdapter mReportsPagerAdapter;
+    private ReportsPagerAdapter mReportPagerAdapter;
     private Date mPrevDate = new Date();
     private String mPrevDateStr = "";
 
@@ -70,12 +74,12 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
 
     @Override
     public void showReports(List<Report> list) {
-        mReportsPagerAdapter.setReports(list);
+        mReportPagerAdapter.setReports(list);
     }
 
     @Override
     public void showReportOnCalendar(final List<Report> reportsForCurrentDate, final Date date) {
-        mViewPager.setCurrentItem(mReportsPagerAdapter.getPosByDate(date), false);
+        mViewPager.setCurrentItem(mReportPagerAdapter.getPosByDate(date), false);
     }
 
     @Override
@@ -83,9 +87,21 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
         holidaysData.observe(this, holidays -> {
             if(holidays == null) return;
             getPresenter().setHolidays(holidays);
-            mReportsPagerAdapter.setHolidays(holidays);
+            mReportPagerAdapter.setHolidays(holidays);
         });
     }
+
+
+    @Override
+    public void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
 
     @Override
     public void showCalendarsEvents() {
@@ -178,8 +194,8 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
     }
 
     private void setupAdapter() {
-        mReportsPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
-        mViewPager.setAdapter(mReportsPagerAdapter);
+        mReportPagerAdapter = new ReportsPagerAdapter(getSupportFragmentManager(), false);
+        mViewPager.setAdapter(mReportPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int i, final float v, final int i1) {
@@ -187,7 +203,7 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
 
             @Override
             public void onPageSelected(final int pos) {
-                Date date = mReportsPagerAdapter.getDateByPos(pos);
+                Date date = mReportPagerAdapter.getDateByPos(pos);
                 mCalendarView.setCurrentDate(date);
                 getPresenter().fetchReportsForDate(date);
                 setNewDate(DateUtils.getFirstDateOfMonth(date));
@@ -200,7 +216,6 @@ public class ManagerMyProjectDetailsActivity extends BaseActivity<ManagerMyProje
     }
 
     private void setupCalendar() {
-        mCalendarView.setEventIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
         mCalendarView.setLocale(TimeZone.getDefault(), Locale.UK);
         mCalendarView.setUseThreeLetterAbbreviation(true);
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
