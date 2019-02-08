@@ -12,6 +12,7 @@ import com.pettersonapps.wl.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -74,10 +75,15 @@ public class ReportsPagerAdapter extends FragmentStatePagerAdapter {
         if(position < 0) return null;
         List<Report> result = new ArrayList<>();
         Date current = getDateByPos(position);
-        for (Report report : mReports) {
-            if(DateUtils.dateEquals(current, report.getDateConverted()))
-                result.add(report);
+        Date start = DateUtils.getStart(current);
+        Date end = DateUtils.getEnd(current);
+        for (Report r : mReports) {
+            if(r.getDateConverted().after(start)
+                    && r.getDateConverted().before(end)) {
+                result.add(r);
+            }
         }
+        Collections.sort(result, (o1, o2) -> o1.getUserDepartment().compareTo(o2.getUserDepartment()));
         return result;
     }
 

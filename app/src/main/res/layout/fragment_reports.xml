@@ -1,60 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:scrollbars="none">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/card_holiday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="2dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="?attr/colorCardBackground"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorStroke"
+        app:strokeWidth="1.5dp">
 
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/card_holiday"
+        <TextView
+            android:id="@+id/text_holiday_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="?attr/colorCardBackground"
-            app:cardCornerRadius="@dimen/card_radius"
-            app:cardElevation="0dp"
-            app:strokeColor="?attr/colorStroke"
-            app:strokeWidth="1.5dp">
+            android:drawableStart="@drawable/ic_holiday"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:minHeight="44dp"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingTop="4dp"
+            android:paddingEnd="@dimen/padding_mini"
+            android:paddingBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextPrimary"
+            android:textSize="15sp"
+            tools:text="Holiday Name"
+            tools:visibility="visible" />
 
-            <TextView
-                android:id="@+id/text_holiday_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:drawableStart="@drawable/ic_holiday"
-                android:gravity="center_vertical"
-                android:minHeight="44dp"
-                android:paddingBottom="4dp"
-                android:paddingEnd="@dimen/padding_mini"
-                android:paddingStart="@dimen/padding_default"
-                android:paddingTop="4dp"
-                android:textAppearance="@style/TextAppearance.Body2"
-                android:textColor="?attr/colorTextPrimary"
-                android:textSize="15sp"
-                tools:text="Holiday Name"
-                tools:visibility="visible" />
+    </android.support.design.card.MaterialCardView>
 
-        </android.support.design.card.MaterialCardView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_reports"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="false" />
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_reports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="false"
-            android:nestedScrollingEnabled="false" />
-
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

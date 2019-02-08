@@ -487,8 +487,8 @@ public class DataManagerImpl implements DataManager {
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
@@ -509,8 +509,8 @@ public class DataManagerImpl implements DataManager {
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
@@ -524,15 +524,15 @@ public class DataManagerImpl implements DataManager {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllReports:p1:onDataChange");
+                        Log.d(TAG, "getAllReports:p3:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
@@ -546,15 +546,15 @@ public class DataManagerImpl implements DataManager {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllReports:p2:onDataChange");
+                        Log.d(TAG, "getAllReports:p4:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
@@ -568,15 +568,15 @@ public class DataManagerImpl implements DataManager {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllReports:p1:onDataChange");
+                        Log.d(TAG, "getAllReports:p5:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
@@ -590,15 +590,15 @@ public class DataManagerImpl implements DataManager {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllReports:p2:onDataChange");
+                        Log.d(TAG, "getAllReports:p6:onDataChange");
                         List<Report> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
                             Report report = snapReport.getValue(Report.class);
                             if(report == null) continue;
                             list.add(report);
                         }
-                        Collections.sort(list, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         resultList.addAll(list);
+                        Collections.sort(resultList, (o1, o2) -> o1.getDateConverted().compareTo(o2.getDateConverted()));
                         result.postValue(resultList);
                     }
 
