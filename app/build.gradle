@@ -11,8 +11,8 @@ android {
         applicationId "com.pettersonapps.wl"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 144
-        versionName "1.1.44"
+        versionCode 145
+        versionName "1.1.45"
     }
 
     signingConfigs {
@@ -106,8 +106,6 @@ dependencies {
     implementation("com.github.sundeepk:compact-calendar-view:2.0.2.1") {
         exclude group: 'com.android.support'
     }
-    // Charts
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     //Excel
     implementation('org.apache.poi:poi:3.9') {
         exclude group: 'com.android.support'
