@@ -390,7 +390,7 @@ exports.getProjectInfo = functions.https.onCall((data, context) => {
 					if(user){
 						user.time = user.time + time;							
 					} else {
-						Users.push({id: reportObj.userId, name: reportObj.userName, time: time});							
+						Users.push({id: reportObj.userId, name: reportObj.userName, department: reportObj.userDepartment, time: time});							
 					}					
 					// create departments count
 					iOS = iOS + iOS_;
