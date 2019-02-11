@@ -104,10 +104,4 @@ public class MyProjectDetailsPresenter extends BasePresenter<MyProjectDetailsVie
     public void setUser(final User user) {
         mUser = user;
     }
-
-    boolean isManager() {
-        if(mUser != null)
-            return mUser.getIsManager();
-        return false;
-    }
 }

@@ -153,6 +153,11 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
                 }
             }
         }
+        for (int i = usersWithoutAnyReports.size() - 1; i >= 0; i--) {
+            if(usersWithoutAnyReports.get(i).getFirstWorkingDate().after(to)) {
+                usersWithoutAnyReports.remove(i);
+            }
+        }
         return new FilterResult(allFilteredReports, todayFilteredReports, usersWithoutAnyReports);
     }
 

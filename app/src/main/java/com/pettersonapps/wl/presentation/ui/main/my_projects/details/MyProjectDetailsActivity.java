@@ -22,6 +22,7 @@ import com.pettersonapps.wl.presentation.base.BaseActivity;
 import com.pettersonapps.wl.presentation.ui.main.workload.pager.ReportPagerAdapter;
 import com.pettersonapps.wl.presentation.utils.ColorUtils;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
+import com.pettersonapps.wl.presentation.utils.PreferencesHelper;
 import com.pettersonapps.wl.presentation.view.calendar.Event;
 import com.pettersonapps.wl.presentation.view.calendar.StatusCalendarView;
 
@@ -195,6 +196,8 @@ public class MyProjectDetailsActivity extends BaseActivity<MyProjectDetailsPrese
                 setNewDate(firstDayOfNewMonth);
             }
         });
+        boolean oldStyleCalendar = PreferencesHelper.getInstance(getContext()).getOld();
+        mCalendarView.setEventIndicatorStyle(oldStyleCalendar ? StatusCalendarView.SMALL_INDICATOR : StatusCalendarView.FILL_LARGE_INDICATOR);
     }
 
     private void setNewDate(final Date newDate) {
