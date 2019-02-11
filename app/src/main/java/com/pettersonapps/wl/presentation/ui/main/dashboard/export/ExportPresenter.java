@@ -47,6 +47,16 @@ public class ExportPresenter extends BasePresenter<ExportView> {
     }
 
     public void setExportedData(final List<Report> list) {
+//        for (Report report : list) {
+//            int h = Integer.parseInt(DateUtils.toString(report.getDateConverted(), "HH"));
+//            Log.e("test", DateUtils.toStringStandardDate(report.getDateConverted()));
+//            if(h < 4) {
+//                Log.e("test", String.valueOf(h));
+//                report.setDateConverted(DateUtils.getDate(report.getDateConverted(), 10, 10));
+//                report.setUpdatedAtConverted(new Date());
+//                getDataManager().saveReport(report);
+//            }
+//        }
         String fileName = DateUtils.toString(new Date(), "yyyy_MM_dd__HH_mm_ss");
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet(fileName);

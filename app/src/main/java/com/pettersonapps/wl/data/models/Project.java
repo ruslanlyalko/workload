@@ -1,6 +1,7 @@
 package com.pettersonapps.wl.data.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,16 +12,14 @@ import java.util.Objects;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class Project extends BaseModel {
+public class Project extends BaseModel implements Parcelable {
 
     private String title;
-    private Date createdAt;
     private boolean isHidden;
-    private List<Note> notes;
+    private Date createdAt = new Date();
+    private List<Note> notes = new ArrayList<>();
 
     public Project() {
-        createdAt = new Date();
-        notes = new ArrayList<>();
     }
 
     public List<Note> getNotes() {
@@ -79,17 +78,17 @@ public class Project extends BaseModel {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(this.title);
-        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeByte(this.isHidden ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeTypedList(this.notes);
     }
 
     protected Project(Parcel in) {
         super(in);
         this.title = in.readString();
+        this.isHidden = in.readByte() != 0;
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-        this.isHidden = in.readByte() != 0;
         this.notes = in.createTypedArrayList(Note.CREATOR);
     }
 

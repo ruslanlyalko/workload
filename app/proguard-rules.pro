@@ -22,6 +22,8 @@
 
 -keep class com.pettersonapps.wl.data.models.** { *; }
 
+-keep class com.chad.** {*;}
+-keep class com.pettersonapps.wl.presentation.ui.main.my_notes.details.adapter.** {*;}
 
 # poi
 # https://github.com/centic9/poi-on-android/blob/master/poitest/proguard-rules.pro

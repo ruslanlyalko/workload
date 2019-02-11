@@ -34,8 +34,9 @@ public class NotesDragAdapter extends BaseItemDraggableAdapter<Note, NotesDragAd
     }
 
     @Override
-    protected void convert(final ViewHolder helper, final Note item) {
-        helper.bind(item);
+    protected void convert(final NotesDragAdapter.ViewHolder helper, final Note item) {
+        if(helper != null && item != null && helper instanceof NotesDragAdapter.ViewHolder && item instanceof Note)
+            helper.bind(item);
     }
 
     public void addNote() {
