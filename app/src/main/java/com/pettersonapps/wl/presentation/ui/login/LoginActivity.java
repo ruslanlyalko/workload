@@ -37,8 +37,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.image_logo) ImageView mImageLogo;
 
     boolean isShowedAnimation;
-    @BindView(R.id.input_layout_email) TextInputLayout mInputLayoutEmail;
-    @BindView(R.id.input_layout_password) TextInputLayout mInputLayoutPassword;
 
     public static Intent getLaunchIntent(final Context context) {
         return new Intent(context, LoginActivity.class);
@@ -128,17 +126,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void errorEmptyEmail() {
-        mInputLayoutEmail.setError(getString(R.string.error_cant_be_empty));
+        mInputEmail.setError(getString(R.string.error_cant_be_empty));
     }
 
     @Override
     public void errorEmptyPassword() {
-        mInputLayoutPassword.setError(getString(R.string.error_cant_be_empty));
+        mInputPassword.setError(getString(R.string.error_cant_be_empty));
     }
 
     @Override
     public void errorWrongEmail() {
-        mInputLayoutEmail.setError(getString(R.string.error_email_badly_formatted));
+        mInputEmail.setError(getString(R.string.error_email_badly_formatted));
     }
 
     @OnClick(R.id.button_login)
@@ -149,13 +147,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @OnTextChanged(R.id.input_email)
     void onEmailChanged(CharSequence text) {
         if(!TextUtils.isEmpty(text) && text.toString().trim().matches(mEmailPattern))
-            mInputLayoutEmail.setError(null);
+            mInputEmail.setError(null);
     }
 
     @OnTextChanged(R.id.input_password)
     void onPasswordChanged(CharSequence text) {
         if(!TextUtils.isEmpty(text))
-            mInputLayoutPassword.setError(null);
+            mInputPassword.setError(null);
     }
 
     @OnClick(R.id.text_forgot)

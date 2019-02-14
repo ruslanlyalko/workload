@@ -29,61 +29,29 @@
             android:layout_marginTop="180dp"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_email"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:focusableInTouchMode="false"
-                android:textColorHint="?attr/colorInputBorder"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
-                app:boxCornerRadiusBottomStart="@dimen/input_radius"
-                app:boxCornerRadiusTopEnd="@dimen/input_radius"
-                app:boxCornerRadiusTopStart="@dimen/input_radius"
-                app:boxStrokeWidth="1.5dp">
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_email"
-                    android:inputType="textEmailAddress"
-                    android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextPrimary" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_password"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="24dp"
-                android:textColorHint="?attr/colorInputBorder"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/input_radius"
-                app:boxCornerRadiusBottomStart="@dimen/input_radius"
-                app:boxCornerRadiusTopEnd="@dimen/input_radius"
-                app:boxCornerRadiusTopStart="@dimen/input_radius"
-                app:boxStrokeWidth="1.5dp"
-                app:passwordToggleEnabled="true">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_password"
-                    android:inputType="textPassword"
-                    android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextPrimary" />
-
-            </android.support.design.widget.TextInputLayout>
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Body2"
+                android:textColor="?attr/colorTextPrimary" />
 
             <com.pettersonapps.wl.presentation.view.ProgressButton
                 android:id="@+id/button_login"
