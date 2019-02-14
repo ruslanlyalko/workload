@@ -29,6 +29,7 @@ public class ExportPresenter extends BasePresenter<ExportView> {
     private Date mFrom;
     private Date mTo;
     private boolean mOpen;
+    private boolean mRepairReports;
 
     ExportPresenter() {
     }
@@ -40,23 +41,28 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         getView().showTo(mTo);
     }
 
-    public void onExportClicked(final boolean open) {
+    void setRepairReports(final boolean repairReports) {
+        mRepairReports = repairReports;
+    }
+
+    void onExportClicked(final boolean open) {
         mOpen = open;
         getView().showProgress();
         getView().showExportedData(getDataManager().getReportsFilter(mFrom, mTo));
     }
 
-    public void setExportedData(final List<Report> list) {
-//        for (Report report : list) {
-//            int h = Integer.parseInt(DateUtils.toString(report.getDateConverted(), "HH"));
-//            Log.e("test", DateUtils.toStringStandardDate(report.getDateConverted()));
-//            if(h < 4) {
-//                Log.e("test", String.valueOf(h));
-//                report.setDateConverted(DateUtils.getDate(report.getDateConverted(), 10, 10));
-//                report.setUpdatedAtConverted(new Date());
-//                getDataManager().saveReport(report);
-//            }
-//        }
+    void setExportedData(final List<Report> list) {
+        if(mRepairReports) {
+            for (Report report : list) {
+                int h = Integer.parseInt(DateUtils.toString(report.getDateConverted(), "HH"));
+                if(h < 4) {
+                    report.setDateConverted(DateUtils.getDate(report.getDateConverted(), 10, 10));
+                    report.setUpdatedAtConverted(new Date());
+                    getDataManager().saveReport(report);
+                }
+            }
+            mRepairReports = false;
+        }
         String fileName = DateUtils.toString(new Date(), "yyyy_MM_dd__HH_mm_ss");
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet(fileName);

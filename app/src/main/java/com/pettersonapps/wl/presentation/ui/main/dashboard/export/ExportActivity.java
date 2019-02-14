@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class ExportActivity extends BaseActivity<ExportPresenter> implements ExportView {
 
@@ -64,6 +65,14 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_export);
         getPresenter().onViewReady();
+    }
+
+    @OnLongClick(R.id.button_export)
+    public boolean onExportLongClick() {
+        getPresenter().setRepairReports(true);
+        showMessage("Repair started");
+        onExportClick();
+        return true;
     }
 
     @SuppressLint("CheckResult")
