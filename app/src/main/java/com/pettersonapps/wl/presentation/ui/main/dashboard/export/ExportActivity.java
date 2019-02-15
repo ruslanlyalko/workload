@@ -12,18 +12,25 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.pettersonapps.wl.R;
+import com.pettersonapps.wl.data.models.Project;
 import com.pettersonapps.wl.data.models.Report;
+import com.pettersonapps.wl.data.models.User;
 import com.pettersonapps.wl.presentation.base.BaseActivity;
+import com.pettersonapps.wl.presentation.ui.main.dashboard.DashboardPresenter;
 import com.pettersonapps.wl.presentation.utils.DateUtils;
 import com.pettersonapps.wl.presentation.view.SquareButton;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +42,8 @@ import butterknife.OnLongClick;
 public class ExportActivity extends BaseActivity<ExportPresenter> implements ExportView {
 
     final RxPermissions rxPermissions = new RxPermissions(this);
+    @BindView(R.id.spinner_projects) Spinner mSpinnerProjects;
+    @BindView(R.id.spinner_users) Spinner mSpinnerUsers;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_export) SquareButton mButtonExport;
     @BindView(R.id.progress) ProgressBar mProgress;
@@ -64,8 +73,31 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_export);
+        setupSpinners();
         getPresenter().onViewReady();
     }
+
+    private void setupSpinners() {
+        AdapterView.OnItemSelectedListener tt = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+                if(mSpinnerProjects.getSelectedItem() != null
+                        && mSpinnerUsers.getSelectedItem() != null) {
+                    getPresenter().setFilter(
+                            mSpinnerProjects.getSelectedItem().toString(),
+                            mSpinnerUsers.getSelectedItem().toString()
+                    );
+                }
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+            }
+        };
+        mSpinnerProjects.setOnItemSelectedListener(tt);
+        mSpinnerUsers.setOnItemSelectedListener(tt);
+    }
+
 
     @OnLongClick(R.id.button_export)
     public boolean onExportLongClick() {
@@ -73,6 +105,38 @@ public class ExportActivity extends BaseActivity<ExportPresenter> implements Exp
         showMessage("Repair started");
         onExportClick();
         return true;
+    }
+
+    @Override
+    public void showSpinnerProjectsData(final MutableLiveData<List<Project>> projectsData) {
+        projectsData.observe(this, projects -> {
+            if(projects == null) return;
+            List<String> list = new ArrayList<>();
+            for (Project project : projects) {
+                list.add(project.getTitle());
+            }
+            list.add(0, ExportPresenter.KEY_PROJECT);
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, list);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerProjects.setAdapter(dataAdapter);
+        });
+    }
+
+    @Override
+    public void showSpinnerUsersData(final MutableLiveData<List<User>> usersData) {
+        usersData.observe(this, users -> {
+            if(users == null) return;
+            List<String> list = new ArrayList<>();
+            for (User user : users) {
+                list.add(user.getName());
+            }
+            list.add(0, ExportPresenter.KEY_USER);
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, list);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUsers.setAdapter(dataAdapter);
+        });
     }
 
     @SuppressLint("CheckResult")

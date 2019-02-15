@@ -16,6 +16,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -26,10 +27,14 @@ import java.util.List;
  */
 public class ExportPresenter extends BasePresenter<ExportView> {
 
+    public static final String KEY_USER = "User";
+    public static final String KEY_PROJECT = "Project";
     private Date mFrom;
     private Date mTo;
     private boolean mOpen;
     private boolean mRepairReports;
+    private String mProject = KEY_PROJECT;
+    private String mUser = KEY_USER;
 
     ExportPresenter() {
     }
@@ -39,6 +44,8 @@ public class ExportPresenter extends BasePresenter<ExportView> {
         mTo = DateUtils.getYesterday().getTime();
         getView().showFrom(mFrom);
         getView().showTo(mTo);
+        getView().showSpinnerProjectsData(getDataManager().getAllProjects());
+        getView().showSpinnerUsersData(getDataManager().getAllUsers());
     }
 
     void setRepairReports(final boolean repairReports) {
@@ -52,18 +59,70 @@ public class ExportPresenter extends BasePresenter<ExportView> {
     }
 
     void setExportedData(final List<Report> list) {
-        if(mRepairReports) {
-            for (Report report : list) {
+        List<Report> result = new ArrayList<>();
+        for (Report report : list) {
+            if(mRepairReports) {
                 int h = Integer.parseInt(DateUtils.toString(report.getDateConverted(), "HH"));
                 if(h < 4) {
                     report.setDateConverted(DateUtils.getDate(report.getDateConverted(), 10, 10));
                     report.setUpdatedAtConverted(new Date());
                     getDataManager().saveReport(report);
                 }
+                mRepairReports = false;
             }
-            mRepairReports = false;
+            if(mProject.equals(KEY_PROJECT) || mProject.equals(report.getP1()) || mProject.equals(report.getP2()) || mProject.equals(report.getP3())
+                    || mProject.equals(report.getP4()) || mProject.equals(report.getP5()) || mProject.equals(report.getP6())) {
+                if(mUser.equals(KEY_USER) || mUser.equals(report.getUserName())) {
+                    result.add(getNormalizedReport(report));
+                }
+            }
         }
-        String fileName = DateUtils.toString(new Date(), "yyyy_MM_dd__HH_mm_ss");
+        export(result);
+    }
+
+    private Report getNormalizedReport(final Report report) {
+        if(mProject.equals(KEY_PROJECT)) return report;
+        if(mProject.equals(report.getP1()))
+            return report;
+        Report result = new Report(report);
+        result.setDate(report.getDate());
+        result.setUpdatedAt(report.getUpdatedAt());
+        if(mProject.equals(report.getP2())) {
+            result.setP1(report.getP2());
+            result.setT1(report.getT2());
+            result.setP2(report.getP1());
+            result.setT2(report.getT1());
+        } else if(mProject.equals(report.getP3())) {
+            result.setP1(report.getP3());
+            result.setT1(report.getT3());
+            result.setP3(report.getP1());
+            result.setT3(report.getT1());
+        } else if(mProject.equals(report.getP4())) {
+            result.setP1(report.getP4());
+            result.setT1(report.getT4());
+            result.setP4(report.getP1());
+            result.setT4(report.getT1());
+        } else if(mProject.equals(report.getP5())) {
+            result.setP1(report.getP5());
+            result.setT1(report.getT5());
+            result.setP5(report.getP1());
+            result.setT5(report.getT1());
+        } else if(mProject.equals(report.getP6())) {
+            result.setP1(report.getP6());
+            result.setT1(report.getT6());
+            result.setP6(report.getP1());
+            result.setT6(report.getT1());
+        }
+        return result;
+    }
+
+    private void export(final List<Report> list) {
+        String fileName = "";
+        if(!mProject.equals(KEY_PROJECT))
+            fileName += mProject + "_";
+        if(!mUser.equals(KEY_USER))
+            fileName += mUser + "_";
+        fileName += DateUtils.toString(mFrom, "yyMMdd_") + DateUtils.toString(mTo, "_yyMMdd");
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet(fileName);
         HSSFRow row0 = sheet.createRow(0);
@@ -214,5 +273,10 @@ public class ExportPresenter extends BasePresenter<ExportView> {
             mFrom = mTo;
             getView().showFrom(mFrom);
         }
+    }
+
+    void setFilter(final String project, final String user) {
+        mProject = project;
+        mUser = user;
     }
 }
